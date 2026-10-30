@@ -587,7 +587,17 @@ class TestTheMoveOutOfRoof(unittest.TestCase):
                          # and the long face the band from the eave to the ridge. The hip ridge read
                          # along the longer dimension (B12, F5) moves no entry: no hip in the sweep is
                          # deeper than it is wide.
-                         "a5972be845421c23ae96df049c2765e0d1a7003d0a8d21be03b813038f66e548",
+                         # RE-DERIVED AT PHASE 17 (29 Oct 2026), PER ENTRY, ON A HARNESS PROVED TO
+                         # REPRODUCE `a5972be8...` TO THE CHARACTER ON A WORKTREE OF `6fcc665`. 49 of
+                         # 180 entries moved, ALL 49 IN `chimneys` ALONE -- main, checks, outline,
+                         # profiles and footprint byte-identical in every entry: the Tidewater plan
+                         # and the 48 sweep styles built on it that place a stack. `build/roof.py` and
+                         # `build/threshold.py` are untouched by the tranche; the INPUT moved. The
+                         # gridded service wing (ruling 4, WP-17.4) re-places that record so the
+                         # drawing room reaches the west gable again, its fire is drawn, and the west
+                         # stack stands at the mean of its two fires' axes, y = 32.22 -> 20.10 ft;
+                         # the east stack moves 32.22 -> 32.41 with the library's fire.
+                         "2037068f400bb4f074a044aa63f8472373477495cc60cf25c3e85769526118b5",
                          "build/roof.py's own answer changed. Measured on a `git archive HEAD` "
                          "checkout of the pristine tree and again here; if a later package "
                          "means to move it, re-measure against a pristine checkout the same "

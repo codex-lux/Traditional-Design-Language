@@ -388,9 +388,13 @@ def test_drawn_and_declared_sizes_are_reconciled_or_reported():
 # gone green on a different room losing a different thing -- which is exactly the re-pin the
 # comment above says converts a defect into a ceiling. The list is by `(room, item)` for that
 # reason and it still may only shrink; growing it here is stated, not absorbed.
+# AND BOTH LEAVE AT PHASE 17 (29 Oct 2026), WHICH IS THE LIST SHRINKING AS IT MAY. The gridded
+# service wing (ruling 4, WP-17.4) re-places the Tidewater record on the search engine -- the only
+# one of the sixteen it moves -- and the freestanding tub and the alcove bathtub are both placed on
+# it now. The list is empty on both plans, so every declared fixture must be placed: a refusal
+# returning fails here again, by name.
 KNOWN_REFUSALS = {
-    "tidewater-georgian-careful": [("primarybath", "freestanding tub"),
-                                   ("hallbath", "alcove bathtub")],
+    "tidewater-georgian-careful": [],
     "spec-builder-colonial": [],
 }
 

@@ -149,7 +149,19 @@ def test_its_own_wall_and_both_gables_see_it_from_the_ground(rear):
             # stack north of the house stands before the face's left edge
             assert max(u for u, _h in mk["outline"]) <= 1e-6, (face, mk["outline"])
     said = " ".join(_svg(el, "E").split())
-    assert "THEY STAND AT THE FAR END" not in said, "nothing of the house stands in front of it"
+    # PHASE 17 (29 Oct 2026): the gridded service wing (ruling 4) puts the drawing room back on the
+    # west gable, so with the dining fire driven north the west stack stands at the drawing room's
+    # own axis, apart from the east one, and shows above the roof on the E face -- and the far-end
+    # note is said, of THAT stack. The rear stack must never be its cause: it is drawn from grade on
+    # E, and the note follows exactly the far-end stacks the face draws above the roof.
+    fp = el["footprint"]
+    above = [mk for mk in EL.stack_marks(el, "E")["marks"] if not mk["from_grade"]]
+    assert all(mk["stack"] is not stack and EL.stack_side(mk["stack"], fp) in ("E", "W")
+               for mk in above), ("the rear stack is drawn above the roof line on E", above)
+    far_end = [mk for mk in above if EL.stack_side(mk["stack"], fp) in ("E", "W")]
+    assert ("THEY STAND AT THE FAR END" in said) == bool(far_end), (
+        "the far-end note does not follow the far-end stacks the E face draws above the roof",
+        len(far_end))
 
 
 def test_a_stack_beside_the_face_is_drawn_behind_it_and_one_before_its_wall_in_front(rear):

@@ -40,3 +40,12 @@ a reader and a silent disagreement.
 
 **What is already true.** `revise()` takes `surfaced` and the panel reads it, so the two paths
 already print different sentences and a third state would cost one string rather than a design.
+
+## Amended, 29 October 2026 (Phase 17, WP-17.3)
+
+Every placement now names the declared record it is of (`solver.input_digest`), and the bench's evaluate
+and the Drawing Set keep a carried placement exactly where that digest still matches -- so a record the
+revision loop placed is drawn as placed, and a record edited since is re-solved. **The chip path itself
+is unchanged**: the job route still strips its record, and its panel's key is still measured on the job's
+placement. Whether that job's placed record now reaches the sheet carried, rather than re-solved, has not
+been measured, so the question stays open.

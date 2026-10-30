@@ -65,3 +65,28 @@ def test_the_solver_report_names_the_portfolio_and_its_workers():
     assert 'f"portfolio ({workers} workers): every type fact HELD"' in src
     assert "undecided or infeasible with every" in src
     assert "_harden(m_, q_)" in src, "the portfolio poses every fact HARD"
+
+
+def test_a_wing_grows_with_the_house_and_stays_centred():
+    """Ruling 4's third part with decision 11: where the prover grows the main block's depth before
+    compromising a room, each dependency grows by the same even step, never past the main block,
+    and stays exactly centred. Without it the composed centre passage's wing held 306 sf of rooms in
+    an 18 x 17 ft box at every depth the prover tried."""
+    import sys
+    sys.path.insert(0, str(ROOT / "build"))
+    import modcache
+    CO = modcache.load("compose", str(ROOT / "build" / "compose.py"))
+    G = modcache.load("geometry", str(ROOT / "build" / "geometry.py"))
+    brief = {"id": "t", "style": "tidewater-georgian", "target_area_sf": 3200, "bedrooms": 4}
+    plan, _log, p = CO.instantiate("centre-passage-double-pile", brief)
+    _levels, prep = G.prep_rooms(plan)
+    fpd = GC._snap_fpd(G.derive_footprint(plan, p, prep))
+    base = {e["id"]: e for e in G.blocks_for(plan, fpd, prep, 0)}
+    deps = [k for k, e in base.items() if e["role"] == "dependency"]
+    assert deps, "the premise: the composed double pile has a service wing"
+    grown = {e["id"]: e for e in G.blocks_for(plan, dict(fpd, H=fpd["H"] + 4, flank_grow_ft=4), prep, 0)}
+    for k in deps:
+        assert grown[k]["H"] == min(base[k]["H"] + 4, fpd["H"] + 4), (base[k], grown[k])
+        assert grown[k]["y"] == (fpd["H"] + 4 - grown[k]["H"]) / 2, "exactly centred on the grown block"
+    capped = {e["id"]: e for e in G.blocks_for(plan, dict(fpd, H=fpd["H"] + 2, flank_grow_ft=200), prep, 0)}
+    assert all(capped[k]["H"] <= fpd["H"] + 2 for k in deps), "never deeper than the main block"

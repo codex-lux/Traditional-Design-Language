@@ -42,8 +42,24 @@ class TestFamilyGeorgianBrief:
         the candidate placed fifth, which reads as a crash rather than as the pin it is."""
         brief = _brief("family-georgian")
         plan, _log, _parti = compose_module.instantiate("centre-passage-single-pile", brief)
+        # RE-TRACED 29 Oct 2026 (Phase 17, WP-17.2), AS THIS DOCSTRING ASKS. The two fatals were a
+        # property of the house the default placer built and not of the parti: with no `parti` on
+        # the plan record the single pile was placed on the placer's 10 ft module, 90 x 25 ft over
+        # nine bays, where its ridge is 0.39 of its wall and its upper front has no centre. A
+        # composed plan names its parti and its entrance front now, and the house is built on the
+        # diagram's own footprint -- 70 x 32 ft over seven bays -- where both clear on measured
+        # figures (not unjudged). The two fatals are held here as what they are: a finding about
+        # the default-module house, reproduced by taking the parti and the front back off.
         res = compose_module.PC.check(plan)
-        single_pile = {"counts": res["counts"], "worst": res["findings"]}
+        assert res["counts"].get("fatal", 0) == 0, [f["statement"] for f in res["findings"]
+                                                    if f["severity"] == "fatal"]
+        cleared = {f.get("fault") or f["id"] for f in res["findings"] if f.get("layer") == "fault"}
+        assert not cleared & {"even-bay-front", "truss-flattened-pitch"}
+        default = dict(plan)
+        default.pop("parti")
+        default["context"] = {k: v for k, v in plan["context"].items() if k != "entrance_faces"}
+        res0 = compose_module.PC.check(default)
+        single_pile = {"counts": res0["counts"], "worst": res0["findings"]}
         assert single_pile["counts"].get("fatal", 0) == 2
         rules = {w["statement"].split(":")[0] for w in single_pile["worst"] if w["severity"] == "fatal"}
         assert any("Front With No Centre" in r for r in rules)
@@ -64,7 +80,16 @@ class TestFamilyGeorgianBrief:
         a scoring regression that drops the right Georgian diagram down the list still fails
         here. It is now pinned to a better right answer."""
         result = compose_module.compose(_brief("family-georgian"), revise=False)
-        assert result["candidates"][0]["parti_name"] == "Centre Passage, Double Pile"
+        # RE-TRACED 29 Oct 2026 (Phase 17, WP-17.2): the single pile's two fatals were the
+        # default-module house's (the test above), and with them gone both native centre passages
+        # are fatal-free and the score decides -- 68.2 against 66.9 when this was re-cut. What this
+        # test guards is that a scoring regression does not drop the RIGHT GEORGIAN DIAGRAM down
+        # the list; both are native and canonical for the style, so either leads, and the double
+        # pile must be among the first two.
+        first_two = [c["parti_name"] for c in result["candidates"][:2]]
+        assert result["candidates"][0]["parti_name"] in ("Centre Passage, Double Pile",
+                                                          "Centre Passage, Single Pile"), first_two
+        assert "Centre Passage, Double Pile" in first_two, first_two
 
     def test_the_winning_diagram_is_native_to_the_brief_s_style(self, compose_module):
         """The structural claim behind the pin above, which never needs re-pinning.

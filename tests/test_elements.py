@@ -426,7 +426,11 @@ def test_export_ifc_writes_one_slab_per_element_per_storey():
 #   grammar, which main has not got, reaches every plan identically, and the six are the
 #   re-placed ones. An opening is placed against a wall of the room it is in, so the six move
 #   on both -- the pair agreeing rather than a second bump.
-CORPUS_PLACEMENT_SHA = "0e454336df58c1fa"
+# RE-DERIVED AT PHASE 17 (29 Oct 2026, WP-17.4, ruling 4): the derived service wing is stated on the whole-foot
+# grid (27 x 23 ft where the two-quantum allowance made it 27 x 26.68; the hyphen 16 ft for 18). Measured
+# per plan against the parent commit `6fcc665` on the search engine: 15 of the 16 shipped placements are
+# byte-identical and the sixteenth is `plans/tidewater-georgian-careful.json`, the one tagged record.
+CORPUS_PLACEMENT_SHA = "d35a1ff2d00dfce5"   # was 0e454336df58c1fa
 # WP-11.10 MOVED THIS ONE ON PURPOSE, and it is the only thing that package moves here.
 # `f7c7430ec31dae3c` -> `770a886c7387f3ab`: the terrace at grade is placed, so the door the
 # record has always declared from a room to its terrace is seated instead of refused, on the
@@ -494,7 +498,9 @@ CORPUS_PLACEMENT_SHA = "0e454336df58c1fa"
 # room by room against a worktree of `e604955`: the spec Colonial's upper `primary` (seated at 9.0;
 # the aligned unit at 6.745 refused for alignment) and Tidewater's `chamber3` ([32.099, 40.5] ->
 # [33.0, 40.5]). No door, fixture or furniture layout moved, and no other room's windows.
-CORPUS_OPENINGS_SHA = "ee74fd3885e61464"
+# Re-derived at Phase 17 with CORPUS_PLACEMENT_SHA above, by the same per-plan harness, which reproduces
+# both of the parent's values to the character: only the Tidewater record's openings moved.
+CORPUS_OPENINGS_SHA = "6b571e57c2614d61"   # was ee74fd3885e61464
 
 
 def test_teaching_six_layers_about_elements_moved_no_shipped_placement():

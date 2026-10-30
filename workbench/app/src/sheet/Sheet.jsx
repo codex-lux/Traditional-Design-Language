@@ -12,7 +12,7 @@ import {
   daylightReachFt, isWet, privacyOpacity,
 } from './overlayRules.js';
 import { elementBounds, wallOf, levelRooms, partitions, windows, doors, bayLines, litWalls,
-         divergence, interpunctTitle, relaxationMarks, ft, levelAppendages, appendageRects,
+         divergence, interpunctTitle, relaxationMarks, buildingExtent, ft, levelAppendages, appendageRects,
          massingBlocks, levelBlocks, drawnBreasts, keyObstacles, plateNote } from './derive.js';
 import { fitLabel, fitLine, useFontMetrics } from './label.js';
 import { PEN, POCHE, DASH, inked } from './pen.js';
@@ -410,7 +410,7 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
      however short it runs, which is that question's unruled measurement half.
      build/render_plan.py prints the same two states in its margin schedule. */
   const spanCap = placement?.geometry_report?.span_capacity;
-  const rxMarks = relaxationMarks(relax?.marks, levelIndex, W, H);
+  const rxMarks = relaxationMarks(relax?.marks, levelIndex, W, H, buildingExtent(fp, W, H));
   /* WHICH ENGINE PLACED THIS, on the PLATE (WP-6.4). WP-6.3 put the disclosure in the page
      prose beside the drawing, which is the one place it cannot travel: a plate that is
      printed, screenshotted or exported leaves the prose behind, and a reader then cannot

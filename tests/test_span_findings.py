@@ -125,7 +125,12 @@ def test_the_record_names_every_over_capacity_span_and_the_count_still_agrees():
 # 60.0 ft and is on a plan the anchor does not reach. The 20 ft capacity and `bearing_lines`'
 # 0.75 ft tolerance are untouched. Against this the same package takes corpus fatal 153 -> 145
 # and unplaced doors 235 -> 213; both halves are here so neither can be quoted for the other.
-CORPUS_SPANS = 28
+# 27 AT PHASE 17 (29 Oct 2026), FROM 28. The gridded service wing (ruling 4, WP-17.4) re-places
+# `tidewater-georgian-careful` alone -- re-derived per plan against the parent commit `6fcc665`,
+# whose tree this harness reproduces at 28: the other fifteen are unmoved, and that plan goes 4 -> 3
+# with its worst unchanged at 37.24 ft. Fewer is the better direction; the capacity and the
+# tolerance are untouched.
+CORPUS_SPANS = 27
 CORPUS_WORST_FT = 60.0
 
 
@@ -169,7 +174,10 @@ def test_the_charge_and_the_count_are_summed_from_the_same_list():
     # 45.00, and one run shortens 37.24 -> 27.64. A charge and a count are two different
     # questions about one list, and here the list's length held on every tree while its contents
     # moved on two of them.
-    assert sc["over_capacity"] == 4 and sc["charge"] == 113.2
+    # 4 / 113.2 -> 3 / 90.5 AT PHASE 17 (29 Oct 2026): the gridded wing (ruling 4) re-places this
+    # plan and the runs go [21.28, 27.00, 27.64, 37.24] -> [26.26, 27.00, 37.24], worst unchanged
+    # at 37.24 -- one run fewer, and the count and the charge move together off one list.
+    assert sc["over_capacity"] == 3 and sc["charge"] == 90.5
 
 
 # --------------------------------------------------------------- the critic says it
@@ -272,7 +280,8 @@ def test_a_span_is_a_placement_finding_with_a_lever():
     # critique reads the record and does not recompute. What the test is FOR is the CLASSING --
     # a span is a `placement` finding and carries a lever -- and that is asserted below and is
     # unchanged. The number is re-derived so a later change still has to justify itself.
-    assert len(placed) == 4, res["assessment"].keys()
+    # 3 AT PHASE 17 (29 Oct 2026), from 4: the plan's own count, re-placed by the gridded wing
+    assert len(placed) == 3, res["assessment"].keys()
     assert placed[0].get("lever"), "a placement-class finding with no lever"
     for cls in ("actionable", "architect", "advisory", "critic_suspect"):
         assert not [i for i in res["assessment"][cls] if i.get("kind") == "span-over-capacity"]

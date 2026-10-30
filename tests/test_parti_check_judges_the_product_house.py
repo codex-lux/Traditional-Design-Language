@@ -163,8 +163,13 @@ def test_the_shipped_catalogue_carries_exactly_these_unjudged_fatal_faults(shipp
     the correct state of that measurement."""
     got = {(m.group(1), m.group(2)) for m in
            re.finditer(r"parti:(\S+): UNJUDGED fatal fault against its own style '[^']+': '[^']+' \(([^)]+)\)", shipped.stdout)}
-    assert got == {("side-hall-townhouse", "even-bay-front"),
-                   ("cape-central-chimney", "chimney-omitted")}, got
+    # THE SIDE HALL LEAVES THIS LIST AT PHASE 17 (29 Oct 2026) BY BEING JUDGED, NOT BY BEING FIXED.
+    # A composed plan names its parti and its entrance front now (WP-17.2), so the elevation judges
+    # the side hall's front: its even-bay fault is a FATAL verdict on the drawn front, "1 against
+    # between 3 and 7". The finding is asserted in its new state, so it cannot leave both lists.
+    assert got == {("cape-central-chimney", "chimney-omitted")}, got
+    assert re.search(r"parti:side-hall-townhouse: FATAL against its own style '[^']+': "
+                     r"The Front With No Centre", shipped.stdout), shipped.stdout[-3000:]
 
 
 def test_naming_the_parti_gives_the_house_the_product_builds():
@@ -184,8 +189,11 @@ def test_naming_the_parti_gives_the_house_the_product_builds():
                              "jurisdiction": "IRC model text, advisory", "budget_tier": "custom"},
                  "household": "t"}
         plan, _l, _p = compose.instantiate("side-hall-townhouse", brief)
-        if named:
-            plan["parti"] = "side-hall-townhouse"
+        # THE COMPOSER NAMES THE PARTI ITSELF SINCE PHASE 17 (29 Oct 2026, WP-17.2), so the
+        # UNNAMED reading is the record with the name taken off
+        assert plan.get("parti") == "side-hall-townhouse", "the composer names the parti (WP-17.2)"
+        if not named:
+            plan.pop("parti")
         placed = geo.solve(plan, parti=parti if named else None, engine="heuristic")
         pl = placed if "levels" in placed else placed.get("plan", placed)
         return pl.get("footprint") or {}

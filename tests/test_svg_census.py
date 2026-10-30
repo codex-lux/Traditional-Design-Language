@@ -1728,7 +1728,11 @@ class TestPhaseFifteenChecksCanDisagree:
         rec = self._rec()
         svg = rec["faces"]["E"]
         pl = C._face_plate(C.IR.Ink(svg))
-        (mk,) = C.SURF._mod("elevation").stack_marks(rec["elev"], "E")["marks"]
+        # THE NEAR STACK, chosen by property (Phase 17, 29 Oct 2026): the far one shows beside it
+        # now that the west stack serves two fires and stands at their mean (the gridded wing,
+        # ruling 4), so the face draws two marks and the one in FRONT is the one from grade
+        mk = min(C.SURF._mod("elevation").stack_marks(rec["elev"], "E")["marks"],
+                 key=lambda m: min(h for _u, h in m["outline"]))
         u0, u1 = min(u for u, _h in mk["outline"]), max(u for u, _h in mk["outline"])
         (x0, y0), (x1, y1) = C.IR.from_model(pl, u0 + 0.2, 8.0), C.IR.from_model(pl, u1 - 0.2, 3.0)
         planted = svg.replace('<polygon class="ch', '<rect class="op" x="%.1f" y="%.1f" width="%.1f" '
@@ -1989,7 +1993,14 @@ class TestPhaseFifteenChecksCanDisagree:
         assert el["cornice_return"]["draws"] == "band"
         svg = self._render(el, "E")
         assert self._one(monkeypatch, "V25", el, svg)["verdict"] == "agrees"
-        stack = re.search(r'<polygon class="ch w-prof"[^>]*/>', svg)
+        # the stack IN FRONT of the face -- the one drawn from grade, reaching lowest on the sheet --
+        # since Phase 17 the far stack is drawn on this face too (the gridded wing, ruling 4), and a
+        # stack behind the face painted under the cornice is no defect
+        def _bottom(m):
+            pts = re.search(r'points="([^"]+)"', m.group(0)).group(1).split()
+            return max(float(pt.split(",")[1]) for pt in pts)
+        stacks_ = list(re.finditer(r'<polygon class="ch w-prof"[^>]*/>', svg))
+        stack = max(stacks_, key=_bottom) if stacks_ else None
         box = re.search(r'<rect class="bd w-prof"', svg)
         assert stack and box and stack.start() > box.start(), "the premise: the stack is painted last"
         planted = svg[:box.start()] + stack.group(0) + svg[box.start():stack.start()] + svg[stack.end():]
@@ -2711,21 +2722,36 @@ class TestTheWindowPierCanDisagree:
     def _render(el, face):
         return C._render(C.SURF._mod("render_elevation").render_elevation, el, face=face)
 
-    @staticmethod
-    def _narrow(el, gap_over_width):
-        """The Tidewater front with the third chamber's right-hand sash driven along the face until
-        the wall between its two sashes is `gap_over_width` of the wider. They stand 1.143 apart as
-        placed (1.4, the aim, until WP-16.8's one queue held the inner sash), so the drive is the
-        only thing that can put one under the floor."""
+    # THE PAIR THE DRIVERS MOVE, AND IT MOVED (Phase 17, 29 Oct 2026). The third chamber's two upper
+    # sashes on the S front were the drivers' pair; the gridded service wing (ruling 4, WP-17.4)
+    # re-places this record and that room carries one there now. The second chamber's two upper
+    # sashes on the N face stand 1.400 x the wider apart -- the aim -- and are the pair. N is a
+    # mirrored face, so a drive along the drawing moves the PLAN coordinate the other way.
+    PIER_FACE, PIER_ROOM = "N", "chamber2"
+
+    @classmethod
+    def _pair(cls, el):
+        return sorted((p for p in el["faces"][cls.PIER_FACE]["placed"]
+                       if p["storey"] == "upper" and p["room"] == cls.PIER_ROOM
+                       and p["kind"] == "window"), key=lambda p: p["cx_in"])
+
+    @classmethod
+    def _shift(cls, p, d):
+        p["cx_in"] += d
+        p["u_ft"] = round(p["u_ft"] + d / 12.0, 4)
+        sign = -1.0 if C.SURF._mod("elevation").FACE_MIRRORED[cls.PIER_FACE] else 1.0
+        p["along_ft"] += sign * d / 12.0
+
+    @classmethod
+    def _narrow(cls, el, gap_over_width):
+        """The Tidewater record with the second chamber's right-hand N sash driven along the face
+        until the wall between its two sashes is `gap_over_width` of the wider. They stand 1.400
+        apart as placed, so the drive is the only thing that can put one under the floor."""
         el = copy.deepcopy(el)
-        a, b = sorted((p for p in el["faces"]["S"]["placed"]
-                       if p["storey"] == "upper" and p["room"] == "chamber3" and p["kind"] == "window"),
-                      key=lambda p: p["cx_in"])
+        a, b = cls._pair(el)
         w = max(a["width_in"], b["width_in"])
         d = (a["cx_in"] + (a["width_in"] + b["width_in"]) / 2.0 + gap_over_width * w) - b["cx_in"]
-        b["cx_in"] += d
-        b["u_ft"] = round(b["u_ft"] + d / 12.0, 4)
-        b["along_ft"] += d / 12.0
+        cls._shift(b, d)
         return el
 
     def test_v26_agrees_unplanted_on_the_faces_planted_below(self, monkeypatch):
@@ -2733,14 +2759,17 @@ class TestTheWindowPierCanDisagree:
         for face in ("S", "N"):
             r = self._one(monkeypatch, rec["elev"], rec["faces"][face], face)
             assert r["verdict"] == "agrees", (face, r)
-        # 1.400 until WP-16.8 (the audit of Phase 16, auditor A): the third chamber's inner sash
-        # holds 33.0 ft under R5a's one queue, and the outer one stands on the door axis below at
-        # 40.5 ft, 4.0 ft of wall from it -- 1.143 x the 3.5 ft window, over the floor
-        assert "narrowest 1.143" in self._one(monkeypatch, rec["elev"], rec["faces"]["S"], "S")["detail"]
+        # 1.400 until WP-16.8 (the audit of Phase 16, auditor A); 1.143 until Phase 17 (29 Oct 2026),
+        # when the gridded wing (ruling 4) re-placed this record: the third chamber carries one S
+        # sash now and the S front's narrowest wall is 2.000 x the wider, the second chamber's N pair
+        # standing at the aim, 1.400
+        assert "narrowest 2.000" in self._one(monkeypatch, rec["elev"], rec["faces"]["S"], "S")["detail"]
+        assert "narrowest 1.400" in self._one(monkeypatch, rec["elev"], rec["faces"]["N"], "N")["detail"]
 
     def test_v26_sees_a_pier_under_the_floor(self, monkeypatch):
         el = self._narrow(self._rec()["elev"], 0.5)
-        r = self._one(monkeypatch, el, self._render(el, "S"), "S")
+        f = self.PIER_FACE
+        r = self._one(monkeypatch, el, self._render(el, f), f)
         assert r["verdict"] == "disagrees" and "(0.500 against 1)" in r["detail"], r
 
     def test_v26_holds_the_pier_to_the_wider_window(self, monkeypatch):
@@ -2749,21 +2778,19 @@ class TestTheWindowPierCanDisagree:
         of Phase 16, auditor E: mutation E38, `max` -> `min`, 9 passed). One sash is drawn half as
         wide again and the wall left at 1.2 x the narrower: 0.8 x the wider, under the floor."""
         el = copy.deepcopy(self._rec()["elev"])
-        a, b = sorted((p for p in el["faces"]["S"]["placed"]
-                       if p["storey"] == "upper" and p["room"] == "chamber3" and p["kind"] == "window"),
-                      key=lambda p: p["cx_in"])
+        a, b = self._pair(el)
         b["width_in"] = a["width_in"] * 1.5
         d = (a["cx_in"] + a["width_in"] / 2.0 + 1.2 * a["width_in"] + b["width_in"] / 2.0) - b["cx_in"]
-        b["cx_in"] += d
-        b["u_ft"] = round(b["u_ft"] + d / 12.0, 4)
-        b["along_ft"] += d / 12.0
-        r = self._one(monkeypatch, el, self._render(el, "S"), "S")
+        self._shift(b, d)
+        f = self.PIER_FACE
+        r = self._one(monkeypatch, el, self._render(el, f), f)
         assert r["verdict"] == "disagrees" and "(0.800 against 1)" in r["detail"], r
 
     def test_v26_holds_a_pier_just_over_the_floor(self, monkeypatch):
         """The tolerance is the print and no wider: a wall 1.05 of the wider is over the floor."""
         el = self._narrow(self._rec()["elev"], 1.05)
-        r = self._one(monkeypatch, el, self._render(el, "S"), "S")
+        f = self.PIER_FACE
+        r = self._one(monkeypatch, el, self._render(el, f), f)
         assert r["verdict"] == "agrees" and "narrowest 1.050" in r["detail"], r
 
     @staticmethod
@@ -2778,21 +2805,23 @@ class TestTheWindowPierCanDisagree:
 
     def test_v26_lets_a_licensed_style_stand_under_the_floor_only_where_the_sheet_says_so(self, monkeypatch):
         el = self._spared(self._narrow(self._rec()["elev"], 0.5))
-        svg = self._render(el, "S")
+        f = self.PIER_FACE
+        svg = self._render(el, f)
         assert C._PIER_SPARED_SAID in svg, "the premise: the sheet says the pier is not held to it"
-        r = self._one(monkeypatch, el, svg, "S")
+        r = self._one(monkeypatch, el, svg, f)
         assert r["verdict"] == "agrees" and r["detail"].startswith("spared, and said"), r
         unsaid = re.sub(r"<text[^>]*>[^<]*%s[^<]*</text>" % C._PIER_SPARED_SAID, "", svg)
         assert unsaid != svg, "the plant did not land"
-        r = self._one(monkeypatch, el, unsaid, "S")
+        r = self._one(monkeypatch, el, unsaid, f)
         assert r["verdict"] == "disagrees" and "does not say it is not held to the floor" in r["detail"], r
 
     def test_v26_refuses_the_licence_to_a_style_the_fault_does_not_name(self, monkeypatch):
         el = self._narrow(self._rec()["elev"], 0.5)
-        svg = self._render(el, "S").replace(
+        f = self.PIER_FACE
+        svg = self._render(el, f).replace(
             "</svg>", '<text class="dm" x="0" y="0">1 WALL BETWEEN TWO WINDOWS %s — PLANTED</text></svg>'
             % C._PIER_SPARED_SAID)
-        r = self._one(monkeypatch, el, svg, "S")
+        r = self._one(monkeypatch, el, svg, f)
         assert r["verdict"] == "disagrees" and "on a style the fault does not license" in r["detail"], r
 
     def test_v26_holds_the_legend_to_the_record_both_ways(self, monkeypatch):
@@ -2803,7 +2832,10 @@ class TestTheWindowPierCanDisagree:
         assert C._PIER_FLOOR_SAID in s, "the premise: the S legend names the floor"
         cut = s.replace(C._PIER_FLOOR_SAID, "WALL")
         r = self._one(monkeypatch, rec["elev"], cut, "S")
-        assert r["verdict"] == "disagrees" and "refused 1 window unit(s)" in r["detail"] \
+        # 2 SINCE PHASE 17 (29 Oct 2026), from 1: the back hall's second sash as before, and the
+        # third chamber's second upper sash, which the re-placed record (the gridded wing, ruling 4)
+        # refuses for the floor where WP-16.8's one queue had held it
+        assert r["verdict"] == "disagrees" and "refused 2 window unit(s)" in r["detail"] \
             and "does not say so" in r["detail"], r
         n = rec["faces"]["N"]
         assert C._PIER_FLOOR_SAID not in n, "the premise: the N face refuses nothing for the floor"
@@ -2818,7 +2850,9 @@ class TestTheWindowPierCanDisagree:
         el = copy.deepcopy(self._rec()["elev"])
         pl = el["faces"]["S"]["placed"]
         win = next(p for p in pl if p["storey"] == "ground" and p["kind"] == "window")
-        door = next(p for p in pl if p["storey"] == "ground" and p["kind"] == "door" and p["room"] == "passage")
+        # the ground door on this front is the PORCH's since Phase 17 (the gridded wing, ruling 4,
+        # re-places the record), not the passage's
+        door = next(p for p in pl if p["storey"] == "ground" and p["kind"] == "door")
         twin = copy.deepcopy(win)
         d = (door["cx_in"] + door["width_in"] / 2.0 + 6.0 + twin["width_in"] / 2.0) - twin["cx_in"]
         twin["cx_in"] += d
@@ -2828,7 +2862,10 @@ class TestTheWindowPierCanDisagree:
         svg = self._render(el, "S")
         assert svg.count('class="op') > self._rec()["faces"]["S"].count('class="op'), "the drive did not land"
         r = self._one(monkeypatch, el, svg, "S")
-        assert r["verdict"] == "agrees" and r["detail"].startswith("2 pier(s)"), r
+        # 3 SINCE PHASE 17 (29 Oct 2026), from 2: the drawing room's two ground sashes stand west of
+        # the porch door and make a pier of their own now, and the upper storey's two piers stand;
+        # pairing the driven sash with the drawing room's across the door would count FOUR
+        assert r["verdict"] == "agrees" and r["detail"].startswith("3 pier(s)"), r
 
     def test_v26_reads_its_floor_and_its_licences_off_the_fault_file(self, tmp_path):
         """The census reads the floor and the licensed styles off the fault file itself, never

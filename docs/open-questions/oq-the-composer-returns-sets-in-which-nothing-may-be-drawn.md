@@ -1,6 +1,6 @@
 # oq/the-composer-returns-sets-in-which-nothing-may-be-drawn — the ranking is right and has nothing to rank
 
-*Status: OPEN · Raised in: the follow-up to the candidate-click audit (16 October 2026)*
+*Status: CLOSED · Raised in: the follow-up to the candidate-click audit (16 October 2026)*
 
 **OPEN — on both shipped briefs, `compose` called the way the app calls it returns sets in which most
 or all of the candidates are refused by the type's own hard facts (WP-13.4), so a reader who picks any
@@ -55,3 +55,18 @@ tiling`, `stacks, tiling`. Most revision loops stopped on `budget`, not on conve
 ## Not done
 
 Nothing. The ranking, the strip and the tally are the surfaces saying the current state out loud.
+
+## Ruled and executed, 29 October 2026 (Phase 17, WP-17.6)
+
+**CLOSED.** Lucas chose reading 3 (ruling 3 of 29 Oct 2026, as the recommended option): a short set is
+filled from the ranked pool, every passed-over diagram named, and the set keeps the 16 Oct key (ruling 7).
+`compose.compose` places down the pool -- at most `POOL_FILL_PLACEMENTS`, inside the set's budget -- and a
+house it finds drawable joins the set; `result.pool_fill` names what it added, what it passed over and
+why, and what it did not reach. The rest of Phase 17's first tranche is what makes a drawable house there
+to find (`docs/reports/wp-17.0-the-house-the-card-describes.md`).
+
+Measured on Lucas's own brief, once, at production defaults: five candidates, TWO of them drawable
+(`living-hall-picturesque`, asked; `courtyard-and-portal`, filled from the pool), against none of four
+before. Both are borrowed diagrams; every native diagram for a Tidewater Georgian brief is still refused,
+and that is carried by `oq/the-side-hall-partis-stacks-cannot-co-hold-in-band` and the report, not by this
+question, whose subject -- a ranking with nothing to rank -- is answered.

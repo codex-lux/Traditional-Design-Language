@@ -127,13 +127,24 @@ EL = _mod("elements")
 # so the `objective=False` half claimed a hard model neither tree builds. It was never reached,
 # because the Tidewater row is asserted first and failed before the loop got there -- a pin
 # behind a failing pin is a pin nobody has checked.
+# AND RE-DERIVED AT PHASE 17 (29 Oct 2026, WP-17.4) BY THE SAME CONTROL, AND THIS TIME THE BUILDER
+# MOVED ON PURPOSE. The parent commit `6fcc665`'s `_build` handed the parent's records reproduces all
+# four previous hashes to the character; THIS `_build` handed the SAME records (no shipped plan record
+# changed in the tranche) returns the four below. What moved it, by ruling: the bearing rank asks the
+# gate's question now -- continuity over each upper wall's whole run, at least one upper bearing line,
+# capacity a soft `SPAN_W` charge in both branches (rulings 2 and 8) -- which reaches every two-storey
+# plan, and on the tagged container the derived wing and hyphen are stated on the whole-foot grid
+# (ruling 4), which moves its element boxes as well.
+#     plan                        objective=False                          objective=True
+#     spec-builder-colonial       af0b566db578f99f -> 7e430628cba5fd1e     f6be60aefa639b5e -> 19745e29373326b2
+#     tidewater-georgian-careful  ed29a965f427f03f -> 2bd31ad804098d61     463b12ac97280fac -> 87aed655eb441b09
 ONE_RECTANGLE_SHAS = {
-    ("spec-builder-colonial", False): "af0b566db578f99f",
-    ("spec-builder-colonial", True): "f6be60aefa639b5e",
+    ("spec-builder-colonial", False): "7e430628cba5fd1e",
+    ("spec-builder-colonial", True): "19745e29373326b2",
 }
 CONTAINER_SHAS = {
-    ("tidewater-georgian-careful", False): "ed29a965f427f03f",
-    ("tidewater-georgian-careful", True): "463b12ac97280fac",
+    ("tidewater-georgian-careful", False): "2bd31ad804098d61",
+    ("tidewater-georgian-careful", True): "87aed655eb441b09",
 }
 MODEL_SHAS = {**ONE_RECTANGLE_SHAS, **CONTAINER_SHAS}   # tuple keys: `dict(a, **b)` refuses them
 

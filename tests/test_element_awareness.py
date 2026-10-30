@@ -213,22 +213,33 @@ class TestOpeningsReadsTheRoomsOwnElement:
         DRIVEN instead: pull four feet off the kitchen's north face and `_boundary_walls` must
         stop naming N. Asserted on the arithmetic layer 1 changed rather than through `place()`,
         which re-solves."""
+        # RE-CUT AT PHASE 17 (29 Oct 2026). The gridded wing (ruling 4) is laid out again and three
+        # refusals came back -- the kitchen's N, the breakfast room's E and S -- and each is TRUE: the
+        # room does not reach that face of its own element. So the property is asserted rather than
+        # the count: every refused dependency window names a wall its room's element boundary does
+        # not reach. An instrument refusal (a room that does reach the face, refused) still fails.
         deps = dep_rooms(placed)
-        refused = [(r["id"], w["wall"]) for lv in placed["levels"] for r in lv["rooms"]
-                   if r["id"] in deps for w in (r.get("windows") or []) if w.get("unplaced")]
-        assert refused == [], refused
-        kitchen = next(r for lv in placed["levels"] for r in lv["rooms"] if r["id"] == "kitchen")
         envs = OP.envelopes(placed)
+        W, H = placed["footprint"]["width_ft"], placed["footprint"]["depth_ft"]
+        for lv in placed["levels"]:
+            for r in lv["rooms"]:
+                if r["id"] not in deps:
+                    continue
+                reach = set(OP._boundary_walls(OP._rect(r), W, H, env=envs[r["id"]]))
+                for w in r.get("windows") or []:
+                    if w.get("unplaced"):
+                        assert w["wall"] not in reach, (r["id"], w["wall"], reach,
+                                                         "a window refused on a face its room reaches")
+        kitchen = next(r for lv in placed["levels"] for r in lv["rooms"] if r["id"] == "kitchen")
         el = envs["kitchen"]
-        assert set(OP._boundary_walls(OP._rect(kitchen), placed["footprint"]["width_ft"],
-                                      placed["footprint"]["depth_ft"], env=el)) >= {"N", "S"}
-        pulled = dict(kitchen, geometry=dict(kitchen["geometry"],
-                                             depth_ft=kitchen["geometry"]["depth_ft"] - 4.0))
-        walls = OP._boundary_walls(OP._rect(pulled), placed["footprint"]["width_ft"],
-                                   placed["footprint"]["depth_ft"], env=el)
-        assert "N" not in walls, (walls, "a room four feet off its element's face still reaches "
+        reach = set(OP._boundary_walls(OP._rect(kitchen), W, H, env=el))
+        assert "S" in reach, reach
+        # DRIVEN: pull four feet off the kitchen's SOUTH face and `_boundary_walls` must stop naming S
+        g = kitchen["geometry"]
+        pulled = dict(kitchen, geometry=dict(g, y_ft=g["y_ft"] + 4.0, depth_ft=g["depth_ft"] - 4.0))
+        walls = OP._boundary_walls(OP._rect(pulled), W, H, env=el)
+        assert "S" not in walls, (walls, "a room four feet off its element's face still reaches "
                                          "it -- the test is not reading the element")
-        assert "S" in walls, walls
 
     def test_and_a_dependency_room_now_places_openings_AT_ALL(self, placed):
         """The headline. Before this, every opening on every dependency room was refused with
@@ -238,7 +249,9 @@ class TestOpeningsReadsTheRoomsOwnElement:
         placed_ct = sum(
             1 for lv in placed["levels"] for r in lv["rooms"] if r["id"] in deps
             for w in (r.get("windows") or []) if not w.get("unplaced"))
-        assert placed_ct >= 3, "no dependency window was placed at all"
+        # 3 or more until Phase 17; 2 on the gridded wing (ruling 4), whose rooms reach fewer of its
+        # faces (the refusals are asserted true above). The headline is "AT ALL".
+        assert placed_ct >= 1, "no dependency window was placed at all"
 
 
 ST = modcache.load("structure", os.path.join(ROOT, "build", "structure.py"))
@@ -402,9 +415,28 @@ class TestTheCriticReadsTheRoomsOwnElement:
         # properties this control exists for are unchanged and are what is asserted: a genuinely
         # interior room still carries the finding, and no dependency room does. Without the
         # first, the fix is a loosening.
-        assert still, "no room is landlocked at all: the finding the dependency rooms lost has "\
-                      "gone from every room, which is a loosening rather than a fix"
         assert not (still & dep_rooms(placed)), still
+        # AND AT PHASE 17 (29 Oct 2026) THE PLACEMENT LEAVES NO MAIN-BLOCK ROOM IN THE MIDDLE OF THE
+        # HOUSE (the gridded wing, ruling 4, re-lays this fixture), so the control is DRIVEN: a
+        # main-block room pulled off every face of the block, its windows unplaced, must carry the
+        # finding the dependency rooms lost. Without it the fix would be a loosening.
+        if not still:
+            forced = _forced(placed)
+            deps = dep_rooms(placed)
+            fp = forced["footprint"]
+            room = next(r for lv in forced["levels"] if (lv.get("index") or 0) == 0
+                        for r in lv["rooms"] if r["id"] not in deps and r.get("geometry")
+                        and r.get("windows"))
+            g = room["geometry"]
+            g.update(x_ft=fp["width_ft"] / 2 - 3, y_ft=fp["depth_ft"] / 2 - 3, width_ft=6, depth_ft=6)
+            for w in room["windows"]:
+                w.pop("positions_ft", None)
+                w["unplaced"] = {"reason": "driven"}
+            still = {f["room"] for f in PC.check(forced)["findings"]
+                     if f.get("kind") == "drawn-landlocked"}
+            assert room["id"] in still, ("no room is landlocked at all: the finding the dependency "
+                                         "rooms lost has gone from every room, which is a "
+                                         "loosening rather than a fix", room["id"], still)
 
     def test_the_finding_it_takes_instead_NAMES_the_element(self, placed):
         deps = dep_rooms(placed)
@@ -428,7 +460,11 @@ class TestTheCriticReadsTheRoomsOwnElement:
         # face too. The KITCHEN is unmoved at ["N", "S", "W"]. Both are still measured against
         # the ELEMENT and both would be `[]` against the main block, which is the thing under
         # test and is what the two assertions above hold.
-        assert by["kitchen"] == ["N", "S", "W"] and by["breakfast"] == ["E", "N", "S"], by
+        # AND AT PHASE 17 (29 Oct 2026) THE GRIDDED WING (ruling 4) RE-LAYS IT AGAIN: the kitchen
+        # spans the wing's full width at its south and reaches E, S and W; the breakfast room sits
+        # at its north-west and reaches N and W. Still measured against the ELEMENT, still `[]`
+        # against the main block.
+        assert by["kitchen"] == ["E", "S", "W"] and by["breakfast"] == ["N", "W"], by
 
     def test_A_WALL_FACING_THE_GAP_IS_NAMED_exterior_to_the_weather_interior_to_the_view(
             self, placed):
@@ -439,12 +475,22 @@ class TestTheCriticReadsTheRoomsOwnElement:
         c = PC.check(_forced(placed))
         rows = {f["room"]: f for f in c["findings"]
                 if f.get("kind") == "drawn-window-off-the-placed-wall"}
-        b = rows["breakfast"]
-        assert b["walls_across_a_gap"] == ["E"], b
-        assert "exterior to the weather and interior to the view" in b["statement"]
-        assert "look across the gap at the main element" in b["statement"]
-        assert rows["kitchen"]["walls_across_a_gap"] == [], rows["kitchen"]
-        assert "interior to the view" not in rows["kitchen"]["statement"]
+        # BY PROPERTY SINCE PHASE 17 (29 Oct 2026): the gridded wing re-lays the fixture and the
+        # room on the wing's east face -- the one looking across the hyphen gap -- is the KITCHEN
+        # now, not the breakfast room. Whichever room lights the east face takes the note; a room
+        # lit only on faces that look at open ground takes none. Both halves are still reached.
+        deps = dep_rooms(placed)
+        rows = {r: f for r, f in rows.items() if r in deps}
+        gap = [r for r, f in rows.items() if "E" in f["lit_walls"]]
+        ground = [r for r, f in rows.items() if "E" not in f["lit_walls"]]
+        assert gap and ground, ("the premise: one room faces the gap and one faces open ground", rows)
+        for r in gap:
+            assert rows[r]["walls_across_a_gap"] == ["E"], rows[r]
+            assert "exterior to the weather and interior to the view" in rows[r]["statement"]
+            assert "look across the gap at the main element" in rows[r]["statement"]
+        for r in ground:
+            assert rows[r]["walls_across_a_gap"] == [], rows[r]
+            assert "interior to the view" not in rows[r]["statement"]
 
     def test_faces_across_a_gap_REFUSES_A_DIAGONAL_NEIGHBOUR(self):
         """The ruling refuses the diagonal case rather than modelling it, and that refusal is one
@@ -715,7 +761,14 @@ class TestTheCriticReadsTheRoomsOwnElement:
                 #   +   `fault-present` The Blank Wall On The Public Side (serious), 0.1375 against
                 #       at-least 0.15: one sash less glass on the front.
                 # Both watched layers UNMOVED at 13/18 and 11/17. Old digest: aadf4ca8c4390d56.
-                ("tidewater-georgian-careful", "c6bca85abf6c88ab", 201,
+                # RE-DERIVED AT PHASE 17 (29 Oct 2026, WP-17.1), THE TIDEWATER FIXTURE ALONE, ONE ROW
+                # IN AND NONE OUT. Diffed row by row through this test's own fixture path against a
+                # worktree of `6fcc665`, which reproduces both old digests to the character: the new
+                # `wet-stack-shares-no-chase` (minor) on the powder room, whose `wet_stack_with
+                # cellarstair` is judged as a servicing claim now and is drawn sharing no wall with
+                # it. The spec Colonial is UNMOVED. Both watched layers UNMOVED. Old digest:
+                # c6bca85abf6c88ab.
+                ("tidewater-georgian-careful", "437196390ae0f0b4", 202,
                  {"daylight": 13, "grouping": 18}),
                 # RE-DERIVED 3 OCT 2026 (the audit of WP-16.8's own diff), THE SPEC COLONIAL
                 # ALONE, AND BOTH ROWS ARE U16. Diffed row by row through this test's own fixture

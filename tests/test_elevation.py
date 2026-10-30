@@ -347,7 +347,9 @@ class TestFaultCorpusIntegration:
         rects = elevation_module.opening_rects(elev, elev["entrance_face"])["rects"]
         assert m["upper_floor_opening_count"] == sum(1 for r in rects if r["storey"] == "upper") == 3, (
             "four before WP-16.6, even, which convicted; the odd count that clears is the drawn one")
-        assert elev["front"]["complete"]["undrawn"] == {0: 4, 1: 2}
+        # {0: 4, 1: 2} until Phase 17 (29 Oct 2026): the gridded wing (ruling 4) re-places this
+        # record and one more ground unit is drawn on its front
+        assert elev["front"]["complete"]["undrawn"] == {0: 3, 1: 2}
         # still measured, still on the record: the gate withholds and does not stop measuring
         assert elev["front"]["alignment"]["max_abs_offset_in"] > 2.0
         assert elev["front"]["mirror"]["unmatched"]
@@ -629,10 +631,19 @@ class TestRenderElevation:
         # bar floating in the sky at the top-left corner, 3 ft from the gable's front corner and
         # touching no roof (see WP-5.13's report, and OQ 80).
         polys = _stack_polys(text)
-        assert len(polys) == 1, "one stack per gable end: the far one stands behind the near one"
+        # ONE OR TWO SINCE PHASE 17 (29 Oct 2026). The far stack stood exactly behind the near one
+        # while each served one fire; the gridded wing (ruling 4) puts the drawing room back on the
+        # west gable, the west stack stands at the mean of its two fires' axes, and it shows beside
+        # the near one above the roof. The NEAR stack is the one drawn from grade -- the polygon
+        # reaching lowest on the sheet -- and it is that one whose position is held to the record.
+        assert len(polys) in (1, 2), polys
+        both_drawn = len(polys) == 2
+        polys = [max(polys, key=lambda pts: max(y for _x, y in pts))]
         us = [x for x, _y in polys[0]]
         centre_ft = ((min(us) + max(us)) / 2.0 - 46.0) / 24.0
-        y_ft = elev["roof_record"]["chimneys"]["positions"][0]["y_ft"]
+        W = elev["footprint"]["width_ft"]
+        y_ft = next(c["y_ft"] for c in elev["roof_record"]["chimneys"]["positions"]
+                    if c["plan_rect_ft"][0] >= W - 1e-6)            # the near (east) stack
         assert abs(centre_ft - y_ft) < 0.2, (
             f"stack drawn at {centre_ft:.2f} ft along the gable end; the record says {y_ft}")
         # FROM GRADE TO CAP (Phase 15, WP-15.5). This held the stack's foot to the RAKE, vertex by
@@ -662,7 +673,10 @@ class TestRenderElevation:
         # and the sheet says what it drew and what it could not
         assert "EXTERIOR STACKS DRAWN FROM GRADE TO CAP" in text
         assert "NO RULE IN THIS CORPUS STATES THE BREAST" in text
-        assert "ABOVE THE ROOF LINE ONLY" not in text, "a from-grade stack said to stop at the roof"
+        # the "above the roof line only" note is the FAR stack's, and is said exactly when the far
+        # stack shows on this face (Phase 17): never of a sheet that draws only the near one
+        assert ("ABOVE THE ROOF LINE ONLY" in text) == both_drawn, (
+            "the roof-line note does not follow which stacks this face draws")
         # WP-5.13: and the roof is a closed plane now, not a line along its bottom edge.
         assert "<polygon" in text, "the roof is drawn as a polyline again"
 
@@ -685,6 +699,16 @@ class TestRenderElevation:
         near = [c for c in roof["chimneys"]["positions"] if c["plan_rect_ft"][0] >= W - 1e-6]
         far = [c for c in roof["chimneys"]["positions"] if c["plan_rect_ft"][2] <= 1e-6]
         assert len(near) == 1 and len(far) == 1, "the premise: one stack outboard of each gable wall"
+        # DRIVEN OFF THE RIDGE SINCE PHASE 17 (29 Oct 2026): the far stack serves two fires now and
+        # stands at their mean, which straddles the ridge, so its two faces met the rake at almost
+        # one height and the premise below (a foot that is a RAKE and not a level line) failed.
+        # Set 4 ft along the gable it meets the rake at two heights again; what is tested is the
+        # renderer drawing the foot on the rake, which holds wherever the stack stands.
+        c0 = dict(far[0])
+        c0["y_ft"] = c0["y_ft"] + 4.0
+        c0["plan_rect_ft"] = [c0["plan_rect_ft"][0], c0["plan_rect_ft"][1] + 4.0,
+                              c0["plan_rect_ft"][2], c0["plan_rect_ft"][3] + 4.0]
+        far = [c0]
         roof["chimneys"]["positions"] = far
         out = tmp_path / "tidewater-E-far.svg"
         render_elevation_module.render_elevation(elev, str(out), face="E")

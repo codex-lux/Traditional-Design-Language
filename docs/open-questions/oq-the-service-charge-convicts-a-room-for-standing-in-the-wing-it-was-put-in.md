@@ -77,3 +77,15 @@ measurement above is a fact about the instrument, not about where the kitchen be
 - `oq/the-facade-layer-counts-a-dependencys-windows-as-bays-of-the-front` — the eighth layer.
 - `oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it` — the standing question
   about the layers BELOW the placer. This one is INSIDE it.
+
+## Amended, 29 October 2026 (Phase 17): the proof now puts the pantry on the entrance half
+
+With the service wing stated on the whole-foot grid (ruling 4, WP-17.4) the Tidewater record's wing is
+27 x 23 ft, where the old two-quantum allowance made it 27 x 26.68, and it holds its kitchen and pantry
+two rooms deep. Measured twice on `engine="cp"` at the batch budget: the kitchen stands at the rear
+(mid 24.5 of a 37 ft depth) and the PANTRY in front of it (mid 13.0) -- reproducible on four workers.
+`tests/test_composition.py::test_service_rooms_land_toward_the_rear` says that is "a defect here, not a
+cost", and it is left RED rather than re-cut: no objective term can see where a wing room stands (this
+question), so nothing asked the prover to put the pantry behind, and the rear position it held before
+was the luck of a deeper wing. The same proof refuses the record on tiling alone now, where before it
+named bearing, hearth and tiling.

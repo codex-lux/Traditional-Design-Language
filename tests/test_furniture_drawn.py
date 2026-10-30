@@ -179,7 +179,17 @@ def test_the_drawn_layer_names_a_room_the_declared_record_passes():
 # the package is for. What the across rise is NOT is the band ranking failing: WP-11.8's key is
 # untouched, and the pool it chooses from is simply smaller, because every candidate now has the
 # entrance room on the entrance face.
-DRAWN_SHORT_CEILING = 64   # unmoved at the 17 Sep merge, 69 until WP-11.18, 66 until WP-11.17, 68 until WP-11.16, 86 until WP-11.8. READ ALL NOTES BELOW IN ORDER:
+# PHASE 17 (29 Oct 2026, WP-17.4, ruling 4) MOVED BOTH, ONE UP AND ONE DOWN, ON ONE PLAN. The derived
+# service wing is stated on the whole-foot grid, which re-places `plans/tidewater-georgian-careful.json`
+# on the search engine and no other shipped plan (fifteen of sixteen byte-identical, derived per plan
+# against a worktree of `6fcc665`, which reproduces 64/79 exactly):
+#
+#     tidewater-georgian-careful   short 4 -> 5   long 9 -> 8
+#
+# Across, the dining room fails its eight-seat table; along, the cellar stair's bench and hook rail
+# clear and the primary bath's double vanity fails. The same placement takes that record's fatal
+# findings 10 -> 6 with its hearth fact HELD. RE-BASELINED IN PUBLIC, one ceiling up and one down.
+DRAWN_SHORT_CEILING = 65   # 64 until Phase 17; unmoved at the 17 Sep merge, 69 until WP-11.18, 66 until WP-11.17, 68 until WP-11.16, 86 until WP-11.8. READ ALL NOTES BELOW IN ORDER:
 # WP-11.3's move 86 -> 88 (the catalogue), the second WP-11.6's 88 -> 86 (the placement).
 # WP-11.3 MOVED THE SHORT CEILING 86 -> 88 AND THE PLACEMENT DID NOT MOVE AT ALL. Re-derived
 # both ways over all sixteen plans: the two extra shortfalls are the library table in
@@ -192,7 +202,7 @@ DRAWN_SHORT_CEILING = 64   # unmoved at the 17 Sep merge, 69 until WP-11.18, 66 
 # and two libraries that had passed now fail. The conviction is right and the ceiling is raised
 # rather than the correction reverted. Fixture layouts, room geometry and relaxation counts are
 # byte-identical across the whole package, which is how the cause was isolated.
-DRAWN_LONG_CEILING = 79   # 81 until the 17 Sep merge, 74 until WP-11.18, 79 until WP-11.17,
+DRAWN_LONG_CEILING = 78   # 79 until Phase 17 (see the short ceiling's Phase 17 note); 81 until the 17 Sep merge, 74 until WP-11.18, 79 until WP-11.17,
 # 82 until WP-11.16; see the short ceiling's note. THE 17 SEP MERGE MOVED BOTH AND IN BOTH
 # DIRECTIONS, so the per-plan table is here rather than a net. Derived per plan against a
 # `git archive` of this branch's parent -- ELEVEN OF SIXTEEN PLANS ARE UNMOVED ON BOTH AXES,

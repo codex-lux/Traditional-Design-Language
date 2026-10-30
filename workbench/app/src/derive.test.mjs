@@ -14,7 +14,7 @@ import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
 import { doors, windows, divergence, requiredWallFt, sharedEdge, interpunctTitle,
-         relaxationMarks, elementBounds, EL_TOL } from './sheet/derive.js';
+         relaxationMarks, buildingExtent, elementBounds, EL_TOL } from './sheet/derive.js';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const FIX = join(HERE, '..', '..', '..', 'tests', 'fixtures', 'sheet_symbols');
@@ -336,6 +336,23 @@ test('a relaxation run that leaves the sheet is clipped, and one with nothing le
   ], 0, 60, 40);
   assert.deepEqual(r.drawn.map((d) => d.runs), [[[0, 12]]]);
   assert.equal(r.unlocated.length, 1, 'a run wholly off the plate locates nothing');
+});
+
+test('a relaxation on a wing is clipped to the building, not the main block (Phase 17)', () => {
+  /* The Tidewater record's wing relaxation, at y = 24.41 from x -20.98 to -11.95: clipped to the
+     main block's [0, W] it had nothing left and was read as unlocated. Mutation: the extent
+     ignored, or `buildingExtent` returning the block. */
+  const fp = { blocks: [{ x_ft: 0, y_ft: 0, width_ft: 45, depth_ft: 37.24 },
+    { x_ft: -7, y_ft: 11, width_ft: 7, depth_ft: 16 }, { x_ft: -34, y_ft: 7, width_ft: 27, depth_ft: 23 }] };
+  const ext = buildingExtent(fp, 45, 37.24);
+  assert.deepEqual(ext, [-34, 0, 45, 37.24]);
+  const mark = { off_ft: 0.4, axis: 'y', at_ft: 24.41, level: 0, runs: [[-20.98, -11.95]] };
+  const r = relaxationMarks([mark], 0, 45, 37.24, ext);
+  assert.deepEqual(r.drawn.map((d) => d.runs), [[[-20.98, -11.95]]]);
+  assert.equal(r.unlocated.length, 0);
+  assert.equal(relaxationMarks([mark], 0, 45, 37.24).unlocated.length, 1,
+    'without the extent the wing run is clipped away, as it was');
+  assert.deepEqual(buildingExtent({}, 60, 40), [0, 0, 60, 40], 'a one-rectangle house is its block');
 });
 
 /* WP-11.14 — an exterior opening is drawn on its own massing element's face, not the

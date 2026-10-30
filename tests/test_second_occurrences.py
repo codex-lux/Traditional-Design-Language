@@ -88,10 +88,16 @@ def test_a_stack_reserves_only_the_wall_line_it_stands_on(tidewater, C):
     because the reservation matched a room by the wall's LETTER. Driven with a W window on the
     pantry: it is seated now. The control is the library's E wall on the main block, which the E
     stack still takes."""
+    # ON THE KITCHEN SINCE PHASE 17 (29 Oct 2026): the gridded service wing (ruling 4) is laid out
+    # again and the pantry stands at its north-east, clear of the wing's west face, so a W window
+    # on it is refused honestly ("no such boundary wall") and tests nothing about the stack. The
+    # kitchen spans the wing's west face now; the same window, driven there, must be seated.
     pl = _fresh(tidewater)
-    _room(pl, "pantry").setdefault("windows", []).append({"wall": "W", "count": 1, "width_ft": 3.0})
+    assert _room(pl, "kitchen")["geometry"]["x_ft"] == min(
+        b["x_ft"] for b in pl["footprint"]["blocks"]), "the premise: the kitchen reaches the wing's W face"
+    _room(pl, "kitchen").setdefault("windows", []).append({"wall": "W", "count": 1, "width_ft": 3.0})
     OP.place(pl, C)
-    win = [w for w in _room(pl, "pantry")["windows"] if w["wall"] == "W"][0]
+    win = [w for w in _room(pl, "kitchen")["windows"] if w["wall"] == "W"][0]
     assert win.get("positions_ft") and not win.get("unplaced"), (
         "a window on the dependency's own west wall was refused for a stack on the main block's",
         win.get("unplaced"))
@@ -100,7 +106,7 @@ def test_a_stack_reserves_only_the_wall_line_it_stands_on(tidewater, C):
     spans = OP._masonry_spans(rooms, W, H, OP.envelopes(pl), pl["hearths"], 0)
     stacked = {k for k, _s, what in spans if what == "the chimney stack"}
     assert ("library", "E") in stacked, ("the control: the main block's own E wall", stacked)
-    assert not {k for k in stacked if k[0] in ("pantry", "powder")}, stacked
+    assert not {k for k in stacked if k[0] in ("pantry", "powder", "kitchen", "breakfast")}, stacked
 
 
 def test_an_exterior_door_is_seated_clear_of_the_masonry(tidewater, C):
@@ -145,6 +151,21 @@ def test_a_door_on_another_elements_face_is_not_on_the_entrance_front(tidewater,
     """The kitchen's door stands on the WEST DEPENDENCY's own south face, 5.28 ft behind the
     front, and the stoop pass called it "a service door on the entrance front"."""
     k = [d for d in _room(tidewater, "kitchen")["doors"] if d["to"] == "exterior"]
+    assert k, "the premise: the kitchen has an exterior door"
+    if k[0].get("wall") != "S":
+        # DRIVEN SINCE PHASE 17 (29 Oct 2026): the gridded service wing (ruling 4) re-places the
+        # kitchen, which spans the wing's whole south face now and seats its exterior door on N.
+        # The question is a door on ANOTHER ELEMENT'S south face, so the door is set on the
+        # kitchen's S wall -- the wing's south face, 7 ft behind the front -- and the stoop pass
+        # is run again over the record as it now stands.
+        tidewater = copy.deepcopy(tidewater)
+        kit = _room(tidewater, "kitchen")
+        k = [d for d in kit["doors"] if d["to"] == "exterior"]
+        g = kit["geometry"]
+        assert g["y_ft"] == min(b["y_ft"] for b in tidewater["footprint"]["blocks"]
+                                if b["id"] != "main") > 0, "the premise: the wing's S face stands behind the front"
+        k[0]["wall"], k[0]["position_ft"] = "S", g["x_ft"] + g["width_ft"] / 2.0
+        TH.entrance_pass(tidewater, C, {})
     assert k and k[0].get("wall") == "S", "the premise: the kitchen's door is on an S wall"
     th = tidewater["threshold"]
     said = [u for u in th["unplaced"] if "kitchen" in u.get("what", "")]

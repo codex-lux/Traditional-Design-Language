@@ -123,10 +123,15 @@ def test_a_room_declaring_no_door_at_all_is_still_told_so():
     behaviour (WP-8.11's rule)."""
     plan = load_plan("tidewater-georgian-careful")
     placed = GEO.solve(plan, engine="heuristic")
+    # every door to the library goes too, not only its own: at Phase 17 (29 Oct 2026) the gridded
+    # wing (ruling 4) makes the passage's door to it drawable, so a library declaring none was
+    # still reached through that one
     for lv in placed["levels"]:
         for r in lv["rooms"]:
             if r["id"] == "library":
                 r["doors"] = []
+            else:
+                r["doors"] = [d for d in r.get("doors") or [] if d.get("to") != "library"]
     rows = [f for f in PC.check(placed)["findings"] if f.get("kind") == "unreachable"]
     lib = next((f for f in rows if f["room"] == "library"), None)
     assert lib is not None, "the driven room is still stranded"

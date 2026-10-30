@@ -196,8 +196,30 @@ def test_a_released_pin_is_named_on_the_record_by_kind():
     assert isinstance(rounds, list), (
         "what each round gave up must be on the record: a downgrade nobody can read is the "
         "silence this whole phase is about")
+    _releases_are_accounted(sv, rounds)
+
+
+def _releases_are_accounted(sv, rounds):
+    """Every kind the record reports DOWNGRADED is named by a round line whose counts cover it.
+    Lifted out of the test above at Phase 17 so the portfolio's HELD line, which the Tidewater
+    record does not reach, is driven on the two-storey fixture below."""
     named = {}      # kind -> the number of pins the round lines say left, summed
     for line in rounds:
+        # PHASE 17 (29 Oct 2026, WP-17.5): THE WORKER PORTFOLIO DECIDES FIRST, AND SAYS SO. Its
+        # line names the workers and either the facts HELD -- with the authored wall and axis pins
+        # it released to get there, CARRIED and offered back by the reinstatement pass -- or that
+        # it did not decide and the ladder takes over, whose own round lines then follow. A
+        # portfolio line is a third known shape, read for the wall pins it released; an unknown
+        # line still fails.
+        if line.startswith("portfolio ("):
+            m = re.search(r"every type fact HELD with the (\d+) authored wall and axis pin\(s\) "
+                          r"released", line)
+            if m:
+                named["wall"] = named.get("wall", 0) + int(m.group(1))
+                continue
+            assert ("every type fact HELD" in line
+                    or "the assumption ladder takes over for its cores" in line), line
+            continue
         # A round gives a rank up by PROOF (a conflict core named it) or lets the type's
         # facts go on an UNDECIDED scout (WP-13.3) -- and either way the line names the
         # round, what left, and on what authority, so a reader can tell the two apart.
@@ -229,6 +251,28 @@ def test_a_released_pin_is_named_on_the_record_by_kind():
             f"the record lists {n} downgraded {kind} pin(s) and the round lines account for "
             f"{named.get(kind, 0)}: a release with no round naming it is a downgrade nobody "
             f"can read. Lines: {rounds}")
+
+
+
+def test_the_portfolios_held_line_accounts_for_the_wall_pins_it_released():
+    """PHASE 17 (29 Oct 2026, WP-17.5): the worker portfolio decides the two-storey fixture with
+    every type fact HELD by releasing the authored wall and axis pins, and its one line is the only
+    account of those releases. Driven here because on the Tidewater record the portfolio does not
+    decide and only its "ladder takes over" line is reached."""
+    CP = _cp()
+    if CP is None:
+        pytest.skip("COULD NOT EVALUATE: ortools is not importable, the prover never ran")
+    if CP.portfolio_workers() < 2:
+        pytest.skip("COULD NOT EVALUATE: one worker, so no portfolio runs on this machine")
+    from test_type_facts_hard import _two_storey_fixture
+    G._SOLVE_CACHE.clear()
+    res = G.solve(_two_storey_fixture(), None, 80, engine="cp", time_limit_s=40)
+    G._SOLVE_CACHE.clear()
+    sv = res["geometry_report"].get("solver") or {}
+    rounds = sv.get("downgrade_rounds") or []
+    assert rounds and rounds[0].startswith("portfolio (") and "every type fact HELD with" in rounds[0], rounds
+    assert sv["downgraded_wall_pins"], "the premise: some wall pin stayed released"
+    _releases_are_accounted(sv, rounds)
 
 
 def test_the_axis_pin_names_one_room_or_none():

@@ -144,7 +144,11 @@ class TestThePlacedLoopOnTheReturnedCandidates:
         res = compose_module.compose(_brief("family-georgian"), candidates=4, revise=True,
                                      revise_rounds=1, revise_engine="heuristic", revise_budget_s=30)
         cands = res["candidates"]
-        assert len(cands) == 4 and len({c["parti"] for c in cands}) == 4, "four DISTINCT diagrams"
+        # WP-17.6: a set with fewer drawable houses than asked is filled from the pool, so the set
+        # asked for is counted apart from what the pool-fill added (named in `pool_fill.added`)
+        added = set((res.get("pool_fill") or {}).get("added") or [])
+        own = [c for c in cands if c["parti"] not in added]
+        assert len(own) == 4 and len({c["parti"] for c in cands}) == len(cands), "four DISTINCT diagrams"
         # the order is the composer's rule, on the RE-SCORED set: fatal-free first, then whether the
         # placement may be drawn, then the unjudged fatals, then the score
         keys = [_composer_order(c) for c in cands]
@@ -237,7 +241,12 @@ class TestTheRevisedSetKeepsTheComposersInvariants:
         keys = [_composer_order(c) for c in cands]
         assert keys == sorted(keys)
         _assert_the_ruled_properties(cands)
-        assert {c["rank_before"] for c in cands} == set(range(1, len(cands) + 1))
+        # WP-17.6: the set ASKED FOR ranks 1..N before revision; a house the pool-fill added carries
+        # the rank it held in the pool, which is past N -- a true statement, not a gap in the set
+        added = set((composed.get("pool_fill") or {}).get("added") or [])
+        own = [c for c in cands if c["parti"] not in added]
+        assert {c["rank_before"] for c in own} == set(range(1, len(own) + 1))
+        assert all(c["rank_before"] > len(own) for c in cands if c["parti"] in added)
 
     def test_the_revise_budget_is_the_sets_and_a_candidate_it_does_not_reach_says_so(self, compose_module):
         """Per candidate, 21 candidates on the proving engine at 600 s each was four hours of

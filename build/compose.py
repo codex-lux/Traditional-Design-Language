@@ -1084,15 +1084,6 @@ def compose_to_the_type(plan, parti, brief, log):
 
     befores = {rid: (rooms[rid][1]["width_ft"], rooms[rid][1]["length_ft"]) for rid in followers}
     _follow()
-    for rid in followers:
-        r, so = rooms[rid][1], rooms[rid][1]["stacks_over"]
-        t = rooms[so][1]
-        log.append(f"JUDGMENT (editorial): {r.get('name') or rid} takes the plan of "
-                   f"{t.get('name') or so}, which it stands over, inside its own bands: "
-                   f"{r['width_ft']:g} x {r['length_ft']:g} ft where its band midpoint gave "
-                   f"{befores[rid][0]:g} x {befores[rid][1]:g} ft. "
-                   f"The corpus states that the two stack; sizing one from the other is what lets "
-                   f"the stack be held with both rooms in band.")
 
     # THE AREA THE CORRIDOR GAVE BACK. Sizing a circulation room from what it is for returns the
     # area its band midpoint had spent -- on the foursquare a 1,166 sf corridor became a 150 sf one,
@@ -1135,6 +1126,17 @@ def compose_to_the_type(plan, parti, brief, log):
                    f"after sizing the circulation from what it is for, {_heated():.0f} sf now, against "
                    f"a {target:.0f} sf target (each room inside its own area band, each room that "
                    f"stands over another following it).")
+    # said AFTER the growth, so the figure is the size the room is composed at, not a size it had
+    # for the length of one loop
+    for rid in followers:
+        r, so = rooms[rid][1], rooms[rid][1]["stacks_over"]
+        t = rooms[so][1]
+        log.append(f"JUDGMENT (editorial): {r.get('name') or rid} takes the plan of "
+                   f"{t.get('name') or so}, which it stands over, inside its own bands: "
+                   f"{r['width_ft']:g} x {r['length_ft']:g} ft where its band midpoint gave "
+                   f"{befores[rid][0]:g} x {befores[rid][1]:g} ft. "
+                   f"The corpus states that the two stack; sizing one from the other is what lets "
+                   f"the stack be held with both rooms in band.")
 
     _entrance_front(plan, parti, brief, log)
 
@@ -1751,6 +1753,11 @@ _DECISION_KINDS = (
     # are authored by the loop and quote the corpus sentence they executed; the prose is the
     # move's own log line.
     ("REVISED:", "revision"),
+    # Phase 17 (WP-17.2): the composer's type pass says what it did and what the diagram leaves
+    # unsettled. "JUDGMENT (editorial):" is a judgment marked editorial in the line itself, and it
+    # must be tested BEFORE the bare "JUDGMENT:" can miss it.
+    ("JUDGMENT (editorial):", "judgment"),
+    ("DISCLOSURE:", "disclosure"),
     # WP-9.4: the set's revise budget was spent before this candidate; it is returned as
     # composed and says so. A disclosure that settles no brief field -- `field: null` is right.
     ("REVISION SKIPPED:", "disclosure"),
@@ -1790,6 +1797,21 @@ _DECISION_PATTERNS = (
      r"\g<a> sized from their rooms"),
     (r"^Window counts on (?P<a>\d+) wall\(s\) derived from each room's own", "window_counts",
      r"\g<a> walls from glazing fraction"),
+    # Phase 17 (WP-17.2). The composer's type pass: a corridor sized from what it is for, a stacked
+    # room taking the plan of the room it stands over, the area grown back, the entrance front, the
+    # bathrooms. Ahead of the revision loop's "Grew ..." so that line cannot shadow them.
+    (r"^Sized (?P<a>.+?) from what it is for, not from its band's midpoint: (?P<b>[\d.]+) ft wide.*?by "
+     r"(?P<c>[\d.]+) ft", "room_dims_ft", r"\g<a>: \g<b> x \g<c> ft"),
+    (r"^(?P<a>.+?) takes the plan of (?P<b>.+?), which it stands over, inside its own bands: "
+     r"(?P<c>[\d.]+) x (?P<d>[\d.]+) ft", "room_dims_ft", r"\g<a>: \g<c> x \g<d> ft (from \g<b>)"),
+    (r"^Grew the rooms the type pass did not size back toward the brief: (?P<a>\d+) sf .*?, "
+     r"(?P<b>\d+) sf now, against a (?P<c>\d+) sf target", "target_area_sf",
+     r"\g<a> to \g<b> sf against \g<c> sf"),
+    (r"^the house is entered on its (?P<a>[NESW]+) front", "entrance_faces", r"\g<a>"),
+    (r"^the diagram's entry does not settle which front", "entrance_faces", "not stated"),
+    (r"^the brief asks for (?P<a>\d+(?:\.\d+)?) bathrooms and this diagram has a place for "
+     r"(?P<b>\d+(?:\.\d+)?)",
+     "bathrooms", r"\g<b> of \g<a>: not added"),
     # WP-9.2. The revision loop's own sentences (build/moves.py), one per move.
     (r"^Grew (?P<a>.+?) from (?P<b>\d+) to (?P<c>\d+) sf", "room_area_sf", r"\g<a>: \g<b> to \g<c> sf"),
     (r"^Grew (?P<a>.+?) to (?P<b>[\d.]+) x (?P<c>[\d.]+) ft", "room_dims_ft", r"\g<a>: \g<b> x \g<c> ft"),
@@ -2341,7 +2363,9 @@ def compose(brief, candidates=4, on_candidate=None, revise=True, revise_rounds=4
         if extra is not None:
             appended = True
             returned = returned + [extra]
-            if revise:
+            # a named diagram the pool-fill has already placed (and found refused) is not placed a
+            # second time: its revision and its refusal are already on the card
+            if revise and "revision" not in extra:
                 remaining = None if deadline is None else deadline - time.perf_counter()
                 if remaining is not None and remaining < 1.0:
                     _skip_revision(extra, len(returned),

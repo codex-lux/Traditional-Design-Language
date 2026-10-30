@@ -19,7 +19,7 @@ it, so the mechanism that collided five times is unavailable rather than discour
 Decisions deferred rather than made quietly. Two of these came from authoring the
 Georgian kit end to end, which was the point of doing it.
 
-**286 questions, of which 161 are open.** A question is OPEN while
+**287 questions, of which 161 are open.** A question is OPEN while
 it awaits a ruling; the two HALF CLOSED entries count as open, because a half-closed
 question is an open one. Status words in use, and no others —
 **open:** `OPEN`, `STILL OPEN`, `HALF CLOSED`, `PARTLY`, `IN PROGRESS`;
@@ -137,9 +137,9 @@ Awaiting a ruling. This is the list to read first.
 | **oq/the-census-sweeps-every-style-over-one-dated-side-gabled-house** | OPEN | [what the census cannot reach](open-questions/oq-the-census-sweeps-every-style-over-one-dated-side-gabled-house.md) |
 | **oq/the-centre-holds-and-refuses-a-window-the-floor-would-seat** | OPEN | [the window nearer the centre keeps a place nobody composed](open-questions/oq-the-centre-holds-and-refuses-a-window-the-floor-would-seat.md) |
 | **oq/the-chip-driven-revision-is-judged-on-a-placement-the-sheet-does-not-draw** | OPEN | [the job route strips its record and the bench re-solves it, so the panel's key and the plate are two houses](open-questions/oq-the-chip-driven-revision-is-judged-on-a-placement-the-sheet-does-not-draw.md) |
+| **oq/the-composed-double-pile-cannot-hold-its-facts-at-any-depth-tried** | OPEN | [the native Georgian diagram, proven infeasible as composed](open-questions/oq-the-composed-double-pile-cannot-hold-its-facts-at-any-depth-tried.md) |
 | **oq/the-composer-ranks-on-an-assumed-bearing** | OPEN | [an aspect verdict entered the fitness function without being ruled into it](open-questions/oq-the-composer-ranks-on-an-assumed-bearing.md) |
 | **oq/the-composer-returns-a-set-that-satisfies-neither-must-have-room** | OPEN | [the refusal is honest and the set is useless](open-questions/oq-the-composer-returns-a-set-that-satisfies-neither-must-have-room.md) |
-| **oq/the-composer-returns-sets-in-which-nothing-may-be-drawn** | OPEN | [the ranking is right and has nothing to rank](open-questions/oq-the-composer-returns-sets-in-which-nothing-may-be-drawn.md) |
 | **oq/the-composers-footprint-is-not-the-placed-one** | OPEN | [two derivations of one house's width, and the card publishes the one nobody builds](open-questions/oq-the-composers-footprint-is-not-the-placed-one.md) |
 | **oq/the-depth-a-roof-needs-is-known-and-cannot-be-enforced** | OPEN | [the floor is derived, and enforcing it would propagate a broken licence](open-questions/oq-the-depth-a-roof-needs-is-known-and-cannot-be-enforced.md) |
 | **oq/the-divergence-mark-is-in-neither-face-the-sheet-names** | OPEN | [one character, and the sheet cannot supply it](open-questions/oq-the-divergence-mark-is-in-neither-face-the-sheet-names.md) |
@@ -194,7 +194,7 @@ Awaiting a ruling. This is the list to read first.
 | **oq/which-packs-module-is-a-building-input** | HALF CLOSED — class A settled 26 Sep 2026 (WP-14.33): `room-harmonic` declared, the other two left undeclared by ruling; classes B, C and D unruled | [`trim-classical`'s module is the ceiling the reader sets; which other packs' modules are, and which only look as if they are](open-questions/oq-which-packs-module-is-a-building-input.md) |
 | **oq/which-rooms-take-the-hearth** | OPEN | [the corpus says the end rooms and never which rooms those are](open-questions/oq-which-rooms-take-the-hearth.md) |
 
-## Settled — 125
+## Settled — 126
 
 Ruled, closed or recorded as a standing disclosure. Kept in full: the ruling and the original question both, because what was asked stays legible beside what was decided.
 
@@ -303,6 +303,7 @@ Ruled, closed or recorded as a standing disclosure. Kept in full: the ruling and
 | **oq/the-assistant-is-blind-to-the-page** | CLOSED 25 SEP 2026 — answers 1 and 3, in the citation form, executed by WP-14.22 | [the pane is named now, and it is still told nothing about what the reader has selected](open-questions/oq-the-assistant-is-blind-to-the-page.md) |
 | **oq/the-candidate-score-cannot-see-a-massing-element** | RULED 5 Sep 2026 | [the composer ranks the better house lower](open-questions/oq-the-candidate-score-cannot-see-a-massing-element.md) |
 | **oq/the-composer-ranks-first-a-house-that-may-not-be-drawn** | CLOSED 16 October 2026 (ruled that day, reading 1; executed by the follow-up to the candidate-click audit) | [`_sort_key` never reads the refusal written onto the dict it sorts](open-questions/oq-the-composer-ranks-first-a-house-that-may-not-be-drawn.md) |
+| **oq/the-composer-returns-sets-in-which-nothing-may-be-drawn** | CLOSED | [the ranking is right and has nothing to rank](open-questions/oq-the-composer-returns-sets-in-which-nothing-may-be-drawn.md) |
 | **oq/the-coverage-floor-is-an-exact-cover-per-element** | CLOSED — answered by measurement in WP-11.13, and not by choosing a number (7 September 2026) | [0.97 of each box, and the boxes have no slack](open-questions/oq-the-coverage-floor-is-an-exact-cover-per-element.md) |
 | **oq/the-dxf-draws-its-own-windows** | CLOSED 27 Sep 2026 | [a downloaded DXF is a different drawing of the same house, today](open-questions/oq-the-dxf-draws-its-own-windows.md) |
 | **oq/the-elevation-measures-a-front-the-drawn-layer-refuses-to-judge** | CLOSED 29 September 2026 (ruled that day; executed by WP-16.1) | [one front, two answers](open-questions/oq-the-elevation-measures-a-front-the-drawn-layer-refuses-to-judge.md) |

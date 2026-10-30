@@ -2134,6 +2134,15 @@ def blocks_for(plan, fp, prep, level=0):
             out.append({"id": bid + "-hyphen", "role": "hyphen", "x": round(hx, 2),
                         "y": round(_grid_y(hh, fp["H"]), 2), "W": round(gap, 2), "H": round(hh, 2),
                         "rooms": [r["id"] for r in hyph], "attached_to": "main", "side": side})
+        # THE WING GROWS WITH THE HOUSE (Phase 17, ruling 4's third part, and decision 11). A wing
+        # is sized at the whole foot above its rooms' area -- no slack at all -- so its rooms could
+        # not all stand inside their bands with their doors placed (the composed centre passage's
+        # service wing: 18 x 17 ft for 306 sf of rooms). Where the prover grows the main block's
+        # depth before compromising a room, it grows each dependency's by the same even step,
+        # never past the main block's own depth, so the wing stays exactly centred.
+        grow = float(fp.get("flank_grow_ft") or 0.0)
+        if grow:
+            H = min(H + grow, max(H, float(fp["H"])))
         H = _centred_depth(H, fp["H"])
         out.append({"id": bid, "role": "dependency", "x": round(x, 2),
                     "y": round(_grid_y(H, fp["H"]), 2),   # centred on the main block's axis

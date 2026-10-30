@@ -2204,17 +2204,22 @@ def _solve_cp(plan, parti=None, seed=7, time_limit_s=20.0, candidates=250, worke
                             # record (WP-13.3)
     seed_core = None
 
-    def _feasibility(fpd, tag, budget):
-        """Phase A: hard constraints only."""
+    def _feasibility(fpd, tag, budget, hard=False):
+        """Phase A: hard constraints only. `hard=True` poses the live requirements as HARD
+        constraints on the portfolio's workers instead of as assumptions on one -- for a retry
+        whose answer is wanted as a placement and not as a core (WP-17.5)."""
         model, rooms, reqs = _build(plan, prep, fpd, ewalls, frozenset(downgraded),
                                     objective=False)
         _hint_heuristic(model, rooms, plan, parti, seed, candidates=40)
         solver = cp_model.CpSolver()
         solver.parameters.max_time_in_seconds = budget
         solver.parameters.num_search_workers = 1
+        if hard and workers > 1:
+            _harden(model, reqs)
+            solver.parameters.num_search_workers = workers
         solver.parameters.random_seed = seed
         status = solver.Solve(model)
-        attempts.append((tag, "A:" + solver.StatusName(status)))
+        attempts.append((tag, ("H:" if hard and workers > 1 else "A:") + solver.StatusName(status)))
         return status, solver, rooms, reqs
 
     def _reinstate(fpd, vals):
@@ -2599,7 +2604,7 @@ def _solve_cp(plan, parti=None, seed=7, time_limit_s=20.0, candidates=250, worke
             left = p_deadline - time.monotonic()
             if left < 1.0:
                 break
-            fpd = fpd0 if not dh else dict(fpd0, H=fpd0["H"] + dh,
+            fpd = fpd0 if not dh else dict(fpd0, H=fpd0["H"] + dh, flank_grow_ft=dh,
                                            slack=fpd0["W"] * (fpd0["H"] + dh) - fpd0["need"])
             if kinds and not _rel:
                 m_, r_, q_ = _build(plan, prep, fpd, ewalls, frozenset(downgraded), objective=False)
@@ -2620,15 +2625,24 @@ def _solve_cp(plan, parti=None, seed=7, time_limit_s=20.0, candidates=250, worke
                     f"portfolio ({workers} workers): every type fact HELD"
                     + (f" with the {len(_rel)} authored wall and axis pin(s) released, CARRIED and "
                        f"offered back one at a time by the reinstatement pass" if _rel else "")
-                    + (f"; the footprint grew {dh:g} ft in depth first (decision 11: the footprint "
-                       f"grows before a room is compromised -- the derived depth holds the "
-                       f"programme with no slack at all)" if dh else ""))
+                    + (f"; the footprint grew {dh:g} ft in depth first, and each dependency with it "
+                       f"(decision 11: the footprint grows before a room is compromised -- the "
+                       f"derived depth holds the programme with no slack at all)" if dh else ""))
                 return _finish_feasible(fpd, _values(sv_, r_), sv_.StatusName(st_))
         downgraded.difference_update(_rel)
         rank_notes.append(f"portfolio ({workers} workers): undecided or infeasible with every "
                           f"type fact hard; the assumption ladder takes over for its cores")
-        a_deadline = max(started + GEO.BUDGET_SHARE_FEASIBILITY * time_limit_s,
-                         time.monotonic() + 0.1 * time_limit_s)
+        # THE LADDER KEEPS ITS OWN SHARE, MEASURED FROM WHEN IT STARTS. This was
+        # `max(started + FEASIBILITY * T, now + 0.1 * T)`, so a portfolio that spent its 0.75 share
+        # undecided left the ladder a tenth of the budget -- where before the portfolio it had 0.45
+        # of it from the start -- and the ladder could not release ranks far enough to return even a
+        # fact-released placement: on the multi-element fixture `solve_cp(40 s)` came back UNKNOWN
+        # after 28.6 s, 11 s unused, where the parent's prover closed FEASIBLE; and the composer's
+        # own Tidewater candidate could not be drawn at all on the prover (found by the build and
+        # attributed by an agent, 29 Oct 2026). The cost is wall time on an undecided house -- the
+        # budget is a target, not a wall (`geometry.solve`'s docstring) -- measured and stated in the
+        # Phase 17 report.
+        a_deadline = time.monotonic() + GEO.BUDGET_SHARE_FEASIBILITY * time_limit_s
 
     for rnd in range(len(_RANK) + 1):
         budget = min(SCOUT_S, max(2.0, (a_deadline - time.monotonic()) * 0.5))
@@ -2665,6 +2679,17 @@ def _solve_cp(plan, parti=None, seed=7, time_limit_s=20.0, candidates=250, worke
                     f"proven, and offered back highest rank first by the reinstatement pass")
                 downgraded.update(live_facts)
             budget = max(2.0, a_deadline - time.monotonic())
+            # THE RETRY IS WANTED AS A PLACEMENT, SO IT RUNS HARD ON THE PORTFOLIO FIRST (WP-17.5).
+            # With the type's facts released the house is usually placeable, and the sequential
+            # assumption form timed out on it (the composed single pile: `r1+ UNKNOWN` at 40 s, with
+            # the parent's prover closing it). A core is only needed if it is INFEASIBLE, and then
+            # the assumption form below finds one quickly.
+            if workers > 1:
+                status, solver, rooms, reqs = _feasibility(fpd0, f"{fpd0['bays']}b r{rnd}+", budget,
+                                                           hard=True)
+                if status in (cp_model.OPTIMAL, cp_model.FEASIBLE):
+                    return _finish_feasible(fpd0, _values(solver, rooms), solver.StatusName(status))
+                budget = max(2.0, a_deadline - time.monotonic())
             status, solver, rooms, reqs = _feasibility(fpd0, f"{fpd0['bays']}b r{rnd}+", budget)
         if status in (cp_model.OPTIMAL, cp_model.FEASIBLE):
             return _finish_feasible(fpd0, _values(solver, rooms),

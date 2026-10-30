@@ -1141,7 +1141,8 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
 
     _table_text = [_table_line(d) for d in all_diverged]
     _rx_all = (plan.get("geometry_report", {}).get("relaxations", {}) or {}).get("marks", [])
-    level_marks = [relaxation_marks(_rx_all, i, W, H) for i in range(len(levels))]
+    _extent = building_extent(plan.get("footprint"), W, H)
+    level_marks = [relaxation_marks(_rx_all, i, W, H, _extent) for i in range(len(levels))]
     all_unlocated = [m for _d, un in level_marks for m in un]
 
     # The wall bodies of every placed level: `wall_bodies` below, ONE spelling for this plate and
@@ -2484,7 +2485,17 @@ def declared_divergence(rooms, tol_ft=0.5):
     out.sort(key=lambda d: -abs(d["pct"]))
     return out
 
-def relaxation_marks(marks, level_index, W, H):
+def building_extent(footprint, W, H):
+    """`(x0, y0, x1, y1)`: the union of the record's massing elements, or the block `(0, 0, W, H)`
+    where it states none. Kept in lockstep with `buildingExtent` in workbench/app/src/sheet/derive.js."""
+    blocks = (footprint or {}).get("blocks") or []
+    if not blocks:
+        return (0.0, 0.0, float(W), float(H))
+    return (min(b["x_ft"] for b in blocks), min(b["y_ft"] for b in blocks),
+            max(b["x_ft"] + b["width_ft"] for b in blocks), max(b["y_ft"] + b["depth_ft"] for b in blocks))
+
+
+def relaxation_marks(marks, level_index, W, H, extent=None):
     """Where a relaxation mark may be drawn -- and where it may not.
 
     A relaxation is one wall line that missed the structural bay. The heuristic records the
@@ -2512,8 +2523,14 @@ def relaxation_marks(marks, level_index, W, H):
             runs = [tuple(r) for r in mk["runs"]]
         else:
             unlocated.append(mk); continue
-        span = H if mk.get("axis") == "x" else W
-        clipped = [(max(0.0, min(a, b)), min(span, max(a, b))) for a, b in runs]
+        # CLIPPED TO THE BUILDING, NOT TO THE MAIN BLOCK (Phase 17, 29 Oct 2026). `[0, W]` is the
+        # main block's own run, so a relaxation on a wing's wall -- the Tidewater record's at
+        # y = 24.41, x -20.98 to -11.95, on the pantry's face -- clipped to nothing and was disclosed
+        # as unlocated rather than drawn on the wall it is true of. `extent` is the union of the
+        # massing elements; on a one-rectangle house it IS the block, and nothing moves.
+        x0, y0, x1, y1 = extent or (0.0, 0.0, float(W), float(H))
+        lo_, hi_ = (y0, y1) if mk.get("axis") == "x" else (x0, x1)
+        clipped = [(max(lo_, min(a, b)), min(hi_, max(a, b))) for a, b in runs]
         clipped = [(a, b) for a, b in clipped if b - a > 0.05]
         if not clipped:
             unlocated.append(mk); continue
