@@ -98,8 +98,9 @@ JUDGED**: tiling, stacks and bearing held, every bearing wall on a ground wall o
 room in band, every door placed, and the hearth UNJUDGED, because no composed house states a fire. It is
 the first composed two-storey house this corpus may draw. *(Corrected 30 Oct 2026, the audit of Phase 17:
 this sentence said "every fact held", and an unjudged fact is never held.)* The single-pile centre passage
-and the five-part do not decide at the compose budget; the double pile and the side hall are proven
-infeasible as composed.
+and the five-part do not decide at the compose budget; the double pile is proven infeasible as composed;
+and the side hall, whose proof predated ruling 5, is placed drawable where judged at 110 s, above the
+compose budget (`oq/the-side-hall-partis-stacks-cannot-co-hold-in-band`, amended).
 - **A placement names the declared record it is of** (`solver.input_digest`); the bench and the Drawing Set
   keep a carried placement only where that digest still matches, so a candidate is drawn as composed and an
   edited record is re-solved.
