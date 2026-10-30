@@ -152,6 +152,19 @@ def test_across_levels_a_corner_sliver_is_not_a_chase():
     assert STK.shares_chase((0, 0, 7, 12), (5, 5, 8, 10), False), "the 2 x 7 ft overlap stays kept"
 
 
+def test_across_levels_an_overlap_of_exactly_the_minimum_is_a_chase():
+    """THE SECOND AUDIT OF PHASE 17 (30 Oct 2026). The cross-level test read `>` on both axes, so an
+    overlap of exactly CHASE_MIN_RUN_FT each way read no chase: a minimum not met AT the minimum.
+    The boundary in both directions, through `wet_judge` as well as the predicate."""
+    m = STK.CHASE_MIN_RUN_FT
+    assert m == 1.0, "premise: the fixture's arithmetic is exact in binary at this figure"
+    exact = (0, 0, 5, 5), (5 - m, 5 - m, 5, 5)
+    assert STK.shares_chase(*exact, False), "an overlap of exactly the minimum each way"
+    assert not STK.shares_chase((0, 0, 5, 5), (5 - m + 0.01, 5 - m, 5, 5), False), "just under"
+    k, b, _ = STK.wet_judge(_wet_plan((4, 4, 5, 5), (0, 0, 5, 5)))
+    assert (len(k), len(b)) == (1, 0), "a 1 x 1 ft overlap across levels is a shared chase"
+
+
 def test_on_one_level_a_shared_wall_shares_a_chase_and_a_corner_does_not():
     k, b, _ = STK.wet_judge(_wet_plan((7, 2, 8, 6), (0, 0, 7, 12), same_level=True))
     assert (len(k), len(b)) == (1, 0), "a 6 ft common wall"

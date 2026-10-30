@@ -92,7 +92,40 @@ class TestThePlanAgainstItsParti:
         found = CP.check_plan(tidewater(), parti())
         exposure = [f for f in found if f["kind"] == "exterior-walls"]
         assert {f["room"] for f in exposure} == {"backhall", "kitchen"}
-        assert len(exposure) <= CP.EXPOSURE_CEILING
+        got, _, _ = CP.reported_identities("plans/tidewater-georgian-careful.json", found)
+        assert CP.identity_verdict(got, CP.EXPOSURES_REPORTED) == ([], []), got
+
+    def test_an_exposure_corrected_and_another_recast_in_one_commit_does_not_net(
+            self, tmp_path, monkeypatch, capsys):
+        """THE SECOND AUDIT OF PHASE 17 (30 Oct 2026). `EXPOSURE_CEILING = 2` was a count compared
+        with `>`: recasting `backhall` to E/N (clearing its finding) and `library` to S (opening a
+        new one) held the total at 2 and `check_plans` at exit 0 -- reproduced. It is an identity
+        set now, and the recast library is a new member that FAILS. Driven through `main()`, with
+        the copy keyed as the shipped record, so the wiring is held and not only the verdict."""
+        plan = tidewater()
+        rooms = CP.rooms_of(plan)
+        rooms["backhall"]["exterior_walls"] = ["E", "N"]
+        rooms["library"]["exterior_walls"] = ["S"]
+        found = CP.check_plan(plan, parti())
+        ex, _, _ = CP.reported_identities("plans/tidewater-georgian-careful.json", found)
+        assert len(ex) == len(CP.EXPOSURES_REPORTED) == 2, "premise: the total does not move"
+        new, gone = CP.identity_verdict(ex, CP.EXPOSURES_REPORTED)
+        assert [m[1] for m in new] == ["library"] and [m[1] for m in gone] == ["backhall"], (new, gone)
+        shipped_key = "plans/tidewater-georgian-careful.json"
+        monkeypatch.setattr(CP, "plan_key", lambda path: shipped_key)
+        for body, want in ((tidewater(), 0), (plan, 1)):
+            f = tmp_path / "careful.json"
+            f.write_text(json.dumps(body))
+            monkeypatch.setattr(sys, "argv", ["check_plans.py", str(f)])
+            assert CP.main() == want, capsys.readouterr()
+            err = capsys.readouterr().err
+            assert ("not in `EXPOSURES_REPORTED`" in err) == bool(want), err
+
+    def test_a_cross_element_door_is_held_by_identity_too(self):
+        found = [{"kind": "door-across-elements", "room": "butlers", "to": "kitchen"}]
+        _, xd, _ = CP.reported_identities("plans/x.json", found)
+        assert xd == {("plans/x.json", "butlers", "kitchen")}
+        assert CP.identity_verdict(xd, CP.CROSS_ELEMENT_DOORS_REPORTED)[0] == sorted(xd)
 
     # ---------------------------------------------------------------- WP-13.5, the container
     #

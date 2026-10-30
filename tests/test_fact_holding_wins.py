@@ -159,7 +159,21 @@ def test_where_the_openings_cannot_be_placed_the_doors_were_not_compared_and_the
     real = G._mod
     monkeypatch.setattr(G, "_mod", lambda n, p: _Raises if n == "openings" else real(n, p))
     _with_search(monkeypatch, _rec("heuristic"))
-    assert G._the_search_where_it_holds_the_facts(_rec("cp-sat", REFUSED), {}, None, 250, 7) is None
+    proof = _rec("cp-sat", REFUSED)
+    assert G._the_search_where_it_holds_the_facts(proof, {}, None, 250, 7) is None
+    # AND THE PROOF SAYS WHY (the second audit of Phase 17, 30 Oct 2026): a fact-holding search
+    # that could not be compared no longer vanishes in silence
+    why = proof["geometry_report"]["solver"].get("search_not_compared")
+    assert why and "RuntimeError: no corpus" in why and "stacks" in why, why
+
+
+def test_a_search_that_does_not_hold_the_facts_leaves_no_comparison_note(monkeypatch):
+    """The control: `search_not_compared` names a comparison that was owed and not made, so a search
+    that never held the facts (and so was never to be compared) writes nothing."""
+    _with_search(monkeypatch, _rec("heuristic", status=PROOF_STATUS))
+    proof = _rec("cp-sat", REFUSED)
+    assert G._the_search_where_it_holds_the_facts(proof, {}, None, 250, 7) is None
+    assert "search_not_compared" not in proof["geometry_report"]["solver"]
 
 
 def test_a_search_whose_refused_fact_is_only_unjudged_is_not_drawn(monkeypatch):

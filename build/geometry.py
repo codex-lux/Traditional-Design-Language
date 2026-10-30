@@ -4023,7 +4023,11 @@ def _cacheable(leg):
     the one-worker ladder, and the answer would outlive the contention). The audit of Phase 17
     (finding 36): a placement decided under contention was cached and served to every later identical
     request even when the portfolio was free. No key computed BEFORE the solve can see the lock,
-    which is why this reads the solve's own record of what it ran on (`geometry_cp._run`)."""
+    which is why this reads the solve's own record of what it ran on (`geometry_cp._run`).
+
+    "Decided" is `_cp_undecided`'s, and since the second audit of Phase 17 it is not merely "not
+    unsolved": a FEASIBLE answer reached through an UNKNOWN feasibility attempt, or one whose
+    reinstatement pass never reached a released pin, is the clock's and is not cached either."""
     cp = leg.get("cp")
     if cp is None:
         return True                   # the heuristic, or no CP leg ran
@@ -4031,6 +4035,48 @@ def _cacheable(leg):
         return False
     w, avail = cp.get("workers"), cp.get("workers_available")
     return not (isinstance(w, int) and isinstance(avail, int) and w < avail)
+
+
+# The feasibility attempts whose UNKNOWN is the clock's: phase A (`A:`) and the hard portfolio
+# (`H:`), as `geometry_cp._solve_cp` tags them. A restore (`R:`) or a polish (`B:`) that comes back
+# UNKNOWN is not read here -- see `_cp_undecided`.
+_FEASIBILITY_UNKNOWN = ("A:UNKNOWN", "H:UNKNOWN")
+
+
+def _cp_undecided(res):
+    """Why the CP leg's answer rests on the clock rather than on a decision, as a list of short
+    reasons -- empty where it decided. Read off STRUCTURE the prover writes, never its prose:
+
+    * the leg did not solve (`unsolved`, or an error);
+    * a feasibility attempt in `attempts` -- phase A or the portfolio -- came back UNKNOWN. The
+      ladder then releases the type's facts at once on an undecided scout (`round N: UNDECIDED at
+      the 2 s scout ...`), so the placement that follows was reached by spending the budget, and on
+      a quieter box the same request decides differently;
+    * the reinstatement pass never reached some released pins (`solver.reinstatement.never_reached`,
+      the counts `geometry_cp.reinstate_counts` writes beside its line): those pins are carried on
+      no proof, released because the window closed.
+
+    THE SECOND AUDIT OF PHASE 17 (30 Oct 2026) reproduced the defect this closes: the shipped
+    Tidewater record on `auto` at a 3 s budget, attempts `5b r5 A:UNKNOWN` and a reinstatement line
+    reading "64 never reached", was cached as decided and served in 0.0 s to the next request --
+    every fact refused, on an answer the load wrote.
+
+    NOT READ, AND SAID SO: a restore that came back UNKNOWN (`R:`) leaves its pin carried on the
+    clock too, and a polish that did not finish (`B:`) leaves the objective unrun. Both are as
+    load-dependent as the two read here; whether an answer resting on them may be cached is not
+    ruled, and reading them would stop the cache on most composed candidates."""
+    if res.get("unsolved") or "error" in res:
+        return ["the CP leg returned no placement (" + str(res.get("status") or "error") + ")"]
+    rs = res.get("solver") or res.get("infeasible") or res
+    why = []
+    unk = [str(a[0]) + " " + str(a[1]) for a in (rs.get("attempts") or [])
+           if len(a) >= 2 and a[1] in _FEASIBILITY_UNKNOWN]
+    if unk:
+        why.append("a feasibility attempt came back UNKNOWN: " + "; ".join(unk))
+    never = int((rs.get("reinstatement") or {}).get("never_reached") or 0)
+    if never:
+        why.append(f"the reinstatement pass never reached {never} released pin(s)")
+    return why
 
 
 def declared_digest(plan):
@@ -4133,7 +4179,8 @@ def _solve_uncached(plan, parti, candidates, seed, engine, time_limit_s, leg=Non
     cp_run = {"workers": _rs.get("workers"), "workers_available": _rs.get("workers_available"),
               "mode": _rs.get("mode"), "status": _rs.get("status") or res.get("status")}
     if leg is not None:
-        leg["cp"] = dict(cp_run, decided=not res.get("unsolved") and "error" not in res)
+        undecided = _cp_undecided(res)
+        leg["cp"] = dict(cp_run, decided=not undecided, undecided=undecided)
     if "error" in res:
         return res
     if res.get("infeasible"):
@@ -4246,7 +4293,14 @@ def _the_search_where_it_holds_the_facts(out, plan, parti, candidates, seed):
     try:
         OP.place(placed_alt, C)
         OP.place(placed_proof, C)
-    except Exception:                        # doors not compared: the proof stays, unjudged
+    except Exception as exc:                 # doors not compared: the proof stays, unjudged --
+        # AND SAYS SO (the second audit of Phase 17, 30 Oct 2026). A search that held every fact
+        # and could not be compared vanished here in silence, so the record of a refused proof
+        # could not tell "no search held the facts" from "one did and was never compared".
+        rep_proof.setdefault("solver", {})["search_not_compared"] = (
+            "the search's placement held " + ", ".join(must_hold) + " but its doors could not be "
+            "compared with the proof's, so the proof stays: openings.place raised "
+            f"{exc.__class__.__name__}: {str(exc)[:160]}")
         return None
     DR = _mod("drawability", f"{ROOT}/build/drawability.py")
     ok, n_alt, n_proof = DR.no_worse(placed_alt, placed_proof)

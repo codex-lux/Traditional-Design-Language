@@ -2296,6 +2296,18 @@ def _reinstate_note(pending, offered, still_down, refuted, began_s, window_s, ti
     return head
 
 
+def reinstate_counts(pending, offered, still_down, refuted):
+    """The reinstatement pass's own line as COUNTS, from the same four sets `_reinstate_note` words
+    it from, so the structure and the sentence cannot part. `never_reached` is the number of
+    released pins no restore solve was ever posed about: released on the clock, not on a proof."""
+    pending = list(pending)
+    offered_n = sum(1 for k in pending if k in offered)
+    return {"pending": len(pending), "offered": offered_n,
+            "restored": sum(1 for k in pending if k in offered and k not in still_down),
+            "refuted": sum(1 for k in pending if k in refuted),
+            "never_reached": len(pending) - offered_n}
+
+
 def facts_account(reqs_notes, downgraded, unproven):
     """The model's own account of the type's four facts: every literal of each kind by its label,
     HELD or DOWNGRADED, and every fact it could not state, UNJUDGED with its reason.
@@ -2353,6 +2365,11 @@ def _solve_cp(plan, parti=None, seed=7, time_limit_s=20.0, candidates=250, worke
                             # cannot restore or refute alone in budget stays CARRIED on the
                             # record (WP-13.3)
     seed_core = None
+    # WHAT THE REINSTATEMENT PASS REACHED, AS COUNTS (the second audit of Phase 17, 30 Oct 2026).
+    # Its line on `downgrade_rounds` says the same in prose; `geometry._cp_undecided` reads THIS,
+    # because a pin the pass never reached is released on the clock and not on a proof, and an
+    # answer resting on one must not be cached as decided. Prose is not read for a verdict.
+    reinstatement = {}
 
     def _feasibility(fpd, tag, budget, hard=False):
         """Phase A: hard constraints only. `hard=True` poses the live requirements as HARD
@@ -2480,6 +2497,7 @@ def _solve_cp(plan, parti=None, seed=7, time_limit_s=20.0, candidates=250, worke
         # and why, and no other line asserts the act for it.
         rank_notes.append(_reinstate_note(pending, offered, downgraded, refuted,
                                           began - started, deadline - began, time_limit_s))
+        reinstatement.update(reinstate_counts(pending, offered, downgraded, refuted))
         # PROVEN means refuted ALONE at this footprint and nothing less: a pin the slice never
         # reached, one that came back UNKNOWN, and one refuted only as part of its whole kind
         # are all CARRIED, whether a core named them or an undecided round released them.
@@ -2697,6 +2715,8 @@ def _solve_cp(plan, parti=None, seed=7, time_limit_s=20.0, candidates=250, worke
                            # placed record is the verifier; this is the claim.
                            "facts": facts_account(reqs_notes, downgraded, unproven),
                            "downgrade_rounds": list(rank_notes),
+                           # empty where nothing was down for the pass to offer back
+                           "reinstatement": dict(reinstatement),
                            "refinements": sorted(set(reqs_notes.notes))}}
 
     # Round loop at the natural footprint: wall pins are hard until PROVEN

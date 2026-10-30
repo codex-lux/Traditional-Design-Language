@@ -186,7 +186,7 @@ def check_plan(plan, parti):
         got_walls = set(have.get("exterior_walls") or [])
         missing = sorted(want_walls - got_walls)
         if missing:
-            found.append({"kind": "exterior-walls", "room": rid,
+            found.append({"kind": "exterior-walls", "room": rid, "missing": missing,
                           "statement": f'the parti puts {rid} on {"/".join(sorted(want_walls))} '
                                        f'and the plan declares {"/".join(sorted(got_walls)) or "none"}'})
 
@@ -215,7 +215,7 @@ def check_plan(plan, parti):
             kind = "door"
             if d in pr and _element_tag(have) != _element_tag(pr[d]):
                 kind = "door-across-elements"
-            found.append({"kind": kind, "room": rid,
+            found.append({"kind": kind, "room": rid, "to": d,
                           "statement": f'the parti gives {rid} a door to {d} and the plan '
                                        f'declares none'
                                        + ('' if kind == "door" else
@@ -266,7 +266,17 @@ def check_plan(plan, parti):
 # branch is exactly the shape that reads as a guard passing, so it is DRIVEN by a hand-built pair
 # in `tests/test_check_plans.py` instead of resting on the corpus.
 REPORTED = {"exterior-walls", "door-across-elements", "wet-stack-filed-as-structural"}
-EXPOSURE_CEILING = 2
+# AN IDENTITY SET, NOT A COUNT (the second audit of Phase 17, 30 Oct 2026). This was
+# `EXPOSURE_CEILING = 2` compared against a TOTAL with `>`, which nets: recasting the shipped
+# record's `backhall` to E/N (clearing its finding) and its `library` to S (opening a new one) held
+# the total at 2 and the build at exit 0 -- reproduced. It is keyed the way `WET_FILED_AS_STRUCTURAL`
+# below is, and finer: (plan path, room, the walls the plan does not declare), so a recast that moves
+# a room's missing walls without clearing them is a new member too. Any member found and not here
+# FAILS; a member no longer found is said, so the set can only shrink.
+EXPOSURES_REPORTED = frozenset({
+    ("plans/tidewater-georgian-careful.json", "backhall", "E"),
+    ("plans/tidewater-georgian-careful.json", "kitchen", "E"),
+})
 # PHASE 17, WP-17.1: a claim the parti moved to `wet_stack_with` (ruling 5 of 29 Oct 2026) and a
 # shipped plan still files as `stacks_over`. One today -- `plans/tidewater-georgian-careful.json`'s
 # `primarybath stacks_over butlers` -- left on purpose: `geometry.bias` reads `stacks_over` while it
@@ -286,13 +296,40 @@ WET_FILED_AS_STRUCTURAL = frozenset({("plans/tidewater-georgian-careful.json", "
 def wet_filed_verdict(found):
     """`(new, gone)` for the set of `(plan path, room)` found filing a parti's wet claim as
     structural: `new` fails the build; `gone` are members to remove (said, never failed)."""
-    found = set(found)
-    return sorted(found - WET_FILED_AS_STRUCTURAL), sorted(WET_FILED_AS_STRUCTURAL - found)
+    return identity_verdict(found, WET_FILED_AS_STRUCTURAL)
 # RE-DERIVED ON THE MERGED TREE, not taken from either parent: `python3 build/check_plans.py`
 # reads "2 exposure finding(s) reported, 0 cross-element door finding(s)". One parent measured 2
 # here and the other never had the kind; 0 is the third value, and it is a ceiling that may only
 # fall, so it falls. See the comment above for why the kind is kept at zero rather than deleted.
-CROSS_ELEMENT_DOOR_CEILING = 0
+#
+# AND AN IDENTITY SET TOO (the second audit of Phase 17, 30 Oct 2026). At zero a count cannot net --
+# any finding exceeds it -- so the ceiling was not wrong today; it would net the moment anybody
+# raised it to admit one door, which is exactly when nobody re-reads this comment. Keyed
+# (plan path, room, the door's other room) and empty.
+CROSS_ELEMENT_DOORS_REPORTED = frozenset()
+
+
+def plan_key(path):
+    """The identity a plan file is known by in the three sets: its path relative to the
+    repository, with `/` whatever the platform."""
+    return os.path.relpath(path, ROOT).replace(os.sep, "/")
+
+
+def reported_identities(key, found):
+    """`(exposures, cross-element doors, wet stacks filed structural)` as identity sets, for one
+    plan's findings -- the members `EXPOSURES_REPORTED`, `CROSS_ELEMENT_DOORS_REPORTED` and
+    `WET_FILED_AS_STRUCTURAL` are held against."""
+    return ({(key, f["room"], "/".join(f.get("missing") or [])) for f in found
+             if f["kind"] == "exterior-walls"},
+            {(key, f["room"], f.get("to")) for f in found if f["kind"] == "door-across-elements"},
+            {(key, f["room"]) for f in found if f["kind"] == "wet-stack-filed-as-structural"})
+
+
+def identity_verdict(found, known):
+    """`(new, gone)` for a set of identities found against the set known: `new` fails the build;
+    `gone` are members to remove (said, never failed). The one rule all three reported kinds take."""
+    found = set(found)
+    return sorted(found - known), sorted(known - found)
 
 
 def main():
@@ -303,13 +340,14 @@ def main():
     ap.add_argument("--json", action="store_true")
     a = ap.parse_args()
 
-    rows, unjudged, bad, exposure, xdoor, wetfiled = [], [], 0, 0, 0, set()
+    rows, unjudged, bad, exposure, xdoor, wetfiled = [], [], 0, set(), set(), set()
     for path in plan_paths(a.plans):
         try:
             plan = json.load(open(path, encoding="utf-8"))
         except Exception as e:  # a malformed plan is validate.py's finding, not this one's
             continue
         rel = os.path.relpath(path, ROOT)
+        key = plan_key(path)
         pid = plan.get("parti")
         if not pid:
             unjudged.append(rel)
@@ -325,10 +363,10 @@ def main():
         if found:
             rows.append((rel, found))
             hard = [f for f in found if f["kind"] not in REPORTED]
-            exposure += sum(1 for f in found if f["kind"] == "exterior-walls")
-            xdoor += sum(1 for f in found if f["kind"] == "door-across-elements")
-            wetfiled |= {(rel.replace(os.sep, "/"), f["room"]) for f in found
-                         if f["kind"] == "wet-stack-filed-as-structural"}
+            ex_, xd_, wf_ = reported_identities(key, found)
+            exposure |= ex_
+            xdoor |= xd_
+            wetfiled |= wf_
             if hard:
                 bad += 1
 
@@ -349,9 +387,10 @@ def main():
                   "one is an authoring act and this is not a failure.")
         n = len(plan_paths(a.plans))
         print(f"\n{n - len(unjudged)} of {n} plan(s) checked against a named parti; "
-              f"{bad} with a topology finding, {exposure} exposure finding(s) reported "
-              f"(ceiling {EXPOSURE_CEILING}), {xdoor} cross-element door finding(s) reported "
-              f"(ceiling {CROSS_ELEMENT_DOOR_CEILING}), {len(wetfiled)} wet stack(s) still filed "
+              f"{bad} with a topology finding, {len(exposure)} exposure finding(s) reported "
+              f"({len(EXPOSURES_REPORTED)} known by identity), {len(xdoor)} cross-element door "
+              f"finding(s) reported ({len(CROSS_ELEMENT_DOORS_REPORTED)} known by identity), "
+              f"{len(wetfiled)} wet stack(s) still filed "
               f"as structural ({len(WET_FILED_AS_STRUCTURAL)} known by identity), "
               f"{len(unjudged)} unjudged.")
     new, gone = wet_filed_verdict(wetfiled)
@@ -366,19 +405,19 @@ def main():
               "record the ruling should have reached, not a grown licence -- and it is judged by "
               "identity, so it cannot hide behind one that was corrected.", file=sys.stderr)
         return 1
-    if xdoor > CROSS_ELEMENT_DOOR_CEILING:
-        print(f"\nRATCHET: {xdoor} cross-element door finding(s) against a ceiling of "
-              f"{CROSS_ELEMENT_DOOR_CEILING}. A door the parti declares between two rooms the "
-              f"plan puts in different massing elements is REPORTED rather than failed, and the "
-              f"licence is bounded: a new one means a diagram and a record have drifted further "
-              f"apart, not that the licence has grown.", file=sys.stderr)
-        return 1
-    if exposure > EXPOSURE_CEILING:
-        print(f"\nRATCHET: {exposure} exposure finding(s) against a ceiling of "
-              f"{EXPOSURE_CEILING}. This number may go DOWN when a plan or a parti is corrected "
-              f"and may not go up: a new one means a record has quietly stopped describing its "
-              f"own diagram, which is the whole subject of this file.", file=sys.stderr)
-        return 1
+    for name, got, known in (("CROSS_ELEMENT_DOORS_REPORTED", xdoor, CROSS_ELEMENT_DOORS_REPORTED),
+                             ("EXPOSURES_REPORTED", exposure, EXPOSURES_REPORTED)):
+        n_, g_ = identity_verdict(got, known)
+        if g_ and not a.plans:
+            print(f"\nNOTE: " + ", ".join(" ".join(str(x) for x in m) for m in g_) + " is no longer "
+                  f"found; remove it from `{name}` -- the set may only shrink.", file=sys.stderr)
+        if n_:
+            print(f"\nRATCHET: " + ", ".join(" ".join(str(x) for x in m) for m in n_) + f" is not in "
+                  f"`{name}`. A disagreement between a plan and its parti is REPORTED rather than "
+                  f"failed, and the licence is bounded BY IDENTITY: a new one means a record has "
+                  f"quietly stopped describing its own diagram, and it cannot hide behind one that "
+                  f"was corrected.", file=sys.stderr)
+            return 1
     if a.strict and unjudged:
         return 1
     return 1 if bad else 0

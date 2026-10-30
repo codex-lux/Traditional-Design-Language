@@ -18,14 +18,28 @@ FOUR VERDICTS, NEVER TWO (the audit of Phase 17, 30 Oct 2026; Lucas's ruling 10 
 
   DRAWABLE               not refused, no fact downgraded, no room past its own proportion ceiling
                          (a room the record declares past it, only past its DECLARED ratio),
-                         bearing continuity held over the whole run (ruling 8 of 29 Oct), and
-                         EVERY one of the four facts HELD.
+                         bearing continuity held over the whole run (ruling 8 of 29 Oct), every
+                         room that takes a rectangle placed, no door pair left unplaced, no room
+                         drawn a tenth or more under its declared area, and EVERY one of the four
+                         facts HELD.
   DRAWABLE WHERE JUDGED  the same, except that one or more facts could not be judged -- named, in
                          `unjudged`. A composed house stating no fire has its hearth unjudged; a
                          one-storey house has no continuity to judge. Neither is held.
-  NOT DRAWABLE           refused, a fact downgraded, a room past its band, or a wall over open floor.
+  NOT DRAWABLE           refused, a fact downgraded, a room past its band, a wall over open floor,
+                         a room that takes a rectangle left without one (`rooms_unplaced`), a door
+                         pair left unplaced (`doors_unplaced`), or a room drawn under its declared
+                         size (`rooms_undersize`).
   COULD NOT EVALUATE     the record carries no placed room, or no `geometry_report` -- a declared
                          record, or a candidate whose placement was never made. Never drawable.
+
+THE LAST THREE CONDITIONS ARE THE SECOND AUDIT'S (30 Oct 2026). A partly placed record read
+DRAWABLE: a room with no rectangle was skipped by every count here, and
+`geometry_report.multi_level.rooms_not_placed` was read by nothing -- `bad-03`'s third-storey game
+room, placed on no level, did not stop the verdict. And two of ruling 6's three never-downgrade
+counts were measured and not decided on, although the ruling reads "a house that holds the facts
+by unplacing doors or blowing up rooms is never drawn": the lead's decision of 30 Oct is that both
+`doors_unplaced` and `rooms_undersize` make a house NOT DRAWABLE. (`rooms_over_band`, the third,
+already did.)
 
 Until the audit a fact that was UNJUDGED blocked nothing and a record with no placement at all
 read DRAWABLE (every fact unjudged), so "n of N drawable" counted houses nobody had measured.
@@ -43,11 +57,18 @@ ENGINE said about the same fact (`geometry_report.solver.facts`, `refinements`),
              composer's is a further question this instrument names but cannot settle.
   UNDECIDED  the prover released it without a proof ("carried -- off a conflict core or an
              undecided round"): the budget ran out, which is the instrument's, not the house's.
-  MISMATCH   the prover says it HELD the fact and the gate measures it downgraded -- the model
-             and the measurement disagree (e.g. a box tiled on the integer grid and measured on the
-             float one). Always the instrument's.
+  MISMATCH   the prover says it HELD the fact, or NEVER POSED it (its own status `unjudged`), and
+             the gate measures it downgraded -- the model and the measurement disagree (e.g. a box
+             tiled on the integer grid and measured on the float one), or the gate measured what
+             the model was never asked. Always the instrument's. (A never-posed fact read
+             UNDECIDED until the second audit of Phase 17, whose definition is "the budget ran
+             out" -- and no budget was spent on a fact nobody posed.)
   SEARCH     the placement is the hill-climb's, which is told none of these facts as a fact
              (`oq/the-search-is-refused-on-type-facts-nothing-tells-it`). The instrument's.
+
+DEFERRED, AND SAID SO: the class is read per FACT, so a fact with one label proven and one held by
+the model but measured broken is UNDECIDED rather than split PROVEN / MISMATCH by label (the second
+audit's finding 5; deferred by the lead, 30 Oct 2026).
 """
 import argparse
 import copy
@@ -148,6 +169,24 @@ def rooms_undersize(plan):
     return out
 
 
+def rooms_unplaced(plan):
+    """Rooms that TAKE A RECTANGLE (`geometry.is_placed`, the one join -- every indoor room and
+    OQ 55's reserved voids; a terrace or an appendage takes none) and were given none, plus every
+    room the placer's own `geometry_report.multi_level.rooms_not_placed` names. A partly placed
+    record is not a drawing of the house: the room left out is the one the sheet does not show."""
+    G = _m("geometry")
+    out = []
+    for lv in plan.get("levels") or []:
+        for r in lv.get("rooms") or []:
+            if not r.get("geometry") and G.is_placed(r.get("type")):
+                out.append(r["id"])
+    ml = ((plan.get("geometry_report") or {}).get("multi_level") or {})
+    for rid in ml.get("rooms_not_placed") or []:
+        if rid not in out:
+            out.append(rid)
+    return sorted(out)
+
+
 def never_downgrade(plan):
     """THE NEVER-DOWNGRADE FACTS (ruling 6 of 29 Oct 2026): what a placement may not give up to
     hold the type's facts -- rooms drawn under their declared size, rooms drawn past their own band,
@@ -176,6 +215,9 @@ def _class_of(fact, plan):
     pf = (sv.get("facts") or {}).get(kind) or {}
     if pf.get("status") == "held":
         return MISMATCH                       # the model held it; the gate measured otherwise
+    if pf.get("status") == "unjudged":
+        return MISMATCH                       # the model was never asked; the gate measured it
+                                              # (no budget ran out on it: not UNDECIDED)
     # READ FROM STRUCTURE, NEVER FROM PROSE (the audit of Phase 17, 30 Oct 2026, finding 14). The
     # prover files every downgraded label of a fact `proven` (refuted alone at this footprint) or
     # `carried` (released off a conflict core or an undecided round and never re-proven), in
@@ -229,6 +271,8 @@ def assess(plan):
     ext = ((facts.get("bearing") or {}).get("extents")) or None
     over = rooms_over_band(p)
     doors = doors_unplaced(p)
+    under = rooms_undersize(p)
+    unplaced = rooms_unplaced(p)
     down = sorted(k for k, v in status.items() if v == "downgraded")
     classes = {k: _class_of(k, p) for k in down}
     whole_run = None if ext is None else ext.get("status")
@@ -239,7 +283,7 @@ def assess(plan):
         unjudged.append("continuity_whole_run")   # held positionally, its run never judged
     if why_not:
         verdict = COULD_NOT_EVALUATE
-    elif refused or down or over or whole_run == TF.DOWNGRADED:
+    elif refused or down or over or whole_run == TF.DOWNGRADED or unplaced or doors or under:
         verdict = NOT_DRAWABLE
     elif unjudged:
         verdict = DRAWABLE_WHERE_JUDGED
@@ -255,7 +299,8 @@ def assess(plan):
             "refused_kind": (refused or {}).get("kind"),
             "continuity_whole_run": whole_run,
             "continuity_lines": (ext or {}).get("lines"),
-            "rooms_over_band": over, "doors_unplaced": doors,
+            "rooms_over_band": over, "doors_unplaced": doors, "rooms_undersize": under,
+            "rooms_unplaced": unplaced,
             "verdict": verdict, "unjudged": unjudged, "could_not_evaluate": why_not,
             "drawable": verdict == DRAWABLE}
 
@@ -270,7 +315,8 @@ def _row(a, label=None):
     tail = f" -- {a['could_not_evaluate']}" if a["verdict"] == COULD_NOT_EVALUATE else ""
     return (f"{(label or a['id'] or '?')[:34]:34s} {tag:24s} engine={a['engine'] or '-':10s} "
             f"facts[{cls}] whole-run={a['continuity_whole_run']} "
-            f"over-band={len(a['rooms_over_band'])} doors-unplaced={len(a['doors_unplaced'])}{tail}")
+            f"over-band={len(a['rooms_over_band'])} doors-unplaced={len(a['doors_unplaced'])} "
+            f"undersize={len(a['rooms_undersize'])} unplaced={len(a['rooms_unplaced'])}{tail}")
 
 
 def summary(rows):

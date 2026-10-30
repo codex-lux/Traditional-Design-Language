@@ -412,3 +412,128 @@ def test_doors_unplaced_are_counted_once_per_pair():
     plan["levels"][0]["rooms"][0]["doors"] = [{"to": "b", "unplaced": {"why": "x"}}]
     plan["levels"][0]["rooms"][1]["doors"] = [{"to": "a", "unplaced": {"why": "x"}}]
     assert DR.doors_unplaced(plan) == [("a", "b")]
+
+
+# --- the second audit of Phase 17 (30 Oct 2026) ------------------------------------------------
+
+def test_a_room_that_takes_a_rectangle_and_has_none_makes_the_record_not_drawable():
+    """A partly placed record read DRAWABLE: a room with no geometry was skipped by every count.
+    The control is a terrace, which takes no rectangle (`geometry.is_placed`): left unplaced it is
+    the house as it should be, and the verdict stays DRAWABLE."""
+    base = DR.assess(_every_fact_held())
+    assert base["verdict"] == DR.DRAWABLE and base["rooms_unplaced"] == [], base
+    lost = _every_fact_held()
+    lost["levels"][0]["rooms"].append({"id": "lost", "type": "kitchen", "width_ft": 12,
+                                       "length_ft": 14})
+    a = DR.assess(lost)
+    assert a["verdict"] == DR.NOT_DRAWABLE and not a["drawable"], a
+    assert a["rooms_unplaced"] == ["lost"], a["rooms_unplaced"]
+    terrace = _every_fact_held()
+    terrace["levels"][0]["rooms"].append({"id": "terr", "type": "terrace", "width_ft": 12,
+                                          "length_ft": 14})
+    t = DR.assess(terrace)
+    assert t["verdict"] == DR.DRAWABLE and t["rooms_unplaced"] == [], t
+
+
+def test_a_storey_the_placer_never_reached_is_named_from_its_own_report():
+    """bad-03's shape: a third level whose room the placer never placed. The placer names it in
+    `geometry_report.multi_level.rooms_not_placed`, which nothing read; the room is counted off the
+    record AND off the report, so a report naming a room the levels do not show is not lost."""
+    p = _every_fact_held()
+    p["levels"].append({"index": 2, "rooms": [{"id": "gameroom", "type": "bedroom",
+                                               "width_ft": 12, "length_ft": 14}]})
+    p["geometry_report"]["multi_level"] = {"levels_not_placed": [2],
+                                           "rooms_not_placed": ["gameroom"]}
+    a = DR.assess(p)
+    assert a["verdict"] == DR.NOT_DRAWABLE and a["rooms_unplaced"] == ["gameroom"], a
+    only_the_report = _every_fact_held()
+    only_the_report["geometry_report"]["multi_level"] = {"rooms_not_placed": ["attic"]}
+    b = DR.assess(only_the_report)
+    assert b["verdict"] == DR.NOT_DRAWABLE and b["rooms_unplaced"] == ["attic"], b
+
+
+def test_an_unplaced_door_pair_makes_a_house_not_drawable():
+    """Ruling 6 (29 Oct 2026): "a house that holds the facts by unplacing doors or blowing up rooms
+    is never drawn". The lead ruled 30 Oct that both counts decide the verdict."""
+    p = _every_fact_held()
+    a_, b_ = p["levels"][0]["rooms"][:2]
+    a_["doors"] = [{"to": "b", "unplaced": "no shared wall long enough"}]
+    b_["doors"] = [{"to": "a", "unplaced": "no shared wall long enough"}]
+    a = DR.assess(p)
+    assert a["doors_unplaced"] == [("a", "b")] and a["rooms_undersize"] == [], a
+    assert a["verdict"] == DR.NOT_DRAWABLE and not a["drawable"], a
+    seated = _every_fact_held()
+    seated["levels"][0]["rooms"][0]["doors"] = [{"to": "b", "wall": "E", "position_ft": 5}]
+    assert DR.assess(seated)["verdict"] == DR.DRAWABLE, "a seated door decides nothing"
+
+
+def test_a_room_drawn_under_its_declared_size_makes_a_house_not_drawable():
+    p = _every_fact_held()
+    p["levels"][0]["rooms"][1].update(width_ft=20, length_ft=10)     # declared 200, drawn 100
+    a = DR.assess(p)
+    assert [r["room"] for r in a["rooms_undersize"]] == ["b"] and a["doors_unplaced"] == [], a
+    assert a["verdict"] == DR.NOT_DRAWABLE and not a["drawable"], a
+    at_size = _every_fact_held()
+    at_size["levels"][0]["rooms"][1].update(width_ft=10, length_ft=10)
+    larger = _every_fact_held()
+    larger["levels"][0]["rooms"][1].update(width_ft=8, length_ft=10)  # drawn LARGER than declared
+    for q in (at_size, larger):
+        assert DR.assess(q)["verdict"] == DR.DRAWABLE, "a room at or over its size compromises nothing"
+
+
+def test_a_fact_the_prover_never_posed_and_the_gate_refused_is_a_mismatch():
+    """The prover's own status `unjudged` means it was never asked. UNDECIDED is defined as "the
+    budget ran out", and no budget ran out on a fact nobody posed: the gate measured what the model
+    was never asked, which is MISMATCH."""
+    a = DR.assess(_refused_record("cp-sat", [], {"status": "unjudged", "downgraded": [],
+                                                 "unjudged": [{"key": None, "why": "x"}]}))
+    assert a["refusal_class"] == {"stacks": DR.MISMATCH}, a["refusal_class"]
+    # and a record from before the facts account (no status at all) is still UNDECIDED
+    b = DR.assess(_refused_record("cp-sat", [], {"downgraded": []}))
+    assert b["refusal_class"] == {"stacks": DR.UNDECIDED}, b["refusal_class"]
+
+
+def test_a_downgraded_fact_with_no_downgraded_label_is_no_proof():
+    """(The tests auditor, 30 Oct 2026.) PROVEN needs every downgraded label in `proven`, and an
+    EMPTY set is a subset of anything: without the `down and` clause a fact the prover files
+    downgraded with no label at all, and nothing carried, would read PROVEN -- a proof of nothing."""
+    a = DR.assess(_refused_record("cp-sat", [], {"status": "downgraded", "downgraded": [],
+                                                 "proven": [], "carried": []}))
+    assert a["downgraded"] == ["stacks"], a
+    assert a["refusal_class"] == {"stacks": DR.UNDECIDED}, a["refusal_class"]
+
+
+def _patched_extents(monkeypatch, status):
+    TF = DR._m("typefacts")
+    monkeypatch.setattr(TF, "bearing_extents",
+                        lambda plan: {"status": status, "lines": [], "detail": f"driven {status}"})
+
+
+def test_held_bearing_with_its_whole_run_unjudged_is_drawable_only_where_judged(monkeypatch):
+    """(The tests auditor, 30 Oct 2026.) Bearing HELD positionally with its whole run UNJUDGED is
+    not every fact held: `continuity_whole_run` is named unjudged and the verdict is DRAWABLE WHERE
+    JUDGED. Driven, because no house this corpus builds reaches a held position with an unjudged
+    run; the control is the same house with the run held."""
+    _patched_extents(monkeypatch, "held")
+    assert DR.assess(_every_fact_held())["verdict"] == DR.DRAWABLE, "premise: the run held"
+    _patched_extents(monkeypatch, "unjudged")
+    a = DR.assess(_every_fact_held())
+    assert a["facts"]["bearing"] == "held" and a["continuity_whole_run"] == "unjudged", a
+    assert a["verdict"] == DR.DRAWABLE_WHERE_JUDGED, a
+    assert a["unjudged"] == ["continuity_whole_run"], a["unjudged"]
+
+
+def test_a_whole_run_downgraded_refuses_where_the_position_is_unjudged(monkeypatch):
+    """The other branch: positional continuity UNJUDGED (no bay module, so no bearing line can be
+    read) and the whole run DOWNGRADED is NOT DRAWABLE -- `typefacts.bearing` leaves an unjudged
+    position as it is, so only `assess`'s own `whole_run == DOWNGRADED` decides here. The control
+    is the same record with the run unjudged."""
+    plan = _every_fact_held()
+    plan["footprint"].pop("bay_module_ft")
+    _patched_extents(monkeypatch, "unjudged")
+    c = DR.assess(plan)
+    assert c["facts"]["bearing"] == "unjudged" and c["verdict"] != DR.NOT_DRAWABLE, c
+    _patched_extents(monkeypatch, "downgraded")
+    a = DR.assess(plan)
+    assert a["facts"]["bearing"] == "unjudged" and a["continuity_whole_run"] == "downgraded", a
+    assert a["verdict"] == DR.NOT_DRAWABLE and not a["drawable"], a

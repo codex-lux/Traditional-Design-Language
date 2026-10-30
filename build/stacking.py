@@ -210,7 +210,7 @@ def judge(plan):
 # A SHARED CHASE, AND WHAT MAKES ONE (Phase 17, WP-17.1). `wet_stack_with` is the servicing claim:
 # the two rooms' waste and supply can run in one vertical chase. That is a weaker relation than a
 # structural stack and it is judged as one -- not containment, only that the chase has somewhere to
-# run. Across levels the two plans must overlap by more than CHASE_MIN_RUN_FT on BOTH axes: a chase
+# run. Across levels the two plans must overlap by at least CHASE_MIN_RUN_FT on BOTH axes: a chase
 # rising through a room's floor must come up inside the room above, and it needs a room's width of
 # floor to come up through. On one level the two rooms must share a wall: the same two figures
 # `structure._shared_segment` and `typefacts` use for a shared wall (facing edges within 0.4 ft, a
@@ -223,6 +223,12 @@ def judge(plan):
 # structural relation (a 0.16 sf corner read as a landed stack until WP-13.2). The minimum is
 # CHASE_MIN_RUN_FT on each axis, ONE figure for both branches, and it is EDITORIAL: the corpus states
 # no chase cross-section, so no new figure is invented -- the same-level branch's own run is reused.
+#
+# AT LEAST, NOT MORE THAN (the second audit of Phase 17, 30 Oct 2026). The cross-level test read
+# `> CHASE_MIN_RUN_FT` on both axes, so an overlap of exactly the minimum -- 1.0 x 1.0 ft, the
+# room's width of floor the chase was said to need -- read "no chase". A minimum is met AT the
+# minimum. The same-level branch keeps `structure._shared_segment`'s "a common run LONGER than
+# 1.0 ft", which is that module's figure transcribed and not this one's to move.
 CHASE_EDGE_TOL_FT = 0.4
 CHASE_MIN_RUN_FT = 1.0
 
@@ -232,7 +238,7 @@ def shares_chase(a, b, same_level):
     if not same_level:
         ix = min(a[0] + a[2], b[0] + b[2]) - max(a[0], b[0])
         iy = min(a[1] + a[3], b[1] + b[3]) - max(a[1], b[1])
-        return ix > CHASE_MIN_RUN_FT and iy > CHASE_MIN_RUN_FT
+        return ix >= CHASE_MIN_RUN_FT and iy >= CHASE_MIN_RUN_FT
     ax0, ay0, ax1, ay1 = a[0], a[1], a[0] + a[2], a[1] + a[3]
     bx0, by0, bx1, by1 = b[0], b[1], b[0] + b[2], b[1] + b[3]
     if abs(ax1 - bx0) <= CHASE_EDGE_TOL_FT or abs(bx1 - ax0) <= CHASE_EDGE_TOL_FT:
@@ -300,7 +306,7 @@ def report(plan, weight=None):
         out["wet"] = {"claims": len(wk) + len(wb) + len(wu), "kept": wk, "broken": wb,
                       "unjudged": wu,
                       "note": (f"{len(wk)} of {len(wk) + len(wb) + len(wu)} declared wet stack(s) "
-                               f"can share a chase (plans overlapping by more than "
+                               f"can share a chase (plans overlapping by at least "
                                f"{CHASE_MIN_RUN_FT:g} ft each way across levels, a shared "
                                f"wall on one level); {len(wb)} cannot; {len(wu)} could not be "
                                f"evaluated. Servicing, not structure: none of these refuses a "

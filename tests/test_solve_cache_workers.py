@@ -109,3 +109,92 @@ def test_the_cacheable_rule_reads_the_cp_leg_in_three_states():
         "one worker on a one-core box is not contention")
     assert G._cacheable({"cp": {"decided": True, "workers": 1, "workers_available": 4}}) is False
     assert G._cacheable({"cp": {"decided": False, "workers": 4, "workers_available": 4}}) is False
+
+
+# THE SECOND AUDIT OF PHASE 17 (30 Oct 2026): "decided" meant only "not unsolved", so a FEASIBLE
+# answer whose type facts were released on an UNKNOWN scout, or whose reinstatement pass never
+# reached a pin, was cached -- reproduced on the shipped Tidewater record at a 3 s budget (attempts
+# `5b r5 A:UNKNOWN`, "64 never reached", served again in 0.0 s). Both are read off structure now.
+
+def _feasible_res(attempts, reinstatement=None):
+    return {"best": {}, "solver": {"engine": "cp-sat", "status": "FEASIBLE", "attempts": attempts,
+                                   "reinstatement": reinstatement or {}}}
+
+
+def test_an_answer_reached_through_an_unknown_feasibility_attempt_is_undecided():
+    clean = [("5b hard0 4w", "H:INFEASIBLE"), ("5b r0", "A:INFEASIBLE"), ("5b r1", "A:OPTIMAL"),
+             ("polish-a", "B:FEASIBLE")]
+    assert G._cp_undecided(_feasible_res(clean)) == [], "premise: a decided ladder reads decided"
+    for unk in (("5b r5", "A:UNKNOWN"), ("5b hard0 4w", "H:UNKNOWN")):
+        why = G._cp_undecided(_feasible_res(clean + [unk]))
+        assert len(why) == 1 and unk[1] in why[0], (unk, why)
+    # read and said not read: a restore or a polish that ran out is not this rule's
+    assert G._cp_undecided(_feasible_res(clean + [("restore wall x", "R:UNKNOWN"),
+                                                  ("polish-h", "B:UNKNOWN")])) == []
+    # a list round-tripped through JSON reads the same as the prover's tuples
+    assert G._cp_undecided(_feasible_res([["5b r5", "A:UNKNOWN"]]))
+
+
+def test_pins_the_reinstatement_pass_never_reached_make_the_answer_undecided():
+    counts = GC.reinstate_counts(
+        pending=[("wall", 0, "a", "N"), ("stack", 1, "b"), ("hearth", 0, "c")],
+        offered={("wall", 0, "a", "N")},
+        still_down={("stack", 1, "b"), ("hearth", 0, "c")}, refuted=set())
+    assert counts == {"pending": 3, "offered": 1, "restored": 1, "refuted": 0, "never_reached": 2}
+    why = G._cp_undecided(_feasible_res([("5b r0", "A:OPTIMAL")], counts))
+    assert why == ["the reinstatement pass never reached 2 released pin(s)"], why
+    assert G._cp_undecided(_feasible_res([("5b r0", "A:OPTIMAL")],
+                                         dict(counts, never_reached=0))) == []
+
+
+def _mark_unknown_scout(sv):
+    sv["attempts"].append(("5b r5", "A:UNKNOWN"))
+
+
+def _mark_never_reached(sv):
+    sv["reinstatement"] = {"pending": 3, "offered": 0, "restored": 0, "refuted": 0,
+                           "never_reached": 3}
+
+
+@pytest.mark.parametrize("mark", [_mark_unknown_scout, _mark_never_reached],
+                         ids=["unknown-scout", "never-reached"])
+def test_a_feasible_answer_the_clock_wrote_is_not_cached(monkeypatch, mark):
+    """Driven, because whether a real solve meets an UNKNOWN is the machine's load: the real prover
+    places the fixture, and the record it returns is given one undecided mark. The premise -- the
+    same solve unmarked IS cached -- is asserted first, so a cache that never writes cannot pass."""
+    pytest.importorskip("ortools", reason="COULD NOT EVALUATE: the CP-SAT engine needs OR-Tools")
+    monkeypatch.setattr(G, "_SOLVE_CACHE", {})
+    plan = _two_storey()
+    real = GC.solve_cp
+    seen = []
+
+    def kept(*a, **k):
+        res = real(*a, **k)
+        seen.append(res)
+        return res
+    monkeypatch.setattr(GC, "solve_cp", kept)
+    sv = _cp(G.solve(copy.deepcopy(plan), None, 80, engine="cp", time_limit_s=40))
+    if G._cp_undecided(seen[-1]):
+        pytest.skip("COULD NOT EVALUATE: the fixture's own solve met the clock on this machine "
+                    f"({G._cp_undecided(seen[-1])})")
+    assert sv["engine"] == "cp-sat" and len(G._SOLVE_CACHE) == 1, \
+        "premise: the same solve, decided, is cached"
+    # the counts are WIRED, and agree with the pass's own line: a real solve that ran the pass
+    # carries them, so `never_reached` is not a field nobody writes
+    line = [r for r in sv["downgrade_rounds"] if r.startswith(GC.REINSTATE_NOTE_PREFIX)]
+    rein = sv.get("reinstatement") or {}
+    assert bool(line) == bool(rein), (line, rein)
+    if line:
+        assert line[0].startswith(f"{GC.REINSTATE_NOTE_PREFIX}{rein['pending']} released"), (line, rein)
+        assert rein["pending"] == rein["offered"] + rein["never_reached"], rein
+
+    def marked(*a, **k):
+        res = real(*a, **k)
+        if "solver" in res:
+            mark(res["solver"])
+        return res
+    monkeypatch.setattr(G, "_SOLVE_CACHE", {})
+    monkeypatch.setattr(GC, "solve_cp", marked)
+    out = G.solve(copy.deepcopy(plan), None, 80, engine="cp", time_limit_s=40)
+    assert _cp(out)["engine"] == "cp-sat"
+    assert G._SOLVE_CACHE == {}, "an answer resting on the clock was cached as decided"
