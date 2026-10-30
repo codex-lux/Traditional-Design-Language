@@ -96,5 +96,25 @@ merge runs both.
 - **App suite:** 892 of 892.
 - **Targeted Python:** the register-derived OQ list, the counts guard, drawability, chronology
   parity and determinism, 340 passed.
-- **The server suite and the whole sharded build** are recorded in the merge commit's message,
-  attributed by id against both parents' known reds.
+- **Server suite:** 506 passed, 15 skipped.
+- **The whole build, `check_all.py --shard i/6` in six `git worktree`s of `fbcdbda`, two at a time:**
+  shard 5 green, the other five red, with 18 failing test ids.
+  - **17 are on this line's known list by id:**
+    - the gate rows of `tests/test_sheet_coherence.py`;
+    - `test_composition`'s service-room row;
+    - `test_parti_composability` together with `check_partis.py`, which are one finding through two readers;
+    - `test_solver`'s half bound;
+    - the two `test_scene_entrance` rows.
+  - **The 18th is `test_the_sheet_is_drawn_at_all[candidate-cp]`**: *CP-SAT UNKNOWN in 40s*. That is the
+    prover band, and it is not the merge's.
+    - Run alone, `-k candidate-cp`, alternating the merge and `1e3c210` twice each, both trees land in
+      both states.
+    - Merge: 4 failed / 11 passed / 6 skipped, then 1 failed / 20 skipped.
+    - Parent: 1 failed / 20 skipped, then 5 failed / 10 passed / 6 skipped.
+    - When the candidate is not placed in 40 s, this row fails and the placement rows skip; when it is
+      placed, the known placement rows are red instead.
+  - **No red is the merge's own.**
+  - Could not evaluate:
+    - the DXF selftest, because both shipped plans are refused;
+    - the IFC selftest, because `ifcopenshell` is absent;
+    - the frontend lazy tier, because there is no `dist/`.
