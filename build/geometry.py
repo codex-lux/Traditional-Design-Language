@@ -4150,37 +4150,82 @@ def _the_search_where_it_holds_the_facts(out, plan, parti, candidates, seed):
     to their declared size, rooms inside their own band, doors placed), then on the type's facts.
 
     So where the PROOF is refused a drawing, the search's placement is drawn instead -- but only if
-    it holds every fact the refusal reads AND is no worse than the proof on each never-downgrade
-    count. A search that holds the stacks by drawing a room past its band, or by leaving a door
-    unplaced, is never drawn: that is ruling 6's whole point, and the search draws rooms out of
-    band on every two-storey house it has been measured on (WP-11.8). The proof's placement is kept
-    as `solver.proof` and the three counts of both travel together, so the plate can say which it
-    drew and why. Returns the record to draw, or None to keep the proof.
+    it HOLDS every fact the proof judged (measured `held` on the search, never merely not
+    downgraded) AND is no worse than the proof on each never-downgrade count. A search that holds
+    the stacks by drawing a room past its band, or by leaving a door unplaced, is never drawn: that
+    is ruling 6's whole point, and the search draws rooms out of band on every two-storey house it
+    has been measured on (WP-11.8). The three counts of both travel together, so the plate can say
+    which it drew and why. Returns the record to draw, or None to keep the proof.
 
-    Costs a heuristic solve (~0.3 s measured on the shipped plans) and ONLY on a refused proof."""
+    `solver.proof` KEEPS THE PROOF'S STATUS, ITS REFUSAL AND ITS DOWNGRADED WALL PINS, AND NOT ITS
+    RECTANGLES. This docstring said "the proof's placement is kept as `solver.proof`" until the audit
+    of Phase 17 (30 Oct 2026) read the dict and found three keys and no geometry: a reader looking
+    for the proof's drawing finds the account of why it was refused, never the drawing.
+
+    TWO THINGS THE AUDIT OF PHASE 17 FOUND THIS FUNCTION DOING (30 Oct 2026, findings 8 and 40):
+
+    * IT COMPARED DOORS BEFORE ANY DOOR WAS PLACED. `drawability.doors_unplaced` reads the
+      `unplaced` marks `openings.place` writes, and `solve()` places openings AFTER this function
+      returns, so both records read 0 here and the door half of ruling 6 could not fail on any real
+      path -- measured on the shipped Tidewater record: the search read 0 unplaced pairs at this
+      point and 11 once its openings were placed, the proof 0 and 1. The two counts are taken off
+      PLACED COPIES now (`openings.place`, the one spelling, on a deep copy of each), and the record
+      returned is still the unplaced one, which `solve()` places as it places every result. Where
+      the openings cannot be placed on either copy the doors were not compared, and an uncompared
+      count is not a no-worse count: the proof stays.
+    * IT TOOK "NO FACT DOWNGRADED" FOR "EVERY FACT HELD". `typefacts.refusal` names downgraded
+      facts only -- unjudged does not refuse a drawing, rightly -- so a search with the stacks
+      UNJUDGED replaced a proof that measured them broken, under a sentence saying the search
+      "holds every type fact". Ruling 1 says HOLDS. Every fact the proof judged (held, or downgraded
+      and therefore named in its refusal) must be measured `held` on the search; a fact neither
+      engine could judge (a one-storey house's bearing, a house stating no fire) is unjudged on
+      both, does not block, and is NAMED unjudged in the reason -- never called held.
+
+    Costs a heuristic solve (~0.3 s measured on the shipped plans) and an openings pass on two
+    copies, and ONLY on a refused proof."""
     if engine_of(out) != "cp-sat":
         return None
-    proof_ref = (out.get("geometry_report") or {}).get("refused")
+    rep_proof = out.get("geometry_report") or {}
+    proof_ref = rep_proof.get("refused")
     if not proof_ref:
         return None
     alt = solve_heuristic(copy.deepcopy(plan), parti, candidates, seed)
     if "error" in alt or (alt.get("geometry_report") or {}).get("refused"):
         return None
+    named = sorted(proof_ref.get("facts") or [])
+    st_alt = ((alt.get("geometry_report") or {}).get("type_facts") or {}).get("status") or {}
+    st_proof = (rep_proof.get("type_facts") or {}).get("status") or {}
+    must_hold = sorted(set(named) | {f for f, v in st_proof.items() if v in ("held", "downgraded")})
+    if not named or any(st_alt.get(f) != "held" for f in must_hold):
+        return None                          # held is measured, never inferred from no refusal
+    unjudged = sorted(f for f, v in st_alt.items() if v == "unjudged")
+    OP = _mod("openings", f"{ROOT}/build/openings.py")
+    placed_alt, placed_proof = copy.deepcopy(alt), copy.deepcopy(out)
+    try:
+        OP.place(placed_alt, C)
+        OP.place(placed_proof, C)
+    except Exception:                        # doors not compared: the proof stays, unjudged
+        return None
     DR = _mod("drawability", f"{ROOT}/build/drawability.py")
-    ok, n_alt, n_proof = DR.no_worse(alt, out)
+    ok, n_alt, n_proof = DR.no_worse(placed_alt, placed_proof)
     if not ok:
         return None
-    sv_proof = (out.get("geometry_report") or {}).get("solver") or {}
+    sv_proof = rep_proof.get("solver") or {}
     alt["geometry_report"]["solver"] = {
         "engine": "heuristic",
-        "reason": ("the proof was refused a drawing (" + ", ".join(proof_ref.get("facts") or [proof_ref.get("kind") or "?"])
-                   + " not held); the search's placement holds every type fact and is no worse on "
-                     "rooms drawn to size, rooms in their band and doors placed, so it is the one drawn "
+        "reason": ("the proof was refused a drawing (" + ", ".join(named) + " not held); the search's "
+                   "placement holds " + ", ".join(must_hold) + ", each measured held"
+                   + (" (" + ", ".join(unjudged) + " could not be judged on either placement, and "
+                      "is not called held)" if unjudged else "")
+                   + ", and is no worse on rooms drawn to size, rooms in their band and doors placed "
+                     "(counted with both placements' openings placed), so it is the one drawn "
                      "(rulings 1 and 6 of 29 Oct 2026)"),
         "chosen_over_the_proof": True,
+        "facts": {"held": must_hold, "unjudged": unjudged},
         "never_downgrade": {"drawn": n_alt, "proof": n_proof},
         "proof": {"status": sv_proof.get("status"), "refused": proof_ref,
-                  "downgraded_wall_pins": sv_proof.get("downgraded_wall_pins") or []}}
+                  "downgraded_wall_pins": sv_proof.get("downgraded_wall_pins") or [],
+                  "workers": sv_proof.get("workers"), "mode": sv_proof.get("mode")}}
     return alt
 
 
