@@ -2083,7 +2083,7 @@ def score(res):
     s = sum(SEV_W.get(f["severity"], 0) for f in res["findings"])
     return s
 
-def repair(plan, rounds=6, budget_s=6.0):
+def repair(plan, rounds=6, budget_s=None):
     """The DECLARED revision loop, in the place the old hill-climb stood (WP-9.2).
 
     Until Phase 9 this was forty lines that read the findings' PROSE -- `"needs" in
@@ -2104,7 +2104,18 @@ def repair(plan, rounds=6, budget_s=6.0):
     The loop's own report rides on the plan as `revision_report`; the placed loop that runs on
     the returned candidates nests it as `declared_pass`."""
     RV = _mod("revise", f"{ROOT}/build/revise.py")
-    rv = RV.revise(plan, rounds=rounds, place=False, budget_s=budget_s, C=C)
+    # BOUNDED BY ITS WORK AND NOT BY A CLOCK (the audit of 30 Oct 2026). This read `budget_s=6.0`,
+    # and a wall clock here made the DECLARED house -- the one the composer ranks -- depend on what
+    # had run before it in the process and on the box's load. Measured: the first `compose()` of
+    # the narrowed Georgian brief in a process gave the five-part 65.1 (14 accepted moves, cold),
+    # every later one 69.0 (21, warm), and that difference decided which native diagram led the
+    # set once R13 brought the two within three points; `test_composer`'s named-parti tests went
+    # red on the order the fixtures ran in. Warm, the loop ends on its round cap in about two
+    # seconds. The cap below is the most work the round cap allows -- the first critique, then each
+    # round's batch and a retry per move -- so it binds only if that arithmetic is wrong, and
+    # deterministically if it does. A caller may still pass a clock.
+    cap = 1 + rounds * (1 + RV.MAX_MOVES_PER_ROUND)
+    rv = RV.revise(plan, rounds=rounds, place=False, budget_s=budget_s, C=C, max_critiques=cap)
     new = rv["plan"]
     plan.clear()
     plan.update(new)

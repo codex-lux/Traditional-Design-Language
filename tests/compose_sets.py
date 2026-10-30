@@ -66,7 +66,9 @@ def census(root, candidates=4):
     seen, parti_of, scored = {}, {}, []
 
     def repair(plan, rounds=6, budget_s=6.0):
-        # the declared loop, with its wall clock lifted: rounds still bound it
+        # the declared loop, with its wall clock lifted: rounds still bound it. (`compose.repair` has
+        # carried no clock since the audit of 30 Oct 2026; this override is now a no-op kept for
+        # the spy around it.)
         return orig_repair(plan, rounds=rounds, budget_s=None)
 
     def instantiate(parti_id, brief):

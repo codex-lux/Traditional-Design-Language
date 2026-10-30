@@ -232,7 +232,11 @@ def _attrib(before, after):
 
 def revise(plan, rounds=6, engine="auto", candidates=250, budget_s=None, brief=None, place=True,
            parti=None, on_round=None, C=None, seed=7, time_limit_s=25.0, surfaced=None,
-           reserve_round=False, trusted_placement=False):
+           reserve_round=False, trusted_placement=False, max_critiques=None):
+    # `max_critiques`: a bound on the loop's WORK, counted in critiques, beside or in place of
+    # `budget_s`'s wall clock. The declared loop the composer runs on every pick takes this and no
+    # clock (the audit of 30 Oct 2026): a clock there made the declared house depend on what ran
+    # before it in the process and on the box's load -- see `compose.repair`.
     # `reserve_round` (R12, ruled 30 Oct 2026, "the compose budget becomes a REAL ceiling"): where
     # True, a round -- a single-move retry, or the reclaim's re-placement after the rounds -- is
     # begun only where what is left of `budget_s` can hold it, and one that cannot is REFUSED AND
@@ -268,7 +272,15 @@ def revise(plan, rounds=6, engine="auto", candidates=250, budget_s=None, brief=N
             except Exception as exc:
                 rnd["on_round_error"] = f"{type(exc).__name__}: {exc}"[:200]
 
+    ncrit = [0]
+
+    def _spent():
+        # the budget, in whichever unit the caller bounded it: seconds, critiques, or both
+        return ((budget_s is not None and time.perf_counter() - t0 > budget_s)
+                or (max_critiques is not None and ncrit[0] >= max_critiques))
+
     def _crit(p, first=False):
+        ncrit[0] += 1
         # after the first critique the placement `p` carries is the loop's own; a move that kept
         # it edited the declared half, so its stamp is re-written to the record it now goes with
         if not first and CR.has_placement(p):
@@ -314,7 +326,7 @@ def revise(plan, rounds=6, engine="auto", candidates=250, budget_s=None, brief=N
         stop = STOP_PLACEMENT_UNJUDGED
         rounds = 0
     while n < rounds:
-        if budget_s is not None and time.perf_counter() - t0 > budget_s:
+        if _spent():
             stop = "budget"
             break
         # the FIRST work refused is the one reported: a retry cut inside the last round set
@@ -421,7 +433,7 @@ def revise(plan, rounds=6, engine="auto", candidates=250, budget_s=None, brief=N
         retry_cut = {}
 
         def over_budget():
-            if budget_s is not None and time.perf_counter() - t0 > budget_s:
+            if _spent():
                 retry_cut["why"] = "the budget was spent before this move could be retried alone"
                 return True
             r = _cannot_fit("retry")

@@ -115,10 +115,18 @@ class TestFamilyGeorgianBrief:
         # test guards is that a scoring regression does not drop the RIGHT GEORGIAN DIAGRAM down
         # the list; both are native and canonical for the style, so either leads, and the double
         # pile must be among the first two.
-        first_two = [c["parti_name"] for c in result["candidates"][:2]]
-        assert result["candidates"][0]["parti_name"] in ("Centre Passage, Double Pile",
-                                                          "Centre Passage, Single Pile"), first_two
-        assert "Centre Passage, Double Pile" in first_two, first_two
+        # RE-TRACED AGAIN 30 Oct 2026 (the audit of Phase 17): `compose.repair` ran the declared
+        # loop under a 6 s wall clock, so the house ranked here depended on what had run before it
+        # in the process -- cold, the five-part took 14 moves and scored 65.1; warm, 21 and 69.0.
+        # Bounded by its work now, it is 69.0 every time, and it leads: R13 composed its passage to
+        # the floor its own fault convicts at, which is the lead Lucas ruled R13 knowing (report
+        # §X, ruling 13). All three are the style's own diagrams on canonical massings, so the
+        # guard is that one of THEM leads and the double pile stays among the first three -- a
+        # scoring regression that drops the Georgian diagrams down the list still fails here.
+        natives = ("Centre Passage, Double Pile", "Centre Passage, Single Pile", "Five-Part Palladian")
+        first_three = [c["parti_name"] for c in result["candidates"][:3]]
+        assert result["candidates"][0]["parti_name"] in natives, first_three
+        assert "Centre Passage, Double Pile" in first_three, first_three
 
     def test_the_winning_diagram_is_native_to_the_brief_s_style(self, compose_module):
         """The structural claim behind the pin above, which never needs re-pinning.
