@@ -3854,6 +3854,13 @@ MAX_CACHEABLE_BYTES = 1024 * 1024
 # Raising the batch number is cheap and raising the interactive one is not. Anyone tempted to
 # collapse them again should read `docs/reports/infrastructure-audit.md` first.
 BUDGET_BATCH_S = 40.0
+# THE PROVER'S SIZE PIN, STATED ONCE (the audit of 30 Oct 2026). `geometry_cp._build` holds every
+# room to at least this fraction of its declared area as a hard requirement the ladder never
+# releases (sizes are a never-downgrade fact, ruling 6). `drawability` refuses a drawing only past
+# it: the drawn layer's `drawn-vs-declared` finding fires at a tenth, so a room the prover placed
+# 10-12% under its declared area inside its own pin was read NOT DRAWABLE -- an instrument fact
+# convicting a house the model had held, which is the MISMATCH class this phase forbids.
+SIZE_PIN_FLOOR = 0.88
 BUDGET_INTERACTIVE_S = 25.0
 # A COMPOSE JOB'S PER-SOLVE BUDGET (Phase 17, WP-17.6), passed by `compose` explicitly and never by
 # changing a default, because `revise.py`'s and `critique.py`'s 25 s defaults serve the synchronous

@@ -20,15 +20,17 @@ FOUR VERDICTS, NEVER TWO (the audit of Phase 17, 30 Oct 2026; Lucas's ruling 10 
                          (a room the record declares past it, only past its DECLARED ratio),
                          bearing continuity held over the whole run (ruling 8 of 29 Oct), every
                          room that takes a rectangle placed, no door pair left unplaced, no room
-                         drawn a tenth or more under its declared area, and EVERY one of the four
+                         drawn under the prover's own size pin (`geometry.SIZE_PIN_FLOOR` of its
+                         declared area; a room a tenth under is still REPORTED in
+                         `rooms_undersize`, as the drawn layer reports it), and EVERY one of the four
                          facts HELD.
   DRAWABLE WHERE JUDGED  the same, except that one or more facts could not be judged -- named, in
                          `unjudged`. A composed house stating no fire has its hearth unjudged; a
                          one-storey house has no continuity to judge. Neither is held.
   NOT DRAWABLE           refused, a fact downgraded, a room past its band, a wall over open floor,
                          a room that takes a rectangle left without one (`rooms_unplaced`), a door
-                         pair left unplaced (`doors_unplaced`), or a room drawn under its declared
-                         size (`rooms_undersize`).
+                         pair left unplaced (`doors_unplaced`), or a room drawn under the prover's
+                         size pin (a `rooms_undersize` entry with `past_size_pin`).
   COULD NOT EVALUATE     the record carries no placed room, or no `geometry_report` -- a declared
                          record, or a candidate whose placement was never made. Never drawable.
 
@@ -39,7 +41,11 @@ room, placed on no level, did not stop the verdict. And two of ruling 6's three 
 counts were measured and not decided on, although the ruling reads "a house that holds the facts
 by unplacing doors or blowing up rooms is never drawn": the lead's decision of 30 Oct is that both
 `doors_unplaced` and `rooms_undersize` make a house NOT DRAWABLE. (`rooms_over_band`, the third,
-already did.)
+already did.) AND THE UNDERSIZE GATE WAS FIRST DRAWN AT THE DRAWN LAYER'S TENTH, which is not the
+prover's: `geometry_cp` holds a room to 0.88 of its declared area as a pin it never releases, so on
+Lucas's brief every composed house the prover had placed inside that pin read NOT DRAWABLE (0 of 4
+drawable where judged, measured the same afternoon) -- the instrument convicting what the model had
+held. The gate is the pin now; a room a tenth under is reported and decides nothing.
 
 Until the audit a fact that was UNJUDGED blocked nothing and a record with no placement at all
 read DRAWABLE (every fact unjudged), so "n of N drawable" counted houses nobody had measured.
@@ -155,6 +161,7 @@ def rooms_undersize(plan):
     (the shipped Tidewater kitchen and library land there) was a `drawn-vs-declared` finding on the
     sheet and 0 in the comparison ruling 6 rests on. Only the sign is this function's."""
     PC = _m("plan_check")
+    pin = _m("geometry").SIZE_PIN_FLOOR
     out = []
     for lv in plan.get("levels") or []:
         for r in lv.get("rooms") or []:
@@ -165,8 +172,14 @@ def rooms_undersize(plan):
             pct = PC.drawn_vs_declared_pct(want, got)
             if pct is not None and pct < 0:
                 out.append({"room": r["id"], "declared_sf": round(want, 1),
-                            "drawn_sf": round(got, 1), "pct": round(pct, 1)})
+                            "drawn_sf": round(got, 1), "pct": round(pct, 1),
+                            "past_size_pin": got < pin * want - PIN_GRID_SF})
     return out
+
+
+# The prover states its pin on a 1 ft grid as `a >= int(SIZE_PIN_FLOOR * area)`, so a room it held
+# can sit up to one square foot under the exact fraction; less than that is the grid, not a breach.
+PIN_GRID_SF = 1.0
 
 
 def rooms_unplaced(plan):
@@ -281,9 +294,12 @@ def assess(plan):
     unjudged = [k for k in FACTS if status.get(k) not in (TF.HELD, TF.DOWNGRADED)]
     if whole_run not in (TF.HELD, TF.DOWNGRADED) and "bearing" not in unjudged:
         unjudged.append("continuity_whole_run")   # held positionally, its run never judged
+    # an undersize room refuses the drawing only past the prover's own size pin; inside it the
+    # drawn layer's finding is reported (`rooms_undersize`) and decides nothing here
+    past_pin = [u for u in under if u["past_size_pin"]]
     if why_not:
         verdict = COULD_NOT_EVALUATE
-    elif refused or down or over or whole_run == TF.DOWNGRADED or unplaced or doors or under:
+    elif refused or down or over or whole_run == TF.DOWNGRADED or unplaced or doors or past_pin:
         verdict = NOT_DRAWABLE
     elif unjudged:
         verdict = DRAWABLE_WHERE_JUDGED

@@ -232,7 +232,7 @@ def _attrib(before, after):
 
 def revise(plan, rounds=6, engine="auto", candidates=250, budget_s=None, brief=None, place=True,
            parti=None, on_round=None, C=None, seed=7, time_limit_s=25.0, surfaced=None,
-           reserve_round=False):
+           reserve_round=False, trusted_placement=False):
     # `reserve_round` (R12, ruled 30 Oct 2026, "the compose budget becomes a REAL ceiling"): where
     # True, a round -- a single-move retry, or the reclaim's re-placement after the rounds -- is
     # begun only where what is left of `budget_s` can hold it, and one that cannot is REFUSED AND
@@ -268,11 +268,18 @@ def revise(plan, rounds=6, engine="auto", candidates=250, budget_s=None, brief=N
             except Exception as exc:
                 rnd["on_round_error"] = f"{type(exc).__name__}: {exc}"[:200]
 
-    def _crit(p):
+    def _crit(p, first=False):
+        # after the first critique the placement `p` carries is the loop's own; a move that kept
+        # it edited the declared half, so its stamp is re-written to the record it now goes with
+        if not first and CR.has_placement(p):
+            sv = p.setdefault("geometry_report", {}).setdefault("solver", {})
+            if sv.get("input_digest"):
+                sv["input_digest"] = CR.GEO.declared_digest(p)
         return CR.critique(p, engine=ctx["engine"], candidates=ctx["candidates"], parti=parti_rec,
-                           place=place, seed=seed, time_limit_s=time_limit_s, C=C, ctx=ctx)
+                           place=place, seed=seed, time_limit_s=time_limit_s, C=C, ctx=ctx,
+                           trusted_placement=(trusted_placement is True) if first else True)
 
-    crit = _crit(plan)
+    crit = _crit(plan, first=True)
     plan = crit["plan"]                      # carries the placement from here on
     first_placement_s = time.perf_counter() - t0
     round_cost_s = (max(first_placement_s, 0.0 if engine == "heuristic" else float(time_limit_s))

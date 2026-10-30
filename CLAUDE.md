@@ -4759,6 +4759,12 @@ report by FILENAME, because the NUMBER names two packages.
   both would let a new door hide behind a corrected exposure. **NARROW AND MUTATION-CHECKED**:
   only where the PLAN puts the two rooms in different elements; a same-element miss still fails
   (driven by dropping `dining`-`drawing`, exit 1, restored byte-identically).
+  **AND BOTH CEILINGS WERE COUNTS THAT COULD NET, WHICH IS THE SENTENCE'S OWN ARGUMENT ONE LEVEL
+  DOWN (the audit of 30 Oct 2026).** Recasting `backhall` to E/N (one finding corrected) and
+  `library` to S (one added) left the exposure count at 2 and `check_plans` at exit 0. Both are
+  identity sets now: `EXPOSURES_REPORTED`, keyed (plan, room, missing walls), and
+  `CROSS_ELEMENT_DOORS_REPORTED`, keyed (plan, room, to). This is `WET_FILED_AS_STRUCTURAL`'s rule
+  applied to its two neighbours.
 - **THE SERVICING LAYER PASSES A WET PAIR ACROSS A 27 FT GAP (WP-11.16).** Tagged with the door
   KEPT, `plan_check`'s servicing layer calls the butler's pantry and the kitchen a wet pair --
   a shared plumbing chase between two buildings. Controlled: with the door dropped it correctly

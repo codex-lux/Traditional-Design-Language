@@ -1,3 +1,4 @@
+import os
 """WP-17.0 — the drawability instrument and the whole-run continuity audit.
 
 `build/drawability.py` reports, beside the one verdict `typefacts.judge` writes, the numbers the
@@ -479,6 +480,28 @@ def test_a_room_drawn_under_its_declared_size_makes_a_house_not_drawable():
     larger["levels"][0]["rooms"][1].update(width_ft=8, length_ft=10)  # drawn LARGER than declared
     for q in (at_size, larger):
         assert DR.assess(q)["verdict"] == DR.DRAWABLE, "a room at or over its size compromises nothing"
+
+
+def test_a_room_inside_the_provers_size_pin_is_reported_and_refuses_nothing():
+    """The audit's own seam (30 Oct 2026): the undersize gate was first drawn at the drawn layer's
+    tenth while `geometry_cp` holds a room to `geometry.SIZE_PIN_FLOOR` (0.88) of its declared area,
+    so every composed house the prover placed inside its own pin read NOT DRAWABLE. A room 11%
+    under is still REPORTED (the drawn layer's finding) and decides nothing; one 13% under is past
+    the pin and refuses the drawing."""
+    G = DR._m("geometry")
+    assert G.SIZE_PIN_FLOOR == 0.88, "the premise: the prover's pin"
+    src = open(os.path.join(ROOT, "build", "geometry_cp.py"), encoding="utf-8").read()
+    assert "int(GEO.SIZE_PIN_FLOOR * areaU)" in src, "the prover states the pin it is gated by"
+    inside = _every_fact_held()
+    inside["levels"][0]["rooms"][1].update(width_ft=10, length_ft=11.24)   # drawn 100 of 112.4: -11%
+    a = DR.assess(inside)
+    assert [r["room"] for r in a["rooms_undersize"]] == ["b"], a["rooms_undersize"]
+    assert not a["rooms_undersize"][0]["past_size_pin"], a["rooms_undersize"]
+    assert a["verdict"] == DR.DRAWABLE, a["verdict"]
+    past = _every_fact_held()
+    past["levels"][0]["rooms"][1].update(width_ft=10, length_ft=11.5)     # drawn 100 of 115: -13%
+    b = DR.assess(past)
+    assert b["rooms_undersize"][0]["past_size_pin"] and b["verdict"] == DR.NOT_DRAWABLE, b
 
 
 def test_a_fact_the_prover_never_posed_and_the_gate_refused_is_a_mismatch():

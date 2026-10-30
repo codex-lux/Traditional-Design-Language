@@ -784,7 +784,7 @@ def _build(plan, prep, fpd, ewalls, downgraded=frozenset(), objective=True,
             pr = reqs.lit(f"{r.get('name') or r['id']} needs roughly its program size "
                           f"({dw:g} x {dl:g} ft, within this layer's tolerance)",
                           kind="size")
-            m.Add(a >= int(0.88 * areaU)).OnlyEnforceIf(pr)
+            m.Add(a >= int(GEO.SIZE_PIN_FLOOR * areaU)).OnlyEnforceIf(pr)
             m.Add(a <= int(max(1.20, fill * 1.22) * areaU)).OnlyEnforceIf(pr)
             # containment in the room's OWN element (WP-11.11). The lower bounds are
             # constraints and not domains, for the hint reason in `_element_boxes`.
