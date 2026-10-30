@@ -2203,12 +2203,18 @@ def _bounded(name, value, lo, hi, default, bounded):
     return out
 
 
-def critique_plan(plan, engine="auto", candidates=250, place=True, parti=None):
+def critique_plan(plan, engine="auto", candidates=250, place=True, parti=None,
+                  trusted_placement=False):
     """The analyst: place the record once (or reuse the placement it carries), judge the
     placed house, and sort every finding into what it means to a generator. See
     build/critique.py. The full findings ride inside each issue; the check's own summary
     counts are returned beside them and the check itself is omitted to spare the caller's
-    context -- tdl_check_plan returns it."""
+    context -- tdl_check_plan returns it.
+
+    `trusted_placement` (the audit of Phase 17): True only where the caller vouches that the
+    placement the record carries is its own process's (the workbench passes
+    `corpus.is_registered(plan)`). The MCP tool passes nothing, so a placement an MCP caller sends
+    is never reused: it is stripped and placed afresh (`critique.critique`)."""
     try:
         _bad = _schema_error("plan", plan)
     except ImportError:
@@ -2227,7 +2233,8 @@ def critique_plan(plan, engine="auto", candidates=250, place=True, parti=None):
     if engine not in ("heuristic", "cp", "auto"):
         return {"error": f"unknown engine {engine!r} -- one of heuristic, cp, auto"}
     CR = _mod("critique", os.path.join(ROOT, "build", "critique.py"))
-    res = CR.critique(plan, engine=engine, candidates=candidates, parti=parti, place=bool(place))
+    res = CR.critique(plan, engine=engine, candidates=candidates, parti=parti, place=bool(place),
+                      trusted_placement=trusted_placement is True)
     out = {k: v for k, v in res.items() if k not in ("plan", "check")}
     if bounded:
         out["bounded"] = bounded
@@ -2244,7 +2251,8 @@ def critique_plan(plan, engine="auto", candidates=250, place=True, parti=None):
 
 
 def revise_plan(plan, rounds=6, engine="auto", candidates=250, place=True, include_plan=True,
-                budget_s=None, parti=None, on_round=None, surfaced=None, time_limit_s=None):
+                budget_s=None, parti=None, on_round=None, surfaced=None, time_limit_s=None,
+                trusted_placement=False):
     """The corrective revisions: critique, move, re-place, re-critique, accept or roll back,
     round after round. See build/revise.py. Returns the report (every round, every move with
     its finding and its basis, what remains by class, what was handed to the architect, what
@@ -2278,9 +2286,17 @@ def revise_plan(plan, rounds=6, engine="auto", candidates=250, place=True, inclu
     # Every other knob on this call is bounded and reported; this one was pass-or-vanish.
     if time_limit_s is not None:
         time_limit_s = _bounded("time_limit_s", time_limit_s, 1.0, REVISE_MAX_BUDGET_S, 25.0, bounded)
+    # `trusted_placement` (the audit of Phase 17) rides to `revise()` where it takes it -- the
+    # loop's first critique may reuse the posted placement only where the workbench vouches for it
+    # (`corpus.is_registered`). Passed by keyword only where `revise()` declares it, so this
+    # module and build/revise.py can land in either order.
+    import inspect as _inspect
+    _trust = ({"trusted_placement": trusted_placement is True}
+              if "trusted_placement" in _inspect.signature(RV.revise).parameters else {})
     r = RV.revise(plan, rounds=rounds, engine=engine, candidates=candidates, budget_s=budget_s,
                   place=bool(place), parti=parti, on_round=on_round, surfaced=surfaced,
-                  **({"time_limit_s": float(time_limit_s)} if time_limit_s is not None else {}))
+                  **({"time_limit_s": float(time_limit_s)} if time_limit_s is not None else {}),
+                  **_trust)
     out = {"report": r["report"], "key_before": r["key_before"], "key_after": r["key_after"],
            "stop_reason": r["stop_reason"], **({"bounded": bounded} if bounded else {}),
            "note": ("A lower key is not a good plan. Read handed_to_architect and suspects before "

@@ -902,6 +902,9 @@ def test_a_carried_placement_prints_no_proof(sheets, kind, engine, tmp_path):
     if ROOT not in sys.path:
         sys.path.insert(0, ROOT)
     from workbench.server import corpus
+    # the server placed this record, so it is in the registry of placements the server produced
+    # (the audit of Phase 17: nothing else is carried)
+    corpus.remember_placement(out)
     got = corpus.carried(copy.deepcopy(out))
     assert got["state"] == corpus.CARRIED, (
         f"a fresh placement of the record is not carried ({got}) -- the premise of this row")

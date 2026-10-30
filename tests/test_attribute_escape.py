@@ -206,3 +206,33 @@ def test_the_frame_attribute_is_well_formed_for_any_level_id():
     frames = {"plates": [{"id": FULL, "px_per_ft": 13.0}]}
     el = ET.fromstring(f"<svg data-frame='{SS.frame_attr(frames)}'/>")
     assert json.loads(el.attrib["data-frame"]) == frames
+
+
+def test_the_placements_own_figures_are_escaped_where_the_plan_sheet_prints_them(tmp_path):
+    """THE AUDIT OF PHASE 17. The probe above poisons the DECLARED record's ids; the placement's own
+    keys reach the sheet too, and a record a client posts carries them. `footprint.bays` (the title
+    block) and a relaxation mark's `off_ft` (its tooltip) were written into the SVG unescaped, so a
+    posted placement opened an element on the sheet the Drawing Set injects.
+    Mutation: drop either `_esc(str(...))` in `render_plan.render` -- red."""
+    with open(os.path.join(ROOT, "plans", "spec-builder-colonial.json")) as fh:
+        plan = json.load(fh)
+    saved = GEO._SOLVE_CACHE
+    GEO._SOLVE_CACHE = {}
+    try:
+        placed = GEO.solve(plan, engine="heuristic")
+    finally:
+        GEO._SOLVE_CACHE = saved
+    for field in ("bays", "area_sf"):        # bay_module_ft is read as a number upstream
+        placed["footprint"][field] = f"<b>{field}</b>&"
+    marks = ((placed["geometry_report"].get("relaxations") or {}).get("marks")) or []
+    lvl = [m for m in marks if (m.get("level") or 0) == 0]
+    assert lvl, "the premise: this placement draws a relaxation mark on its ground plate"
+    for m in marks:
+        m["off_ft"] = "<b>off</b>&"
+    path = str(tmp_path / "plan.svg")
+    RP.render(placed, path, register="working")
+    root = _parse(path)                     # a loose `<` or `&` fails to parse here
+    text = open(path, encoding="utf-8").read()
+    assert not any(el.tag.rsplit("}", 1)[-1] == "b" for el in root.iter()), "the placement opened an element"
+    assert "&lt;b&gt;bays&lt;/b&gt;" in text and "&lt;b&gt;off&lt;/b&gt;" in text, \
+        "the premise: both fields reach the sheet"

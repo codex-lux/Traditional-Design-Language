@@ -1361,9 +1361,11 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
     _date = (ctx.get("date_of_representation") or "")
     s.append(f'<text class="lb" x="{M+BP:.1f}" y="{M+BP+42:.1f}">'
              f'{_esc((plan.get("style","") or "").upper().replace("-", " "))} · '
-             f'{fp.get("bays","?")} BAYS OF {fp.get("bay_module_ft","?")} FT · '
-             f'{_fmt(W)} x {_fmt(H)} CLEAR · {fp.get("area_sf","?")} SF GROSS'
-             f'{" · " + str(_date) if _date else ""} · {register.upper()} REGISTER</text>')
+             # every figure the PLACEMENT wrote is escaped as text (the audit of Phase 17): the
+             # footprint is a placed key, and a record a client posts is drawn by this function
+             f'{_esc(str(fp.get("bays","?")))} BAYS OF {_esc(str(fp.get("bay_module_ft","?")))} FT · '
+             f'{_fmt(W)} x {_fmt(H)} CLEAR · {_esc(str(fp.get("area_sf","?")))} SF GROSS'
+             f'{" · " + _esc(str(_date)) if _date else ""} · {register.upper()} REGISTER</text>')
 
     for i, lv in enumerate(levels):
         ox, oy = _plate_origin(i)          # the SAME function data-frame was built from
@@ -1932,7 +1934,7 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
                 gx0, gy0 = (X(at), Y(at_along)) if vert else (X(at_along), Y(at))
                 s.append(f'<path class="mk" d="M {gx0:.1f} {gy0-4.5:.1f} L {gx0+4.0:.1f} '
                          f'{gy0+3.0:.1f} L {gx0-4.0:.1f} {gy0+3.0:.1f} Z"><title>'
-                         f'{mk.get("off_ft")} ft off the bay line</title></path>')
+                         f'{_esc(str(mk.get("off_ft")))} ft off the bay line</title></path>')
 
     # ------------------------------------------------------------- the foot of the sheet
     foot_y = top + extra_top + ph + extra_bottom + DIM_BAND_PX + 26

@@ -477,6 +477,12 @@ def residual_void(plan):
     t = tf.get("tiling")
     if not t or not t.get("levels"):
         return None
+    if t.get("uncovered_sf") is None:
+        # past `typefacts.RASTER_CELLS_MAX` (the audit of Phase 17): the residual was not measured,
+        # and neither the iron line (a figure) nor the verd one (a pass) may be printed over it
+        return [{"id": "void-unjudged", "tone": IRON, "detail": t,
+                 "text": "THE TILING IS NOT JUDGED — A BLOCK IS TOO LARGE TO RASTERISE WITHIN "
+                         "THE STATED CEILING, SO THE FLOOR INSIDE NO ROOM WAS NOT MEASURED"}]
     lines = []
     for lv in t["levels"]:
         sf = lv.get("uncovered_sf") or 0.0

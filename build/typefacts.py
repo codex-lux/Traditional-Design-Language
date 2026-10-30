@@ -75,6 +75,19 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # between two rooms is measured to the inch and a total is good to a tenth of a square foot.
 STEP_FT = 0.1
 
+# THE RASTER'S WORK CEILING (the audit of Phase 17, 30 Oct 2026). `uncovered` paints and floods
+# one Python-loop cell per 0.1 ft square, so its cost is the block's cells plus every rectangle's
+# clamped cells -- and nothing bounded either: ONE 600 ft block took 35 s, and a 28 KB body posted
+# to a drawing route held a worker for 13.7 s. A real house's block is a few hundred thousand cells
+# (the Tidewater main block, 45 x 37 ft, is about 166,500), so four million cells of work is more
+# than ten times the largest house this corpus places and is a few seconds at worst. Above it the
+# tiling is UNJUDGED with the reason stated, and the work is NEVER begun -- not done and then
+# discarded, and not coarsened to a cheaper step, because a coarser raster is a different
+# measurement and the gate reads this one. Unjudged never refuses, so this is defence in depth:
+# the carried-placement registry (`workbench/server/corpus.py`) is what keeps a client's own
+# rectangles off this path; this keeps a record the server itself placed from costing a minute.
+RASTER_CELLS_MAX = 4_000_000
+
 # The residual void at or under which a level is said to TILE: the gate's own figure
 # (`test_every_level_tiles_its_block`, `u > 0.05`) and `disclosures.TILED_SF`. Above it the
 # tiling fact is DOWNGRADED and every strip is named, whatever floor the prover was asked for.
@@ -159,6 +172,8 @@ def uncovered(rects, block, step=STEP_FT):
     nx, ny = int(round(bw / step)), int(round(bh / step))
     if nx <= 0 or ny <= 0:
         return 0.0, []
+    if raster_work(rects, block, step) > RASTER_CELLS_MAX:
+        return None, []            # UNJUDGED: the work would pass the ceiling and is not begun
     cov = bytearray(nx * ny)
     for (x, y, w, h) in rects:
         x0, y0 = int(round((x - bx) / step)), int(round((y - by) / step))
@@ -200,6 +215,22 @@ def uncovered(rects, block, step=STEP_FT):
     return round(total * cell, 2), strips
 
 
+def raster_work(rects, block, step=STEP_FT):
+    """The cells `uncovered` would visit on `block`: the block's own (the flood scans every one)
+    plus each rectangle's cells clamped to the block (the paint). Computed in O(rectangles), before
+    anything is allocated, so a record past `RASTER_CELLS_MAX` costs nothing to refuse."""
+    bx, by, bw, bh = block[:4]
+    nx, ny = int(round(bw / step)), int(round(bh / step))
+    if nx <= 0 or ny <= 0:
+        return 0
+    work = nx * ny
+    for (x, y, w, h) in rects:
+        x0, y0 = int(round((x - bx) / step)), int(round((y - by) / step))
+        x1, y1 = int(round((x + w - bx) / step)), int(round((y + h - by) / step))
+        work += max(0, min(nx, x1) - max(0, x0)) * max(0, min(ny, y1) - max(0, y0))
+    return work
+
+
 def tiling(plan, step=STEP_FT):
     """Per placed level, the square feet of the level's massing block(s) inside no room
     rectangle, and the strips. `None` where there is nothing to judge -- no footprint, or no
@@ -220,15 +251,30 @@ def tiling(plan, step=STEP_FT):
             if not any(_centre_inside(r, blk) for r in rects):
                 continue           # no room stands in this element on this level: no floor here
             sf, strips = uncovered(rects, blk, step)
-            row["blocks"].append({"block": blk[4], "x_ft": blk[0], "y_ft": blk[1],
-                                  "width_ft": blk[2], "depth_ft": blk[3],
-                                  "rooms": sum(1 for r in rects if _centre_inside(r, blk)),
-                                  "uncovered_sf": sf, "strips": strips})
-            row["uncovered_sf"] = round(row["uncovered_sf"] + sf, 2)
+            entry = {"block": blk[4], "x_ft": blk[0], "y_ft": blk[1],
+                     "width_ft": blk[2], "depth_ft": blk[3],
+                     "rooms": sum(1 for r in rects if _centre_inside(r, blk)),
+                     "uncovered_sf": sf, "strips": strips}
+            if sf is None:
+                # past the raster's work ceiling: the level is UNJUDGED (`tiling_status` reads a
+                # null residual as unjudged on that level), and the reason is on the block
+                entry["unjudged"] = (
+                    f"not rasterised: {raster_work(rects, blk, step):,} cells of work at "
+                    f"{step} ft against a ceiling of {RASTER_CELLS_MAX:,} "
+                    f"(typefacts.RASTER_CELLS_MAX); the tiling of this block is not judged")
+                row["uncovered_sf"] = None
+            elif row["uncovered_sf"] is not None:
+                row["uncovered_sf"] = round(row["uncovered_sf"] + sf, 2)
+            row["blocks"].append(entry)
         if row["blocks"]:
             levels_out.append(row)
     if not levels_out:
         return None
+    if any(lv["uncovered_sf"] is None for lv in levels_out):
+        return {"step_ft": step, "levels": levels_out, "uncovered_sf": None,
+                "note": ("Not judged: at least one block is past the raster's work ceiling "
+                         f"({RASTER_CELLS_MAX:,} cells, typefacts.RASTER_CELLS_MAX), so its residual "
+                         "void was not measured; each such block says so under `unjudged`.")}
     total = round(sum(lv["uncovered_sf"] for lv in levels_out), 2)
     return {"step_ft": step, "levels": levels_out, "uncovered_sf": total,
             "note": ("Square feet of each placed level's massing block(s) lying inside no room "

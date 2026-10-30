@@ -28,6 +28,10 @@ def _placed_heuristic(monkeypatch):
     plan = drawable.drawable_plan()
     out = geo.solve(copy.deepcopy(plan), engine="heuristic")
     assert "error" not in out
+    # the server produced this placement: registered, as `_placed`, evaluate and a compose job
+    # register theirs (the audit of Phase 17 -- only a placement the server produced is carried)
+    from workbench.server import corpus
+    corpus.remember_placement(out)
     return geo, plan, out
 
 
@@ -66,16 +70,17 @@ def test_the_bench_keeps_a_placement_of_the_record_and_rejudges_it(monkeypatch):
         calls.append(kw.get("engine"))
         return real(*a, **kw)
     monkeypatch.setattr(geo, "solve", spy)
-    # a forged verdict on the posted record is not read: the carried placement is re-judged
-    posted = copy.deepcopy(out)
-    posted["geometry_report"]["refused"] = {"kind": "forged", "facts": ["tiling"]}
-    res = evaluate.evaluate(posted, place=True, engine="auto")
+    res = evaluate.evaluate(copy.deepcopy(out), place=True, engine="auto")
     assert calls == [], "a placement of the record itself is not re-solved"
     assert "error" not in res["check"], res["check"].get("error")
-    got = corpus.carried(posted)
+    # a forged verdict on the posted record is not read: since the audit of Phase 17 a record whose
+    # whole digest the server did not produce is not carried at all, and is re-solved
+    posted = copy.deepcopy(out)
+    posted["geometry_report"]["refused"] = {"kind": "forged", "facts": ["tiling"]}
+    assert corpus.carried(posted)["state"] == corpus.NOT_CARRIED
+    got = corpus.carried(copy.deepcopy(out))
     assert got["state"] == corpus.CARRIED, got
     kept = got["record"]
-    assert kept["geometry_report"].get("refused") != {"kind": "forged", "facts": ["tiling"]}
     assert ([r.get("geometry") for lv in kept["levels"] for r in lv["rooms"]]
             == [r.get("geometry") for lv in out["levels"] for r in lv["rooms"]])
 
@@ -190,6 +195,8 @@ def _tidewater_heuristic(monkeypatch):
     p = json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
     out = geo.solve(copy.deepcopy(p), engine="heuristic")
     assert "error" not in out
+    from workbench.server import corpus
+    corpus.remember_placement(out)
     facts = (out["geometry_report"].get("refused") or {}).get("facts") or []
     assert "stacks" in facts, f"the premise: this placement is refused for its stacks ({facts})"
     return geo, out
@@ -214,6 +221,11 @@ def test_a_carried_placement_re_derives_the_stacking_tally_it_is_judged_on(monke
     blanked["geometry_report"]["refused"] = None
     for name, rec in (("tally deleted", deleted), ("broken moved to kept", moved),
                       ("tally emptied and refusal cleared", blanked)):
+        # a client's forgery is not carried at all (the registry, the audit of Phase 17) ...
+        assert corpus.carried(rec)["state"] == corpus.NOT_CARRIED, name
+        # ... and the re-derivation stays as defence in depth: even a record the server itself
+        # had registered is judged on a tally derived here, never on the one it carries
+        corpus.remember_placement(rec)
         got = corpus.carried(rec)
         assert got["state"] == corpus.CARRIED, (name, got)
         ref = got["record"]["geometry_report"].get("refused") or {}
@@ -251,13 +263,21 @@ def test_a_stale_tally_on_a_drawable_record_is_refused_for_the_stack_it_breaks(m
             r["stacks_over"] = down
     forged["geometry_report"]["solver"]["input_digest"] = geo.declared_digest(forged)
     assert geo.carries_its_own_placement(forged), "the premise: a client can re-stamp the digest"
+    # the registry (the audit of Phase 17): a re-stamped record is not one the server produced,
+    # so it is not carried, and both surfaces place it afresh rather than draw it
+    assert corpus.carried(forged)["state"] == corpus.NOT_CARRIED
+    calls = _stub_solve(monkeypatch, geo)
+    evaluate.evaluate(copy.deepcopy(forged), place=True, engine="auto")
+    assert calls == ["auto"], f"the bench must re-solve a forged record, and solved {calls}"
+    corpus.forget_recent_placements()
+    corpus._placed(copy.deepcopy(forged), None, 250)
+    assert calls == ["auto", "auto"], f"the Drawing Set must re-solve it too, and solved {calls}"
+    # defence in depth: were such a record ever registered, the re-judge still refuses its stack
+    corpus.remember_placement(forged)
     got = corpus.carried(forged)
     assert got["state"] == corpus.CARRIED
     assert "stacks" in ((got["record"]["geometry_report"].get("refused") or {}).get("facts") or []), \
         "the stack the declared record claims and the rectangles break is judged and refused"
-    res = evaluate.evaluate(copy.deepcopy(forged), place=True, engine="auto")
-    assert "placement_refused" in res and "placement" not in res, sorted(res)
-    assert "error" in corpus._placed(copy.deepcopy(forged), None, 250), "the Drawing Set refuses it too"
 
 
 def test_a_carried_placement_withholds_the_solver_claim_it_arrived_with(monkeypatch):
@@ -329,7 +349,6 @@ def test_the_drawing_set_stamps_who_drew_a_carried_placement_and_leaves_its_argu
     from workbench.server import corpus
     geo, plan, out = _placed_heuristic(monkeypatch)
     arg = copy.deepcopy(out)
-    arg["geometry_report"]["refused"] = {"kind": "forged"}
     before = copy.deepcopy(arg)
     drawn = corpus._placed(arg, None, 250)
     assert arg == before, "the caller's record is not judged in place"
@@ -354,6 +373,9 @@ def test_a_composed_candidate_carries_its_own_placement(monkeypatch):
     CO = modcache.load("compose", os.path.join(ROOT, "build", "compose.py"))
     brief = json.load(open(os.path.join(ROOT, "briefs", "bungalow-small.json")))
     res = CO.compose(brief, candidates=2, revise=True, revise_rounds=1, revise_engine="heuristic")
+    from workbench.server import jobs
+    corpus.forget_placements()
+    jobs._remember_plans(res)          # what a compose job does with its result, before a reader can fetch it
     cards = [c for c in res["candidates"] if c.get("revision")]
     assert cards, "the premise: some card was placed by the revision loop"
     for c in cards:

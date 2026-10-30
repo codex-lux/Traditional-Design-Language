@@ -457,16 +457,37 @@ def classify(plan, check, registry=None, C=None, ctx=None):
 
 
 def critique(plan, engine="auto", candidates=250, parti=None, place=True, seed=7,
-             time_limit_s=25.0, C=None, ctx=None):
+             time_limit_s=25.0, C=None, ctx=None, trusted_placement=False):
+    """`trusted_placement` (the audit of Phase 17, 30 Oct 2026): True only where the CALLER vouches
+    that the placement `plan` carries is one its own process produced -- the workbench passes
+    `corpus.is_registered(plan)`. A posted placement is reused only where it is trusted AND it is
+    of this record (`geometry.carries_its_own_placement`); anything else is stripped and placed
+    afresh. This function reused ANY posted placement on `has_placement` alone, re-judged it only
+    where `refused` was absent, never re-derived its stacking tally, and reported the posted
+    `solver.engine` as the engine that ran -- so a forged `refused: null` with a `cp-sat`/`OPTIMAL`
+    block read `placement_refused: false` and `ran: cp-sat`, and a room edited after placement was
+    critiqued on the rectangles of the house before the edit. On a reused placement the stacking
+    tally is re-derived and the type's facts re-judged every time, and `engine.ran` is `carried`:
+    this function did not solve it and does not repeat a claim it did not make (R11)."""
     core = _mod("tdlcore", os.path.join(ROOT, "mcp_server", "core.py"))
     plan = core.copy_json(plan)
     C = C or PC.load_corpus()
     ctx = dict(ctx or {}); ctx.setdefault("candidates", candidates); ctx.setdefault("engine", engine)
     placement = {"reused": False, "requested": engine if place else None, "could_not_evaluate": None}
+    reused = False
     if place:
-        if has_placement(plan):
-            placement["reused"] = True
+        if has_placement(plan) and trusted_placement is True and GEO.carries_its_own_placement(plan):
+            placement["reused"] = reused = True
         else:
+            if has_placement(plan):
+                # not vouched for, or of another record: what it carries is not this house
+                placement["discarded"] = ("the placement the record carried was not reused: "
+                                          + ("it is not one the caller produced"
+                                             if trusted_placement is not True else
+                                             "it is not a placement of this declared record")
+                                          + "; the record was placed afresh")
+                OP = _mod("openings", os.path.join(ROOT, "build", "openings.py"))
+                plan = OP.strip_placement(plan)
             pt = core.load_parti(parti) if isinstance(parti, str) else parti
             out = GEO.solve(plan, pt, candidates, seed=seed, engine=engine, time_limit_s=time_limit_s)
             if "error" in out or out.get("unsolved"):
@@ -474,15 +495,17 @@ def critique(plan, engine="auto", candidates=250, parti=None, place=True, seed=7
             else:
                 plan = out
         # THE VERDICT TRAVELS WITH THE PLACEMENT (WP-13.4). A placement this function SOLVED
-        # already carries it, written by `geometry._disclose` through the same leaf; a
-        # placement the CALLER carried in has never reached a record writer and has therefore
-        # never been judged, so reading a missing key as "not refused" would be the fake pass
-        # this corpus names first. `typefacts.judge` writes it, and it is the same function
-        # `_disclose` and `corpus._placed` call.
+        # already carries it, written by `geometry._disclose` through the same leaf; a placement
+        # the caller carried in is re-judged here EVERY time, on a stacking tally re-derived here
+        # -- `typefacts.judge` reads the tally, and a carried one is the carried record's word
+        # (the audit of Phase 17; `corpus.carried` does the same). `typefacts.judge` is the same
+        # function `_disclose` and `corpus.carried` call.
         if placement["could_not_evaluate"] is None and has_placement(plan):
             _gr = plan.setdefault("geometry_report", {})
-            if "refused" not in _gr:
+            if reused or "refused" not in _gr:
                 try:
+                    if reused:
+                        _gr["stacking"] = GEO.stacking_report(plan)
                     TF.judge(plan)
                 except Exception as exc:            # unjudged, and unjudged does not refuse
                     placement["could_not_evaluate"] = (
@@ -494,8 +517,12 @@ def critique(plan, engine="auto", candidates=250, parti=None, place=True, seed=7
     assessment, cne = classify(plan, check, _registry(), C, ctx)
     return {
         "plan_id": plan.get("id"), "style": plan.get("style"),
-        "engine": {"requested": engine if place else None, "ran": solver.get("engine"),
-                   "reason": solver.get("reason"), "fallback": solver.get("fallback")},
+        # a reused placement was not solved here, so the engine that ran is `carried`, never the
+        # claim the record arrived with (R11)
+        "engine": {"requested": engine if place else None,
+                   "ran": "carried" if reused else solver.get("engine"),
+                   "reason": None if reused else solver.get("reason"),
+                   "fallback": None if reused else solver.get("fallback")},
         "placement": {**placement, "candidates": candidates if place else None,
                       "placed": has_placement(plan)},
         "plan": plan, "check": check, "key": key_of(check),

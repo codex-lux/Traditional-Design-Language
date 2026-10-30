@@ -88,7 +88,15 @@ def evaluate(plan, strict=False, place=True, parti=None, candidates=250,
         # composer's searched house under the plate's own "Prove placement above is the act that
         # proves it"; re-solve posts `auto` WITH rounds, and carrying there ran the rounds on the
         # carried house and never solved it again, against the glossary's "Solve the plan on the
-        # bench again from its record". The candidates slider is read for the same reason.
+        # bench again from its record". (This said "the candidates slider is read for the same
+        # reason", and it is not: `cand` below ignores `candidates` on the carried path, and the
+        # bench sends no slider value that would make a carried record re-solve. A record placed
+        # at another width is carried as it stands, which is the open path's whole point.)
+        #
+        # AND ONLY A PLACEMENT THIS SERVER PRODUCED (the audit of Phase 17, 30 Oct 2026):
+        # `corpus.carried` answers not-carried for a record whose whole digest is not in the
+        # server's registry, so a forged footprint, bay module or proof of infeasibility is
+        # re-solved rather than drawn. Every placed record this route places is registered below.
         # A carried placement that cannot be judged is not drawn and not re-solved in silence --
         # `corpus.carried` says why, and this route answers `placement_error` with it, exactly
         # as the Drawing Set answers the same record (finding 28).
@@ -109,6 +117,7 @@ def evaluate(plan, strict=False, place=True, parti=None, candidates=250,
             placement_error = cand["error"]
         else:
             solved, placement_error = cand, None
+            corpus.remember_placement(solved)
             # THE VERDICT, READ OFF THE RECORD (WP-13.4). `geometry._disclose` wrote it
             # through `typefacts.judge`; nothing here re-derives "may this be drawn".
             refused = (cand.get("geometry_report") or {}).get("refused")
@@ -119,6 +128,7 @@ def evaluate(plan, strict=False, place=True, parti=None, candidates=250,
     if place and solved is not None and revise_rounds > 0:
         solved, revision = _revise_inline(solved, parti, candidates,
                                           revise_rounds, revise_budget_s)
+        corpus.remember_placement(solved)
         refused = (solved.get("geometry_report") or {}).get("refused")
     t_revise = time.perf_counter()
     check = core.check_plan(solved if solved is not None else plan, strict=strict)
@@ -310,7 +320,9 @@ def _revise_inline(solved, parti, candidates, rounds, budget_s):
             solved, rounds=rounds, engine=loop_engine, candidates=candidates,
             place=True, include_plan=True, budget_s=budget,
             parti=parti, surfaced="with-its-own-placement",
-            time_limit_s=geo.BUDGET_INTERACTIVE_S)
+            time_limit_s=geo.BUDGET_INTERACTIVE_S,
+            # the record was placed (or carried) by this route a moment ago and is registered
+            trusted_placement=corpus.is_registered(solved))
     except Exception as exc:                                  # noqa: BLE001 -- see docstring
         return solved, {"error": f"{type(exc).__name__}: {str(exc)[:200]}"}
     finally:

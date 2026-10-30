@@ -8,6 +8,9 @@ import hashlib
 import json
 import os
 import sys
+import threading
+import time
+from collections import OrderedDict
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 for p in (ROOT, os.path.join(ROOT, "mcp_server"), os.path.join(ROOT, "build")):
@@ -1241,6 +1244,94 @@ CARRIED_REASON = (
 _SOLVER_KEYS_KEPT = ("input_digest",)
 
 
+# ------------------------------------------------- THE PLACEMENTS THIS SERVER PRODUCED
+# THE AUDIT OF PHASE 17 (30 Oct 2026), BLOCKING: A FORGED PLACEMENT WAS CARRIED. `carried()` keyed
+# on `geometry.declared_digest`, which binds the DECLARED half only and is an unkeyed hash any
+# client can compute -- so every key a placement wrote (`footprint`, `footprint.blocks`,
+# `bay_module_ft`, `geometry_report.infeasible`, `span_capacity`, `vertical`, `relaxations`, ...)
+# was the posting client's word. Deleting `footprint.bay_module_ft` on a refused house made bearing
+# read UNJUDGED, which never refuses: `POST /api/drawings/plan` answered 422 honestly and 200 with an
+# svg forged; a forged `geometry_report.infeasible` printed "CP-SAT proved ..." with the client's
+# own lines.
+#
+# THE SERVER CARRIES ONLY A PLACEMENT IT PRODUCED ITSELF (ruled by the lead, 30 Oct 2026). Every
+# placed record this process hands out -- a compose job's candidates (`jobs.py`), the record
+# evaluate places, every record `_placed` and `scene` produce, the record `carried()` returns -- is
+# registered here by the digest of the WHOLE record, and `carried()` answers not-carried for any
+# posted record whose digest is not here. A browser round trip still matches (`_canonical_numbers`:
+# key order and `9.0` -> `9` are not edits). `geometry_report.solver` is left out because
+# `carried()` and `_placed` rewrite it (R11 withholds the claim; `drawn_by` is the server's own).
+#
+# BOUNDED, IN MEMORY, AND EMPTIED BY A RESTART. An LRU of `REGISTRY_MAX` digests (a digest, never
+# a record, so its memory is a few dozen KB). A record whose digest has been evicted, or that was
+# placed before this process started, is RE-SOLVED -- the safe direction: the reader waits for a
+# placement this server stands behind instead of being drawn one it cannot vouch for.
+REGISTRY_MAX = 512
+_REGISTRY = OrderedDict()
+_REGISTRY_LOCK = threading.Lock()
+
+
+def placement_digest(record):
+    """The fingerprint of a WHOLE placed record, `geometry_report.solver` excepted (the one block
+    the server rewrites on a carried record). Integral floats hash as integers, as
+    `geometry.declared_digest` does, so the browser's `JSON.stringify` round trip is not an edit."""
+    geo = core._mod("geometry", os.path.join(ROOT, "build", "geometry.py"))
+    d = dict(record)
+    rep = d.get("geometry_report")
+    if isinstance(rep, dict):
+        d["geometry_report"] = {k: v for k, v in rep.items() if k != "solver"}
+    # THROUGH JSON FIRST, as the browser takes it: a record the server holds still carries Python
+    # tuples (`lot_extent.union_bbox_ft`) and integer keys (`type_facts.bearing.bearing_lines`),
+    # and `_canonical_numbers` walks dicts and lists only, so `(0.0, 40.0)` hashed as floats on the
+    # server's copy and as `[0, 40]` on the browser's -- measured, the first draft of this registry
+    # refused every placement that had been through the bench
+    d = json.loads(json.dumps(d, default=str))
+    return hashlib.sha256(json.dumps(geo._canonical_numbers(d), sort_keys=True, default=str)
+                          .encode()).hexdigest()
+
+
+def _has_geometry(record):
+    return isinstance(record, dict) and any(
+        isinstance(r, dict) and r.get("geometry")
+        for lv in record.get("levels") or [] if isinstance(lv, dict)
+        for r in lv.get("rooms") or [])
+
+
+def remember_placement(record):
+    """Register a placed record THIS SERVER produced, so a client that posts it back unchanged has
+    it carried. A record carrying no placement is not registered (there is nothing to carry).
+    Returns the digest, or None."""
+    if not _has_geometry(record):
+        return None
+    dig = placement_digest(record)
+    with _REGISTRY_LOCK:
+        _REGISTRY[dig] = True
+        _REGISTRY.move_to_end(dig)
+        while len(_REGISTRY) > REGISTRY_MAX:
+            _REGISTRY.popitem(last=False)
+    return dig
+
+
+def is_registered(record):
+    """True where `record` is, digest for digest, a placed record this process produced -- the
+    only placement the workbench may carry (or let the critique reuse) rather than re-solve."""
+    if not _has_geometry(record):
+        return False
+    dig = placement_digest(record)
+    with _REGISTRY_LOCK:
+        if dig in _REGISTRY:
+            _REGISTRY.move_to_end(dig)
+            return True
+    return False
+
+
+def forget_placements():
+    """Empty the registry -- what a restart does. Tests use it to stand where a fresh process
+    stands."""
+    with _REGISTRY_LOCK:
+        _REGISTRY.clear()
+
+
 def carried(plan):
     """THE ONE READER OF A CARRIED PLACEMENT (WP-17.3; the audit of Phase 17). Three states:
 
@@ -1282,10 +1373,27 @@ def carried(plan):
     UNJUDGED IS NOT CARRIED AND NOT DRAWN. A placement of this record whose facts cannot be judged
     is neither re-solved in silence (a different house under the card's name) nor drawn (an
     unjudged verdict is not a pass): both callers say it could not be judged, and an explicit
-    solve -- Prove placement, re-solve -- places the record afresh."""
+    solve -- Prove placement, re-solve -- places the record afresh.
+
+    ONLY A PLACEMENT THIS SERVER PRODUCED IS CARRIED (the audit of Phase 17, 30 Oct 2026). The
+    re-derivations above were the whole of the defence while the digest bound the declared half,
+    and they could not reach `footprint`, `bay_module_ft`, `infeasible` or `span_capacity`: a
+    record with `footprint.bay_module_ft` deleted read bearing UNJUDGED and was drawn, and a forged
+    `infeasible` was printed as CP-SAT's proof. A posted record is carried now only where its WHOLE
+    digest (`placement_digest`, the solver block aside) is in this process's registry of records
+    it handed out (`remember_placement`); anything else is not-carried and is re-solved. A restart
+    empties the registry, so every record carried before it is re-solved after -- the safe
+    direction. The stacking re-derivation and the re-judge stay, as defence in depth: on a
+    registered record they reproduce what the server wrote. The record returned is registered in
+    turn, because its re-derived tally and the server's own solver block are what a client posts
+    back next."""
     geo = core._mod("geometry", os.path.join(ROOT, "build", "geometry.py"))
     if not geo.carries_its_own_placement(plan):
         return {"state": NOT_CARRIED}
+    if not is_registered(plan):
+        return {"state": NOT_CARRIED, "why": (
+            "the posted placement is not one this server produced (or it was produced before "
+            "the server last restarted), so it is not carried: the record is placed afresh")}
     out = core.copy_json(plan)
     rep = out.setdefault("geometry_report", {})
     claim = rep.get("solver") if isinstance(rep.get("solver"), dict) else {}
@@ -1310,6 +1418,7 @@ def carried(plan):
                            f"{type(e).__name__}: {str(e)[:200]}. It is not drawn, because an "
                            f"unjudged verdict is not a pass; Prove placement or re-solve places "
                            f"the record afresh.")}
+    remember_placement(out)
     return {"state": CARRIED, "record": out}
 
 
@@ -1375,7 +1484,10 @@ def _placed(plan, parti=None, candidates=250):
                 "surface": "workbench/server/corpus.py::_placed",
                 "engine_requested": "carried",
                 "candidates": None,
-                "parti": (parti or {}).get("id") if isinstance(parti, dict) else parti,
+                # THE RECORD'S OWN PARTI (the audit of Phase 17): a carried placement was placed
+                # by whoever placed it, not by the parti this request names, and writing the
+                # requested one here attributed the house to a diagram that may not have made it
+                "parti": plan.get("parti"),
                 "input_digest": hashlib.sha256(json.dumps(plan, sort_keys=True, default=str)
                                                .encode()).hexdigest()[:12],
                 "why": ("Every sheet in a drawing set takes this one placement (WP-6.4). This one "
@@ -1390,6 +1502,27 @@ def _placed(plan, parti=None, candidates=250):
         plan = _strip(plan)
     digest = hashlib.sha256(json.dumps(plan, sort_keys=True,
                                        default=str).encode()).hexdigest()[:12]
+    # ONE DRAWING SET, ONE HOUSE, ACROSS CALLS (the prover's audit of Phase 17). An UNKNOWN CP
+    # answer is no longer cached (`geometry._cacheable`), so the Drawing Set's separate calls --
+    # the scene, then the section and the bearing plate through `drawing()` -- each re-solved the
+    # declared record here and, under load, drew different houses: the scene a heuristic placement
+    # and the section a CP-SAT one, under one input digest. The last placement this function made
+    # of a declared record is kept for `RECENT_TTL_S` and handed to the next call of the same
+    # record, parti and width before anything is solved. It sits beside `geometry._SOLVE_CACHE`
+    # and not in it, because that cache's rule (do not keep an undecided answer) is right for a
+    # solver and this one's (one set of sheets is one building) is right for a drawing set.
+    rkey = _recent_key(plan, parti, candidates)
+    hit = _recent_get(rkey)
+    if hit is not None:
+        out = hit
+        out["geometry_report"]["solver"].setdefault("drawn_by", {})["reused"] = (
+            "the placement this function made of this declared record within the last "
+            f"{int(RECENT_TTL_S)} s, so every sheet of the set is one house")
+        remember_placement(out)
+        ref = out["geometry_report"].get("refused")
+        if ref:
+            return refused_response(ref)
+        return out
     # A COPY, SO THE RECORD HANDED IS THE RECORD AFTER (audit, 27 Sep 2026). `geometry.solve`
     # writes the placement INTO its argument on a cache miss and returns a copy on a hit, so every
     # branch below handed its builders the PLACED record on a record's first request and the
@@ -1419,12 +1552,61 @@ def _placed(plan, parti=None, candidates=250):
                 "not optional, because a lower score alone reads as a better house and is not "
                 "(oq/a-proof-of-feasibility-is-not-a-proof-of-composition)."),
     }
+    # the server's own placement: registered, so a client posting it back has it carried, and
+    # kept, so the next sheet of this set draws the same house
+    remember_placement(out)
+    _recent_put(rkey, out)
     # AND THEN THE VERDICT, READ OFF THE RECORD (WP-13.4). `geometry._disclose` wrote it
     # through `typefacts.judge`; nothing here re-derives "may this be drawn".
     ref = (out.get("geometry_report") or {}).get("refused")
     if ref:
         return refused_response(ref)
     return out
+
+
+# The last placements `_placed` made, by (declared digest, parti id, candidates): a short-lived
+# map so one Drawing Set's several calls draw one house (see `_placed`). Bounded in size and age,
+# guarded by a lock (the server runs sync routes on a thread pool), and a copy in and a copy out,
+# so no caller can edit what the next one is handed.
+RECENT_TTL_S = 600.0
+RECENT_MAX = 64
+_RECENT = OrderedDict()
+_RECENT_LOCK = threading.Lock()
+
+
+def _recent_key(plan, parti, candidates):
+    geo = core._mod("geometry", os.path.join(ROOT, "build", "geometry.py"))
+    pid = (parti or {}).get("id") if isinstance(parti, dict) else parti
+    return (geo.declared_digest(plan), pid, candidates)
+
+
+def _recent_get(key):
+    now = time.monotonic()
+    with _RECENT_LOCK:
+        got = _RECENT.get(key)
+        if got is None:
+            return None
+        t, rec = got
+        if now - t > RECENT_TTL_S:
+            del _RECENT[key]
+            return None
+        _RECENT.move_to_end(key)
+    return core.copy_json(rec)
+
+
+def _recent_put(key, record):
+    rec = core.copy_json(record)
+    with _RECENT_LOCK:
+        _RECENT[key] = (time.monotonic(), rec)
+        _RECENT.move_to_end(key)
+        while len(_RECENT) > RECENT_MAX:
+            _RECENT.popitem(last=False)
+
+
+def forget_recent_placements():
+    """Empty the drawing set's recent placements (tests; and what a restart does)."""
+    with _RECENT_LOCK:
+        _RECENT.clear()
 
 
 def plate_direction(elev, face=None):
@@ -1737,6 +1919,9 @@ def scene(plan, parti=None, candidates=250, plates=True):
     # looking exactly like an overlay that works: no privacy rank resolves, `isWet` is false
     # for every room, and the daylight reach silently falls back on every one. A surface that
     # draws nothing is indistinguishable from a house with nothing to draw.
+    # the placed record rides back to the client; registered as it leaves (the builders above
+    # read it, and a reader that wrote to it would otherwise make the client's copy unknown here)
+    remember_placement(placed)
     out = {"scene": rec, "plan": placed,
            "rooms_meta": rooms_meta(placed),
            "solver": (placed.get("geometry_report") or {}).get("solver")}
@@ -1929,4 +2114,8 @@ def invalidate():
                                        # see it; test_invalidate_clears_every_cache_it_claims_to names it.
     reset_pack_list()                  # WP-14.24: the pack list and its thumbnails, a module
                                        # global of the same kind, named in the same test.
+    forget_recent_placements()         # a placement made against the pre-edit corpus is not
+                                       # handed to the next sheet; the REGISTRY is kept, because
+                                       # it records what this server produced, and a carried
+                                       # record is re-judged against the reloaded corpus anyway
     return {"reloaded": True}
