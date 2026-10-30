@@ -65,8 +65,23 @@ def engine_line(plan):
     ONLY where the solver's own status begins OPTIMAL, its objective was evaluated, and no
     declared wall was set aside. Anything else prints the status the record has, verbatim, in
     copper; where the objective is null, `objective_not_run` prints beside it. A status the
-    record does not carry is UNJUDGED, not proved."""
+    record does not carry is UNJUDGED, not proved.
+
+    AND A CARRIED PLACEMENT PROVES NOTHING HERE (ruled by Lucas 30 Oct 2026, R11). A placement
+    the record carried in -- a composed candidate opened on the bench, drawn as composed
+    (WP-17.3) -- was not solved by the surface printing this line, and the solver claim it
+    arrived with is the posted record's own: an unkeyed digest binds only the declared half, so a
+    forged `cp-sat`/`OPTIMAL` printed PROVED over hand-moved rectangles (the audit of Phase 17,
+    finding 25). `workbench/server/corpus.py::carried` replaces that claim with `carried: true`
+    and this line says so -- carried, not solved here, the claim withheld, the type's facts
+    re-judged -- and never PROVED, whatever the record says. Tested FIRST, before the engine's
+    name is read at all, so no later branch can print a proof for a carried record."""
     s = (plan.get("geometry_report") or {}).get("solver") or {}
+    if s.get("carried") is True:
+        return {"id": "engine", "tone": COPPER, "detail": {"carried": True,
+                                                          "withheld": s.get("withheld")},
+                "text": "PLACEMENT CARRIED FROM THE COMPOSE, NOT SOLVED HERE — ITS SOLVER CLAIM "
+                        "WITHHELD, THE TYPE'S FACTS RE-JUDGED HERE"}
     engine = s.get("engine")
     if not engine:
         return None

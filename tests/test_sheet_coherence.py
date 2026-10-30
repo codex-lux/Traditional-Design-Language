@@ -876,6 +876,48 @@ def test_the_plate_does_not_certify_a_placement_whose_objective_did_not_run(shee
 
 
 @pytest.mark.parametrize("kind,engine", SHEETS, ids=IDS)
+def test_a_carried_placement_prints_no_proof(sheets, kind, engine, tmp_path):
+    """THE CARRIED TWIN OF THE ROW ABOVE (ruled by Lucas 30 Oct 2026, R11). A composed candidate
+    opened on the bench is drawn as composed (WP-17.3), and the solver claim it arrived with is the
+    posted record's own -- the audit of Phase 17 (finding 25) printed PLACEMENT PROVED over a forged
+    `cp-sat`/`OPTIMAL` and hand-moved rectangles. Each sheet is carried exactly as the server carries
+    it (`corpus.carried`, the one reader) and its plate printed: whatever the solver claimed, a
+    carried plate says it was carried, not solved here, its claim withheld -- and never PROVED.
+
+    The rule, as the other two spellings hold it (`engineClaim.test.mjs` reads this source): a
+    carried record, `sv.get("carried") is True`, may not print the proof line."""
+    out, _svg, _ = sheets(kind, engine)
+    if ROOT not in sys.path:
+        sys.path.insert(0, ROOT)
+    from workbench.server import corpus
+    got = corpus.carried(copy.deepcopy(out))
+    assert got["state"] == corpus.CARRIED, (
+        f"a fresh placement of the record is not carried ({got}) -- the premise of this row")
+    rec = got["record"]
+    sv = rec["geometry_report"]["solver"]
+    path = str(tmp_path / f"{kind}-{engine}-carried.svg")
+    RP.render(rec, path, register="presentation")
+    lines = _schedule(open(path, encoding="utf-8").read())
+    proved = any("PLACEMENT PROVED" in ln for ln in lines)
+    if sv.get("carried") is True:
+        assert not proved, f"a carried plate certifies a proof: {[ln for ln in lines if 'PROVED' in ln]}"
+    carried_lines = [ln for ln in lines if ln.startswith("PLACEMENT CARRIED") and "WITHHELD" in ln]
+    assert carried_lines, (
+        f"nothing on the carried plate says it was carried with its solver claim withheld: {lines[:8]}")
+    assert not any(w in ln for ln in carried_lines for w in ("HILL-CLIMB", "SEARCHED", "CP-SAT")), (
+        f"the carried line names an engine the plate was not solved by: {carried_lines}")
+    # and a forged proof on the posted record changes nothing
+    forged = copy.deepcopy(out)
+    forged["geometry_report"]["solver"].update(engine="cp-sat", status="OPTIMAL", objective=1.0,
+                                              downgraded_wall_pins=[])
+    got2 = corpus.carried(forged)
+    assert got2["state"] == corpus.CARRIED
+    RP.render(got2["record"], path, register="presentation")
+    assert not any("PLACEMENT PROVED" in ln for ln in _schedule(open(path, encoding="utf-8").read())), \
+        "a forged cp-sat/OPTIMAL on the posted record printed a proof on the carried plate"
+
+
+@pytest.mark.parametrize("kind,engine", SHEETS, ids=IDS)
 def test_a_broken_stack_reaches_the_schedule(sheets, kind, engine):
     """The plate prints cuts off the bay line, clear spans and undrawable doors from
     `geometry_report`, and omits `stacking`. A declared stack drawn clear of its room is a

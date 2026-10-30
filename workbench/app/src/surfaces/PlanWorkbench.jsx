@@ -981,6 +981,15 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
                     in <em>what this placement gave up</em> above. </>
                   : 'It gave nothing up. '}
                 <em>Prove placement (CP-SAT)</em> above runs the same act on demand. </>
+              : claim.verdict === 'carried'
+                /* R11 (ruled 30 Oct 2026): a carried placement is the house the candidate's card
+                   describes, drawn as composed, and the server withheld the solver claim it
+                   arrived with -- so this caption names no engine and claims no proof. */
+                ? <>This placement was <strong>carried from the compose</strong>, not solved here: it
+                  is the house the candidate&rsquo;s card describes, with the type&rsquo;s facts
+                  re-judged on this server. The solver claim it arrived with is withheld, so
+                  nothing on this sheet is a proof. <em>Prove placement (CP-SAT)</em> above
+                  re-proves it. </>
               : claim.verdict === 'unjudged'
                 /* no solver block: nothing has been placed (or the placement errored), and the
                    caption used to fall into the fast-search sentence here -- an engine named over

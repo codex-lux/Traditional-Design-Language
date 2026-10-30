@@ -166,6 +166,7 @@ test('every verdict the function can return is in the published vocabulary', () 
     engineClaim({ engine: 'cp-sat', status: 'OPTIMAL', objective: 1 }).verdict,
     engineClaim({ engine: 'cp-sat', status: 'FEASIBLE', objective: 1 }).verdict,
     engineClaim({ engine: 'heuristic', reason: 'requested' }).verdict,
+    engineClaim({ engine: 'carried', carried: true }).verdict,
     engineClaim(null).verdict,
   ]);
   assert.deepEqual([...seen].sort(), [...VERDICTS].sort());
@@ -197,6 +198,53 @@ test('the leaf states the same proof rule as the Python plate, read from both so
   const gate = readFileSync(resolve(HERE, '../../../tests/test_sheet_coherence.py'), 'utf8');
   assert.match(gate, /startswith\("OPTIMAL"\) and sv\.get\("objective"\) is not None/,
     'the gate row must hold the same rule');
+});
+
+// ---------------------------------------------------------------- the carried placement (R11)
+test('a carried placement is captioned carried, never proved, whatever the claim beside it', () => {
+  /* Ruled by Lucas 30 Oct 2026 (R11): the server withholds a carried placement's solver claim and
+     writes `carried: true`. The leaf answers `carried` FIRST, so even a block that still carried a
+     cp-sat/OPTIMAL claim beside the boolean (a server that forgot to withhold it) is not proved. */
+  const reason = 'CARRIED FROM THE COMPOSE: ... Prove placement (CP-SAT) re-proves it.';
+  const c = engineClaim({ engine: 'carried', carried: true, input_digest: 'abc', withheld: ['engine', 'status'], reason });
+  assert.equal(c.verdict, 'carried');
+  assert.equal(c.carried, true);
+  assert.equal(c.proved, false);
+  assert.equal(c.cp, false);
+  assert.equal(c.reason, reason);
+  const mixed = engineClaim({ carried: true, engine: 'cp-sat', status: 'OPTIMAL', objective: 1 });
+  assert.equal(mixed.verdict, 'carried', 'the carried boolean is read before the engine name');
+  assert.equal(mixed.proved, false, 'a claim beside `carried: true` proves nothing');
+  // only the boolean the server writes
+  assert.equal(engineClaim({ carried: 'yes', engine: 'heuristic', reason: 'requested' }).verdict, 'searched');
+  assert.equal(engineClaim({ engine: 'cp-sat', status: 'OPTIMAL', objective: 1 }).carried, false);
+  assert.equal(engineClaim(null).carried, false);
+});
+
+test('the three spellings hold one carried rule: no proof on a carried record', () => {
+  /* The plate (Python), the bench (this leaf) and the gate's title-block row. Each must test the
+     server's `carried` boolean, and the plate and the leaf must test it BEFORE the engine name. */
+  const py = readFileSync(resolve(HERE, '../../../build/disclosures.py'), 'utf8');
+  const fn = py.slice(py.indexOf('def engine_line'), py.indexOf('def _declared_wall_count'));
+  assert.match(fn, /if s\.get\("carried"\) is True:/, 'the Python plate must read the carried boolean');
+  assert.ok(fn.indexOf('s.get("carried") is True') < fn.indexOf('engine = s.get("engine")'),
+    'the Python plate must decide carried before it reads the engine name');
+  const js = stripComments(readFileSync(resolve(HERE, 'sheet/engineClaim.js'), 'utf8'));
+  const body = js.slice(js.indexOf('export function engineClaim'));
+  assert.match(body, /solver\.carried === true/, 'the leaf must read the carried boolean');
+  assert.ok(body.indexOf('solver.carried === true') < body.indexOf('String(solver.engine)'),
+    'the leaf must decide carried before it reads the engine name');
+  const gate = readFileSync(resolve(HERE, '../../../tests/test_sheet_coherence.py'), 'utf8');
+  assert.match(gate, /def test_a_carried_placement_prints_no_proof/, 'the gate must carry a carried row');
+  assert.match(gate, /if sv\.get\("carried"\) is True:\s*\n\s*assert not proved/,
+    'the gate row must hold a carried plate to printing no proof');
+  // and every caller prints a carried line rather than falling through to "searched"
+  for (const [file, phrase] of [['sheet/Sheet.jsx', 'claim.carried'],
+                                ['surfaces/PlanWorkbench.jsx', "claim.verdict === 'carried'"],
+                                ['surfaces/DrawingSet.jsx', 'c.carried']]) {
+    const src = stripComments(readFileSync(resolve(HERE, file), 'utf8'));
+    assert.ok(src.includes(phrase), `${file} must branch on the carried verdict (${phrase})`);
+  }
 });
 
 // ---------------------------------------------------------------- the callers

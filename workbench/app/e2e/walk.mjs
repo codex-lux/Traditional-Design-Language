@@ -685,7 +685,10 @@ let apiPlacement = null;   // the evaluate's own placement, read again by the st
     const objectiveRan = !cp || (solver.objective !== null && solver.objective !== undefined);
     const mayClaimProof = cp && /^OPTIMAL\b/.test(status) && objectiveRan;
     const fellBack = !cp && !!solver.reason && solver.reason !== 'requested';
-    const expectVerdict = cp ? (mayClaimProof ? 'proved' : 'not-proved') : 'searched';
+    // R11 (30 Oct 2026): a carried placement's claim is withheld by the server, and the caption
+    // says `carried`, never a proof -- the leaf reads the boolean before the engine name
+    const expectVerdict = solver.carried === true ? 'carried'
+      : cp ? (mayClaimProof ? 'proved' : 'not-proved') : 'searched';
     const head = status ? status.split('—')[0].trim() : '(no status)';
     const cap = await page.evaluate(() => {
       const p = document.querySelector('[data-engine-claim]');

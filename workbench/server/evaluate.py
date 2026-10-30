@@ -80,7 +80,25 @@ def evaluate(plan, strict=False, place=True, parti=None, candidates=250,
         # is re-judged by `corpus.carried`, never read off the client. A record edited since its
         # placement does not match, and is re-solved; the wall drag asks for the search by name
         # and edits the record, so it is never carried.
-        cand = corpus.carried(plan) if engine != "heuristic" else None
+        #
+        # CARRIED ONLY ON THE OPEN PATH (the audit of Phase 17, finding 24): `auto` with no
+        # corrective rounds -- opening a candidate, an undo, the debounce. An engine named BY THE
+        # READER and a solve asked for BY THE READER are acts, and both solve from the record:
+        # "Prove placement (CP-SAT)" posts `engine: 'cp'`, and carrying there handed back the
+        # composer's searched house under the plate's own "Prove placement above is the act that
+        # proves it"; re-solve posts `auto` WITH rounds, and carrying there ran the rounds on the
+        # carried house and never solved it again, against the glossary's "Solve the plan on the
+        # bench again from its record". The candidates slider is read for the same reason.
+        # A carried placement that cannot be judged is not drawn and not re-solved in silence --
+        # `corpus.carried` says why, and this route answers `placement_error` with it, exactly
+        # as the Drawing Set answers the same record (finding 28).
+        cand = None
+        if engine == "auto" and not revise_rounds:
+            got = corpus.carried(plan)
+            if got["state"] == corpus.CARRIED:
+                cand = got["record"]
+            elif got["state"] == corpus.CARRIED_UNJUDGED:
+                cand = {"error": got["reason"]}
         if cand is None:
             # WP-11.8: the INTERACTIVE budget by name. This route is the one the infrastructure
             # audit measured as the whole server's bound, and a person is waiting on it behind a

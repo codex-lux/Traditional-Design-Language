@@ -439,6 +439,9 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
      derives it. */
   const sketch = sketchOf(placement);
   const engineLine = claim.verdict === 'unjudged' ? ''
+    /* a carried placement prints no proof (R11): it was not solved here and its claim is withheld */
+    : claim.carried
+      ? 'Placement carried from the compose, not solved here — its solver claim withheld, the type’s facts re-judged here. '
     : claim.proved
       ? "Placement proved (CP-SAT) against the record's own declared facts"
         + (claim.wallsSetAside

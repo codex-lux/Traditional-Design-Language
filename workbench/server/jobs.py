@@ -288,10 +288,13 @@ def _queue_full():
 
 def revised_plan(job_id):
     """The revised record of a DONE revise job, with its placement stripped and its
-    revision_report kept. Stripped because the bench re-solves every record it loads
-    (`evaluate.py` never reuses a carried placement, and a carried one would lie the moment a
-    wall was dragged); the report says what engine the loop's own key was measured on. None
-    for an unknown job, a compose job, or one not yet done."""
+    revision_report kept. Stripped so the bench places it afresh: the loaded record is an
+    explicit act, and a carried placement would lie the moment a wall was dragged. (This said
+    "`evaluate.py` never reuses a carried placement", which WP-17.3 made false: the bench keeps a
+    placement OF THE RECORD on the open path, re-judged and with its solver claim withheld, and
+    solves on an explicit act -- `corpus.carried`, the audit of Phase 17.) The report says what
+    engine the loop's own key was measured on. None for an unknown job, a compose job, or one
+    not yet done."""
     job = _JOBS.get(job_id)
     if not job or job.kind != "revise" or not job.result or "plan" not in job.result:
         return None

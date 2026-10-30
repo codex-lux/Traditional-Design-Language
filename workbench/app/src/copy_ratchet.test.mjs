@@ -328,6 +328,9 @@ const BASELINE = {
       "No placement is on this sheet yet, so no engine is named for it."],
     ["surfaces/PlanWorkbench.jsx", "disclosure",
       "This placement came from the fast search, which is a hill-climb and not an optimiser: seconds-cheap, not deterministic across runs, and nothing it draws asserts that feasibility was proved. {…} Prove placement (CP-SAT) above is the act that proves it."],
+    // R11 (ruled 30 Oct 2026): a carried placement's solver claim is withheld, and the caption says so
+    ["surfaces/PlanWorkbench.jsx", "disclosure",
+      "This placement was carried from the compose, not solved here: it is the house the candidate&rsquo;s card describes, with the type&rsquo;s facts re-judged on this server. The solver claim it arrived with is withheld, so nothing on this sheet is a proof. Prove placement (CP-SAT) above re-proves it."],
     ["surfaces/PlanWorkbench.jsx", "voice",
       "{…} {…} {…} {…} A wall drag deliberately re-scores on the fast search — a hill-climb, not an optimiser — because a gesture cannot wait for a proof; every other edit takes the proof where it can be had. Either engine trades a room's size away when it must, and says so under the drawing rather than silently. A plan with no fatal findings is still not therefore good."],
     ["surfaces/Proportions.jsx", "disclosure",
@@ -355,6 +358,11 @@ const BASELINE = {
   ],
   /* [file, class, text] for STRINGS, on the same terms. */
   strings: [
+    // R11 (ruled 30 Oct 2026): the plate note and the Drawing Set's line for a carried placement
+    ["sheet/Sheet.jsx", "disclosure",
+      "Placement carried from the compose, not solved here — its solver claim withheld, the type’s facts re-judged here."],
+    ["surfaces/DrawingSet.jsx", "disclosure",
+      "the compose, carried with the record and not solved here — its solver claim withheld, its facts re-judged"],
     ["Gate.jsx", "voice",
       "This deployment has no password set — it accepts an API token only, so there is nothing to type here. Set WORKBENCH_PASSWORD to allow browser access."],
     ["Gate.jsx", "voice",

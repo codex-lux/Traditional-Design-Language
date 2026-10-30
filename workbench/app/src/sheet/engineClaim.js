@@ -38,12 +38,29 @@
    …` all begin with the word; `FEASIBLE — kept polish from the heuristic hint` does not. */
 export const PROVED_STATUS = /^OPTIMAL\b/;
 
-export const VERDICTS = Object.freeze(['proved', 'not-proved', 'searched', 'unjudged']);
+export const VERDICTS = Object.freeze(['proved', 'not-proved', 'searched', 'carried', 'unjudged']);
 
+/* A CARRIED PLACEMENT PROVES NOTHING ON THIS BENCH (ruled by Lucas 30 Oct 2026, R11). A composed
+   candidate opened here is drawn as composed (WP-17.3), and the solver claim it arrived with is the
+   posted record's own: the digest binds only the declared half, so a forged `cp-sat`/`OPTIMAL` was
+   captioned proved over hand-moved rectangles (the audit of Phase 17, finding 25). The server's
+   `corpus.carried` replaces that claim with `carried: true` -- the stacking tally re-derived, the
+   type's facts re-judged, the claim withheld -- and this leaf answers `carried`, never `proved`,
+   tested FIRST so no later branch can read the engine's name off a carried record. Only the
+   boolean the server writes counts; Prove placement re-proves. The Python plate says the same
+   (`build/disclosures.py::engine_line`), and the gate's title-block row holds a carried plate to it
+   (`tests/test_sheet_coherence.py`). */
 export function engineClaim(solver) {
+  if (solver && typeof solver === 'object' && solver.carried === true) {
+    const reason = typeof solver.reason === 'string' && solver.reason ? solver.reason : null;
+    return { engine: 'carried', cp: false, status: null, proved: false, objectiveRan: null,
+      wallsSetAside: 0, fellBack: false, chosenOverProof: false, carried: true, reason,
+      verdict: 'carried' };
+  }
   if (!solver || typeof solver !== 'object' || !solver.engine) {
     return { engine: null, cp: false, status: null, proved: false, objectiveRan: null,
-      wallsSetAside: 0, fellBack: false, chosenOverProof: false, reason: null, verdict: 'unjudged' };
+      wallsSetAside: 0, fellBack: false, chosenOverProof: false, carried: false, reason: null,
+      verdict: 'unjudged' };
   }
   const engine = String(solver.engine);
   const cp = engine === 'cp-sat';
@@ -67,7 +84,7 @@ export function engineClaim(solver) {
   const chosenOverProof = !cp && solver.chosen_over_the_proof === true;
   const fellBack = !cp && !chosenOverProof && reason !== null && reason !== 'requested';
   const verdict = cp ? (proved ? 'proved' : 'not-proved') : 'searched';
-  return { engine, cp, status, proved, objectiveRan, wallsSetAside, fellBack, chosenOverProof, reason, verdict };
+  return { engine, cp, status, proved, objectiveRan, wallsSetAside, fellBack, chosenOverProof, carried: false, reason, verdict };
 }
 
 /* The status as the caption prints it: the solver's own status word, lower-cased, without the

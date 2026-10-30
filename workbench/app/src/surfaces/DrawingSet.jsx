@@ -408,6 +408,8 @@ export function DrawingSet({ go }) {
                     about one record. */}
                 placed by {(() => {
                   const c = engineClaim(result.solver);
+                  // R11: carried with the record, not solved here, and never captioned proved
+                  if (c.carried) return 'the compose, carried with the record and not solved here — its solver claim withheld, its facts re-judged';
                   if (!c.engine) return 'an engine this plate does not name';
                   if (c.cp) return c.proved
                     ? 'proof (CP-SAT), proved at the optimum'

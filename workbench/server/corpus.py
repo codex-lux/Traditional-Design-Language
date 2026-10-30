@@ -1221,21 +1221,96 @@ def _strip(plan):
     return d
 
 
+# THE THREE STATES OF A CARRIED PLACEMENT (the audit of Phase 17, findings 25, 28, 30 and 45).
+CARRIED = "carried"
+NOT_CARRIED = "not-carried"
+CARRIED_UNJUDGED = "unjudged"
+
+# What a carried placement's solver block says in place of the claim it arrived with (ruled by
+# Lucas 30 Oct 2026, R11). Spelled once, here; `build/disclosures.py::engine_line` and
+# `workbench/app/src/sheet/engineClaim.js` read `carried: true` and print their own line for it.
+CARRIED_REASON = (
+    "CARRIED FROM THE COMPOSE: the placement this record carries is of this declared record (the "
+    "input digest it was stamped with equals the digest of what the record declares now), so it "
+    "is drawn as it stands and was not solved here. Its solver claim -- the engine, the status, "
+    "the objective, the walls set aside -- is WITHHELD, because it is the posted record's and "
+    "nothing here re-verifies it; the stacking tally is re-derived and the type's facts are "
+    "re-judged here. Prove placement (CP-SAT) re-proves it.")
+
+# The solver block's keys that are not a claim: the digest the carried gate has just verified.
+_SOLVER_KEYS_KEPT = ("input_digest",)
+
+
 def carried(plan):
-    """The placement `plan` carries, RE-JUDGED, where it is a placement of this declared record;
-    None where it carries none or one of another record (WP-17.3). The verdict is written by
-    `typefacts.judge` here -- the one spelling `geometry._disclose` calls -- never read off what the
-    client sent; a placement that cannot be judged is None, and is re-solved."""
+    """THE ONE READER OF A CARRIED PLACEMENT (WP-17.3; the audit of Phase 17). Three states:
+
+        {"state": "carried", "record": <the placement, re-judged here>}
+        {"state": "not-carried"}                        -- none, or one of another record
+        {"state": "unjudged", "reason": <why>}          -- of this record, and not judgeable
+
+    `evaluate` (the bench) and `_placed` (every drawing and export) both call this, so one record
+    cannot be a house on the bench and an error in the Drawing Set (finding 28): two inline
+    spellings disagreed on exactly the unjudged case, the bench re-solving in silence and the
+    Drawing Set refusing.
+
+    WHAT IS RE-DERIVED AND WHAT IS WITHHELD, because "never read off the client" was true of the
+    verdict's last step and false of its inputs (findings 25, 30, 45). The digest binds the
+    DECLARED half only -- it is an unkeyed hash any client can compute -- so everything a placement
+    wrote is the posted record's word:
+
+      * THE STACKING TALLY is re-derived (`geometry.stacking_report`, the leaf `_disclose` calls)
+        BEFORE `typefacts.judge`, which reads it by design. A posted record with the tally deleted
+        read stacks UNJUDGED, and unjudged never refuses, so a house refused for its stacks was
+        drawn; one with its broken claims moved under `kept` read stacks HELD. The client's own
+        search-side keys on that block (`rule`, `cost_points`, ...) go with it: they describe a
+        solve this server did not run.
+      * THE TYPE'S FACTS are re-judged by `typefacts.judge` -- tiling, bearing continuity and the
+        hearth measured off the rectangles, stacks off the re-derived tally.
+      * THE SOLVER CLAIM IS WITHHELD (R11). `engine`, `status`, `objective`,
+        `downgraded_wall_pins`, `alternative`, `refinements` and the rest are replaced by a block
+        the server writes: `carried: true`, the verified `input_digest`, the NAMES of the keys
+        withheld (never their values, so nothing downstream can re-read them), and
+        `CARRIED_REASON`. A forged `cp-sat`/`OPTIMAL` printed PROVED over hand-moved rectangles
+        before this; nothing prints a proof on a carried placement now, and Prove placement
+        re-proves.
+
+    NOT re-derived, and said rather than implied: `span_capacity` (reported, it refuses nothing
+    -- ruled 16 Sep 2026) and `infeasible` (a proof of infeasibility cannot be re-verified without
+    a solve; kept, because it can only add a refusal). The `revision_report` rides as it came: it
+    is the composer's account of how this record was revised, and the DXF reads it.
+
+    UNJUDGED IS NOT CARRIED AND NOT DRAWN. A placement of this record whose facts cannot be judged
+    is neither re-solved in silence (a different house under the card's name) nor drawn (an
+    unjudged verdict is not a pass): both callers say it could not be judged, and an explicit
+    solve -- Prove placement, re-solve -- places the record afresh."""
     geo = core._mod("geometry", os.path.join(ROOT, "build", "geometry.py"))
     if not geo.carries_its_own_placement(plan):
-        return None
+        return {"state": NOT_CARRIED}
     out = core.copy_json(plan)
-    out.pop("revision_report", None)
+    rep = out.setdefault("geometry_report", {})
+    claim = rep.get("solver") if isinstance(rep.get("solver"), dict) else {}
+    # the block the server stands behind, written BEFORE `judge`: the refusal it writes names the
+    # solver's engine and status, and a refused carried house must not print the withheld claim
+    sv = {k: claim[k] for k in _SOLVER_KEYS_KEPT if k in claim}
+    # a record that went round once already carries the server's own block; its list of what was
+    # withheld is kept rather than replaced by the names of the server's own keys
+    named = (claim.get("withheld") if claim.get("carried") is True
+             and isinstance(claim.get("withheld"), list) else
+             [k for k in claim if k not in _SOLVER_KEYS_KEPT])
+    sv.update({"engine": "carried", "carried": True,
+               "withheld": sorted(str(k) for k in named),
+               "reason": CARRIED_REASON})
+    rep["solver"] = sv
     try:
+        rep["stacking"] = geo.stacking_report(out)
         _typefacts().judge(out)
-    except Exception:                               # noqa: BLE001 -- unjudged: re-solve instead
-        return None
-    return out
+    except Exception as e:                          # noqa: BLE001 -- unjudged, not refused
+        return {"state": CARRIED_UNJUDGED,
+                "reason": (f"the placement this record carries could not be judged: "
+                           f"{type(e).__name__}: {str(e)[:200]}. It is not drawn, because an "
+                           f"unjudged verdict is not a pass; Prove placement or re-solve places "
+                           f"the record afresh.")}
+    return {"state": CARRIED, "record": out}
 
 
 def _placed(plan, parti=None, candidates=250):
@@ -1261,39 +1336,58 @@ def _placed(plan, parti=None, candidates=250):
     whether it may be drawn: a composed candidate (`compose.py`), the plan `scene()` returns,
     and any record a client keeps and posts back all arrive this way. `typefacts.judge` is the
     SAME function `_disclose` calls -- it re-measures the tiling, the bearing continuity and
-    the hearth off the rectangles and re-reads the stacking tally the record carries -- so the
-    verdict is one spelling with three callers rather than a second reader here. It is cheap
-    (25 ms on the Tidewater record, measured) and it does NOT re-solve: the record is returned
-    as it stands, which is the guarantee this branch exists for.
+    the hearth off the rectangles -- so the verdict is one spelling with three callers rather
+    than a second reader here. It is cheap (25 ms on the Tidewater record, measured) and it does
+    NOT re-solve: the rectangles are returned as they stand, which is the guarantee this branch
+    exists for. Since the audit of Phase 17 the branch is `carried()`, which also re-derives the
+    stacking tally `judge` reads (it used to re-read the POSTED one) and withholds the posted
+    solver claim (R11); the record returned is a copy, so the caller's dict is not judged in place.
     """
-    TF = _typefacts()
     geo = core._mod("geometry", os.path.join(ROOT, "build", "geometry.py"))
     # PHASE 17, WP-17.3: a carried placement is the house only where it is a placement OF THIS
     # RECORD (`geometry.carries_its_own_placement`). A record edited since it was placed carried
     # its old rectangles here and the Drawing Set drew the house before the edit; it is stripped
     # and re-solved now, as the bench re-solves it.
-    if any("geometry" in r for lv in plan.get("levels", []) for r in lv["rooms"]):
-        if not geo.carries_its_own_placement(plan):
-            plan = _strip(plan)
-        else:
-            try:
-                ref = TF.judge(plan)
-            except Exception as e:                      # noqa: BLE001 -- unjudged, not refused
-                # A record we could not measure is COULD NOT EVALUATE and is not a refusal: the
-                # three states are held, downgraded and unjudged, and collapsing the third into
-                # either of the others is what this corpus names first.
-                return {"error": f"the placement this record carries could not be judged: "
-                                 f"{type(e).__name__}: {str(e)[:200]}", "unsolved": True}
-            if ref:
-                return refused_response(ref)
-            return plan
+    #
+    # ONE READER, `carried` (the audit of Phase 17, finding 28). This branch had its own copy of
+    # the rule and it disagreed with the bench's on the unjudged case (the bench re-solved in
+    # silence, this refused), judged the caller's dict in place, trusted the posted stacking
+    # tally, and wrote no `drawn_by` -- so the Drawing Set's one-input reader saw none.
     # THE INPUT'S OWN FINGERPRINT, TAKEN BEFORE THE SOLVE (WP-11.8, finding J6). Two CP-SAT runs
     # of one record agree to the foot -- OQ 44's "reproducible by default" holds and was
     # re-measured for the diagnosis -- so when the bench's sheet and the CLI's disagree, the INPUT
     # differed: a style, a parti, or an edit. The plate carried nothing that would let a reader
     # tell which, and "the same house drawn twice, differently" is the one thing a reader cannot
     # diagnose from the drawing. Digested here rather than after placement, because the point is
-    # to identify what was HANDED to the solver.
+    # to identify what was HANDED to the solver -- and on the carried path, what was handed to
+    # the re-judge.
+    if any("geometry" in r for lv in plan.get("levels", []) for r in lv["rooms"]):
+        got = carried(plan)
+        if got["state"] == CARRIED_UNJUDGED:
+            # COULD NOT EVALUATE is not a refusal and not a pass: the three states are held,
+            # downgraded and unjudged, and collapsing the third into either is what this corpus
+            # names first.
+            return {"error": got["reason"], "unsolved": True}
+        if got["state"] == CARRIED:
+            out = got["record"]
+            sv = out["geometry_report"]["solver"]
+            sv["drawn_by"] = {
+                "surface": "workbench/server/corpus.py::_placed",
+                "engine_requested": "carried",
+                "candidates": None,
+                "parti": (parti or {}).get("id") if isinstance(parti, dict) else parti,
+                "input_digest": hashlib.sha256(json.dumps(plan, sort_keys=True, default=str)
+                                               .encode()).hexdigest()[:12],
+                "why": ("Every sheet in a drawing set takes this one placement (WP-6.4). This one "
+                        "was carried with the record rather than solved here (WP-17.3): its "
+                        "solver claim is withheld and the type's facts re-judged (ruled 30 Oct "
+                        "2026)."),
+            }
+            ref = out["geometry_report"].get("refused")
+            if ref:
+                return refused_response(ref)
+            return out
+        plan = _strip(plan)
     digest = hashlib.sha256(json.dumps(plan, sort_keys=True,
                                        default=str).encode()).hexdigest()[:12]
     # A COPY, SO THE RECORD HANDED IS THE RECORD AFTER (audit, 27 Sep 2026). `geometry.solve`
