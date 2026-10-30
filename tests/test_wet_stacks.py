@@ -92,6 +92,18 @@ def test_across_levels_any_overlap_shares_a_chase_and_none_does_not():
     assert (len(k), len(b), len(u)) == (0, 1, 0), "plans 13 ft apart share no chase"
 
 
+def test_across_levels_a_corner_sliver_is_not_a_chase():
+    """THE AUDIT OF PHASE 17 (30 Oct 2026). Across levels the test was `overlaps`, strict positive
+    area with no minimum, so a 0.1 x 0.1 ft corner -- 0.01 sf -- read kept. The overlap must exceed
+    CHASE_MIN_RUN_FT on BOTH axes now, the same-level branch's own figure. A strip 7 ft long and
+    0.5 ft deep is no chase either: a chase needs a room's width of floor to rise through."""
+    k, b, _ = STK.wet_judge(_wet_plan((6.9, 11.9, 5, 5), (0, 0, 7, 12)))
+    assert (len(k), len(b)) == (0, 1), "a 0.1 x 0.1 ft corner across levels is not a shared chase"
+    k, b, _ = STK.wet_judge(_wet_plan((0, 11.5, 7, 5), (0, 0, 7, 12)))
+    assert (len(k), len(b)) == (0, 1), "a 7 x 0.5 ft strip is not a shared chase"
+    assert STK.shares_chase((0, 0, 7, 12), (5, 5, 8, 10), False), "the 2 x 7 ft overlap stays kept"
+
+
 def test_on_one_level_a_shared_wall_shares_a_chase_and_a_corner_does_not():
     k, b, _ = STK.wet_judge(_wet_plan((7, 2, 8, 6), (0, 0, 7, 12), same_level=True))
     assert (len(k), len(b)) == (1, 0), "a 6 ft common wall"

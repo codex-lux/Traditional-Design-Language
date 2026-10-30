@@ -398,9 +398,14 @@ def _covered(spans, cover):
 
 
 # How much of an upper bearing wall's run may stand off a ground bearing wall and still be
-# "the whole run": the raster quantum `STEP_FT`, so that a run a placement rounds to the tenth is
-# not convicted of the rounding. Ruled 29 Oct 2026 (ruling 8): "every foot of an upper bearing
-# wall stands on a ground bearing wall, within the existing 0.75 ft across-tolerance".
+# "the whole run". Ruled 29 Oct 2026 (ruling 8): "every foot of an upper bearing wall stands on a
+# ground bearing wall, within the existing 0.75 ft across-tolerance" -- the ruling sets the ACROSS
+# tolerance and says nothing of an ALONG-the-run allowance. THIS FIGURE IS EDITORIAL, the
+# implementer's and not the ruling's (the audit of Phase 17, 30 Oct 2026, which also corrected its
+# reason): `bearing_extents` measures with exact interval arithmetic (`_union`, `_covered`), not on
+# the 0.1 ft raster, so `STEP_FT` is borrowed here as a size and is not this instrument's
+# resolution. The true reason is that placements write coordinates to two decimals and a run summed
+# over several pieces carries their rounding, and a tenth of a foot is the allowance taken for that.
 WHOLE_RUN_TOL_FT = STEP_FT
 
 

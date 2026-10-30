@@ -210,11 +210,19 @@ def judge(plan):
 # A SHARED CHASE, AND WHAT MAKES ONE (Phase 17, WP-17.1). `wet_stack_with` is the servicing claim:
 # the two rooms' waste and supply can run in one vertical chase. That is a weaker relation than a
 # structural stack and it is judged as one -- not containment, only that the chase has somewhere to
-# run. Across levels the two plans must overlap at all (`overlaps`, strict positive area): a chase
-# rising through a room's floor must come up inside the room above. On one level the two rooms must
-# share a wall: the same two figures `structure._shared_segment` and `typefacts` use for a shared
-# wall (facing edges within 0.4 ft, a common run longer than 1.0 ft), transcribed here because this
-# module is a leaf and may import neither.
+# run. Across levels the two plans must overlap by more than CHASE_MIN_RUN_FT on BOTH axes: a chase
+# rising through a room's floor must come up inside the room above, and it needs a room's width of
+# floor to come up through. On one level the two rooms must share a wall: the same two figures
+# `structure._shared_segment` and `typefacts` use for a shared wall (facing edges within 0.4 ft, a
+# common run longer than 1.0 ft), transcribed here because this module is a leaf and may import
+# neither.
+#
+# THE CROSS-LEVEL TEST WAS `overlaps` UNTIL THE AUDIT OF PHASE 17 (30 Oct 2026), strict positive
+# area with no minimum, so a 0.1 x 0.1 ft corner -- 0.01 sf -- read "kept, can share a chase", and a
+# 0.001 ft corner too. That is the false "kept" this module's own docstring records for the
+# structural relation (a 0.16 sf corner read as a landed stack until WP-13.2). The minimum is
+# CHASE_MIN_RUN_FT on each axis, ONE figure for both branches, and it is EDITORIAL: the corpus states
+# no chase cross-section, so no new figure is invented -- the same-level branch's own run is reused.
 CHASE_EDGE_TOL_FT = 0.4
 CHASE_MIN_RUN_FT = 1.0
 
@@ -222,7 +230,9 @@ CHASE_MIN_RUN_FT = 1.0
 def shares_chase(a, b, same_level):
     """Can one vertical chase serve both rooms? `a` and `b` are `(x, y, w, h)`."""
     if not same_level:
-        return overlaps(a, b)
+        ix = min(a[0] + a[2], b[0] + b[2]) - max(a[0], b[0])
+        iy = min(a[1] + a[3], b[1] + b[3]) - max(a[1], b[1])
+        return ix > CHASE_MIN_RUN_FT and iy > CHASE_MIN_RUN_FT
     ax0, ay0, ax1, ay1 = a[0], a[1], a[0] + a[2], a[1] + a[3]
     bx0, by0, bx1, by1 = b[0], b[1], b[0] + b[2], b[1] + b[3]
     if abs(ax1 - bx0) <= CHASE_EDGE_TOL_FT or abs(bx1 - ax0) <= CHASE_EDGE_TOL_FT:
@@ -286,7 +296,8 @@ def report(plan, weight=None):
         out["wet"] = {"claims": len(wk) + len(wb) + len(wu), "kept": wk, "broken": wb,
                       "unjudged": wu,
                       "note": (f"{len(wk)} of {len(wk) + len(wb) + len(wu)} declared wet stack(s) "
-                               f"can share a chase (overlapping plans across levels, a shared "
+                               f"can share a chase (plans overlapping by more than "
+                               f"{CHASE_MIN_RUN_FT:g} ft each way across levels, a shared "
                                f"wall on one level); {len(wb)} cannot; {len(wu)} could not be "
                                f"evaluated. Servicing, not structure: none of these refuses a "
                                f"drawing.")}
