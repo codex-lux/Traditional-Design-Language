@@ -302,8 +302,8 @@
         "lavatory",
         "tub"
       ],
-      "wet_stack_with": "pantry",
-      "note": "Phase 17, WP-17.1 (ruled by Lucas, 29 Oct 2026): this was a `stacks_over` claim and is a `wet_stack_with` claim now. A bath over a pantry is a PLUMBING relation -- the two rooms share a chase -- and WP-11.6 split the field so that a servicing claim need not borrow the structural one. As `stacks_over` it asked the prover for 90% containment and refused a drawing when it could not be held; measured on the composed centre-passage-double-pile, the bath-over-butler's-pantry claim was the one claim that made the house unplaceable in band. It is still judged on the placed house (`stacking.wet_judge`, a minor finding when no chase can serve both rooms)."
+      "stacks_over": "pantry",
+      "note": "REVERTED to `stacks_over` by Lucas's ruling of 30 Oct 2026. Phase 17's WP-17.1 had re-filed this claim as `wet_stack_with` on 29 Oct, past the text of ruling 5, which moved BATH-OVER-WET-ROOM claims: the room below is a `pantry`, and rooms/pantry.json states plumbing 'none' -- a dry store, wet by no predicate in this tree -- so a bath over it is not a bath over a wet room. The claim is structural again: a room standing on a room, one of the type's facts, and it can refuse a drawing. The audit of Phase 17 found the re-filing (its findings 33 and 43); this note records the reversion and does not say ruling 5 covered the claim, because it did not."
     }
   ],
   "scaling": {

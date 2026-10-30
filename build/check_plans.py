@@ -134,11 +134,12 @@ def check_plan(plan, parti):
                           "statement": f'the parti says {rid} stacks over {so} and the plan '
                                        f'says {have.get("stacks_over") or "nothing"} — '
                                        f'plan_check reads this field and had nothing to read'})
-        # WP-17.1: the SERVICING claim is held to the diagram the same way. Seventeen bath-over-
-        # wet-room claims moved from `stacks_over` to `wet_stack_with` in the partis (ruled 29 Oct
-        # 2026); a plan that kept the structural spelling would be asked for 90% containment its
-        # own diagram no longer claims, and one that dropped the claim would have its chase judged
-        # by nothing.
+        # WP-17.1: the SERVICING claim is held to the diagram the same way. Ruling 5 (29 Oct 2026)
+        # moved bath-over-wet-room claims from `stacks_over` to `wet_stack_with` in the partis --
+        # fifteen in twelve partis since Lucas's ruling of 30 Oct 2026 returned two that WP-17.1 had
+        # moved past the ruling's text; a plan that kept the structural spelling would be asked for
+        # 90% containment its own diagram no longer claims, and one that dropped the claim would
+        # have its chase judged by nothing.
         ws = room.get("wet_stack_with")
         if ws and have.get("wet_stack_with") != ws:
             # A plan that still files the SAME claim on the structural field is a record the

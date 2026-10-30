@@ -250,10 +250,14 @@ def wet_judge(plan):
     The servicing twin of `judge`. Until Phase 17 nothing judged this claim on a placed house:
     `plan_check`'s servicing layer asks only whether the room it names is WET on the declared
     record, and the engines' wet-over-wet charge is generic (any upper wet room over any ground wet
-    room). WP-17.1 moved seventeen bath-over-wet-room claims in thirteen partis from `stacks_over`
-    to this field (ruled by Lucas, 29 Oct 2026), and a claim moved out of a refusing fact must not
-    go quiet: it is still a claim about the placed house, so it is judged here and reported by the
-    drawn layer -- as servicing, which refuses nothing."""
+    room). Lucas's ruling 5 (29 Oct 2026) moved BATH-OVER-WET-ROOM claims from `stacks_over` to
+    this field. WP-17.1 executed it on a wider class -- every claim whose claimant is a bath, 17 in
+    13 partis -- and two of those targets were not wet rooms (octagon-radial's dry pantry,
+    connected-farmstead's back hall); Lucas ruled on 30 Oct 2026 that both go back to `stacks_over`,
+    which leaves 15 claims in 12 partis (corrected by the audit of Phase 17, findings 33 and 43). A
+    claim moved out of a refusing fact must not go quiet: it is still a claim about the placed
+    house, so it is judged here and reported by the drawn layer -- as servicing, which refuses
+    nothing."""
     by_level = rooms_by_level(plan)
     level_of = {rid: lvl for lvl, rooms in by_level.items() for rid in rooms}
     kept, broken, unjudged = [], [], []

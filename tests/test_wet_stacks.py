@@ -1,12 +1,19 @@
 """WP-17.1 — a bath over a wet room is a plumbing claim, and it is still judged.
 
-Lucas ruled on 29 Oct 2026 that the bath-over-wet-room claims the partis filed as `stacks_over`
-(STRUCTURAL: the smaller room at least 90% inside the larger, one of the type's facts, refuses a
-drawing) are `wet_stack_with` (SERVICING: the two rooms share a chase, WP-11.6's split). Measured
-first: on the composed centre-passage-double-pile the bath-over-butler's-pantry claim was the one
-claim that made the house unplaceable with its rooms in band. The question put to him said
-"14 claims in 11 partis"; the class, counted, is 17 claims in 13 partis, and it is the class he
-ruled on -- this file holds the count to the class rather than to either number.
+Lucas ruled on 29 Oct 2026 (ruling 5) that the BATH-OVER-WET-ROOM claims the partis filed as
+`stacks_over` (STRUCTURAL: the smaller room at least 90% inside the larger, one of the type's facts,
+refuses a drawing) are `wet_stack_with` (SERVICING: the two rooms share a chase, WP-11.6's split).
+Measured first: on the composed centre-passage-double-pile the bath-over-butler's-pantry claim was
+the one claim that made the house unplaceable with its rooms in band.
+
+WHAT WAS EXECUTED WAS WIDER THAN WHAT WAS RULED, AND TWO CLAIMS WENT BACK (corrected 30 Oct 2026).
+WP-17.1 moved every claim whose CLAIMANT is a bath -- 17 in 13 partis -- and this file held that
+class and called it the ruled one. The audit of Phase 17 (findings 33 and 43) found two targets
+outside "wet room": octagon-radial's `hallbath` over a dry `pantry` (plumbing 'none'), and
+connected-farmstead's `hallbath` over a `back-hall` (circulation; plumbing 'light', wet by one of the
+tree's two spellings and not the other). Lucas ruled on 30 Oct 2026 (R9) that both go BACK to
+`stacks_over`. The class is 15 claims in 12 partis now, and it is held to the TARGET's wetness, not
+the claimant's type alone.
 
 Moving a claim out of a refusing fact must not silence it. These tests hold three things:
   * the class is fully moved, and nothing else was (a chamber over a parlour stays structural);
@@ -46,19 +53,59 @@ def _rect(x, y, w, h):
 
 # --- the class is moved, and only the class -------------------------------------------------
 
-def test_no_parti_files_a_bath_as_a_structural_stack():
+# The room types `plan_check`'s servicing layer reads as plumbed: `rt["servicing"].get("plumbing")
+# in ("light", "heavy")` (its "plumbed room type with no fixtures" check). It is a predicate, not a
+# function anything exposes, so it is spelled here with its source named; the workbench's
+# `overlayRules.isWet` reads heavy-or-sanitary and the two disagree on the back hall and the
+# butler's pantry, which is pre-existing and not this file's subject.
+PLUMBED = ("light", "heavy")
+
+# R9 (Lucas, 30 Oct 2026): the two claims WP-17.1 re-filed past ruling 5's text, returned to the
+# structural field. Named, because connected-farmstead's back hall is plumbed by the predicate above
+# and is structural anyway -- by ruling, not by the predicate.
+REVERTED_BY_R9 = {("octagon-radial", "hallbath"): "pantry",
+                  ("connected-farmstead", "hallbath"): "backhall"}
+
+
+def _plumbing(parti, rid):
+    rtype = next(r["type"] for r in parti["rooms"] if r["id"] == rid)
+    rec = json.loads((ROOT / "rooms" / f"{rtype}.json").read_text())
+    return (rec.get("servicing") or {}).get("plumbing")
+
+
+def test_no_parti_files_a_bath_over_a_wet_room_as_a_structural_stack():
     left = [(p["id"], r["id"]) for p in _partis() for r in p["rooms"]
-            if r.get("stacks_over") and r["type"] in BATH_TYPES]
-    assert not left, f"a bath still claims a STRUCTURAL stack (ruling 5, 29 Oct 2026): {left}"
+            if r.get("stacks_over") and r["type"] in BATH_TYPES
+            and _plumbing(p, r["stacks_over"]) in PLUMBED
+            and (p["id"], r["id"]) not in REVERTED_BY_R9]
+    assert not left, f"a bath over a wet room still claims a STRUCTURAL stack (ruling 5): {left}"
 
 
-def test_the_moved_class_is_seventeen_claims_in_thirteen_partis():
+def test_the_two_claims_reverted_by_r9_are_structural_and_say_so():
+    """R9 (Lucas, 30 Oct 2026). Each note says the claim was REVERTED and why, and never that ruling
+    5 ruled it -- the note WP-17.1 wrote said "ruled by Lucas, 29 Oct 2026" of a claim the ruling's
+    text did not reach."""
+    partis = {p["id"]: p for p in _partis()}
+    for (pid, rid), target in REVERTED_BY_R9.items():
+        r = next(r for r in partis[pid]["rooms"] if r["id"] == rid)
+        assert r.get("stacks_over") == target and not r.get("wet_stack_with"), (pid, rid, r)
+        note = r.get("note") or ""
+        assert "REVERTED" in note and "30 Oct 2026" in note, (pid, rid, note)
+        assert "(ruled by Lucas, 29 Oct 2026)" not in note, (pid, rid, note)
+
+
+def test_the_moved_class_is_fifteen_claims_in_twelve_partis_and_every_target_is_wet():
+    """The executed class was "the claimant is a bath", 17 in 13, and this test held only the
+    claimant (finding 33). It holds the TARGET to plumbing now -- a `wet_stack_with` whose room below
+    is dry is the wider class ruling 5 did not rule -- and the count to what is left after R9."""
     moved = [(p["id"], r["id"]) for p in _partis() for r in p["rooms"] if r.get("wet_stack_with")]
-    assert len(moved) == 17 and len({pid for pid, _ in moved}) == 13, moved
+    assert len(moved) == 15 and len({pid for pid, _ in moved}) == 12, moved
     for p in _partis():
         for r in p["rooms"]:
             if r.get("wet_stack_with"):
                 assert r["type"] in BATH_TYPES, (p["id"], r["id"], r["type"])
+                assert _plumbing(p, r["wet_stack_with"]) in PLUMBED, (
+                    f"{p['id']}/{r['id']}: a wet stack over a DRY room is outside ruling 5's class")
                 assert "WP-17.1" in (r.get("note") or ""), (
                     f"{p['id']}/{r['id']}: a reclassified claim carries no dated note saying so")
 
@@ -68,9 +115,10 @@ def test_the_structural_claims_that_are_not_baths_stay_structural():
     assert ("centre-passage-double-pile", "primary") in kinds
     assert ("centre-passage-double-pile", "landing") in kinds
     assert ("side-hall-townhouse", "primary") in kinds
-    # 49 parti claims before WP-17.1: 32 structural stay, 17 servicing moved. (`check_stacking`
-    # prints 38 because it also counts the plan records' own six.)
-    assert len(kinds) == 32, len(kinds)
+    # 49 parti claims before WP-17.1: 32 structural stayed and 17 moved; R9 (30 Oct 2026) returned
+    # two, so 34 structural and 15 servicing. (`check_stacking` prints 40 because it also counts the
+    # plan records' own six.)
+    assert len(kinds) == 34, len(kinds)
 
 
 # --- the one reader on a placed house ---------------------------------------------------------
