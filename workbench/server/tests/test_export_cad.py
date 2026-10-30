@@ -200,8 +200,32 @@ def test_a_placed_record_is_never_re_solved_out_from_under_the_sheet(client):
     # than reading one that was already there -- otherwise this passes with the re-judge gone
     placed["geometry_report"].pop("refused", None)
     placed["geometry_report"].pop("type_facts", None)
-    again = corpus._placed(placed, None, 60)
-    assert again is placed, "an already-placed record must be returned as it stands"
+    # RE-CUT BY THE AUDIT OF PHASE 17 (finding 28, and R11 of 30 Oct 2026). This asserted
+    # `again is placed` -- IDENTITY as the proxy for "not a re-solve" -- which made `_placed` judge
+    # the caller's dict in place, the one boundary `test_placed_leaves_its_argument.py` holds on
+    # every other branch, and which a carried placement can no longer satisfy: its solver claim is
+    # withheld, so the record returned is the server's copy. The property is asserted directly
+    # now, and more strictly: no solve runs, every rectangle is the one handed, and the caller's
+    # record is left as it was.
+    import json
+    geo = corpus.core._mod("geometry", os.path.join(ROOT, "build", "geometry.py"))
+    real, calls = geo.solve, []
+
+    def spy(*a, **kw):
+        calls.append(kw.get("engine"))
+        return real(*a, **kw)
+    geo.solve = spy
+    try:
+        before = json.dumps(placed, sort_keys=True)
+        again = corpus._placed(placed, None, 60)
+    finally:
+        geo.solve = real
+    assert calls == [], f"an already-placed record was re-solved ({calls})"
+    assert "error" not in again, again.get("error")
+    assert ([r.get("geometry") for lv in again["levels"] for r in lv["rooms"]]
+            == [r.get("geometry") for lv in placed["levels"] for r in lv["rooms"]]), \
+        "an already-placed record must be returned as it stands"
+    assert json.dumps(placed, sort_keys=True) == before, "the caller's record was judged in place"
     assert "type_facts" in again["geometry_report"], (
         "the carried-geometry short circuit did not re-judge: a record that skips the verdict "
         "is a record every surface would draw")

@@ -61,3 +61,11 @@ search's and partly the house's, and nothing on the sketch says which is which.
 - The search's refusal must not be reported as the house's. Where the prover holds a fact that the
   search breaks, the refusal is the instrument's, and every report citing a search figure must say
   which engine it is.
+
+## Amended, 29 October 2026 (Phase 17, rulings 1 and 6; WP-17.6)
+
+Lucas ruled that a placement holding the type's facts outranks one releasing them, whichever engine, and
+that two placements are compared on the never-downgrade facts first (sizes, bands, doors). `solve(auto)`
+now draws the search's placement over a REFUSED proof only where the search holds every fact and is no
+worse on each of the three counts. **The question's subject stands**: the search still scores one of the
+four facts the gate reads, and measured on Lucas's brief it was refused every time it was drawn.

@@ -534,9 +534,12 @@ def test_the_floor_is_not_judged_where_no_parti_states_the_bay_and_the_sheet_say
     assert line in texts
 
 
-def test_a_side_the_rule_does_not_reach_says_nothing(corpus):
+def test_a_side_the_rule_does_not_reach_says_nothing(corpus, monkeypatch):
     """A door or a corner beside the doorcase is not a flanking window: measured, not judged, not
-    said. The Tidewater doorcase has the porch door on one side; the spec Colonial's has its corner."""
+    said. The spec Colonial's has its corner. The Tidewater doorcase had the porch door on one side
+    until Phase 17 (29 Oct 2026): the gridded wing (ruling 4) re-places that record and the side is a
+    corner run now, so the DOOR case is driven -- the same front with a door stood where the corner
+    run is, which the rule must measure and must not judge."""
     kinds = set()
     for pid in ("tidewater-georgian-careful", "spec-builder-colonial"):
         _placed, el = corpus[pid]
@@ -544,7 +547,25 @@ def test_a_side_the_rule_does_not_reach_says_nothing(corpus):
             if s["verdict"] == "not_applicable":
                 assert s["clear_in"] is not None, (pid, s)
                 kinds.add("corner" if s["neighbour"] is None else s["neighbour"]["kind"])
-    assert kinds == {"corner", "door"}, kinds
+    assert kinds == {"corner"}, kinds
+    _placed, el = corpus["tidewater-georgian-careful"]
+    face = el["entrance_face"]
+    real = EL.opening_rects
+
+    def with_a_door(elev, f):
+        got = real(elev, f)
+        if f != face:
+            return got
+        ent = next(r for r in got["rects"] if r["kind"] == "door" and r.get("entrance"))
+        x1 = EL.drawn_extent_in(ent)[1]
+        door = {k: v for k, v in ent.items() if k not in ("entrance", "sidelights_drawn")}
+        door.update(kind="door", x0_in=x1 + 24.0, x1_in=x1 + 60.0, width_in=36.0, room="driven")
+        return dict(got, rects=got["rects"] + [door])
+    monkeypatch.setattr(EL, "opening_rects", with_a_door)
+    right = next(s for s in EL.doorcase_piers(el, face)["sides"] if s["side"] == "right")
+    assert right["verdict"] == "not_applicable" and right["neighbour"]["kind"] == "door", right
+    assert right["clear_in"] == 24.0, right
+    monkeypatch.setattr(EL, "opening_rects", real)
     # the Tidewater front's one judged side agrees and its other is a door: nothing to say
     _placed, el = corpus["tidewater-georgian-careful"]
     face = el["entrance_face"]

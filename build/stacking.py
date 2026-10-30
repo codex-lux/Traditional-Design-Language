@@ -207,8 +207,92 @@ def judge(plan):
     return kept, broken, unjudged
 
 
+# A SHARED CHASE, AND WHAT MAKES ONE (Phase 17, WP-17.1). `wet_stack_with` is the servicing claim:
+# the two rooms' waste and supply can run in one vertical chase. That is a weaker relation than a
+# structural stack and it is judged as one -- not containment, only that the chase has somewhere to
+# run. Across levels the two plans must overlap by at least CHASE_MIN_RUN_FT on BOTH axes: a chase
+# rising through a room's floor must come up inside the room above, and it needs a room's width of
+# floor to come up through. On one level the two rooms must share a wall: the same two figures
+# `structure._shared_segment` and `typefacts` use for a shared wall (facing edges within 0.4 ft, a
+# common run longer than 1.0 ft), transcribed here because this module is a leaf and may import
+# neither.
+#
+# THE CROSS-LEVEL TEST WAS `overlaps` UNTIL THE AUDIT OF PHASE 17 (30 Oct 2026), strict positive
+# area with no minimum, so a 0.1 x 0.1 ft corner -- 0.01 sf -- read "kept, can share a chase", and a
+# 0.001 ft corner too. That is the false "kept" this module's own docstring records for the
+# structural relation (a 0.16 sf corner read as a landed stack until WP-13.2). The minimum is
+# CHASE_MIN_RUN_FT on each axis, ONE figure for both branches, and it is EDITORIAL: the corpus states
+# no chase cross-section, so no new figure is invented -- the same-level branch's own run is reused.
+#
+# AT LEAST, NOT MORE THAN (the second audit of Phase 17, 30 Oct 2026). The cross-level test read
+# `> CHASE_MIN_RUN_FT` on both axes, so an overlap of exactly the minimum -- 1.0 x 1.0 ft, the
+# room's width of floor the chase was said to need -- read "no chase". A minimum is met AT the
+# minimum. The same-level branch keeps `structure._shared_segment`'s "a common run LONGER than
+# 1.0 ft", which is that module's figure transcribed and not this one's to move.
+CHASE_EDGE_TOL_FT = 0.4
+CHASE_MIN_RUN_FT = 1.0
+
+
+def shares_chase(a, b, same_level):
+    """Can one vertical chase serve both rooms? `a` and `b` are `(x, y, w, h)`."""
+    if not same_level:
+        ix = min(a[0] + a[2], b[0] + b[2]) - max(a[0], b[0])
+        iy = min(a[1] + a[3], b[1] + b[3]) - max(a[1], b[1])
+        return ix >= CHASE_MIN_RUN_FT and iy >= CHASE_MIN_RUN_FT
+    ax0, ay0, ax1, ay1 = a[0], a[1], a[0] + a[2], a[1] + a[3]
+    bx0, by0, bx1, by1 = b[0], b[1], b[0] + b[2], b[1] + b[3]
+    if abs(ax1 - bx0) <= CHASE_EDGE_TOL_FT or abs(bx1 - ax0) <= CHASE_EDGE_TOL_FT:
+        if min(ay1, by1) - max(ay0, by0) > CHASE_MIN_RUN_FT:
+            return True
+    if abs(ay1 - by0) <= CHASE_EDGE_TOL_FT or abs(by1 - ay0) <= CHASE_EDGE_TOL_FT:
+        if min(ax1, bx1) - max(ax0, bx0) > CHASE_MIN_RUN_FT:
+            return True
+    return False
+
+
+def wet_judge(plan):
+    """Every `wet_stack_with` claim, sorted into kept / broken / unjudged-with-a-reason.
+
+    The servicing twin of `judge`. Until Phase 17 nothing judged this claim on a placed house:
+    `plan_check`'s servicing layer asks only whether the room it names is WET on the declared
+    record, and the engines' wet-over-wet charge is generic (any upper wet room over any ground wet
+    room). Lucas's ruling 5 (29 Oct 2026) moved BATH-OVER-WET-ROOM claims from `stacks_over` to
+    this field. WP-17.1 executed it on a wider class -- every claim whose claimant is a bath, 17 in
+    13 partis -- and two of those targets were not wet rooms (octagon-radial's dry pantry,
+    connected-farmstead's back hall); Lucas ruled on 30 Oct 2026 that both go back to `stacks_over`,
+    which leaves 15 claims in 12 partis (corrected by the audit of Phase 17, findings 33 and 43). A
+    claim moved out of a refusing fact must not go quiet: it is still a claim about the placed
+    house, so it is judged here and reported by the drawn layer -- as servicing, which refuses
+    nothing."""
+    by_level = rooms_by_level(plan)
+    level_of = {rid: lvl for lvl, rooms in by_level.items() for rid in rooms}
+    kept, broken, unjudged = [], [], []
+    for lvl in sorted(by_level):
+        for rid, r in by_level[lvl].items():
+            ws = r.get("wet_stack_with")
+            if not ws:
+                continue
+            e = {"room": rid, "with": ws, "field": "wet_stack_with", "level": lvl}
+            if ws not in level_of:
+                unjudged.append(dict(e, reason=NO_SUCH_ROOM))
+                continue
+            a = _rect(r)
+            b = _rect(by_level[level_of[ws]][ws])
+            if a is None:
+                unjudged.append(dict(e, reason=THIS_ROOM_UNPLACED))
+            elif b is None:
+                unjudged.append(dict(e, reason=TARGET_UNPLACED))
+            else:
+                (kept if shares_chase(a, b, level_of[ws] == lvl) else broken).append(e)
+    return kept, broken, unjudged
+
+
 def report(plan, weight=None):
-    """The block `geometry_report.stacking` carries, from both engines' record writers."""
+    """The block `geometry_report.stacking` carries, from both engines' record writers.
+
+    `claims`, `kept`, `broken` and `unjudged` are the STRUCTURAL claims (`stacks_over`), which
+    `typefacts.stacks` reads and a refusal can rest on. The servicing claims (`wet_stack_with`) sit
+    beside them under `wet` and refuse nothing (WP-17.1)."""
     kept, broken, unjudged = judge(plan)
     n = len(kept) + len(broken) + len(unjudged)
     note = "This record declares no vertical stack." if not n else (
@@ -217,6 +301,16 @@ def report(plan, weight=None):
         f"they name; {len(unjudged)} could not be evaluated and are named individually. "
         "Unjudged is not kept.")
     out = {"claims": n, "kept": kept, "broken": broken, "unjudged": unjudged, "note": note}
+    wk, wb, wu = wet_judge(plan)
+    if wk or wb or wu:
+        out["wet"] = {"claims": len(wk) + len(wb) + len(wu), "kept": wk, "broken": wb,
+                      "unjudged": wu,
+                      "note": (f"{len(wk)} of {len(wk) + len(wb) + len(wu)} declared wet stack(s) "
+                               f"can share a chase (plans overlapping by at least "
+                               f"{CHASE_MIN_RUN_FT:g} ft each way across levels, a shared "
+                               f"wall on one level); {len(wb)} cannot; {len(wu)} could not be "
+                               f"evaluated. Servicing, not structure: none of these refuses a "
+                               f"drawing.")}
     if weight is not None:
         out["weight"] = weight
     return out

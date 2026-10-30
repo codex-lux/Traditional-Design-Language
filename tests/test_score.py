@@ -569,7 +569,13 @@ class TestAFatalDisqualifies:
     less than the demerit total gave. The disqualification is carried in words and in the
     ORDERING instead."""
 
-    def _card(self, compose_module, parti_id="centre-passage-single-pile"):
+    # THE PARTI MOVED AT PHASE 17 (29 Oct 2026) AND THE SUBJECT DID NOT. The single pile carried two
+    # fatals here that were the default 10 ft module's -- a composed plan names its parti now
+    # (WP-17.2) and both clear on measured figures on the diagram's own footprint (re-traced in
+    # `tests/test_composer.py`). The five-part composes on this brief with two real fatals of its own
+    # (The Front With No Centre, The Hall That Is A Corridor), which is what this test needs: a
+    # card carrying a fatal, so the disqualification can be read in words.
+    def _card(self, compose_module, parti_id="five-part-palladian"):
         brief = _brief("family-georgian")
         plan, _log, parti = compose_module.instantiate(parti_id, brief)
         res = compose_module.PC.check(plan)

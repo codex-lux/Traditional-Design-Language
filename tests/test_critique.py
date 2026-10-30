@@ -7,6 +7,7 @@ the declared record while its drawn layer read the placement the record carried 
 buildings in one verdict -- and the block that did it was `except Exception: pass`, so an
 elevation that could not be derived was indistinguishable from one that had nothing to say.
 """
+import copy
 import json
 import os
 import re
@@ -318,13 +319,54 @@ class TestTheAnalyst:
         assert res["engine"]["ran"] is None
 
     def test_a_carried_placement_is_reused_never_re_solved(self):
+        """Reused only where the caller vouches for it (`trusted_placement`, the audit of Phase 17),
+        and then reported as `carried`: the critique did not solve it and does not repeat the claim
+        the record arrived with."""
         CR = mc.load("critique", os.path.join(BUILD, "critique.py"))
         placed = _placed("tidewater-georgian-careful")
         before = json.dumps(placed, sort_keys=True)
-        res = CR.critique(placed, engine="cp")
+        res = CR.critique(placed, engine="cp", trusted_placement=True)
         assert res["placement"]["reused"] is True
-        assert res["engine"]["ran"] == "heuristic", "the carried placement was replaced"
+        assert res["engine"]["ran"] == "carried", "a reused placement reported a solver claim"
         assert json.dumps(placed, sort_keys=True) == before, "critique mutated its argument"
+
+    def test_a_posted_placement_is_reused_only_where_trusted_and_of_its_record(self, monkeypatch):
+        """THE AUDIT OF PHASE 17. `critique()` reused any posted placement on `has_placement` alone,
+        re-judged it only where `refused` was absent, never re-derived its stacking tally, and
+        reported the posted `solver.engine` as the engine that ran: a forged `refused: null` beside a
+        `cp-sat`/`OPTIMAL` block read not-refused and ran cp-sat, and a room edited after placement
+        was critiqued on the house before the edit.
+        Mutations: reuse on `has_placement` alone (red: the untrusted forgery is reused); drop the
+        re-derived tally (red: the forged tally reads held); report the posted engine (red)."""
+        CR = mc.load("critique", os.path.join(BUILD, "critique.py"))
+        placed = _placed("tidewater-georgian-careful")
+        assert "stacks" in ((placed["geometry_report"].get("refused") or {}).get("facts") or []), \
+            "the premise: this placement is refused for its stacks"
+        forged = copy.deepcopy(placed)
+        forged["geometry_report"]["refused"] = None
+        forged["geometry_report"]["solver"].update(engine="cp-sat", status="OPTIMAL")
+        st = forged["geometry_report"]["stacking"]
+        st["kept"], st["broken"] = (st.get("kept") or []) + (st.get("broken") or []), []
+        # trusted (as a registered record would be): re-judged on a tally derived here
+        res = CR.critique(forged, engine="heuristic", trusted_placement=True)
+        assert res["placement"]["reused"] is True
+        assert res["engine"]["ran"] == "carried"
+        assert "stacks" in ((res["placement"].get("refused") or {}).get("facts") or []), res["placement"]
+        # untrusted (the default, an MCP caller): not reused at all
+        solves = []
+        real = CR.GEO.solve
+        monkeypatch.setattr(CR.GEO, "solve", lambda *a, **kw: solves.append(kw.get("engine")) or real(*a, **kw))
+        res = CR.critique(forged, engine="heuristic")
+        assert solves == ["heuristic"] and res["placement"]["reused"] is False
+        assert "discarded" in res["placement"]
+        assert res["engine"]["ran"] == "heuristic"
+        # trusted but edited since it was placed: not a placement of this record, re-solved
+        solves.clear()
+        edited = copy.deepcopy(placed)
+        r0 = edited["levels"][0]["rooms"][0]
+        r0["width_ft"] = (r0.get("width_ft") or 10) + 1
+        res = CR.critique(edited, engine="heuristic", trusted_placement=True)
+        assert solves == ["heuristic"] and res["placement"]["reused"] is False
 
     def test_the_analyst_never_mutates_its_argument(self):
         CR = mc.load("critique", os.path.join(BUILD, "critique.py"))

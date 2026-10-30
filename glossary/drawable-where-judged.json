@@ -1,0 +1,13 @@
+{
+  "id": "drawable-where-judged",
+  "term": "drawable where judged",
+  "family": "house",
+  "definition": "A placed candidate the drawability check finds holding every fact of its house type it could judge, with no room past its own proportion band. A fact nobody could judge, such as an unstated fire, is named beside it and never counted as held.",
+  "more": "It is the second of the two counts a composed set is read by, and it is a subset of the candidates not refused. Where a fact is unjudged on every candidate, the count is drawable where judged and not drawable outright.",
+  "kind": "editorial",
+  "basis": "Our wording of the phase's acceptance instrument as the composer reads it. build/compose.py, card_drawability: every fact the instrument could not judge is \"named, because an unjudged fact is never called held. `None` for a record with no placement\"; set_drawability: how many of the not-refused are \"DRAWABLE WHERE JUDGED (`drawability.assess`\", which \"finds every judged fact held and no room past its band), with each fact nobody could judge\" counted by name.",
+  "see": [
+    "term:placed-and-not-refused",
+    "term:judgment-unjudged"
+  ]
+}

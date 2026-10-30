@@ -75,6 +75,19 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # between two rooms is measured to the inch and a total is good to a tenth of a square foot.
 STEP_FT = 0.1
 
+# THE RASTER'S WORK CEILING (the audit of Phase 17, 30 Oct 2026). `uncovered` paints and floods
+# one Python-loop cell per 0.1 ft square, so its cost is the block's cells plus every rectangle's
+# clamped cells -- and nothing bounded either: ONE 600 ft block took 35 s, and a 28 KB body posted
+# to a drawing route held a worker for 13.7 s. A real house's block is a few hundred thousand cells
+# (the Tidewater main block, 45 x 37 ft, is about 166,500), so four million cells of work is more
+# than ten times the largest house this corpus places and is a few seconds at worst. Above it the
+# tiling is UNJUDGED with the reason stated, and the work is NEVER begun -- not done and then
+# discarded, and not coarsened to a cheaper step, because a coarser raster is a different
+# measurement and the gate reads this one. Unjudged never refuses, so this is defence in depth:
+# the carried-placement registry (`workbench/server/corpus.py`) is what keeps a client's own
+# rectangles off this path; this keeps a record the server itself placed from costing a minute.
+RASTER_CELLS_MAX = 4_000_000
+
 # The residual void at or under which a level is said to TILE: the gate's own figure
 # (`test_every_level_tiles_its_block`, `u > 0.05`) and `disclosures.TILED_SF`. Above it the
 # tiling fact is DOWNGRADED and every strip is named, whatever floor the prover was asked for.
@@ -159,6 +172,8 @@ def uncovered(rects, block, step=STEP_FT):
     nx, ny = int(round(bw / step)), int(round(bh / step))
     if nx <= 0 or ny <= 0:
         return 0.0, []
+    if raster_work(rects, block, step) > RASTER_CELLS_MAX:
+        return None, []            # UNJUDGED: the work would pass the ceiling and is not begun
     cov = bytearray(nx * ny)
     for (x, y, w, h) in rects:
         x0, y0 = int(round((x - bx) / step)), int(round((y - by) / step))
@@ -200,6 +215,22 @@ def uncovered(rects, block, step=STEP_FT):
     return round(total * cell, 2), strips
 
 
+def raster_work(rects, block, step=STEP_FT):
+    """The cells `uncovered` would visit on `block`: the block's own (the flood scans every one)
+    plus each rectangle's cells clamped to the block (the paint). Computed in O(rectangles), before
+    anything is allocated, so a record past `RASTER_CELLS_MAX` costs nothing to refuse."""
+    bx, by, bw, bh = block[:4]
+    nx, ny = int(round(bw / step)), int(round(bh / step))
+    if nx <= 0 or ny <= 0:
+        return 0
+    work = nx * ny
+    for (x, y, w, h) in rects:
+        x0, y0 = int(round((x - bx) / step)), int(round((y - by) / step))
+        x1, y1 = int(round((x + w - bx) / step)), int(round((y + h - by) / step))
+        work += max(0, min(nx, x1) - max(0, x0)) * max(0, min(ny, y1) - max(0, y0))
+    return work
+
+
 def tiling(plan, step=STEP_FT):
     """Per placed level, the square feet of the level's massing block(s) inside no room
     rectangle, and the strips. `None` where there is nothing to judge -- no footprint, or no
@@ -220,15 +251,30 @@ def tiling(plan, step=STEP_FT):
             if not any(_centre_inside(r, blk) for r in rects):
                 continue           # no room stands in this element on this level: no floor here
             sf, strips = uncovered(rects, blk, step)
-            row["blocks"].append({"block": blk[4], "x_ft": blk[0], "y_ft": blk[1],
-                                  "width_ft": blk[2], "depth_ft": blk[3],
-                                  "rooms": sum(1 for r in rects if _centre_inside(r, blk)),
-                                  "uncovered_sf": sf, "strips": strips})
-            row["uncovered_sf"] = round(row["uncovered_sf"] + sf, 2)
+            entry = {"block": blk[4], "x_ft": blk[0], "y_ft": blk[1],
+                     "width_ft": blk[2], "depth_ft": blk[3],
+                     "rooms": sum(1 for r in rects if _centre_inside(r, blk)),
+                     "uncovered_sf": sf, "strips": strips}
+            if sf is None:
+                # past the raster's work ceiling: the level is UNJUDGED (`tiling_status` reads a
+                # null residual as unjudged on that level), and the reason is on the block
+                entry["unjudged"] = (
+                    f"not rasterised: {raster_work(rects, blk, step):,} cells of work at "
+                    f"{step} ft against a ceiling of {RASTER_CELLS_MAX:,} "
+                    f"(typefacts.RASTER_CELLS_MAX); the tiling of this block is not judged")
+                row["uncovered_sf"] = None
+            elif row["uncovered_sf"] is not None:
+                row["uncovered_sf"] = round(row["uncovered_sf"] + sf, 2)
+            row["blocks"].append(entry)
         if row["blocks"]:
             levels_out.append(row)
     if not levels_out:
         return None
+    if any(lv["uncovered_sf"] is None for lv in levels_out):
+        return {"step_ft": step, "levels": levels_out, "uncovered_sf": None,
+                "note": ("Not judged: at least one block is past the raster's work ceiling "
+                         f"({RASTER_CELLS_MAX:,} cells, typefacts.RASTER_CELLS_MAX), so its residual "
+                         "void was not measured; each such block says so under `unjudged`.")}
     total = round(sum(lv["uncovered_sf"] for lv in levels_out), 2)
     return {"step_ft": step, "levels": levels_out, "uncovered_sf": total,
             "note": ("Square feet of each placed level's massing block(s) lying inside no room "
@@ -352,6 +398,134 @@ def _interior_lines(rects):
     return out
 
 
+def _interior_segments(rects, min_run=MIN_SHARED_RUN_FT):
+    """`[(axis, position, lo, hi)]` -- `_interior_lines` with the shared RUN kept. Same test,
+    same tolerances; the extent is what the positional reading threw away (Phase 17, WP-17.0).
+    `min_run` is the shortest shared run kept: `MIN_SHARED_RUN_FT` says whether two rooms share a
+    wall LINE, and `bearing_extents` passes 0 for the run a wall COVERS (see there)."""
+    min_run = max(min_run, 1e-6)
+    ids = list(rects)
+    out = []
+    for i, a in enumerate(ids):
+        ax, ay, aw, ah = rects[a]
+        for b in ids[i + 1:]:
+            bx, by, bw, bh = rects[b]
+            if abs((ax + aw) - bx) <= SHARED_EDGE_TOL_FT or abs((bx + bw) - ax) <= SHARED_EDGE_TOL_FT:
+                x = bx if abs((ax + aw) - bx) <= SHARED_EDGE_TOL_FT else ax
+                lo, hi = max(ay, by), min(ay + ah, by + bh)
+                if hi - lo > min_run:
+                    out.append(("x", round(x, 2), lo, hi))
+            if abs((ay + ah) - by) <= SHARED_EDGE_TOL_FT or abs((by + bh) - ay) <= SHARED_EDGE_TOL_FT:
+                y = by if abs((ay + ah) - by) <= SHARED_EDGE_TOL_FT else ay
+                lo, hi = max(ax, bx), min(ax + aw, bx + bw)
+                if hi - lo > min_run:
+                    out.append(("y", round(y, 2), lo, hi))
+    return out
+
+
+def _union(spans):
+    """Merge `[(lo, hi)]` into disjoint sorted spans."""
+    out = []
+    for lo, hi in sorted(spans):
+        if out and lo <= out[-1][1] + 1e-9:
+            out[-1] = (out[-1][0], max(out[-1][1], hi))
+        else:
+            out.append((lo, hi))
+    return out
+
+
+def _covered(spans, cover):
+    """Length of `spans` (disjoint) lying inside `cover` (disjoint)."""
+    tot = 0.0
+    for lo, hi in spans:
+        for clo, chi in cover:
+            tot += max(0.0, min(hi, chi) - max(lo, clo))
+    return tot
+
+
+# How much of an upper bearing wall's run may stand off a ground bearing wall and still be
+# "the whole run". Ruled 29 Oct 2026 (ruling 8): "every foot of an upper bearing wall stands on a
+# ground bearing wall, within the existing 0.75 ft across-tolerance" -- the ruling sets the ACROSS
+# tolerance and says nothing of an ALONG-the-run allowance. THIS FIGURE IS EDITORIAL, the
+# implementer's and not the ruling's (the audit of Phase 17, 30 Oct 2026, which also corrected its
+# reason): `bearing_extents` measures with exact interval arithmetic (`_union`, `_covered`), not on
+# the 0.1 ft raster, so `STEP_FT` is borrowed here as a size and is not this instrument's
+# resolution. The true reason is that placements write coordinates to two decimals and a run summed
+# over several pieces carries their rounding, and a tenth of a foot is the allowance taken for that.
+WHOLE_RUN_TOL_FT = STEP_FT
+
+
+def bearing_extents(plan):
+    """Every upper interior BEARING line, with how much of its RUN stands on a ground bearing wall.
+
+    THE AUDIT BESIDE THE POSITIONAL CHECK (Phase 17, WP-17.0). `bearing()` asks whether an upper
+    bearing line's POSITION is within the grid tolerance of a ground bearing line's position, and
+    never where along the house either one runs. Measured over the composed candidates and the
+    shipped plans: 4 of the 5 placements that read "held" carried an upper bearing wall standing on
+    no ground wall over its whole run (0 of 6, 11, 22.6 and 15.8 ft, the last on the shipped
+    `good-05`). This returns the run per line -- `run_ft`, `supported_ft`, `fraction` -- and a
+    whole-run verdict per Lucas's ruling 8. It was REPORT-ONLY at WP-17.0; since WP-17.7 a
+    positional HELD that this reads DOWNGRADED is downgraded in `bearing()`, so it decides.
+    `None` where `bearing_lines` is `None`."""
+    fp = plan.get("footprint") or {}
+    bay = fp.get("bay_module_ft")
+    blocks = _blocks(plan)
+    if not bay or not blocks:
+        return None
+    per_level, cover_by_level = {}, {}
+    for i, lv in enumerate(plan.get("levels") or []):
+        idx = _level_index(i, lv)
+        rooms = {rm["id"]: _rect(rm) for rm in (lv.get("rooms") or [])
+                 if _rect(rm) and not (rm.get("geometry") or {}).get("void")}
+        if not rooms:
+            continue
+        # EVERY SHARED RUN COVERS, AND A LINE IS A WALL LINE WHERE ONE RUN PASSES THE FLOOR (the
+        # audit of Phase 17, 30 Oct 2026). This kept only the pairs sharing more than
+        # MIN_SHARED_RUN_FT, which is the positional reading's test for whether two rooms share a
+        # wall LINE -- and so a ground wall built of staggered pairs lost its short piece and read
+        # a hole where it runs unbroken: two rooms meeting a third across x = 10 with a 1 ft
+        # stagger read "13 of 14 ft on a ground wall" and refused the drawing, while the prover's
+        # own whole-run model (no ground room straddles the line under an upper wall) held it.
+        # The run a wall covers, above and below, is every positive shared run now; which lines
+        # are bearing lines at all is still the positional reading's (a run past the floor).
+        segs, lines = {}, set()
+        for blk in blocks:
+            here = {rid: r for rid, r in rooms.items() if _centre_inside(r, blk)}
+            for axis, pos, lo, hi in _interior_segments(here, min_run=0.0):
+                if on_bay_grid(pos, float(bay)):
+                    segs.setdefault((axis, pos), []).append((lo, hi))
+                    if hi - lo > MIN_SHARED_RUN_FT:
+                        lines.add((axis, pos))
+        per_level[idx] = {k: _union(v) for k, v in segs.items() if k in lines}
+        cover_by_level[idx] = {k: _union(v) for k, v in segs.items()}
+    placed = sorted(per_level)
+    if len(placed) < 2:
+        return {"status": UNJUDGED, "lines": [],
+                "detail": "one placed level: there is no upper floor whose walls must continue down"}
+    ground, upper = cover_by_level[placed[0]], per_level[placed[1]]
+    rows = []
+    for (axis, pos), spans in sorted(upper.items()):
+        cover = _union([s for (a, p), ss in ground.items()
+                        if a == axis and abs(p - pos) <= BEARING_GRID_TOL_FT for s in ss])
+        run = sum(hi - lo for lo, hi in spans)
+        sup = _covered(spans, cover)
+        rows.append({"axis": axis, "position_ft": pos, "run_ft": round(run, 2),
+                     "supported_ft": round(sup, 2),
+                     "fraction": round(sup / run, 4) if run > 0 else None,
+                     "whole_run": run - sup <= WHOLE_RUN_TOL_FT})
+    if not rows:
+        return {"status": DOWNGRADED, "lines": [],
+                "detail": "the upper floor carries no bearing line at all"}
+    short = [r for r in rows if not r["whole_run"]]
+    return {"status": DOWNGRADED if short else HELD, "lines": rows,
+            "detail": ("every upper bearing wall stands on a ground bearing wall over its whole run"
+                       if not short else
+                       f"{len(short)} of {len(rows)} upper bearing wall(s) stand partly or wholly "
+                       f"over open floor: " + "; ".join(
+                           f"{r['axis']}={r['position_ft']:g} ft, {r['supported_ft']:g} of "
+                           f"{r['run_ft']:g} ft on a ground wall" for r in short))}
+
+
 def on_bay_grid(position_ft, bay_ft, tol=BEARING_GRID_TOL_FT):
     """`structure.bearing_lines`' own test, transcribed: an interior wall is bearing where it
     falls within `tol` of a multiple of the bay module."""
@@ -470,8 +644,21 @@ def bearing(plan):
     # An UNJUDGED continuity (a one-level house, or a record stating no bay module) leaves the
     # fact UNJUDGED even where capacity is downgraded: unjudged is not passed, and under
     # WP-13.4's contract it is not refused either.
+    # CONTINUITY COVERS A WALL'S WHOLE RUN (ruled by Lucas, 29 Oct 2026, ruling 8; WP-17.7). The
+    # positional reading above asks whether an upper bearing line's POSITION is within the grid
+    # tolerance of a ground one, and never where along the house either runs -- so a wall standing
+    # half over open floor read HELD (measured: 4 of the 5 placements reading held, one of them the
+    # shipped `good-05`). Every foot of an upper bearing wall stands on a ground bearing wall now,
+    # within the same across-tolerance; the audit that was report-only at WP-17.0 decides. A
+    # positional verdict that is already DOWNGRADED or UNJUDGED is left as it is.
+    ext = bearing_extents(plan)
+    if halves["continuity"] == HELD and (ext or {}).get("status") == DOWNGRADED:
+        halves["continuity"] = DOWNGRADED
+        detail.append("but over its RUN (ruling 8 of 29 Oct 2026): " + ext["detail"])
     status = halves["continuity"]
     return {"status": status, "halves": halves, "bearing_lines": lines,
+            # Phase 17: the whole-run audit (WP-17.0), deciding since WP-17.7
+            "extents": ext,
             "unsupported_upper_lines": unsupported, "spans_over_capacity": over,
             "capacity_status": halves["capacity"],
             "capacity_refuses": False,

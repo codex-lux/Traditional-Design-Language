@@ -110,6 +110,11 @@ export const JOURNEY_WORDS = Object.freeze({
     tallyUnjudged: (k, of) => (Number.isInteger(of) && of >= k ? `${k} of ${of} not judged for drawing` : `${k} not judged for drawing`),
   }),
   separator: ' · ',
+  // WP-17.6: a diagram the pool-fill did not reach is named, never left out in silence. WHY it was
+  // not reached is the bound the composer says stopped the fill, worded by a glossary record
+  // (`candidateOrder.POOL_STOP_TERMS`, the audit's finding 26): this word claims no cause, and is
+  // what is said alone where the result names no bound this app knows
+  notPlaced: 'not placed',
   next: 'next',   // the bar's link on to the following step (WP-14.10)
   reasons: Object.freeze({
     brief: 'compose the brief first',

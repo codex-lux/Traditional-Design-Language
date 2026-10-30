@@ -417,8 +417,14 @@ over `hashchange` in the same idiom as `planDoc`.
 - `-` holds an absent leading path key (`#/style/-/kit/cornice` is a slot with no style).
 - A URL cannot express "present, but null", and nothing downstream reads one.
 
-**Search.** `GET /api/search/index` serves every nameable thing once (924 entries, 283,092 bytes
-served as Starlette writes it, measured 26 Sep 2026 after WP-14.33's two glossary records; the
+**Search.** `GET /api/search/index` serves every nameable thing once (929 entries, 296,827 bytes
+served as Starlette writes it, measured 30 Oct 2026 on the merge of the two Phase 17s by Starlette's
+own JSON encoding of `corpus.search_index()`: the Workbench line's 924 entries and the drawable-candidates
+line's five glossary records. Neither parent's pair was this tree's: the Workbench line moved the count
+to 924 and left beside it the 283,092 bytes measured 26 Sep 2026 at an older count, and the
+drawable-candidates line published 892 entries and 285,176 bytes, measured 30 Oct 2026 on its own tree
+(888 entries and 283,523 bytes before its four pool-fill records); the 283,092 was measured after
+WP-14.33's two glossary records, on an older tree; the
 282,370 that stood here was the 885-entry figure, left beside a count `check_counts.py --fix`
 rewrote, which is the one number of a pair that tool can reach. 282,370 was measured 25 Sep 2026
 after WP-14.31's 27 glossary records, which
@@ -432,7 +438,7 @@ diagnostic tells quadrupled the payload and produced matches nobody could accoun
 payload states that boundary in its own `indexes` / `does_not_index` fields. Prose search
 belongs to `/api/styles?query=` and to the rail. Every entry carries a `cite`, so the
 palette dispatches through the citation router and cannot reach a place a citation could
-not name; `test_search_index.py` runs all 924 through the server's own validator.
+not name; `test_search_index.py` runs all 929 through the server's own validator.
 
 **Keys.** `app/src/keys.js` is the only file that binds one, and it binds three: `⌘K`/`ctrl-K`
 (palette), `/` (focus this surface's filter bar, via a one-line registration bus so the

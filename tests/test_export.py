@@ -325,10 +325,41 @@ def test_a_blind_bay_exports_no_opening_to_cad(tmp_path):
     dx = mc.load("export_dxf", os.path.join(BUILD, "export_dxf.py"))
     rec = el.build_elevation(json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json"))))
 
+    # THE CORPUS CARRIES BLIND BAYS AGAIN SINCE PHASE 17 (29 Oct 2026), AND THE CASE IS READ OFF
+    # IT, as the assertion that stood here asked. The gridded service wing (ruling 4) puts the
+    # drawing room back on the west gable, so the west stack stands at the mean of its two fires'
+    # axes and the east stack off the centre line, and each stands on one rhythm bay of its gable:
+    # E blind with one opening drawn (a door), W blind with none. `test_opening_rects.py` pins
+    # WHICH faces; this holds the DXF's GEOMETRY on every blind face that draws anything, and the
+    # premise that at least one does is asserted, because a face that draws nothing passes the
+    # count at 0 == 0 and the axis loop runs zero times -- this docstring's 17 Sep lesson. The
+    # driven stack below is kept: it is the one route to a PLACED window refused for a stack,
+    # which a blind rhythm bay is not.
     blind_faces = [f for f in "SNEW" if "blind" in (rec["faces"][f].get("kinds") or [])]
-    assert not blind_faces, (
-        f"faces {blind_faces} carry a blind bay again -- read the case off the corpus, as this "
-        "test did until WP-14.6, and say which placement or roof reading changed")
+    read = 0
+    for f in blind_faces:
+        fr = rec["faces"][f]
+        rects = el.opening_rects(rec, f)["rects"]
+        assert fr.get("stack_axes_ft"), (f, "a blind bay with no stack on the face")
+        if not rects:
+            continue
+        read += 1
+        path = str(tmp_path / f"blind-{f}.dxf")
+        dx.export_elevation_dxf(rec, path, face=f)
+        msp = ezdxf.readfile(path).modelspace()
+        opens = [e for e in msp if e.dxftype() == "LWPOLYLINE" and "opening" in e.dxf.layer.lower()]
+        assert len(opens) == len(rects), (
+            f"{len(opens)} opening polylines against {len(rects)} drawn openings on the blind face {f}")
+        for e in opens:
+            pts = [pt[0] for pt in e.get_points("xy")]
+            left, right = min(pts) / 12.0, max(pts) / 12.0
+            for ax in fr["stack_axes_ft"]:
+                assert right < ax - fr["stack_half_width_ft"] or left > ax + fr["stack_half_width_ft"], (
+                    f"{f}: an opening is exported at {left:.2f}-{right:.2f} ft, across the stack's "
+                    f"axis ({ax} ft)")
+    assert read >= 1, (
+        f"blind faces {blind_faces}, none of which draws an opening -- the corpus half reads "
+        "nothing; say which placement or roof reading changed, and lean on the drive below")
 
     # a face that is not the entrance front and places at least two windows, so a stack on one
     # leaves something for the axis check to read

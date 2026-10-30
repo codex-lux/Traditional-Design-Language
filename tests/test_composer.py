@@ -42,8 +42,53 @@ class TestFamilyGeorgianBrief:
         the candidate placed fifth, which reads as a crash rather than as the pin it is."""
         brief = _brief("family-georgian")
         plan, _log, _parti = compose_module.instantiate("centre-passage-single-pile", brief)
+        # RE-TRACED 29 Oct 2026 (Phase 17, WP-17.2), AS THIS DOCSTRING ASKS. The two fatals were a
+        # property of the house the default placer built and not of the parti: with no `parti` on
+        # the plan record the single pile was placed on the placer's 10 ft module, 90 x 25 ft over
+        # nine bays, where its ridge is 0.39 of its wall and its upper front has no centre. A
+        # composed plan names its parti and its entrance front now, and the house is built on the
+        # diagram's own footprint -- 70 x 32 ft over seven bays -- where both clear on measured
+        # figures (not unjudged). The two fatals are held here as what they are: a finding about
+        # the default-module house, reproduced by taking the parti and the front back off.
         res = compose_module.PC.check(plan)
-        single_pile = {"counts": res["counts"], "worst": res["findings"]}
+        assert res["counts"].get("fatal", 0) == 0, [f["statement"] for f in res["findings"]
+                                                    if f["severity"] == "fatal"]
+        # "CLEAR ON MEASURED FIGURES (NOT UNJUDGED)" IS FOUR STATEMENTS, AND THIS HELD ONE (the
+        # audit of Phase 17, finding 32). Fault-layer findings are the PRESENT faults; a fault the
+        # house could not be judged on goes to `fault_unjudged`, one whose preconditions decline
+        # to `fault_not_applicable`, and neither emits a finding -- and `counts["fatal"]` counts
+        # no unjudged fatal. So absence from the findings passed whether the two faults cleared,
+        # went unjudged or did not apply. Each state is now ruled out by name, and under R4 a
+        # fault in none of the three is clear on its governing (primary) test.
+        two = {"even-bay-front", "truss-flattened-pitch"}
+        present = {f.get("fault") or f["id"] for f in res["findings"] if f.get("layer") == "fault"}
+        assert not present & two, present & two
+        unjudged = {r["fault"] for r in res["fault_unjudged"]}
+        assert not unjudged & two, [r for r in res["fault_unjudged"] if r["fault"] in two]
+        not_applicable = {r["fault"] for r in res["fault_not_applicable"]}
+        assert not not_applicable & two, [r for r in res["fault_not_applicable"]
+                                          if r["fault"] in two]
+        # And the governing test reads a measurement OF THE HOUSE, not the generator's own
+        # constant. `fault_clear_on_a_generator_constant` lists a cleared fault if ANY of its
+        # tests reads a critic-suspect name, and truss-flattened-pitch is on it: its secondary
+        # `count_of_distinct_roof_slope_angles_on_the_building` is one (measured on 33652ac). So
+        # the assertion is on the PRIMARY: the suspect names a row reads are disjoint from the
+        # identifiers of that fault's own `test.expression`. A list is required first -- the
+        # reader returns None or a could-not-evaluate dict when it cannot look, and absence from
+        # either would be vacuous.
+        DET = compose_module.PC._load("detection", os.path.join(ROOT, "build", "detection.py"))
+        constant = res["fault_clear_on_a_generator_constant"]
+        assert isinstance(constant, list), constant
+        for row in constant:
+            if row["fault"] in two:
+                with open(os.path.join(ROOT, "faults", row["fault"] + ".json")) as f:
+                    primary = DET.identifiers(json.load(f)["test"]["expression"])
+                assert primary and not primary & set(row["reads"]), (row, primary)
+        default = dict(plan)
+        default.pop("parti")
+        default["context"] = {k: v for k, v in plan["context"].items() if k != "entrance_faces"}
+        res0 = compose_module.PC.check(default)
+        single_pile = {"counts": res0["counts"], "worst": res0["findings"]}
         assert single_pile["counts"].get("fatal", 0) == 2
         rules = {w["statement"].split(":")[0] for w in single_pile["worst"] if w["severity"] == "fatal"}
         assert any("Front With No Centre" in r for r in rules)
@@ -64,7 +109,24 @@ class TestFamilyGeorgianBrief:
         a scoring regression that drops the right Georgian diagram down the list still fails
         here. It is now pinned to a better right answer."""
         result = compose_module.compose(_brief("family-georgian"), revise=False)
-        assert result["candidates"][0]["parti_name"] == "Centre Passage, Double Pile"
+        # RE-TRACED 29 Oct 2026 (Phase 17, WP-17.2): the single pile's two fatals were the
+        # default-module house's (the test above), and with them gone both native centre passages
+        # are fatal-free and the score decides -- 68.2 against 66.9 when this was re-cut. What this
+        # test guards is that a scoring regression does not drop the RIGHT GEORGIAN DIAGRAM down
+        # the list; both are native and canonical for the style, so either leads, and the double
+        # pile must be among the first two.
+        # RE-TRACED AGAIN 30 Oct 2026 (the audit of Phase 17): `compose.repair` ran the declared
+        # loop under a 6 s wall clock, so the house ranked here depended on what had run before it
+        # in the process -- cold, the five-part took 14 moves and scored 65.1; warm, 21 and 69.0.
+        # Bounded by its work now, it is 69.0 every time, and it leads: R13 composed its passage to
+        # the floor its own fault convicts at, which is the lead Lucas ruled R13 knowing (report
+        # §X, ruling 13). All three are the style's own diagrams on canonical massings, so the
+        # guard is that one of THEM leads and the double pile stays among the first three -- a
+        # scoring regression that drops the Georgian diagrams down the list still fails here.
+        natives = ("Centre Passage, Double Pile", "Centre Passage, Single Pile", "Five-Part Palladian")
+        first_three = [c["parti_name"] for c in result["candidates"][:3]]
+        assert result["candidates"][0]["parti_name"] in natives, first_three
+        assert "Centre Passage, Double Pile" in first_three, first_three
 
     def test_the_winning_diagram_is_native_to_the_brief_s_style(self, compose_module):
         """The structural claim behind the pin above, which never needs re-pinning.

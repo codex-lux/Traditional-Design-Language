@@ -364,7 +364,9 @@ def test_the_shipped_terrace_really_is_refused_now():
     ref = {e["room"]: e for e in ap.get("unplaced", [])}
     assert ref["terrace"]["code"] == "no-face-both-readings-admit"
     assert sorted(ref["terrace"]["declared"]) == ["E", "N", "S"]
-    assert sorted(ref["terrace"]["outside"]) == ["S", "W"]
+    # `["S", "W"]` until Phase 17: the gridded wing (ruling 4) is 3.68 ft shallower and centred on
+    # the main block, so the breakfast room in it reaches only the S boundary now
+    assert sorted(ref["terrace"]["outside"]) == ["S"]
     # AND THE STRIP NO LONGER PUTS IT BACK, WHICH IS A FINDING AND NOT A BROKEN FIXTURE.
     # Measured on the merged tree, the one-rectangle reading refuses the terrace TOO, and by a
     # different route: it declares E/N/S, so WP-11.10's both-readings rule admits E alone (N and
@@ -523,7 +525,10 @@ def test_the_one_cause_of_twenty_seven_fatals_is_named_once_beside_them():
     # still steering the placer. `oq/a-withdrawn-claim-still-steers-the-placer`. The other three
     # plans above are UNMOVED at 7, 7 and 4, which is what says this is one record's placement
     # and not the reachability walk changing.
-    assert per["tidewater-georgian-careful.json"] == 10, (
+    # 10 -> 6 AT PHASE 17 (29 Oct 2026): the gridded wing (ruling 4) re-places this one record and
+    # `landing`, `library`, `powder` and `stair` regain a route; none is added. The other three
+    # plans are unmoved, which is the control.
+    assert per["tidewater-georgian-careful.json"] == 6, (
         "9 when WP-11.10 measured it and 8 after; 7 at WP-11.16, which tagged the service "
         "programme into a west dependency and cleared `library`. `breakfast` left this list at "
         "WP-11.10 by the reachability ruling and NOT by seating the terrace door, and its "
@@ -699,7 +704,12 @@ def test_derive_openings_draws_a_door_to_an_appendage_and_refuses_it_without_one
     # `landing-upperpassage` left; the three rooms that lost their reachability in the row above
     # are the stair, the library and the landing, so a door to each is undrawable here. Same
     # cause, same one deleted record line: `oq/a-withdrawn-claim-still-steers-the-placer`.
-    for pf, n in ((ROOT / "plans" / "tidewater-georgian-careful.json", 12),
+    # 12 -> 11 AT PHASE 17 (29 Oct 2026), AND THE NET HIDES SUBSTITUTIONS: the gridded wing
+    # (ruling 4) makes `backhall-cellarstair`, `backhall-powder`, `kitchen-pantry`, `passage-dining`,
+    # `passage-library`, `passage-stair` and `upperpassage-chamber2` drawable, and `backhall-kitchen`,
+    # `cellarstair-kitchen`, `drawing-dining`, `dressing-primarybath`, `landing-upperpassage` and
+    # `primary-primarybath` undrawable. Seven out, six in, on one record; `good-02` unmoved at 5.
+    for pf, n in ((ROOT / "plans" / "tidewater-georgian-careful.json", 11),
                   (ROOT / "plans" / "reference" / "good-02-portico-library-house.json", 5)):
         sol = _one_rectangle_solved() if pf is None else _solved(str(pf))
         fp = sol["footprint"]
@@ -844,7 +854,11 @@ def test_the_appendage_rect_is_inside_the_drawn_plate():
 # from main on 1 of 16 and from this branch on 6; the accounting is written out beside the copy
 # in `test_elements.py`. Two files holding one number is a second spelling and is named here
 # rather than left for a reader to find: they must move together.
-CORPUS_PLACEMENT_SHA = "0e454336df58c1fa"
+# RE-DERIVED AT PHASE 17 (29 Oct 2026, WP-17.4, ruling 4): the derived service wing is stated on the whole-foot
+# grid (27 x 23 ft where the two-quantum allowance made it 27 x 26.68; the hyphen 16 ft for 18). Measured
+# per plan against the parent commit `6fcc665` on the search engine: 15 of the 16 shipped placements are
+# byte-identical and the sixteenth is `plans/tidewater-georgian-careful.json`, the one tagged record.
+CORPUS_PLACEMENT_SHA = "d35a1ff2d00dfce5"   # was 0e454336df58c1fa
 
 
 def test_placing_the_terrace_moved_no_shipped_placement():

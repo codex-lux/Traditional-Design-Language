@@ -1,0 +1,13 @@
+{
+  "id": "pool-fill-time-ran-out",
+  "term": "the set's time ran out",
+  "family": "house",
+  "definition": "Why a diagram further down the ranked pool was not placed: the time the set was given ran out before the composer could place it. It is named; nobody placed it, so it is neither refused nor offered.",
+  "more": "The other reason a diagram can go unreached is the pool-fill's own limit on how many it places past the set. The two are said apart, because a set stopped by its limit had time left and a set stopped by its time did not.",
+  "kind": "editorial",
+  "basis": "Our wording of the pool-fill's time bound. build/compose.py, the bounds that stop the pool-fill: \"the set's time ran out (fewer than five seconds left) before the next placement\"; and \"diagrams were placed from the pool, with time left\" for the other bound.",
+  "see": [
+    "term:filled-from-the-pool",
+    "term:pool-fill-limit-reached"
+  ]
+}

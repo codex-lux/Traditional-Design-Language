@@ -395,8 +395,21 @@ def test_the_two_renderers_take_bounds_in_the_same_place():
 # WINDOW" into 2 of those and 1 "UNABLE TO STAND ON THE AXIS OF THE OPENING BELOW" (auditor C's
 # C4 wording), and Tidewater's `chamber3` (the same five marks, 11.7 px). Fourteen are
 # byte-identical.
-CORPUS_SHEET_SHA = "29dc00e4556f5640"
-CORPUS_SHEET_SHA_NO_FRAME = "a9371d1ed1fe6a50"
+# PHASE 17 (29 Oct 2026, WP-17.4, ruling 4), ONE SHEET, ITS PLACEMENT MOVED, HARNESS PROVED FIRST.
+# The test's own arithmetic reproduces 29dc00e4556f5640 / a9371d1ed1fe6a50 to the character on a
+# `git worktree` of `6fcc665` before the new pair was read. Fifteen of sixteen sheets are
+# byte-identical; the sixteenth is `tidewater-georgian-careful`, whose search placement moved and
+# no renderer did: the derived service wing is stated on the whole-foot grid (27 x 23 ft where the
+# two-quantum allowance made it 27 x 26.68, the hyphen 16 ft for 18), and the ground floor is
+# re-laid -- the drawing room on the S front and the west gable, the passage drawn across the house
+# behind it, the porch door the front door in the east bay. The placement digest moves on that one
+# plan too (`tests/test_elements.py`).
+# AND ONCE MORE IN THE SAME TRANCHE: relaxation marks are clipped to the BUILDING and not the main
+# block now (`render_plan.building_extent`), so the Tidewater sheet draws its wing relaxation -- on the
+# pantry's face at y = 24.41 -- where it used to list it as unlocated. The harness with the extent
+# disabled reproduces the two values just above to the character; with it, only that sheet moves.
+CORPUS_SHEET_SHA = "5ed78242b6838397"           # was 1fa333ae2d5223de, and 29dc00e4556f5640 before
+CORPUS_SHEET_SHA_NO_FRAME = "fbedb981ee8263b2"  # was 28616004b9f0c11a, and a9371d1ed1fe6a50 before
 
 
 @pytest.mark.parametrize("engine", ["heuristic"])

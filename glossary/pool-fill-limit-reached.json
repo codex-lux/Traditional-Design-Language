@@ -1,0 +1,13 @@
+{
+  "id": "pool-fill-limit-reached",
+  "term": "the pool-fill's limit was reached",
+  "family": "house",
+  "definition": "Why a diagram further down the ranked pool was not placed: the composer places only a few diagrams past the set it was asked for, and it had placed that many with the set's time not yet spent. It is named; nobody placed it.",
+  "more": "Each diagram the pool-fill places costs a whole placement on the one worker, so the number is bounded and stated. It is a different bound from the set's time, and the two are never given one message.",
+  "kind": "editorial",
+  "basis": "Our wording of the pool-fill's limit. build/compose.py: \"how many diagrams past the requested set the placed loop may place while it\" looks for drawable ones, and the bound that stops it with \"diagrams were placed from the pool, with time left\", against \"the set's time ran out (fewer than five seconds left) before the next placement\".",
+  "see": [
+    "term:filled-from-the-pool",
+    "term:pool-fill-time-ran-out"
+  ]
+}

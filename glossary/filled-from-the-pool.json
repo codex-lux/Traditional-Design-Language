@@ -1,0 +1,16 @@
+{
+  "id": "filled-from-the-pool",
+  "term": "filled from the pool",
+  "family": "house",
+  "definition": "A candidate placed from further down the composer's ranked list because too few of the set asked for could be drawn. One not refused joins the set; one it does not take is named with its reason and not offered, unless the brief named it.",
+  "more": "It is ranked by the same key as the rest, so a house that may be drawn but carries a fatal finding never leads one without. The composer places only a few more, and only within the set's time: it stops at whichever of the two bounds comes first, and names each diagram it did not reach with the bound that stopped it. A diagram the brief named is returned anyway, as the named diagram, and is not listed as passed over.",
+  "kind": "editorial",
+  "basis": "Our wording of the composer's pool-fill. build/compose.py, compose: \"fewer of the set are drawable than were asked for, the loop places down the pool\"; build/compose.py, compose: \"placed and still refused is named with its reason, and each the budget did not reach is named.\" Its two bounds: \"the set's time ran out (fewer than five seconds left) before the next placement\" and \"diagrams were placed from the pool, with time left\". A named diagram's \"passed-over entry is MARKED, not dropped, so the pool-fill's count can say it was\" returned anyway as the named diagram.",
+  "see": [
+    "term:named-by-the-brief",
+    "term:parti",
+    "term:placed-and-not-refused",
+    "term:pool-fill-limit-reached",
+    "term:pool-fill-time-ran-out"
+  ]
+}

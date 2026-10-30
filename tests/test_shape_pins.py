@@ -11,7 +11,7 @@ import importlib.util
 import re
 import json
 import pathlib
-import re
+import pytest
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 
@@ -196,8 +196,45 @@ def test_a_released_pin_is_named_on_the_record_by_kind():
     assert isinstance(rounds, list), (
         "what each round gave up must be on the record: a downgrade nobody can read is the "
         "silence this whole phase is about")
+    _releases_are_accounted(sv, rounds)
+
+
+def _releases_are_accounted(sv, rounds):
+    """Every kind the record reports DOWNGRADED is named by a round line whose counts cover it.
+    Lifted out of the test above at Phase 17 so the portfolio's HELD line, which the Tidewater
+    record does not reach, is driven on the two-storey fixture below."""
     named = {}      # kind -> the number of pins the round lines say left, summed
     for line in rounds:
+        # PHASE 17 (29 Oct 2026, WP-17.5): THE WORKER PORTFOLIO DECIDES FIRST, AND SAYS SO. Its
+        # line names the workers and either the facts HELD -- with the authored wall and axis pins
+        # it released to get there, CARRIED for the reinstatement pass to offer back where its
+        # window has time (its own line, below, says how many it reached) -- or that
+        # it did not decide and the ladder takes over, whose own round lines then follow. A
+        # portfolio line is a third known shape, read for the wall pins it released; an unknown
+        # line still fails.
+        # THE AUDIT OF PHASE 17 (30 Oct 2026, findings 37 and 44): the line names the facts it
+        # POSED -- "every type fact posed HELD (tiling, stack, bearing)" -- and counts the wall and
+        # axis pins it released APART. It wrote one number for both and this reader credited it
+        # all to the walls, so an axis release could pad the wall account; the axis count is now
+        # credited to `axis` and held against the record's own `downgraded_axis_pins` below.
+        if line.startswith("portfolio ("):
+            m = re.search(r"every type fact posed HELD \([a-z, ]+\) with the (\d+) authored wall "
+                          r"pin\(s\) and (\d+) axis pin\(s\) released", line)
+            if m:
+                named["wall"] = named.get("wall", 0) + int(m.group(1))
+                named["axis"] = named.get("axis", 0) + int(m.group(2))
+                continue
+            assert (re.search(r"every type fact posed HELD \([a-z, ]+\)", line)
+                    or "the assumption ladder takes over for its cores" in line), line
+            continue
+        # THE REINSTATEMENT PASS'S OWN LINE (the audit of Phase 17, 30 Oct 2026, findings 9 and
+        # 12) is a fourth known shape: it releases nothing -- it says how many released pins the
+        # pass offered back and how many it never reached -- so it is read for its shape and adds
+        # nothing to `named`. Every other unknown line still fails.
+        if line.startswith("reinstatement: "):
+            assert re.search(r"offered back \d+ of \d+ \(\d+ restored, \d+ refuted alone, "
+                             r"\d+ still carried\)", line), line
+            continue
         # A round gives a rank up by PROOF (a conflict core named it) or lets the type's
         # facts go on an UNDECIDED scout (WP-13.3) -- and either way the line names the
         # round, what left, and on what authority, so a reader can tell the two apart.
@@ -218,7 +255,8 @@ def test_a_released_pin_is_named_on_the_record_by_kind():
             n, kind = part.split(" ", 1)
             named[kind] = named.get(kind, 0) + int(n)
     # what the record says left, by kind -- the two pin lists and the four facts' own account
-    left = {"wall": len(sv["downgraded_wall_pins"]), "shape": len(sv["downgraded_shape_pins"])}
+    left = {"wall": len(sv["downgraded_wall_pins"]), "shape": len(sv["downgraded_shape_pins"]),
+            "axis": len(sv.get("downgraded_axis_pins") or [])}
     for kind, acc in (sv.get("facts") or {}).items():
         left[kind] = len(acc.get("downgraded") or [])
     assert any(left.values()), "premise: this run downgraded nothing, so the relation is vacuous"
@@ -229,6 +267,106 @@ def test_a_released_pin_is_named_on_the_record_by_kind():
             f"the record lists {n} downgraded {kind} pin(s) and the round lines account for "
             f"{named.get(kind, 0)}: a release with no round naming it is a downgrade nobody "
             f"can read. Lines: {rounds}")
+
+
+
+def test_the_portfolios_held_line_accounts_for_the_wall_pins_it_released():
+    """PHASE 17 (29 Oct 2026, WP-17.5): the worker portfolio decides the two-storey fixture with
+    every type fact it poses HELD by releasing the authored wall and axis pins, and its one line is the only
+    account of those releases. Driven here because on the Tidewater record the portfolio does not
+    decide and only its "ladder takes over" line is reached."""
+    CP = _cp()
+    if CP is None:
+        pytest.skip("COULD NOT EVALUATE: ortools is not importable, the prover never ran")
+    if CP.portfolio_workers() < 2:
+        pytest.skip("COULD NOT EVALUATE: one worker, so no portfolio runs on this machine")
+    from test_type_facts_hard import _two_storey_fixture
+    G._SOLVE_CACHE.clear()
+    res = G.solve(_two_storey_fixture(), None, 80, engine="cp", time_limit_s=40)
+    G._SOLVE_CACHE.clear()
+    sv = res["geometry_report"].get("solver") or {}
+    rounds = sv.get("downgrade_rounds") or []
+    assert rounds and rounds[0].startswith("portfolio (") and "every type fact posed HELD (" in rounds[0], rounds
+    assert sv["downgraded_wall_pins"], "the premise: some wall pin stayed released"
+    _releases_are_accounted(sv, rounds)
+    # The line names exactly the facts the model POSED (the audit of Phase 17, findings 37 and
+    # 44), read back against the model's own account: every fact `facts_account` holds or
+    # downgraded is named, and none it reports unjudged. This fixture states a fire, so the hearth
+    # is posed and named, and no not-posed clause is written for it.
+    posed = re.search(r"every type fact posed HELD \(([a-z, ]+)\)", rounds[0]).group(1).split(", ")
+    facts = sv.get("facts") or {}
+    asked = [k for k in CP.TYPE_FACTS if (facts.get(k) or {}).get("held") or (facts.get(k) or {}).get("downgraded")]
+    assert posed == asked, (posed, asked, rounds[0])
+    assert "hearth" in posed and "hearth is not posed" not in rounds[0], rounds[0]
+
+
+def test_the_portfolio_line_says_the_hearth_is_not_posed_where_no_fire_is_stated():
+    """The composed house's case on the fixture: the same two-storey house with its one fire
+    withdrawn. The model poses no hearth literal, so the line names the facts it did pose and says
+    the hearth is not posed because no fire is stated -- where it read "every type fact HELD"."""
+    CP = _cp()
+    if CP is None:
+        pytest.skip("COULD NOT EVALUATE: ortools is not importable, the prover never ran")
+    if CP.portfolio_workers() < 2:
+        pytest.skip("COULD NOT EVALUATE: one worker, so no portfolio runs on this machine")
+    from test_type_facts_hard import _two_storey_fixture
+    plan = _two_storey_fixture()
+    plan["levels"][0]["rooms"][2].pop("hearth")
+    assert not any(r.get("hearth") for lv in plan["levels"] for r in lv["rooms"]), "premise"
+    G._SOLVE_CACHE.clear()
+    res = G.solve(plan, None, 80, engine="cp", time_limit_s=40)
+    G._SOLVE_CACHE.clear()
+    sv = res["geometry_report"].get("solver") or {}
+    rounds = sv.get("downgrade_rounds") or []
+    if not (rounds and rounds[0].startswith("portfolio (") and "posed HELD" in rounds[0]):
+        pytest.skip(f"COULD NOT EVALUATE: the portfolio did not decide this house here ({rounds[:1]})")
+    posed = re.search(r"every type fact posed HELD \(([a-z, ]+)\)", rounds[0]).group(1).split(", ")
+    assert "hearth" not in posed, rounds[0]
+    assert "; no fire is stated, so the hearth is not posed" in rounds[0], rounds[0]
+    assert "every type fact HELD" not in rounds[0], rounds[0]
+
+
+class _Reqs:
+    """The two fields `portfolio_held_note` reads off a built model's requirements."""
+    def __init__(self, lits, unjudged=()):
+        self.lits, self.unjudged = lits, list(unjudged)
+
+
+def test_the_portfolio_note_names_the_posed_facts_and_counts_walls_and_axes_apart():
+    """Deterministic, on any machine: the note is a pure function of the model's literals, the
+    plan and the released keys."""
+    CP = _cp()
+    if CP is None:
+        pytest.skip("COULD NOT EVALUATE: ortools is not importable")
+    reqs = _Reqs([(None, "", "tiling", (0, 0)), (None, "", "stack", (1, "c")),
+                  (None, "", "bearing", (0, "x")), (None, "", "wall", (0, "a", "W"))])
+    released = {("wall", 0, "a", "W"), ("wall", 0, "b", "N"), ("axis", 0, "passage")}
+    line = CP.portfolio_held_note(4, reqs, {"levels": [{"rooms": [{"id": "a"}]}]}, released)
+    assert line.startswith("portfolio (4 workers): every type fact posed HELD (tiling, stack, bearing)"), line
+    assert " with the 2 authored wall pin(s) and 1 axis pin(s) released, CARRIED" in line, line
+    assert line.endswith("; no fire is stated, so the hearth is not posed"), line
+    # a stated fire the model refused to pose is named with the model's own reason, not as absent
+    reqs2 = _Reqs(reqs.lits, [("hearth", None, "the massing states its hearth in prose")])
+    line2 = CP.portfolio_held_note(4, reqs2, {"levels": [{"rooms": [{"id": "a", "hearth": [{"wall": "N"}]}]}]}, set())
+    assert line2.endswith("; the hearth is not posed: the massing states its hearth in prose"), line2
+    assert " released" not in line2, line2
+
+
+def test_the_accounting_credits_an_axis_release_to_the_axis_and_not_the_walls():
+    """Finding 37(b), reproduced on a hand-built record: three wall pins downgraded against a line
+    releasing two walls and one axis. Crediting the whole three to the walls called it accounted."""
+    sv = {"downgraded_wall_pins": ["L0 a W", "L0 b N", "L0 c S"],
+          "downgraded_shape_pins": [], "downgraded_axis_pins": ["L0 passage"], "facts": {}}
+    rounds = ["portfolio (4 workers): every type fact posed HELD (tiling, stack, bearing) with the 2 "
+              "authored wall pin(s) and 1 axis pin(s) released, CARRIED; the reinstatement pass "
+              "offers them back where its window has time, and its own line says how many it reached"]
+    with pytest.raises(AssertionError, match="3 downgraded wall pin"):
+        _releases_are_accounted(sv, rounds)
+    sv["downgraded_wall_pins"] = ["L0 a W", "L0 b N"]
+    _releases_are_accounted(sv, rounds)          # two walls and one axis: accounted
+    sv["downgraded_axis_pins"] = ["L0 passage", "L0 hall"]
+    with pytest.raises(AssertionError, match="2 downgraded axis pin"):
+        _releases_are_accounted(sv, rounds)
 
 
 def test_the_axis_pin_names_one_room_or_none():

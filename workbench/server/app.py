@@ -860,8 +860,10 @@ def plan_critique(request: Request, body: dict = Body(...)):
     audit) and a classification is asked for, like a proof."""
     _heavy(request)
     plan = _plan(body)
+    # the posted placement is reused only where this server produced it (the audit of Phase 17)
     res = core.critique_plan(plan, engine=_engine(body), candidates=_candidates(body),
-                             place=bool(body.get("place", True)), parti=_parti_id(body))
+                             place=bool(body.get("place", True)), parti=_parti_id(body),
+                             trusted_placement=corpus.is_registered(plan))
     if "error" in res:
         raise HTTPException(status_code=422, detail=res)
     return res

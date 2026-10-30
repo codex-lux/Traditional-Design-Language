@@ -273,9 +273,19 @@ def test_the_rectangle_is_the_records_own_numbers(elevations):
     #                              the wider
     #     spec Colonial W 2 -> 1   the dining room's second sash, refused by the pier floor
     # N is unmoved on both, though the Tidewater dining room's sash moves along its wall.
+    # PHASE 17 (29 Oct 2026), PER FACE, AND ONLY THE TIDEWATER PLAN MOVES. The gridded service wing
+    # (ruling 4, WP-17.4) re-places that one record on the search engine -- the other fifteen
+    # shipped placements are byte-identical against `6fcc665` -- and the drawing room is back on
+    # the west gable, so both west fires share one stack at the mean of their axes:
+    #     Tidewater N 5 -> 7   two more upper and ground sashes seated on the re-placed rear rooms
+    #     Tidewater E 0 -> 1   the face draws a door (no window); its third rhythm bay is blind now
+    #     Tidewater W 1 -> 0   both west fires' breasts and their stack take the wall the one sash
+    #                          stood on; the placer refuses the rest by name
+    # S is unmoved at 6 on the Tidewater plan, though it draws five windows and its door where it
+    # drew four; the spec Colonial is unmoved on every face.
     assert seen == {("tidewater-georgian-careful", "S"): 6,
-                    ("tidewater-georgian-careful", "N"): 5,
-                    ("tidewater-georgian-careful", "W"): 1,
+                    ("tidewater-georgian-careful", "N"): 7,
+                    ("tidewater-georgian-careful", "E"): 1,
                     ("spec-builder-colonial", "S"): 5,
                     ("spec-builder-colonial", "N"): 3,
                     ("spec-builder-colonial", "W"): 1}, (
@@ -334,12 +344,24 @@ def test_no_shipped_plan_reaches_a_blind_bay(elevations):
     """
     el = _load("elevation")
     got = set()
+    blinds = set()
     for pid, elev in elevations.items():
-        blind = sum(f.get("kinds", []).count("blind") for f in elev["faces"].values())
-        assert blind == 0, (
-            f"{pid} now states {blind} blind bay(s). Good — but re-read the driven fixture in "
-            "test_a_stack_on_a_placed_window_is_refused_by_all_three_callers, which exists "
-            "because there were none.")
+        for fid, f in elev["faces"].items():
+            if f.get("kinds", []).count("blind"):
+                blinds.add((pid, fid, f["kinds"].count("blind")))
+    # THE CORPUS GREW ITS BLIND BAYS AT PHASE 17 (29 Oct 2026), as this assertion said it might.
+    # The gridded service wing (ruling 4) puts the Tidewater drawing room back on the west gable,
+    # so the west stack stands at the mean of two fires' axes (19.72 ft along the W face) and the
+    # east stack at 32.41 ft along the E face, and each now stands on one RHYTHM bay of its gable:
+    # one blind bay on E and one on W, re-read here as the docstring asks. The driven fixture in
+    # `test_a_stack_on_a_placed_window_is_refused_by_all_three_callers` is kept: it is still the
+    # only route to a PLACED window refused for a stack, and to the N face, through all three
+    # callers at once -- a blind RHYTHM bay is a different rule.
+    assert blinds == {("tidewater-georgian-careful", "E", 1),
+                      ("tidewater-georgian-careful", "W", 1)}, (
+        f"blind bays {sorted(blinds)}: a placement moved. Re-read the driven fixture in "
+        "test_a_stack_on_a_placed_window_is_refused_by_all_three_callers before re-pinning.")
+    for pid, elev in elevations.items():
         # READ THE SOURCE, NOT A WORD: the placer's own refusal prose says "chimney" and
         # "stack" about a breast it kept a sash clear of, and the first draft of this premise
         # matched that word and convicted the placer's refusals as the elevation's. The
@@ -383,9 +405,47 @@ def test_the_corpus_reaches_no_stack_refusal_BECAUSE_the_sash_is_clear(elevation
                         "reads no refusals -- the refusal has gone blind, which is the reading "
                         "that zero cannot rule out on its own")
                     checked += 1
-    assert checked, (
-        "no shipped plan states a stack axis on a face that draws a placed window, so this "
-        "discriminator is vacuous and the zero above is unevidenced again -- drive it")
+    if checked:
+        return
+    # DRIVEN SINCE PHASE 17 (29 Oct 2026), as this assertion asked. The gridded service wing
+    # (ruling 4) puts both Tidewater fires on the west gable; the faces that state a stack (E and W)
+    # draw no placed window now, so the shipped corpus gives the discriminator nothing to read.
+    # The same question is asked of the Tidewater N face, which draws seven: a stack set in the
+    # widest clear run between two of its windows must leave every window DRAWN and clear of it,
+    # and the same stack moved onto a window's centre must take that window off the face -- a rule
+    # gone blind draws it there, which is the reading the zero above cannot rule out alone.
+    import copy as _copy
+    elev = _copy.deepcopy(elevations["tidewater-georgian-careful"])
+    wins = sorted((r for r in el.opening_rects(elev, "N")["rects"] if r["kind"] == "window"),
+                  key=lambda r: r["x0_in"])
+    assert len(wins) >= 2, "the premise: the N face draws windows to stand a stack between"
+    half = 0.5
+    # the widest clear run between two windows of one storey, and a stack there must clear the
+    # OTHER storey's windows too, because a stack rises through both
+    gaps = []
+    for st in {r["storey"] for r in wins}:
+        row = [r for r in wins if r["storey"] == st]
+        gaps += [(b["x0_in"] - a["x1_in"], (a["x1_in"] + b["x0_in"]) / 24.0)
+                 for a, b in zip(row, row[1:])]
+    gaps = [(w, m) for w, m in gaps
+            if all(abs((r["x0_in"] + r["x1_in"]) / 24.0 - m) > (r["x1_in"] - r["x0_in"]) / 24.0 + half
+                   for r in wins)]
+    assert gaps, "the premise: a clear run on the N face that clears both storeys' windows"
+    width, mid = max(gaps)
+    assert width / 12.0 > 2 * half, "the premise: a clear run wider than the driven stack"
+    _stack_on(elev, "N", mid, half_ft=half)
+    drawn = [r for r in el.opening_rects(elev, "N")["rects"] if r["kind"] == "window"]
+    assert len(drawn) == len(wins), "a stack in a clear run took a window off the face"
+    for r in drawn:
+        c, w2 = (r["x0_in"] + r["x1_in"]) / 24.0, (r["x1_in"] - r["x0_in"]) / 24.0
+        assert abs(c - mid) > w2 + half, (r.get("id"), c, mid)
+        checked += 1
+    on = (wins[0]["x0_in"] + wins[0]["x1_in"]) / 24.0
+    _stack_on(elev, "N", on, half_ft=half)
+    still = [r for r in el.opening_rects(elev, "N")["rects"] if r["kind"] == "window"]
+    assert len(still) == len(wins) - 1, (
+        "a stack on a window's centre left it drawn: the refusal has gone blind")
+    assert checked
 
 
 def _stack_on(elev, face, u_ft, half_ft=None):

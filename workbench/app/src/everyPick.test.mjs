@@ -21,7 +21,7 @@ import {
 } from './surfaces/drawingFaces.js';
 import { KINDS } from './surfaces/drawingKinds.js';
 import { FAULT_GROUPS, faultGroups, groupRows, styleFaultIds } from './faults/groups.js';
-import { nativityLine, setSize, NATIVITY_TERMS } from './candidateOrder.js';
+import { nativityLine, setSize, poolPassedOver, passedOverTone, POOL_STOP_TERMS, NATIVITY_TERMS } from './candidateOrder.js';
 
 const ROOT = new URL('../../../', import.meta.url);
 const read = (p) => readFileSync(new URL(p, ROOT), 'utf8');
@@ -193,17 +193,125 @@ test('the Fault Corpus groups by the served partition and derives none', () => {
 test('the strip counts the set asked for, and names the one the brief\'s parti appended', () => {
   const cands = [{ parti: 'own' }, { parti: 'named', parti_name: 'Named' }];
   const appended = { candidates: cands, named_parti: { parti: 'named', returned: true, appended: true } };
-  assert.deepEqual(setSize(appended, 1), { own: 1, asked: 1, appended: { parti: 'named', name: 'Named', index: 1 } });
+  assert.deepEqual(setSize(appended, 1), { own: 1, asked: 1, appended: { parti: 'named', name: 'Named', index: 1 }, filled: [] });
   // returned by the ranking itself: counted in the set, not appended
   const ranked = { candidates: cands, named_parti: { parti: 'named', returned: true, appended: false } };
-  assert.deepEqual(setSize(ranked, 2), { own: 2, asked: 2, appended: null });
+  assert.deepEqual(setSize(ranked, 2), { own: 2, asked: 2, appended: null, filled: [] });
   // not returned at all, or nothing named: the set is what came back
   assert.deepEqual(setSize({ candidates: cands, named_parti: { parti: 'x', returned: false } }, 4),
-    { own: 2, asked: 4, appended: null });
-  assert.deepEqual(setSize({ candidates: cands }, 4), { own: 2, asked: 4, appended: null });
-  assert.deepEqual(setSize(null, 4), { own: 0, asked: 4, appended: null });
+    { own: 2, asked: 4, appended: null, filled: [] });
+  assert.deepEqual(setSize({ candidates: cands }, 4), { own: 2, asked: 4, appended: null, filled: [] });
+  assert.deepEqual(setSize(null, 4), { own: 0, asked: 4, appended: null, filled: [] });
   // never "returned 2 of 1": the set's own count cannot pass what was asked when one was appended
   assert.ok(setSize(appended, 1).own <= 1);
+});
+
+test('the strip counts a house filled from the pool out of the set, and names it (WP-17.6)', () => {
+  /* Mutations: `filled` not subtracted from `own` ("returned 6 of 4"), every candidate counted as
+     filled, or an appended parti also in `pool_fill.added` counted twice. */
+  const cands = [{ parti: 'a' }, { parti: 'b' }, { parti: 'c' }, { parti: 'd' },
+    { parti: 'e', parti_name: 'E house' }, { parti: 'f' }];
+  const r = { candidates: cands, pool_fill: { asked: 4, added: ['e', 'f'], passed_over: [], not_reached: [] } };
+  assert.deepEqual(setSize(r, 4), { own: 4, asked: 4, appended: null,
+    filled: [{ parti: 'e', name: 'E house', index: 4 }, { parti: 'f', name: 'f', index: 5 }] });
+  const both = { candidates: cands.slice(0, 5), pool_fill: { added: ['e'] },
+    named_parti: { parti: 'e', returned: true, appended: true } };
+  const s = setSize(both, 4);
+  assert.equal(s.own, 4);
+  assert.equal(s.appended.parti, 'e');
+  assert.deepEqual(s.filled, [], 'one house is counted once, as appended');
+  assert.deepEqual(setSize({ candidates: cands, pool_fill: { added: [] } }, 4).filled, []);
+  assert.equal(setSize({ candidates: cands, pool_fill: null }, 6).own, 6);
+});
+
+test('the passed-over diagrams and the ones never reached are read from the composer (WP-17.6)', () => {
+  /* Re-cut for the audit's findings 26 and 27: each entry now carries its standing and the tone it
+     is inked in, and the not-reached list the glossary record of the bound that stopped the fill. */
+  const r = { pool_fill: { passed_over: [{ parti: 'p', parti_name: 'P', why: 'refused: stacks', standing: 'refused' }, null, {}],
+    not_reached: ['q', ''] } };
+  assert.deepEqual(poolPassedOver(r), {
+    passed: [{ parti: 'p', name: 'P', why: 'refused: stacks', standing: 'refused', tone: 'refusal' }],
+    notReached: ['q'], notReachedTerm: null });
+  assert.deepEqual(poolPassedOver({}), { passed: [], notReached: [], notReachedTerm: null });
+  assert.deepEqual(poolPassedOver(null), { passed: [], notReached: [], notReachedTerm: null });
+  const cs = live(read('workbench/app/src/surfaces/CandidateSet.jsx'));
+  assert.match(cs, /const pool = poolPassedOver\(result\)/);
+  assert.match(cs, /<Term id="filled-from-the-pool" \/>/);
+  assert.match(cs, /data-pool-filled=/);
+  assert.ok(RECORDS.has('filled-from-the-pool'));
+});
+
+test('a diagram the brief named and the fill did not take is a column, not a passed-over entry (finding 27)', () => {
+  /* compose.py marks the named diagram's passed-over entry `appended_as_named` when its guarantee
+     returns it anyway. The leaf read every entry, so the strip showed it as an appended "named by
+     the brief" column while the block below listed it as passed over and not offered.
+     Mutation: drop the `appended_as_named` filter -- this goes red. */
+  const r = {
+    candidates: [{ parti: 'a' }, { parti: 'b' }, { parti: 'n', parti_name: 'Named' }],
+    named_parti: { parti: 'n', returned: true, appended: true, rank: 3 },
+    pool_fill: { passed_over: [
+      { parti: 'n', parti_name: 'Named', why: 'refused: stacks', standing: 'refused', appended_as_named: true },
+      { parti: 'x', parti_name: 'X', why: 'refused: tiling', standing: 'refused' }],
+    not_reached: [], stopped_by: 'cap' },
+  };
+  const pool = poolPassedOver(r);
+  assert.deepEqual(pool.passed.map((p) => p.parti), ['x'], 'the named, returned diagram is not passed over');
+  assert.equal(setSize(r, 2).appended.parti, 'n', 'and it is still the appended column');
+  // only the composer's mark removes an entry: a flag that is not `true` is not the mark
+  const odd = { pool_fill: { passed_over: [{ parti: 'n', why: 'w', standing: 'refused', appended_as_named: 'yes' }] } };
+  assert.deepEqual(poolPassedOver(odd).passed.map((p) => p.parti), ['n']);
+  // the composer writes the mark the leaf reads
+  assert.match(read('build/compose.py'), /p\["appended_as_named"\] = True/);
+});
+
+test('a diagram the fill did not reach is worded by the bound that stopped it (finding 26)', () => {
+  /* Mutations: read no `stopped_by` (every unreached diagram said to be out of time), or swap the
+     two terms -- each goes red. */
+  const at = (stopped_by, not_reached = ['q', 'r']) => poolPassedOver({ pool_fill: { passed_over: [], not_reached, stopped_by } });
+  assert.equal(at('cap').notReachedTerm, 'pool-fill-limit-reached');
+  assert.equal(at('budget').notReachedTerm, 'pool-fill-time-ran-out');
+  assert.equal(at('cap').notReachedTerm === at('budget').notReachedTerm, false, 'two bounds, two words');
+  // a bound this app does not word, or none, is given no cause; and with nothing unreached nothing is said
+  for (const s of [undefined, null, 'set-full', 'pool', 'toString', 'something-new']) {
+    assert.equal(at(s).notReachedTerm, null, String(s));
+  }
+  assert.equal(at('cap', []).notReachedTerm, null);
+  // each word is a glossary record, and each bound it words is one the composer can write
+  const stops = /POOL_FILL_STOPS = \(([^)]*)\)/.exec(read('build/compose.py'));
+  assert.ok(stops, 'build/compose.py names the pool-fill\'s stops');
+  const written = stops[1].split(',').map((x) => x.trim().replace(/^["']|["']$/g, '')).filter(Boolean);
+  for (const [stop, id] of Object.entries(POOL_STOP_TERMS)) {
+    assert.ok(RECORDS.has(id), `no glossary record ${id}`);
+    assert.ok(written.includes(stop), `compose.py writes no stop called ${stop}`);
+  }
+  assert.equal(RECORDS.get('pool-fill-time-ran-out').term, 'the set\'s time ran out');
+  // the surface says "not placed" and then the record, and the old single cause is gone
+  const cs = live(read('workbench/app/src/surfaces/CandidateSet.jsx'));
+  assert.match(cs, /\{JOURNEY_WORDS\.separator\}\{JOURNEY_WORDS\.notPlaced\}/);
+  assert.match(cs, /\{pool\.notReachedTerm && <Term id=\{pool\.notReachedTerm\} \/>\}/);
+  assert.doesNotMatch(cs, /JOURNEY_WORDS\.notReached\b/);
+  assert.doesNotMatch(read('workbench/app/src/journey/journey.js'), /time ran out/,
+    'the cause is the glossary record\'s, and the app spells it nowhere');
+});
+
+test('each passed-over diagram is inked by its own standing, not the block by one brick (batch D)', () => {
+  /* Every passed-over reason sat under one brick border, so "its placement could not be evaluated"
+     read as a refusal. Mutations: a tone keyed on the reason's words, or the brick put back on the
+     block -- each goes red. */
+  assert.equal(passedOverTone('refused'), 'refusal');
+  for (const s of ['unjudged', 'placed', null, undefined, '']) assert.equal(passedOverTone(s), 'unjudged', String(s));
+  const r = { pool_fill: { passed_over: [
+    { parti: 'a', why: 'refused: stacks', standing: 'refused' },
+    { parti: 'b', why: 'its placement could not be evaluated: unsolved', standing: 'unjudged' },
+    // the words of a refusal on an entry whose standing is not refused: the standing decides
+    { parti: 'c', why: 'refused: stacks', standing: 'unjudged' }] } };
+  assert.deepEqual(poolPassedOver(r).passed.map((p) => [p.parti, p.tone]),
+    [['a', 'refusal'], ['b', 'unjudged'], ['c', 'unjudged']]);
+  const cs = live(read('workbench/app/src/surfaces/CandidateSet.jsx'));
+  const block = cs.slice(cs.indexOf('data-pool-passed-over='), cs.indexOf('data-named-parti-missing='));
+  assert.ok(block.length > 0, 'the pool block is found');
+  assert.match(block, /borderLeft: `2px solid \$\{p\.tone === 'refusal' \? 'var\(--refusal\)' : 'var\(--judge-unjudged\)'\}`/);
+  assert.equal((block.match(/var\(--refusal\)/g) || []).length, 1, 'the brick is the refused entry\'s alone');
 });
 
 test('a lineage column reads as lineage, and nothing is worded before an unserved nativity', () => {

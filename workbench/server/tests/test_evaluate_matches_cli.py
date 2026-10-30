@@ -163,7 +163,13 @@ def test_compose_job_roundtrip(client):
         time.sleep(0.5)
     assert j["status"] == "done"
     cands = j["result"]["candidates"]
-    assert 1 <= len(cands) <= 3
+    # WP-17.6 (ruling 3 of 29 Oct 2026): a set with fewer drawable houses than were asked for is
+    # FILLED FROM THE POOL, and a drawable house found further down joins it -- so the set asked for
+    # is counted apart from the ones the pool-fill added, which the result names.
+    added = set((j["result"].get("pool_fill") or {}).get("added") or [])
+    own = [c for c in cands if c["parti"] not in added]
+    assert 1 <= len(own) <= 3
+    assert len(cands) - len(own) == len(added) <= 4
     assert all("trades_away" in c and "why_this_diagram" in c for c in cands)
     # every returned candidate carries the loop's account of itself, and the pre-revision
     # score beside the post-revision one (the same instrument, twice)

@@ -1940,17 +1940,6 @@ HYPHEN_DEFAULT_FT = 14.0   # dependency-and-hyphen.json bands hyphen_length_ft 1
 ELEMENT_GRID_FT = 1.0
 
 
-def grid_allowance_ft():
-    """The depth a non-main element's box must carry beyond its contents, in feet.
-
-    Two quanta, because `geometry_cp._element_boxes` rounds BOTH edges of an axis inward --
-    `ceil` the low one, `floor` the high one -- and a dependency's origin is a half-foot
-    (`blocks_for` centres it on the main block's axis) so both roundings bite. One function
-    because two sizings need it, `flank_sizes`' depth and `blocks_for`'s hyphen, and this
-    repository's standing lesson is that the second transcription is the one that drifts.
-    """
-    return 2.0 * ELEMENT_GRID_FT
-
 def is_block_tag(v):
     """Is this `block` field a massing-element id? One rule, read in both places that ask.
 
@@ -1969,6 +1958,29 @@ def is_block_tag(v):
     pointing at a caller that no longer exists is the "until X lands" class (WP-6.4).
     """
     return isinstance(v, str) and bool(v.strip())
+
+
+def _grid_y(h, main_h):
+    """The element's y: exactly centred where `_centred_depth` made that integral (an integral main
+    block -- every prover footprint, `_snap_fpd`), else the whole foot nearest the centring. The
+    second case is the SEARCH's own unsnapped footprint (the careful record's main block is
+    45 x 37.24 there), where an exactly centred element would land on a fractional y and the
+    prover's inward rounding of that box would take its strips back; there the element stands up
+    to half a foot off the axis, which is said here because it is a cost."""
+    y = (main_h - h) / 2.0
+    return y if abs(y - round(y)) < 1e-6 else float(round(y))
+
+
+def _centred_depth(h, main_h):
+    """The whole-foot depth at or above `h` that centres EXACTLY on a main block of depth `main_h`
+    (WP-17.4): where the main block is integral, `(main_h - h)` must be even, or the centred element
+    lands on a half-foot and the prover's inward rounding takes a strip off each side. A
+    non-integral main block (the search's own footprint, which only the prover snaps) is left alone."""
+    if abs(main_h - round(main_h)) > 1e-6:
+        return h
+    if (int(round(main_h)) - int(round(h))) % 2:
+        h += 1.0
+    return h
 
 
 def flank_sizes(prep, bay, level=0):
@@ -2028,9 +2040,19 @@ def flank_sizes(prep, bay, level=0):
         # and the plan was infeasible before a single declared fact was read. Measured against a
         # 0.97 floor: dependency 690 sf of box for 701 sf of rooms, hyphen 105 for 112. The
         # allowance is DERIVED by solving `(W - 2g)(H - 2g) >= need` for H, not chosen.
-        g = grid_allowance_ft()
-        usable_w = max(ELEMENT_GRID_FT, W - g)
-        H = round(need_body / usable_w + g, 2) if W else 0.0
+        # PHASE 17, WP-17.4 (ruled by Lucas, 29 Oct 2026, ruling 4): A DERIVED ELEMENT IS STATED ON
+        # THE WHOLE-FOOT GRID. The box used to be `need / (W - g) + g` -- two quanta of allowance so
+        # that `geometry_cp._element_boxes`' inward rounding could not leave it smaller than its
+        # rooms -- and centred on a half-foot, so the prover tiled an integer box while the gate
+        # measured the float one and read the difference (5.5 sf on the hyphen, 28.6 on the wing,
+        # measured) as floor in no room. The element is now integral at its source: the depth is the
+        # whole foot at or above the rooms' need, the gap a whole foot, and `blocks_for` centres it
+        # exactly (parity with the main block's depth), so the inward rounding is the identity and
+        # nothing is left to measure. The report records that this is WP-14.21's D3 shape -- an
+        # element landed on whole feet -- made legitimate by the ruling, and that no RECORD is
+        # sized to the grid: the placer states its own boxes.
+        H = float(math.ceil(need_body / W - 1e-9)) if W else 0.0
+        gap = float(math.ceil(gap - 1e-9))
         out.append({"id": bid, "side": side, "gap": gap, "W": W, "H": H,
                     "hyph": hyph, "body": body})
     return out
@@ -2107,12 +2129,23 @@ def blocks_for(plan, fp, prep, level=0):
             # 7 x 16 = 112 sf and the integer box held 105, which the coverage floor then asked
             # for 108.6 of. The WIDTH takes no allowance: that is the gap between two masses, a
             # real dimension of the house, and its origin is integral by construction.
-            hh = min(H, float(hyph[0].get("length_ft") or H)) + grid_allowance_ft()
+            hh = float(math.ceil(min(H, float(hyph[0].get("length_ft") or H)) - 1e-9))
+            hh = _centred_depth(hh, fp["H"])
             out.append({"id": bid + "-hyphen", "role": "hyphen", "x": round(hx, 2),
-                        "y": round((fp["H"] - hh) / 2.0, 2), "W": round(gap, 2), "H": round(hh, 2),
+                        "y": round(_grid_y(hh, fp["H"]), 2), "W": round(gap, 2), "H": round(hh, 2),
                         "rooms": [r["id"] for r in hyph], "attached_to": "main", "side": side})
+        # THE WING GROWS WITH THE HOUSE (Phase 17, ruling 4's third part, and decision 11). A wing
+        # is sized at the whole foot above its rooms' area -- no slack at all -- so its rooms could
+        # not all stand inside their bands with their doors placed (the composed centre passage's
+        # service wing: 18 x 17 ft for 306 sf of rooms). Where the prover grows the main block's
+        # depth before compromising a room, it grows each dependency's by the same even step,
+        # never past the main block's own depth, so the wing stays exactly centred.
+        grow = float(fp.get("flank_grow_ft") or 0.0)
+        if grow:
+            H = min(H + grow, max(H, float(fp["H"])))
+        H = _centred_depth(H, fp["H"])
         out.append({"id": bid, "role": "dependency", "x": round(x, 2),
-                    "y": round((fp["H"] - H) / 2.0, 2),   # centred on the main block's axis
+                    "y": round(_grid_y(H, fp["H"]), 2),   # centred on the main block's axis
                     "W": W, "H": H, "rooms": [r["id"] for r in el["body"]],
                     "attached_to": "main", "side": side})
     return out
@@ -3821,7 +3854,21 @@ MAX_CACHEABLE_BYTES = 1024 * 1024
 # Raising the batch number is cheap and raising the interactive one is not. Anyone tempted to
 # collapse them again should read `docs/reports/infrastructure-audit.md` first.
 BUDGET_BATCH_S = 40.0
+# THE PROVER'S SIZE PIN, STATED ONCE (the audit of 30 Oct 2026). `geometry_cp._build` holds every
+# room to at least this fraction of its declared area as a hard requirement the ladder never
+# releases (sizes are a never-downgrade fact, ruling 6). `drawability` refuses a drawing only past
+# it: the drawn layer's `drawn-vs-declared` finding fires at a tenth, so a room the prover placed
+# 10-12% under its declared area inside its own pin was read NOT DRAWABLE -- an instrument fact
+# convicting a house the model had held, which is the MISMATCH class this phase forbids.
+SIZE_PIN_FLOOR = 0.88
 BUDGET_INTERACTIVE_S = 25.0
+# A COMPOSE JOB'S PER-SOLVE BUDGET (Phase 17, WP-17.6), passed by `compose` explicitly and never by
+# changing a default, because `revise.py`'s and `critique.py`'s 25 s defaults serve the synchronous
+# `/api/plan/critique` route and the chip revise jobs, which are R11's interactive budget. A job is
+# not a person waiting (WP-13.9's own sentence below). Measured on the composed foursquare (4 cores,
+# shared with a running build): the prover's portfolio decides the grown box in 11-29 s, and at a
+# 40 s budget its slices were too short to; 60 s gives the portfolio 45.
+BUDGET_COMPOSE_S = 60.0
 
 # AND A THIRD, FOR THE ROUNDS THE BENCH RUNS BEFORE IT DRAWS (WP-13.9, ruled 19 Sep 2026).
 # Lucas read a sheet carrying sixty drawn findings beside a revision panel reporting nothing
@@ -3918,13 +3965,26 @@ def solve(plan, parti=None, candidates=250, seed=7, engine="auto",
     # retained — so a caller posting a large record 64 times pinned 64 copies of it in the key
     # alone, on top of 64 deep-copied results. A plan record arrives over HTTP; its size is
     # the caller's choice. sha256 makes the key constant-size whatever the record weighs.
+    # THE WORKER COUNT IS AN INPUT TO A CP ANSWER (the audit of Phase 17, 30 Oct 2026, finding 36).
+    # Since WP-17.5 the prover's formulation turns on `portfolio_workers()` -- one worker runs the
+    # assumption ladder, several the hard portfolio first -- so a key without it served a one-worker
+    # answer to a four-worker request: reproduced, the two-storey fixture solved with one worker and
+    # then with four, no clear, came back identical with no portfolio line. The tests concede it by
+    # clearing the cache by hand around a forced one-worker solve.
+    workers = None
+    if engine in ("auto", "cp"):
+        try:
+            workers = _mod("geometry_cp", f"{ROOT}/build/geometry_cp.py").portfolio_workers()
+        except Exception:                              # no prover to ask: nothing to key on
+            workers = None
     key = (hashlib.sha256(plan_s.encode()).hexdigest(),
            hashlib.sha256(parti_s.encode()).hexdigest() if parti_s else None,
-           candidates, seed, engine, time_limit_s)
+           candidates, seed, engine, time_limit_s, workers)
     hit = _SOLVE_CACHE.get(key)
     if hit is not None:
         return copy.deepcopy(hit)
-    out = _solve_uncached(plan, parti, candidates, seed, engine, time_limit_s)
+    leg = {}
+    out = _solve_uncached(plan, parti, candidates, seed, engine, time_limit_s, leg=leg)
     # WP-6.2 — openings are placed HERE, in the one dispatcher both engines come through,
     # so a CP placement and a heuristic placement carry the same kind of record and every
     # consumer (the renderers, the exporters, the drawn-house layer of plan_check) reads
@@ -3938,6 +3998,11 @@ def solve(plan, parti=None, candidates=250, seed=7, engine="auto",
         except Exception as exc:                       # never lose a good placement to it
             out.setdefault("geometry_report", {})["openings_error"] = (
                 f"could not place openings: {exc.__class__.__name__}: {exc}")
+        # WHICH DECLARED RECORD THIS IS A PLACEMENT OF (Phase 17, WP-17.3). Every surface that
+        # is handed a placed record decides by this whether the placement is still the house's:
+        # a record edited since it was placed declares a different house, and its old rectangles
+        # are a drawing of the house before the edit.
+        (out.setdefault("geometry_report", {}).setdefault("solver", {}))["input_digest"] = declared_digest(plan)
     # And a large INPUT is not remembered at all. Stated precisely because the first version of
     # this comment said "the VALUE is bounded too" and the guard below reads len(plan_s) — the
     # input, not the cached result. The result is a solved plan, strictly larger than the record
@@ -3950,14 +4015,120 @@ def solve(plan, parti=None, candidates=250, seed=7, engine="auto",
     # two changes are orthogonal and both are wanted: openings must be placed on every result
     # this dispatcher returns, cached or not, or an over-large plan would come back with doors
     # that have no wall. Only the CACHE WRITE is size-guarded.
-    if len(plan_s) <= MAX_CACHEABLE_BYTES:
+    if len(plan_s) <= MAX_CACHEABLE_BYTES and _cacheable(leg):
         if len(_SOLVE_CACHE) > 64:
             _SOLVE_CACHE.clear()
         _SOLVE_CACHE[key] = copy.deepcopy(out)
     return out
 
 
-def _solve_uncached(plan, parti, candidates, seed, engine, time_limit_s):
+def _cacheable(leg):
+    """May this solve's answer be served to the next identical request? NOT where the CP leg did not
+    decide (UNKNOWN in budget is a fact about this machine's load at that moment, and the fallback or
+    the error built on it would outlive the load), and NOT where it ran on fewer workers than the box
+    offered (the portfolio lock was held by another solve -- a compose job -- so the formulation was
+    the one-worker ladder, and the answer would outlive the contention). The audit of Phase 17
+    (finding 36): a placement decided under contention was cached and served to every later identical
+    request even when the portfolio was free. No key computed BEFORE the solve can see the lock,
+    which is why this reads the solve's own record of what it ran on (`geometry_cp._run`).
+
+    "Decided" is `_cp_undecided`'s, and since the second audit of Phase 17 it is not merely "not
+    unsolved": a FEASIBLE answer reached through an UNKNOWN feasibility attempt, or one whose
+    reinstatement pass never reached a released pin, is the clock's and is not cached either."""
+    cp = leg.get("cp")
+    if cp is None:
+        return True                   # the heuristic, or no CP leg ran
+    if not cp.get("decided"):
+        return False
+    w, avail = cp.get("workers"), cp.get("workers_available")
+    return not (isinstance(w, int) and isinstance(avail, int) and w < avail)
+
+
+# The feasibility attempts whose UNKNOWN is the clock's: phase A (`A:`) and the hard portfolio
+# (`H:`), as `geometry_cp._solve_cp` tags them. A restore (`R:`) or a polish (`B:`) that comes back
+# UNKNOWN is not read here -- see `_cp_undecided`.
+_FEASIBILITY_UNKNOWN = ("A:UNKNOWN", "H:UNKNOWN")
+
+
+def _cp_undecided(res):
+    """Why the CP leg's answer rests on the clock rather than on a decision, as a list of short
+    reasons -- empty where it decided. Read off STRUCTURE the prover writes, never its prose:
+
+    * the leg did not solve (`unsolved`, or an error);
+    * a feasibility attempt in `attempts` -- phase A or the portfolio -- came back UNKNOWN. The
+      ladder then releases the type's facts at once on an undecided scout (`round N: UNDECIDED at
+      the 2 s scout ...`), so the placement that follows was reached by spending the budget, and on
+      a quieter box the same request decides differently;
+    * the reinstatement pass never reached some released pins (`solver.reinstatement.never_reached`,
+      the counts `geometry_cp.reinstate_counts` writes beside its line): those pins are carried on
+      no proof, released because the window closed.
+
+    THE SECOND AUDIT OF PHASE 17 (30 Oct 2026) reproduced the defect this closes: the shipped
+    Tidewater record on `auto` at a 3 s budget, attempts `5b r5 A:UNKNOWN` and a reinstatement line
+    reading "64 never reached", was cached as decided and served in 0.0 s to the next request --
+    every fact refused, on an answer the load wrote.
+
+    NOT READ, AND SAID SO: a restore that came back UNKNOWN (`R:`) leaves its pin carried on the
+    clock too, and a polish that did not finish (`B:`) leaves the objective unrun. Both are as
+    load-dependent as the two read here; whether an answer resting on them may be cached is not
+    ruled, and reading them would stop the cache on most composed candidates."""
+    if res.get("unsolved") or "error" in res:
+        return ["the CP leg returned no placement (" + str(res.get("status") or "error") + ")"]
+    rs = res.get("solver") or res.get("infeasible") or res
+    why = []
+    unk = [str(a[0]) + " " + str(a[1]) for a in (rs.get("attempts") or [])
+           if len(a) >= 2 and a[1] in _FEASIBILITY_UNKNOWN]
+    if unk:
+        why.append("a feasibility attempt came back UNKNOWN: " + "; ".join(unk))
+    never = int((rs.get("reinstatement") or {}).get("never_reached") or 0)
+    if never:
+        why.append(f"the reinstatement pass never reached {never} released pin(s)")
+    return why
+
+
+def declared_digest(plan):
+    """The fingerprint of a record's DECLARED half: everything a placement did not write
+    (`openings.strip_placement`'s keys) and not the revision loop's account of itself. A placed
+    record carries the digest of the declared record it was placed from
+    (`geometry_report.solver.input_digest`), so `declared_digest(placed) == input_digest` says the
+    placement is of THIS record and not of one before an edit (WP-17.3, one house, one placement)."""
+    OP = _mod("openings", f"{ROOT}/build/openings.py")
+    d = OP.strip_placement(copy.deepcopy(plan))
+    d.pop("revision_report", None)
+    return hashlib.sha256(json.dumps(_canonical_numbers(d), sort_keys=True, default=str)
+                          .encode()).hexdigest()[:16]
+
+
+def _canonical_numbers(o):
+    """An integral float hashed as the integer it is (the audit of Phase 17, 30 Oct 2026). The
+    composer writes `9.0` throughout a declared record; the bench holds the record as a JavaScript
+    object, which has one number type, and posts it back with `JSON.stringify`, so every `9.0`
+    arrives as `9`. `json.dumps` tells the two apart, so the digest of the posted record never
+    equalled the one the composer stamped, and the bench re-solved every composed candidate at
+    the interactive budget -- WP-17.3's one house, one placement, never firing on the path it was
+    for. A non-integral float survives the round trip exactly (both sides write the shortest
+    repr), so only the integral case is made canonical."""
+    if isinstance(o, dict):
+        return {k: _canonical_numbers(v) for k, v in o.items()}
+    if isinstance(o, list):
+        return [_canonical_numbers(v) for v in o]
+    if isinstance(o, float) and o.is_integer():
+        return int(o)
+    return o
+
+
+def carries_its_own_placement(plan):
+    """True where `plan` carries a placement AND that placement is of this declared record -- the
+    digest it was stamped with equals the digest of what it declares now. A record with rectangles
+    and no digest, or a digest that no longer matches, is a record whose placement may be of
+    another house; it is re-solved, never drawn as it stands."""
+    if not any(r.get("geometry") for lv in plan.get("levels") or [] for r in lv.get("rooms") or []):
+        return False
+    got = (((plan.get("geometry_report") or {}).get("solver") or {}).get("input_digest"))
+    return bool(got) and got == declared_digest(plan)
+
+
+def _solve_uncached(plan, parti, candidates, seed, engine, time_limit_s, leg=None):
     if engine == "heuristic":
         out = solve_heuristic(plan, parti, candidates, seed)
         if "error" not in out:
@@ -4007,6 +4178,16 @@ def _solve_uncached(plan, parti, candidates, seed, engine, time_limit_s):
 
     GC = _mod("geometry_cp", f"{ROOT}/build/geometry_cp.py")
     res = GC.solve_cp(plan, parti, seed=seed, time_limit_s=time_limit_s, candidates=candidates)
+    # WHAT THE CP LEG RAN ON AND WHETHER IT DECIDED (the audit of Phase 17, findings 13 and 36):
+    # handed back to `solve()` for its cache, and written onto a record the prover did not place
+    # (the least-bad drawing, the budget fallback) as `cp_run`, so a reader of the fallback can
+    # tell an UNKNOWN on one worker from one on four.
+    _rs = res.get("solver") or res.get("infeasible") or res
+    cp_run = {"workers": _rs.get("workers"), "workers_available": _rs.get("workers_available"),
+              "mode": _rs.get("mode"), "status": _rs.get("status") or res.get("status")}
+    if leg is not None:
+        undecided = _cp_undecided(res)
+        leg["cp"] = dict(cp_run, decided=not undecided, undecided=undecided)
     if "error" in res:
         return res
     if res.get("infeasible"):
@@ -4018,7 +4199,8 @@ def _solve_uncached(plan, parti, candidates, seed, engine, time_limit_s):
         out["geometry_report"]["solver"] = {
             "engine": "heuristic (least-bad, labelled)",
             "reason": "CP-SAT proved the declared facts cannot all hold; this drawing is the "
-                      "heuristic's least-bad relaxation and the conflicts below say what it relaxes"}
+                      "heuristic's least-bad relaxation and the conflicts below say what it relaxes",
+            "cp_run": cp_run}
         _refuse(out, res["infeasible"])   # the conflict set, and the refusal drawn from it
         return out
     if res.get("unsolved"):
@@ -4045,11 +4227,115 @@ def _solve_uncached(plan, parti, candidates, seed, engine, time_limit_s):
                 "fallback": "budget" if status == "UNKNOWN" else "engine",
                 "status": status,
                 "reason": f"CP-SAT returned no solution in {time_limit_s:.0f}s "
-                          f"({status}); fell back to the hill-climb"}
+                          f"({status}); fell back to the hill-climb",
+                "cp_run": cp_run}
         return out
     out = _finish(plan, res["best"], res["fpd"], res["levels"], solver=res["solver"])
+    if engine == "auto":
+        drawn = _the_search_where_it_holds_the_facts(out, plan, parti, candidates, seed)
+        if drawn is not None:
+            return drawn
     _offer_the_alternative(out, plan, parti, candidates, seed)
     return out
+
+
+def _the_search_where_it_holds_the_facts(out, plan, parti, candidates, seed):
+    """RULINGS 1 AND 6 OF 29 OCT 2026: a placement that holds the type's facts outranks one that
+    releases them, WHICHEVER ENGINE -- re-ruling 4 Sep's "the proof outranks the search on
+    feasibility" -- and two placements are compared on the NEVER-DOWNGRADE facts first (rooms drawn
+    to their declared size, rooms inside their own band, doors placed), then on the type's facts.
+
+    So where the PROOF is refused a drawing, the search's placement is drawn instead -- but only if
+    it HOLDS every fact the proof judged (measured `held` on the search, never merely not
+    downgraded) AND is no worse than the proof on each never-downgrade count. A search that holds
+    the stacks by drawing a room past its band, or by leaving a door unplaced, is never drawn: that
+    is ruling 6's whole point, and the search draws rooms out of band on every two-storey house it
+    has been measured on (WP-11.8). The three counts of both travel together, so the plate can say
+    which it drew and why. Returns the record to draw, or None to keep the proof.
+
+    `solver.proof` KEEPS THE PROOF'S STATUS, ITS REFUSAL AND ITS DOWNGRADED WALL PINS, AND NOT ITS
+    RECTANGLES. This docstring said "the proof's placement is kept as `solver.proof`" until the audit
+    of Phase 17 (30 Oct 2026) read the dict and found three keys and no geometry: a reader looking
+    for the proof's drawing finds the account of why it was refused, never the drawing.
+
+    TWO THINGS THE AUDIT OF PHASE 17 FOUND THIS FUNCTION DOING (30 Oct 2026, findings 8 and 40):
+
+    * IT COMPARED DOORS BEFORE ANY DOOR WAS PLACED. `drawability.doors_unplaced` reads the
+      `unplaced` marks `openings.place` writes, and `solve()` places openings AFTER this function
+      returns, so both records read 0 here and the door half of ruling 6 could not fail on any real
+      path -- measured on the shipped Tidewater record: the search read 0 unplaced pairs at this
+      point and 11 once its openings were placed, the proof 0 and 1. The two counts are taken off
+      PLACED COPIES now (`openings.place`, the one spelling, on a deep copy of each), and the record
+      returned is still the unplaced one, which `solve()` places as it places every result. Where
+      the openings cannot be placed on either copy the doors were not compared, and an uncompared
+      count is not a no-worse count: the proof stays.
+    * IT TOOK "NO FACT DOWNGRADED" FOR "EVERY FACT HELD". `typefacts.refusal` names downgraded
+      facts only -- unjudged does not refuse a drawing, rightly -- so a search with the stacks
+      UNJUDGED replaced a proof that measured them broken, under a sentence saying the search
+      "holds every type fact". Ruling 1 says HOLDS. Every fact the proof judged (held, or downgraded
+      and therefore named in its refusal) must be measured `held` on the search; a fact neither
+      engine could judge (a one-storey house's bearing, a house stating no fire) is unjudged on
+      both, does not block, and is NAMED unjudged in the reason -- never called held.
+
+    Costs a heuristic solve (~0.3 s measured on the shipped plans) and an openings pass on two
+    copies, and ONLY on a refused proof."""
+    if engine_of(out) != "cp-sat":
+        return None
+    rep_proof = out.get("geometry_report") or {}
+    proof_ref = rep_proof.get("refused")
+    if not proof_ref:
+        return None
+    alt = solve_heuristic(copy.deepcopy(plan), parti, candidates, seed)
+    if "error" in alt or (alt.get("geometry_report") or {}).get("refused"):
+        return None
+    named = sorted(proof_ref.get("facts") or [])
+    st_alt = ((alt.get("geometry_report") or {}).get("type_facts") or {}).get("status") or {}
+    st_proof = (rep_proof.get("type_facts") or {}).get("status") or {}
+    must_hold = sorted(set(named) | {f for f, v in st_proof.items() if v in ("held", "downgraded")})
+    if not named or any(st_alt.get(f) != "held" for f in must_hold):
+        return None                          # held is measured, never inferred from no refusal
+    unjudged = sorted(f for f, v in st_alt.items() if v == "unjudged")
+    OP = _mod("openings", f"{ROOT}/build/openings.py")
+    placed_alt, placed_proof = copy.deepcopy(alt), copy.deepcopy(out)
+    try:
+        OP.place(placed_alt, C)
+        OP.place(placed_proof, C)
+    except Exception as exc:                 # doors not compared: the proof stays, unjudged --
+        # AND SAYS SO (the second audit of Phase 17, 30 Oct 2026). A search that held every fact
+        # and could not be compared vanished here in silence, so the record of a refused proof
+        # could not tell "no search held the facts" from "one did and was never compared".
+        rep_proof.setdefault("solver", {})["search_not_compared"] = (
+            "the search's placement held " + ", ".join(must_hold) + " but its doors could not be "
+            "compared with the proof's, so the proof stays: openings.place raised "
+            f"{exc.__class__.__name__}: {str(exc)[:160]}")
+        return None
+    DR = _mod("drawability", f"{ROOT}/build/drawability.py")
+    ok, n_alt, n_proof = DR.no_worse(placed_alt, placed_proof)
+    if not ok:
+        return None
+    sv_proof = rep_proof.get("solver") or {}
+    alt["geometry_report"]["solver"] = {
+        "engine": "heuristic",
+        "reason": ("the proof was refused a drawing (" + ", ".join(named) + " not held); the search's "
+                   "placement holds " + ", ".join(must_hold) + ", each measured held"
+                   + (" (" + ", ".join(unjudged) + " could not be judged on either placement, and "
+                      "is not called held)" if unjudged else "")
+                   + ", and is no worse on rooms drawn to size, rooms in their band and doors placed "
+                     "(counted with both placements' openings placed), so it is the one drawn "
+                     "(rulings 1 and 6 of 29 Oct 2026)"),
+        "chosen_over_the_proof": True,
+        "facts": {"held": must_hold, "unjudged": unjudged},
+        "never_downgrade": {"drawn": n_alt, "proof": n_proof},
+        "proof": {"status": sv_proof.get("status"), "refused": proof_ref,
+                  "downgraded_wall_pins": sv_proof.get("downgraded_wall_pins") or [],
+                  "workers": sv_proof.get("workers"),
+                  "workers_available": sv_proof.get("workers_available"),
+                  "mode": sv_proof.get("mode")}}
+    return alt
+
+
+def engine_of(out):
+    return (((out or {}).get("geometry_report") or {}).get("solver") or {}).get("engine")
 
 
 def _offer_the_alternative(out, plan, parti, candidates, seed):

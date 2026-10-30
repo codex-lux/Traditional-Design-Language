@@ -31,8 +31,8 @@ def _report(out):
     return out["revised_plan"]["revision_report"]
 
 
-def _ev(client, **body):
-    r = client.post("/api/plan/evaluate", json={"plan": _plan(), "engine": "heuristic", **body})
+def _ev(client, pid="tidewater-georgian-careful", **body):
+    r = client.post("/api/plan/evaluate", json={"plan": _plan(pid), "engine": "heuristic", **body})
     assert r.status_code == 200, r.text
     return r.json()
 
@@ -74,8 +74,13 @@ def test_an_explicit_solve_runs_the_rounds_and_says_what_they_did(client):
 def test_the_findings_are_of_the_record_the_loop_ended_on(client):
     """ONE BUILDING (WP-6.4). The whole reason this is inline rather than the job route: the
     fatal count on the response must be the revised record's, not the first pass's."""
-    plain = _ev(client)
-    revised = _ev(client, revise_rounds=2)
+    # ON THE SPEC COLONIAL SINCE PHASE 17 (29 Oct 2026): the gridded wing (ruling 4) re-places the
+    # Tidewater record and its six remaining stranded rooms are all upstairs, where no door move
+    # reaches (6 fatal before the rounds and 6 after, measured); the spec Colonial strands ten on the
+    # search and the rounds clear nine (14 fatal -> 4). The subject -- the response reports the
+    # record the loop ended on -- is the same on either.
+    plain = _ev(client, "spec-builder-colonial")
+    revised = _ev(client, "spec-builder-colonial", revise_rounds=2)
     assert revised["check"]["counts"].get("fatal", 0) < plain["check"]["counts"].get("fatal", 0)
     key_before = _report(revised)["summary"]["key_before"]
     key_after = _report(revised)["summary"]["key_after"]
@@ -238,7 +243,8 @@ def test_the_stranded_rooms_fall_through_the_route_and_not_only_in_the_loop(clie
     rather than 6 against 13, so the two assertions bite on different margins."""
     def _stranded(out):
         return sum(1 for f in out["check"]["findings"] if f.get("kind") == "unreachable")
-    plain, revised = _ev(client), _ev(client, revise_rounds=2)
+    # the spec Colonial since Phase 17, for the reason given in the test above
+    plain, revised = _ev(client, "spec-builder-colonial"), _ev(client, "spec-builder-colonial", revise_rounds=2)
     assert _stranded(plain) > 0, "premise: this record strands rooms on the search"
     assert _stranded(revised) < _stranded(plain), (_stranded(revised), _stranded(plain))
 

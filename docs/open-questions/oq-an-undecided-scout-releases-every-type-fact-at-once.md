@@ -26,3 +26,13 @@ so any sweep of the alternatives should run there, on both records, before this 
 
 **What must not happen**: the half bound must not be loosened to fit the all-at-once release,
 and `BUDGET_BATCH_S` must not be raised to hide it — the ladder to 90 s reached no proof.
+
+## Amended, 29 October 2026 (Phase 17, WP-17.5)
+
+The prover now poses every fact HARD on a worker portfolio FIRST (`geometry_cp.portfolio_workers`, the
+cgroup quota, one solve at a time), with the authored walls and the axis released and the footprint grown
+2 and 4 ft before a room is compromised; the assumption ladder, and with it this question's undecided
+scout, runs only where the portfolio does not decide. On a quiet four-core box the composed foursquare
+decides with every fact held. **The question is not answered**: where the portfolio does not decide (the
+centre passages and the five-part at the compose budget) the scout still releases what it released, and
+the policy sweep this question asks for was not run in Phase 17's first tranche.

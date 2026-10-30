@@ -124,15 +124,31 @@ def test_the_shipped_record_now_draws_ONE_stack_and_says_why(shipped):
         "the shipped Tidewater sheet drew ONE stack at WP-13.5 and TWO before it; it draws "
         f"{sorted(st)} now. A fire losing its flue is the placement getting worse and a third "
         "stack is a fire nobody has accounted for -- re-derive per room before moving this.")
+    # AND ALL THREE FIRES ARE DRAWN AT PHASE 17 (29 Oct 2026), THE REST OF THE COST PAID BACK.
+    # Ruling 4 states the derived wing on the whole-foot grid (WP-17.4): the service wing is
+    # 27 x 23 ft where the two-quantum allowance made it 27 x 26.68, and the hyphen 16 ft for 18.
+    # Re-derived per plan against the parent commit, the Tidewater record is the ONLY one of the
+    # sixteen whose search placement moves, and on it the drawing room now reaches the block's
+    # west face: both west fires share the west flue, nothing is refused, and the record's fatal
+    # findings go 10 -> 6 with the hearth fact HELD. The refusal's own wording is held by the
+    # drive below, because this record no longer reaches it.
     served = {s["flue"]: sorted(s.get("serves") or []) for s in shipped["hearths"]["stacks"]}
-    assert served == {"west-stack": ["dining"], "east-stack": ["library"]}, (
+    assert served == {"west-stack": ["dining", "drawing"], "east-stack": ["library"]}, (
         f"the stacks stand, and serve the wrong fires: {served}")
     un = shipped["hearths"]["unplaced"]
     breasts = [u for u in un if u.get("rule") == "hearths.breast"]
-    assert {u["room"] for u in breasts} == {"drawing"}, (
-        f"the refused fires are {sorted(u['room'] for u in breasts)}, not just the drawing "
-        "room's. `dining` regained its flue at the merge; if it loses it again that is a "
-        "placement regression and not a number to re-pin.")
+    assert not breasts, (
+        f"the refused fires are {sorted(u['room'] for u in breasts)}; every fire had its flue at "
+        "Phase 17, so a refusal here is a placement regression and not a number to re-pin.")
+    # the breast refusal DRIVEN: the drawing room set 5 ft inboard of the west face, so its fire
+    # has no exterior wall for its flue
+    import copy
+    q = copy.deepcopy(shipped)
+    g = next(r for r in q["levels"][0]["rooms"] if r["id"] == "drawing")["geometry"]
+    g["x_ft"] += 5.0
+    out = TH.hearth_pass(q, PC.load_corpus(), {})
+    breasts = [u for u in (out.get("unplaced") or []) if u.get("rule") == "hearths.breast"]
+    assert {u["room"] for u in breasts} == {"drawing"}, out.get("unplaced")
     for u in breasts:
         why = u["reason"]
         assert "no exterior wall carries its flue" in why, why
@@ -153,10 +169,12 @@ def test_the_shipped_record_now_draws_ONE_stack_and_says_why(shipped):
         "That is a fire losing its stack -- re-derive per room, and note that the DRIVEN guard "
         "below no longer needs to stand in for the corpus.")
     # the drawn-false breast still carries its rectangle, so a later reader can see WHERE the
-    # fire would have been: 7.0 ft inboard of the element's west face, against another room.
-    off = [b for b in shipped["hearths"]["breasts"] if not b["drawn"]]
+    # fire would have been. At Phase 17 the shipped record draws every breast, so this is read on
+    # the DRIVEN record above: the drawing room 5.0 ft inboard of the element's west face.
+    assert not [b for b in shipped["hearths"]["breasts"] if not b["drawn"]]
+    off = [b for b in out["breasts"] if not b["drawn"]]
     assert {b["room"] for b in off} == {"drawing"}, off
-    assert all(b["judged"] and round(b["x_ft"], 2) == 7.0 for b in off), off
+    assert all(b["judged"] and round(b["x_ft"], 2) == 5.0 for b in off), off
 
 
 def test_a_stated_flue_with_no_fire_is_refused_by_name(shipped):
@@ -175,13 +193,20 @@ def test_a_stated_flue_with_no_fire_is_refused_by_name(shipped):
     import copy
     q = copy.deepcopy(shipped)
     hit = 0
+    # RE-CUT AT PHASE 17 (29 Oct 2026), as its own message asked: the drawing room shares the west
+    # flue again (the gridded wing, ruling 4), so BOTH west fires are taken away
+    # The flue is STATED by a fire's `flue` key, so taking both fires away un-states it; the
+    # drawing room's fire is kept and its room set 5 ft inboard, so the flue is stated, its one
+    # fire refused, and it serves nothing.
     for lv in q.get("levels") or []:
         for r in lv.get("rooms") or []:
             if r.get("id") == "dining" and r.get("hearth"):
                 r.pop("hearth"); hit += 1
-    assert hit == 1, (
-        "the shipped record no longer states a dining hearth, so this drive does nothing -- "
-        "re-cut it onto whichever room still shares the west flue")
+            if r.get("id") == "drawing" and r.get("hearth"):
+                r["geometry"]["x_ft"] += 5.0; hit += 1
+    assert hit == 2, (
+        "the shipped record no longer states both west hearths, so this drive does nothing -- "
+        "re-cut it onto whichever rooms still share the west flue")
     out = TH.hearth_pass(q, PC.load_corpus(), {})
     stack = [u for u in (out.get("unplaced") or []) if u.get("flue") == "west-stack"]
     assert len(stack) == 1, (

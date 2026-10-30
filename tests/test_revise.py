@@ -709,11 +709,32 @@ class TestTheRoundsAnswerTheStrandedRooms:
         plan = load_plan("tidewater-georgian-careful")
         return RV.revise(plan, rounds=2, budget_s=300.0, engine="heuristic", candidates=250)
 
-    def test_the_door_move_is_applied_and_the_stranded_rooms_fall(self, run):
+    @pytest.fixture(scope="class")
+    def run_untagged(self):
+        plan = load_plan("tidewater-georgian-careful")
+        for lv in plan["levels"]:
+            for r in lv["rooms"]:
+                r.pop("block", None)
+                r.pop("hyphen", None)
+        return RV.revise(plan, rounds=2, budget_s=300.0, engine="heuristic", candidates=250)
+
+    def test_the_door_move_is_applied_and_the_stranded_rooms_fall(self, run, run_untagged):
+        # RE-CUT AT PHASE 17 (29 Oct 2026). The gridded service wing (ruling 4, WP-17.4) re-places
+        # this record and the landing, the library, the powder room and the stair regain a route
+        # BEFORE the loop runs (fatal 10 -> 6). The six that remain are the upper floor, stranded
+        # behind one door the placement cannot draw -- the landing's to the upper passage, which
+        # share no wall -- and no registered move gives two rooms a shared wall. So on the shipped
+        # record the loop must still APPLY the door move and must not end with more fatals; the
+        # FALL is driven on the same record read as one element (its container stripped), where
+        # the strands are the kind a door answers: 7 -> 4 when this was re-cut.
         rep = run["report"]
         applied = [m["move"] for rd in rep["rounds"] for m in rd["moves"] if m.get("accepted")]
         assert "add-the-grammar-door" in applied, applied
-        assert rep["key_after"][0] < rep["key_before"][0], "fatal did not fall"
+        assert rep["key_after"][0] <= rep["key_before"][0], "fatal rose"
+        rep1 = run_untagged["report"]
+        applied1 = [m["move"] for rd in rep1["rounds"] for m in rd["moves"] if m.get("accepted")]
+        assert "add-the-grammar-door" in applied1, applied1
+        assert rep1["key_after"][0] < rep1["key_before"][0], "fatal did not fall"
 
     def test_no_round_opened_a_fatal(self, run):
         """The acceptance rule's own guarantee, over the whole run. Stated end to end rather

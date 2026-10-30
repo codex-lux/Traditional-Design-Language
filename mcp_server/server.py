@@ -313,7 +313,8 @@ def tdl_list_partis(style: str = "", massing: str = "", include_borrowed: bool =
 
 @mcp.tool()
 def tdl_compose(brief: dict, candidates: int = 4, include_plans: bool = False,
-                revise: bool = True, revise_rounds: int = 4, revise_engine: str = "auto") -> str:
+                revise: bool = True, revise_rounds: int = 4, revise_engine: str = "auto",
+                revise_budget_s: float | None = None) -> str:
     """Compose several contrasting plans from a brief, scored by the validator.
 
     Seeds from the canonical partis native to the style, sizes every room from the room catalogue,
@@ -360,10 +361,34 @@ def tdl_compose(brief: dict, candidates: int = 4, include_plans: bool = False,
     `score_before`, `rank_before`, `drawn_key_before` / `drawn_key_after` and a `revision` report:
     every move with the finding it answered and the sentence it executed, what remains by class,
     what was handed to the architect, what was refused. `revise=false` returns the set as composed;
-    `revise_engine` is auto (the proof where OR-Tools can give one), cp, or heuristic."""
+    `revise_engine` is auto (the proof where OR-Tools can give one), cp, or heuristic.
+
+    `revise_budget_s` is the placed loop's budget for the whole set, in seconds. A stated one is
+    bounded at 600 s (reported in `bounded`). Omitted, the composer DERIVES it: a placement per
+    asked candidate plus up to four from the pool-fill, each at the compose per-placement budget
+    plus 10 s for its critique, capped at 600 s -- 560 s for the default four candidates. This
+    call runs synchronously, so that is how long it may hold the caller. Each candidate's first
+    placement is bounded by its share and a round that cannot fit in what is left is refused and
+    said; the prover's overshoot past its own time limit (a few seconds a placement, which does not
+    shrink with the limit) and the declared composition before the loop (tens of seconds) are not
+    inside the figure. The ceiling has a cost, ruled knowing it: at the default four candidates
+    each share is 90 s, a corrective round re-places at up to the compose per-placement budget, and
+    on a four-core box no candidate's share was found to hold one -- each is returned with its
+    first placement and its card says the round was refused for budget.
+
+    WP-17.6: where fewer of the set may be drawn than were asked for, the loop places further down
+    the ranked pool and adds what it finds placed and not refused; `pool_fill` names what it
+    added, what it passed over and why (refused, or a placement that could not be judged), and
+    what it did not reach, with `stopped_by` naming the bound that stopped it: the set's time
+    (`budget`) or its cap of placements (`cap`), never one for the other. A diagram the brief named
+    that the fill passed over and the guarantee returned anyway is marked `appended_as_named`.
+    `drawability` gives two counts over the returned set, never
+    one: how many are not refused, and how many are drawable where judged, each unjudged fact
+    named."""
     refused = _metered("tdl_compose")
     return refused or J(core.compose(brief, candidates, include_plans, revise=revise,
-                                     revise_rounds=revise_rounds, revise_engine=revise_engine))
+                                     revise_rounds=revise_rounds, revise_engine=revise_engine,
+                                     revise_budget_s=revise_budget_s))
 
 @mcp.tool()
 def tdl_place_plan(plan: dict, parti: str = "", candidates: int = 250, svg_path: str = "",

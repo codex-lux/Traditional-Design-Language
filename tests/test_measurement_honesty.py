@@ -748,7 +748,14 @@ class TestACompromiseAppearsOnTheDrawingAtItsLocation:
         # paid for, and that is published rather than netted off -- the same placement carries
         # three more `unreachable` fatals, which is
         # `oq/a-withdrawn-claim-still-steers-the-placer`.
-        assert out["geometry_report"]["relaxations"]["count"] == 1
+        # 1 -> 6 AT PHASE 17 (29 Oct 2026), AND MORE IS THE WORSE DIRECTION. The gridded service
+        # wing (ruling 4, WP-17.4) is stated at its rooms' whole-foot need -- 27 x 23 ft where the
+        # two-quantum allowance made it 27 x 26.68 -- and re-places this record, the only one of the
+        # sixteen whose search placement moves (re-derived per plan against `6fcc665`). Two of the
+        # six cuts are in the wing, four on the upper floor. Paid for against fatal 10 -> 6 and the
+        # hearth fact downgraded -> held on the same record; both halves stated, neither netted.
+        # `test_site.py` and `test_geometry.py` carry copies of this number.
+        assert out["geometry_report"]["relaxations"]["count"] == 6
 
     def test_the_renderer_draws_one_mark_per_relaxation(self, geometry_module):
         """P6 and P7 together: the drawing is a render of the data, so the number of marks on

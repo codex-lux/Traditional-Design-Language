@@ -113,7 +113,13 @@ class TestSolveSmoke:
         # paid for, and that is published rather than netted off -- the same placement carries
         # three more `unreachable` fatals, which is
         # `oq/a-withdrawn-claim-still-steers-the-placer`.
-        assert report["relaxations"]["count"] == 1
+        # 1 -> 6 AT PHASE 17 (29 Oct 2026, WP-17.4, ruling 4), AND MORE IS THE WORSE DIRECTION. The derived
+        # service wing is stated on the whole-foot grid (27 x 23 ft where the allowance made it 27 x 26.68),
+        # which re-places this plan on the search and no other: per plan against a worktree of `6fcc665`,
+        # fifteen of sixteen unmoved, corpus total 81 -> 86, the whole movement this record's. Reported
+        # rather than netted off against what the same placement buys (fatal 10 -> 6, the hearth HELD).
+        # `test_site` and `test_measurement_honesty` carry the same quantity and move with it.
+        assert report["relaxations"]["count"] == 6
         assert "vertical_score" in report, "both levels must be scored together, not independently"
         placed_rooms = [
             r for lv in result["levels"] for r in lv["rooms"]

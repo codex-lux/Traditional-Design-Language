@@ -24,6 +24,13 @@ def test_the_record_handed_is_the_record_after_on_a_miss_and_on_a_hit(monkeypatc
     from workbench.server import corpus
     geo = core._mod("geometry", os.path.join(ROOT, "build", "geometry.py"))
     monkeypatch.setattr(geo, "_SOLVE_CACHE", {})
+    # THE HIT IS DRIVEN, NOT HOPED FOR (the second audit of Phase 17, 30 Oct 2026). Since then a CP
+    # answer reached through an UNKNOWN feasibility attempt, or one whose reinstatement pass never
+    # reached a pin, is not cached -- so whether the second request below is a hit became a
+    # property of this machine's load. The subject here is `_placed`'s handling of its argument on
+    # a hit, not the cache rule (`tests/test_solve_cache_workers.py` holds that), so every answer
+    # this test makes is cacheable and the premise assertion below still reads the cache.
+    monkeypatch.setattr(geo, "_cacheable", lambda leg: True)
     plan = drawable.drawable_plan()
     for request in ("miss", "hit"):
         entries = len(geo._SOLVE_CACHE)

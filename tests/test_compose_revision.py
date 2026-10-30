@@ -99,6 +99,34 @@ class TestRepairIsTheDeclaredLoopInItsOldPosition:
             assert f["id"] in accounted, f"{f['id']} survived and the report does not mention it"
 
 
+def test_the_declared_house_does_not_depend_on_the_clock(compose_module, monkeypatch):
+    """The audit of 30 Oct 2026: `repair` ran the declared loop under a 6 s wall clock, so the house
+    the composer RANKS depended on what had run before it in the process and on the box's load --
+    the first `compose()` of the narrowed Georgian brief gave the five-part 65.1, every later one
+    69.0, and `test_composer`'s named-parti tests went red on fixture order. Driven: a clock that
+    jumps a minute on every reading would have stopped the old loop after its first critique; the
+    loop bounded by its work returns the same house as one under a still clock."""
+    import types
+    RV = mc.load("revise", os.path.join(BUILD, "revise.py"))
+    b = _brief("family-georgian")
+    b["massing"] = "four-over-four"
+
+    def dims():
+        plan, _log, _p = compose_module.instantiate("five-part-palladian", b)
+        _res, rlog = compose_module.repair(plan)
+        return sorted((r["id"], r["width_ft"], r["length_ft"]) for lv in plan["levels"] for r in lv["rooms"]), len(rlog)
+    still = dims()
+    t = {"now": 0.0}
+
+    def racing():
+        t["now"] += 60.0
+        return t["now"]
+    monkeypatch.setattr(RV, "time", types.SimpleNamespace(perf_counter=racing))
+    raced = dims()
+    assert still[1] > 0, "the premise: the declared loop accepts moves on this house"
+    assert raced == still, (still[1], raced[1])
+
+
 class TestThePlacedLoopOnTheReturnedCandidates:
     def test_candidates_carry_score_before_and_a_revision_report(self, composed):
         for c in composed["candidates"]:
@@ -144,7 +172,11 @@ class TestThePlacedLoopOnTheReturnedCandidates:
         res = compose_module.compose(_brief("family-georgian"), candidates=4, revise=True,
                                      revise_rounds=1, revise_engine="heuristic", revise_budget_s=30)
         cands = res["candidates"]
-        assert len(cands) == 4 and len({c["parti"] for c in cands}) == 4, "four DISTINCT diagrams"
+        # WP-17.6: a set with fewer drawable houses than asked is filled from the pool, so the set
+        # asked for is counted apart from what the pool-fill added (named in `pool_fill.added`)
+        added = set((res.get("pool_fill") or {}).get("added") or [])
+        own = [c for c in cands if c["parti"] not in added]
+        assert len(own) == 4 and len({c["parti"] for c in cands}) == len(cands), "four DISTINCT diagrams"
         # the order is the composer's rule, on the RE-SCORED set: fatal-free first, then whether the
         # placement may be drawn, then the unjudged fatals, then the score
         keys = [_composer_order(c) for c in cands]
@@ -237,7 +269,12 @@ class TestTheRevisedSetKeepsTheComposersInvariants:
         keys = [_composer_order(c) for c in cands]
         assert keys == sorted(keys)
         _assert_the_ruled_properties(cands)
-        assert {c["rank_before"] for c in cands} == set(range(1, len(cands) + 1))
+        # WP-17.6: the set ASKED FOR ranks 1..N before revision; a house the pool-fill added carries
+        # the rank it held in the pool, which is past N -- a true statement, not a gap in the set
+        added = set((composed.get("pool_fill") or {}).get("added") or [])
+        own = [c for c in cands if c["parti"] not in added]
+        assert {c["rank_before"] for c in own} == set(range(1, len(own) + 1))
+        assert all(c["rank_before"] > len(own) for c in cands if c["parti"] in added)
 
     def test_the_revise_budget_is_the_sets_and_a_candidate_it_does_not_reach_says_so(self, compose_module):
         """Per candidate, 21 candidates on the proving engine at 600 s each was four hours of
@@ -258,11 +295,20 @@ class TestTheRevisedSetKeepsTheComposersInvariants:
                 seen.append(kw.get("budget_s"))
             return orig(plan, **kw)
         monkeypatch.setattr(RV, "revise", spy)
-        compose_module.compose(_brief("family-georgian"), candidates=3, revise=True,
-                               revise_rounds=1, revise_engine="heuristic", revise_budget_s=90)
-        assert len(seen) == 3
-        assert seen[0] <= 90 / 3 + 0.01, f"the leader was handed {seen[0]:.1f} s of a 90 s set budget"
-        assert all(s >= 1.0 for s in seen)
+        res = compose_module.compose(_brief("family-georgian"), candidates=3, revise=True,
+                                     revise_rounds=1, revise_engine="heuristic", revise_budget_s=90)
+        # RE-CUT 29 Oct 2026 (WP-17.6): the placed loop now also places down the pool where fewer
+        # of the set may be drawn than were asked for, so the spy sees the set's three AND the
+        # pool-fill's. The share is a property of the set's three; the pool-fill's are held to
+        # their own bound below, and the count of them to what the result says it placed.
+        set_, pool = seen[:3], seen[3:]
+        assert len(set_) == 3
+        assert set_[0] <= 90 / 3 + 0.01, f"the leader was handed {set_[0]:.1f} s of a 90 s set budget"
+        assert all(s >= 1.0 for s in set_)
+        pf = res.get("pool_fill") or {"placed_from_pool": 0}
+        assert len(pool) == pf["placed_from_pool"] <= compose_module.POOL_FILL_PLACEMENTS
+        G = mc.load("geometry", os.path.join(BUILD, "geometry.py"))
+        assert all(s <= G.BUDGET_COMPOSE_S + 0.01 for s in pool), pool
 
     def test_the_candidate_the_budget_does_not_reach_is_read_by_rank_not_by_list_position(self, compose_module):
         """SPLIT OUT OF THE SHARE TEST, 16 Sep 2026, BECAUSE IT WAS SHIELDED BY IT. Both halves

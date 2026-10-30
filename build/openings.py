@@ -605,7 +605,8 @@ def _place_exterior(level_rooms, occupied, W, H, C, report, envs=None, hearths=N
 # side of it: half the time 0.9995 ft of pier where the reader was promised 1.0. The reserved
 # run is widened by the quantum the record rounds to, so the written figure cannot fall inside
 # the pier -- WP-11.13's `grid_allowance_ft` for the same reason one layer down (a box rounded
-# inward could not hold its own rooms; a run rounded outward keeps its own clearance).
+# inward could not hold its own rooms; a run rounded outward keeps its own clearance). That
+# allowance was retired at WP-17.4, which states every derived element on the grid instead.
 MASONRY_PIER_FT = MIN_SOLID_FT
 _RECORD_QUANTUM_FT = 0.001
 

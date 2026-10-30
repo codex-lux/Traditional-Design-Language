@@ -698,9 +698,17 @@ class TestTheStacksAreDrawnWhereTheRecordPutsThem:
     def test_a_gable_end_draws_one_stack_at_the_position_the_record_states(self, tmp_path):
         rec, svg = self._draw(tmp_path, "E")
         stacks = self._stacks(svg)
-        assert len(stacks) == 1, "one stack per gable end; the record carries one at each"
+        # ONE OR TWO SINCE PHASE 17 (29 Oct 2026): the gridded service wing (ruling 4) puts the
+        # drawing room back on the west gable, so the west stack stands at the mean of two fires'
+        # axes and shows above the roof beside the near one instead of standing behind it. The
+        # NEAR stack -- this face's own, outboard of the east wall, drawn from grade and so
+        # reaching lowest on the sheet -- is the one whose position is held to the record.
+        assert len(stacks) in (1, 2), "one stack per gable end; the record carries one at each"
+        stacks = [max(stacks, key=lambda r: r["y"] + r["height"])]
         roof = rec["roof_record"]
-        y_ft = roof["chimneys"]["positions"][0]["y_ft"]
+        W = rec["footprint"]["width_ft"]
+        y_ft = next(c["y_ft"] for c in roof["chimneys"]["positions"]
+                    if c["plan_rect_ft"][0] >= W - 1e-6)
         depth_ft = rec["footprint"]["depth_ft"]
         # the drawn centre, back through the same 24 px/ft and 46 px pad the sheet uses
         centre_px = stacks[0]["x"] + stacks[0]["width"] / 2.0
@@ -736,8 +744,17 @@ class TestTheStacksAreDrawnWhereTheRecordPutsThem:
         for face, n in (("S", 2), ("N", 2), ("E", 1), ("W", 1)):
             _rec, svg = self._draw(tmp_path, face)
             stacks = self._stacks(svg)
-            assert len(stacks) == n, (face, len(stacks))
             gy, gx1, gx2 = self._ground_px(svg)
+            # PHASE 17 (29 Oct 2026): on a gable face the FAR stack shows above the roof now that the
+            # west stack stands at the mean of two fires' axes (the gridded service wing, ruling 4).
+            # It is drawn above the roof line only and stops short of the ground; the stacks that
+            # reach the ground are the face's own, and those are counted.
+            grounded = [st for st in stacks if abs(st["y"] + st["height"] - gy) < 0.1]
+            above = [st for st in stacks if st not in grounded]
+            assert len(grounded) == n, (face, len(grounded), len(stacks))
+            assert face in ("E", "W") or not above, (face, "a long face draws a stack off the ground")
+            assert len(above) <= 1 and all(st["y"] + st["height"] < gy - 1.0 for st in above), (face, above)
+            stacks = grounded
             for st in stacks:
                 assert abs(st["y"] + st["height"] - gy) < 0.1, (
                     f"{face}: a stack's foot at {st['y'] + st['height']:.1f} px, the ground line at {gy}")
@@ -1453,6 +1470,24 @@ class TestTheBearingSheetMarksASpanInsideItsOwnElement:
         placed = g.solve(plan, engine="heuristic")
         sec = st.build_section(placed, None, geometry_result=placed)
         blocks = {b["id"]: b for b in sec["geometry"]["footprint"]["blocks"]}
+        mid_x = blocks["main"]["x_ft"] + blocks["main"]["width_ft"] / 2.0
+
+        def _off(sp):
+            return (sp["axis"] == "y" and sp.get("element") in blocks
+                    and not (blocks[sp["element"]]["x_ft"] <= mid_x
+                             <= blocks[sp["element"]]["x_ft"] + blocks[sp["element"]]["width_ft"]))
+        if not any(_off(sp) for lv in sec["levels"] for sp in lv.get("spans_exceeding_capacity", [])):
+            # DRIVEN SINCE PHASE 17 (29 Oct 2026). The gridded service wing (ruling 4) is 23 ft deep
+            # and laid out again, and its own y-span is no longer over capacity (21.28 ft on the
+            # parent's 26.68 ft wing), so the shipped record has no span in an element the main
+            # block's middle misses -- the specimen the mutation below needs. A span record of the
+            # section's own shape, run across the service wing's depth, is added before the sheet
+            # is drawn; the bar must stand inside the wing and not at the main block's middle.
+            tpl = next(sp for lv in sec["levels"] for sp in lv.get("spans_exceeding_capacity", []))
+            sv = blocks["service"]
+            sec["levels"][0].setdefault("spans_exceeding_capacity", []).append(
+                dict(tpl, axis="y", from_ft=sv["y_ft"], to_ft=sv["y_ft"] + sv["depth_ft"],
+                     span_ft=sv["depth_ft"], element="service"))
         out = str(tmp_path / "bear.svg")
         rs.render_bearing_diagram(sec, out)
         ink = IR.Ink(open(out).read())
@@ -1490,11 +1525,7 @@ class TestTheBearingSheetMarksASpanInsideItsOwnElement:
                 checked += 1
         # THE PREMISE: some span sits in an element whose middle is not the main block's, or the
         # mutation this guards against would draw the same bar and this would pass by luck
-        mid_x = blocks["main"]["x_ft"] + blocks["main"]["width_ft"] / 2.0
-        off = [sp for lv in sec["levels"] for sp in lv.get("spans_exceeding_capacity", [])
-               if sp["axis"] == "y" and sp.get("element") in blocks
-               and not (blocks[sp["element"]]["x_ft"] <= mid_x
-                        <= blocks[sp["element"]]["x_ft"] + blocks[sp["element"]]["width_ft"])]
+        off = [sp for lv in sec["levels"] for sp in lv.get("spans_exceeding_capacity", []) if _off(sp)]
         assert checked and off, "no span stands in an element the main block's middle misses"
 
 

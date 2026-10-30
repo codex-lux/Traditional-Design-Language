@@ -500,8 +500,7 @@ def test_every_stack_a_face_draws_stands_at_its_own_plan_extent_on_either_ridge(
     plan extent along that face -- x on S and N, y on E and W -- through the face's own `u`. Held
     on both ridge axes, the shipped Tidewater (along x) and the same record entered on the west
     (along y), on every mark of every face; the far stack each long face hides is asserted hidden."""
-    for axis, el in (("x", corpus["tidewater-georgian-careful"][3]), ("y", west)):
-        assert el["roof_record"]["main"]["ridge"]["axis"] == axis, "the premise: both ridge axes"
+    def _held(el, axis):
         fp, drawn, hidden = el["footprint"], 0, 0
         for face in FACES:
             sm = EL.stack_marks(el, face)
@@ -514,6 +513,30 @@ def test_every_stack_a_face_draws_stands_at_its_own_plan_extent_on_either_ridge(
                 assert abs(min(us) - want[0]) < 1e-6 and abs(max(us) - want[1]) < 1e-6, \
                     (axis, face, mk["relation"], [round(u, 2) for u in us], [round(w, 2) for w in want])
                 drawn += 1
+        return drawn, hidden
+
+    for axis, el in (("x", corpus["tidewater-georgian-careful"][3]), ("y", west)):
+        assert el["roof_record"]["main"]["ridge"]["axis"] == axis, "the premise: both ridge axes"
+        drawn, hidden = _held(el, axis)
+        if axis == "x" and hidden < 2:
+            # DRIVEN SINCE PHASE 17 (29 Oct 2026). The gridded service wing (ruling 4) puts the
+            # Tidewater drawing room back on the west gable, so the west stack stands at the mean of
+            # two fires' axes (20.1 ft) where the east one stands at 32.41: on each gable face the far
+            # stack no longer stands behind the near one and is drawn, rightly, so the shipped record
+            # on this ridge hides none. The far-stack branch is driven: the same record with the west
+            # stack moved to the east stack's position along the gable, where each gable face must
+            # hide the far one and every mark still stand at its own plan extent.
+            el = copy.deepcopy(el)
+            pos = el["roof_record"]["chimneys"]["positions"]
+            east = next(c for c in pos if c["plan_rect_ft"][0] >= el["footprint"]["width_ft"] - 1e-6)
+            for c in pos:
+                if c is not east:
+                    dy = east["y_ft"] - c["y_ft"]
+                    c["y_ft"] = east["y_ft"]
+                    c["plan_rect_ft"] = [c["plan_rect_ft"][0], c["plan_rect_ft"][1] + dy,
+                                         c["plan_rect_ft"][2], c["plan_rect_ft"][3] + dy]
+            drawn2, hidden = _held(el, axis)
+            assert drawn2 >= 6, ("the premise: stacks drawn on the driven record", drawn2)
         assert drawn >= 6 and hidden >= 2, ("the premise: stacks drawn and hidden", axis, drawn, hidden)
 
 

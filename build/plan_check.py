@@ -542,6 +542,32 @@ def _with_dispositions(rows, withheld=None):
     return out
 
 
+# THE TENTH: how far a drawn room's area may differ from the area its record declares before the
+# sheet and the record are said to disagree (`drawn-vs-declared`). ONE SPELLING (the audit of
+# Phase 17, 30 Oct 2026): `drawability.rooms_undersize`, which ruling 6's never-downgrade
+# comparison rests on, carried a second copy (`got < want * 0.9`, strictly MORE than a tenth)
+# while this layer convicted at a tenth OR MORE -- so a room drawn at exactly -10% was a finding
+# here and nothing there, and the boundary is real rather than hypothetical: on the shipped
+# Tidewater placement the kitchen and the library both land at exactly -10.00%. EDITORIAL: no
+# record states the figure; it is the threshold this layer has convicted at since it was written,
+# and it is named so that a second reader can call it rather than restate it. The `1e-9` absorbs
+# the float rounding of an exact tenth, so -10.00% is a tenth and not a hair under one.
+DRAWN_VS_DECLARED_PCT = 10.0
+
+
+def drawn_vs_declared_pct(declared_sf, drawn_sf):
+    """The signed divergence of a drawn area from a declared one, in per cent, where it is at
+    least DRAWN_VS_DECLARED_PCT; `None` where it is less, or where nothing positive is declared.
+    THE ONE COMPARISON: the drawn layer's `drawn-vs-declared` and `drawability.rooms_undersize`
+    both read it."""
+    if not declared_sf or declared_sf <= 0:
+        return None
+    pct = (drawn_sf - declared_sf) / declared_sf * 100.0
+    if abs(pct) < DRAWN_VS_DECLARED_PCT - 1e-9:
+        return None
+    return pct
+
+
 def drawn_layer(plan, rooms, level_of, C, F):
     """Judge the house that was PLACED, not the one that was declared.
 
@@ -922,10 +948,9 @@ def drawn_layer(plan, rooms, level_of, C, F):
         da, pa = dw * dl, g["width_ft"] * g["depth_ft"]
         if da <= 0:
             continue
-        pct = (pa - da) / da * 100.0
-        # a tenth OR MORE. The boundary is real rather than hypothetical: on the shipped
-        # Tidewater placement the kitchen and the library both land at exactly -10.00%.
-        if abs(pct) < 10 - 1e-9:
+        # a tenth OR MORE, read through the one comparison (`drawn_vs_declared_pct`, above).
+        pct = drawn_vs_declared_pct(da, pa)
+        if pct is None:
             continue
         name = r.get("name") or rid
         out["diverged"].append({"room": rid, "pct": round(pct, 1)})
@@ -1011,6 +1036,33 @@ def drawn_layer(plan, rooms, level_of, C, F):
                   f"{name} declares it stacks over '{so}' and the claim COULD NOT BE EVALUATED: "
                   f"{e['reason']}." + (f" {e['remedy']}" if e.get("remedy") else ""),
                   room=rid, kind="stack-unjudged", over=so, reason=e["reason"])
+    # THE SERVICING CLAIM, JUDGED ON THE PLACED HOUSE (WP-17.1). Fifteen claims in twelve partis
+    # are `wet_stack_with` now. Lucas's ruling 5 (29 Oct 2026) moved BATH-OVER-WET-ROOM claims out
+    # of `stacks_over`: a bath over a powder room or a kitchen is a plumbing claim, not a room
+    # standing on a room. WP-17.1 executed it as "the claimant is a bath", 17 claims in 13 partis,
+    # and Lucas's ruling of 30 Oct 2026 (R9) reverted the two whose room below is not a wet room
+    # (octagon-radial's bath over a dry pantry, connected-farmstead's over a back hall) to
+    # `stacks_over`; each carries a dated note saying so. A claim moved out of the structural fact
+    # must not be silenced, so it is judged here by `stacking.wet_judge` -- the one reader -- and a
+    # chase with nowhere to run is a MINOR finding, as the servicing layer's own isolated wet room
+    # is. It refuses nothing; it is not one of the type's facts.
+    _wk, _wb, _wu = STACKING.wet_judge(plan)
+    out["wet_stacks_broken"] = [e["room"] for e in _wb]
+    for e in _wb:
+        rid, ws = e["room"], e["with"]
+        name = rooms.get(rid, {}).get("name") or rid
+        _add("minor", "drawn",
+              f"{name} declares a wet stack with '{ws}' and is drawn where no chase can serve "
+              f"both — the plans do not overlap across the floor, or share no wall on one level.",
+              room=rid, fix="Place the two wet rooms over one another or wall to wall, or drop "
+                            "the wet_stack_with claim.",
+              kind="wet-stack-shares-no-chase", over=ws)
+    for e in _wu:
+        rid, ws = e["room"], e["with"]
+        name = rooms.get(rid, {}).get("name") or rid
+        _add("info", "drawn",
+              f"{name} declares a wet stack with '{ws}' and the claim COULD NOT BE EVALUATED: "
+              f"{e['reason']}.", room=rid, kind="wet-stack-unjudged", over=ws, reason=e["reason"])
     # A LANDING OVER ITS OWN STAIR, WHICH NOTHING HAD EVER DECLARED UNTIL WP-11.6. This branch
     # runs only where a room's `stacks_over` names the stair's own room; no plan in the corpus
     # said so, so it had never fired. `plans/tidewater-georgian-careful.json` says it now, and

@@ -80,3 +80,11 @@ itself"*. `TILING = 1.0` (WP-13.3) asks exactly that question again, element by 
   is real floor inside a stated mass, and nothing is drawn on it.
 - A plan record must not be sized to land its elements on whole feet. That is the report's D3, and it
   is exactly the edit-to-clear-a-refusal the WP-14.21 ruling calls laundering.
+
+## Amended, 29 October 2026 (Phase 17, ruling 4; WP-17.4)
+
+Ruling 4 is executed in two of its three parts: a derived massing element is stated on the whole-foot
+grid and centred exactly on the main block (an even depth difference), so the prover and the gate measure
+one box; and `_absorb` runs per single-storey element where a bearing or stack fact is held. **The third
+part -- a wing sized for its door set -- is not built**, and the centre passage's wing is where the spike
+found its door set could not be held. The question stays open on that part.

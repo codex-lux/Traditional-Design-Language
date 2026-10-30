@@ -80,8 +80,12 @@ def built():
 # Every face on a plan whose drawing of it carries an asymmetric window (measured 29 Sep 2026 over
 # the sixteen shipped plans: no Tidewater E face draws a window, so the E control is good-05's).
 # The two mirrored faces are each held on two plans, so the reading cannot be one plan's luck.
+# PHASE 17 (29 Oct 2026): the Tidewater W face draws no window now -- the gridded wing (ruling 4)
+# puts the drawing room back on the west gable, and both west fires' breasts and their stack take
+# that wall -- so its W case is the spec Colonial's W face, which does, and a mirrored W face is
+# still held on a shipped plan.
 CASES = [("tidewater-georgian-careful", "S"), ("tidewater-georgian-careful", "N"),
-         ("tidewater-georgian-careful", "W"), ("good-05-lobby-gallery-mansion", "E"),
+         ("spec-builder-colonial", "W"), ("good-05-lobby-gallery-mansion", "E"),
          ("good-05-lobby-gallery-mansion", "W"), ("spec-builder-colonial", "N")]
 
 
@@ -396,9 +400,14 @@ def test_a_dormer_between_two_equally_central_windows_takes_the_one_the_plan_wou
     EL, ST, RF = _m("elevation"), _m("structure"), _m("roof")
     p, sec, rf, el, sc = built
     ups = [q for q in el["faces"]["N"]["placed"] if q["kind"] == "window" and q["storey"] == "upper"]
-    assert len(ups) == 2, ("the premise: two upper windows on the N face make one dormer a tie", ups)
-    want = min(ups, key=lambda q: q["along_ft"])
-    other = max(ups, key=lambda q: q["along_ft"])
+    # AN EVEN COUNT, AND THE TIE IS ITS MIDDLE PAIR. Two upper windows on this face until Phase 17;
+    # four on the gridded wing's placement (ruling 4), whose two middle ones are the equally
+    # central pair the rule breaks by the lower plan coordinate.
+    assert len(ups) >= 2 and len(ups) % 2 == 0, (
+        "the premise: an even count of upper windows on the N face makes one dormer a tie", ups)
+    mid = sorted(ups, key=lambda q: q["u_ft"])[len(ups) // 2 - 1: len(ups) // 2 + 1]
+    want = min(mid, key=lambda q: q["along_ft"])
+    other = max(mid, key=lambda q: q["along_ft"])
     assert want["u_ft"] > other["u_ft"], "the premise: on N the lower plan coordinate is the later u"
     q = copy.deepcopy(p)
     q.setdefault("declared", {})["dormer"] = {"count": 1, "face": "N"}
@@ -432,11 +441,13 @@ def test_a_stack_on_a_mirrored_face_stands_where_its_window_would_be_refused(bui
     assert EL.stack_axes_for_face("S", chim, fp) == [pytest.approx(12.0, abs=1e-9)]
     assert EL.stack_axes_for_face("N", chim, fp) == [pytest.approx(W_out - 12.0, abs=1e-9)]
 
-    win = next(r for r in EL.opening_rects(el, "W")["rects"] if r["kind"] == "window")
+    # ON THE N FACE SINCE PHASE 17 (29 Oct 2026): the Tidewater W face draws no window now (both
+    # west fires and their stack take that wall), so the drive moves to the other mirrored face.
+    win = next(r for r in EL.opening_rects(el, "N")["rects"] if r["kind"] == "window")
     e2 = copy.deepcopy(el)
-    e2["faces"]["W"]["stack_axes_ft"] = EL.stack_axes_for_face(
-        "W", {"positions": [{"x_ft": 0.0, "y_ft": win["along_ft"] + t}]}, fp)
-    got = EL.opening_rects(e2, "W")
+    e2["faces"]["N"]["stack_axes_ft"] = EL.stack_axes_for_face(
+        "N", {"positions": [{"x_ft": win["along_ft"] + t, "y_ft": fp["depth_ft"]}]}, fp)
+    got = EL.opening_rects(e2, "N")
     assert not [r for r in got["rects"] if r["room"] == win["room"] and r["storey"] == win["storey"]
                 and r["along_ft"] == win["along_ft"]], (
         f"a stack stands on the {win['room']} window's own axis and the window is still drawn")
@@ -485,7 +496,14 @@ def test_the_scene_compares_the_entrance_and_not_the_first_door_on_its_face(buil
     assert not said(sc), "the premise: the shipped record's two records of the front door agree"
     e2 = copy.deepcopy(el)
     doors = [q for q in e2["faces"][face]["placed"] if q["kind"] == "door" and q["storey"] == "ground"]
-    other = next(q for q in doors if not q.get("entrance"))
+    other = next((q for q in doors if not q.get("entrance")), None)
+    if other is None:
+        # PHASE 17 (29 Oct 2026): the front draws its entrance door alone on this placement, so the
+        # second door is ADDED, a copy of the entrance's own entry that is no entrance
+        ent = next(q for q in doors if q.get("entrance"))
+        other = {k: v for k, v in copy.deepcopy(ent).items() if k != "entrance"}
+        other["room"] = "driven"
+        e2["faces"][face]["placed"].append(other)
     other["along_ft"] = 3.0
     other["u_ft"] = _expected_u(face, 3.0, sec)
     other["cx_in"] = other["u_ft"] * 12.0

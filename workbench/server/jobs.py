@@ -22,8 +22,30 @@ from . import corpus
 core = corpus.core
 
 _JOBS = {}
+# ONE LOCK OVER `_JOBS` (the audit of Phase 17). The routes are sync `def`s, so Starlette runs them
+# on its thread pool, and `_reap` iterated the dict while a concurrent `submit` inserted into it
+# ("dictionary changed size during iteration") -- and `submit`'s queue-full test and its insert
+# were two steps another submit could fall between. Re-entrant, because `submit` and `get` reap
+# under it. Held for dict operations only: never across a compose, and never by the worker.
+_JOBS_LOCK = threading.RLock()
 _POOL = ThreadPoolExecutor(max_workers=1)
 TTL_S = 30 * 60
+# PHASE 17, WP-17.6: the TTL is counted from when a job FINISHED, never from when it was
+# submitted. A compose now places up to eight houses at a minute's budget each, and a job that
+# waited its turn and then ran for ten minutes was reaped from `_JOBS` before -- or while -- its
+# reader could fetch the result, which reads exactly like a compose that never answered. A
+# RUNNING job is never reaped, because the pool is one worker and the job is the only thing it is
+# doing. A job still QUEUED is reaped TTL_S after its LAST TOUCH -- its submission, a poll, a
+# stream attaching, a heartbeat on an open stream -- and never while its reader is still asking
+# (the audit of Phase 17, finding 29). This comment said it was reaped from its submission because
+# "nobody is served by it waiting longer", and a reader polling IS served by it: at the measured
+# 592 s a compose, 1800 / 592 is three composes, so the fifth of five submitted together started
+# at about 2,368 s and was reaped at 1,800, its poll answered "unknown job" -- the compose that
+# never answered, which this TTL was moved to stop. An ABANDONED queued job (nobody polls) is still
+# reaped TTL_S after its reader stopped asking, so its plan does not sit in memory for ever.
+# Two alternatives were weighed and not taken: a queue bound derived from TTL_S over the worst
+# measured compose (about two) refuses at submit with a count, which is honest but drops depth
+# MAX_QUEUED admits; a longer TTL keeps every abandoned job's plan in memory longer.
 # The pool is one worker and its queue was unbounded: thirty 8 MB plans submitted behind one
 # long job were held in memory before any ran, and a job reaped from _JOBS after the TTL still
 # ran when its turn came, for nobody (the session's audit). A submit that finds this many jobs
@@ -62,6 +84,21 @@ class Job:
         self.result = None
         self.error = None
         self.created = time.time()
+        # when a reader last asked after this job (`_touch`); a queued job ages from this
+        self.touched = self.created
+        self.finished = None
+
+
+def _remember_plans(result):
+    """Register every placed record a job's result carries -- the top-level `plan` and each
+    candidate's -- as one this server produced (`corpus.remember_placement`)."""
+    if not isinstance(result, dict):
+        return
+    plans = [result.get("plan")] + [c.get("plan") for c in result.get("candidates") or []
+                                    if isinstance(c, dict)]
+    for p in plans:
+        if isinstance(p, dict):
+            corpus.remember_placement(p)
 
 
 def _rooms(plan):
@@ -85,9 +122,12 @@ def _strip_plans(result):
 
 
 def _run(job):
-    if job.id not in _JOBS:
+    with _JOBS_LOCK:
+        reaped = job.id not in _JOBS
+    if reaped:
         # reaped while it waited its turn: nobody can read the result, so nothing is computed
         job.status = "error"
+        job.finished = time.time()
         job.error = "the job expired in the queue before it ran"
         return
     if job.kind == "revise":
@@ -164,11 +204,17 @@ def _run(job):
             _put(job, "stage", {"stage": "composing", "total": total,
                                 "note": "repairing candidates against the validator (~8 s)"})
             result = composer.compose(job.brief, job.candidates)
+        # THE SERVER'S OWN PLACEMENTS (the audit of Phase 17): every candidate record this compose
+        # placed is registered before any reader can fetch it, so the bench and the Drawing Set
+        # carry it as composed (`corpus.carried` carries nothing else)
+        _remember_plans(result)
         job.result = result
         job.status = "done"
+        job.finished = time.time()
         _put(job, "done", _strip_plans(result))
     except Exception as e:  # a failed compose is reported, never swallowed
         job.status = "error"
+        job.finished = time.time()
         job.error = str(e)[:500]
         _put(job, "error", {"error": job.error})
 
@@ -220,7 +266,9 @@ def _run_revise(job):
         result = core.revise_plan(plan, rounds=o.get("rounds", 6), engine=o.get("engine", "auto"),
                                   candidates=o.get("candidates", 250), budget_s=o.get("budget_s"),
                                   parti=o.get("parti"), place=True, include_plan=True,
-                                  on_round=on_round)   # revised one lives in job.result
+                                  on_round=on_round,
+                                  # reused only where this server produced it (the audit of Phase 17)
+                                  trusted_placement=corpus.is_registered(plan))   # revised one lives in job.result
         if "error" in result:
             raise RuntimeError(result["error"])
         # the report rode twice -- as result.report and inside plan.revision_report, 87 KB each
@@ -228,11 +276,14 @@ def _run_revise(job):
         # /plan route reads the record, so one object serves both
         if isinstance(result.get("plan"), dict) and "revision_report" in result["plan"]:
             result["plan"]["revision_report"] = result["report"]
+        _remember_plans(result)
         job.result = result
         job.status = "done"
+        job.finished = time.time()
         _put(job, "done", _strip_plans(result))
     except Exception as e:  # a failed revise is reported, never swallowed
         job.status = "error"
+        job.finished = time.time()
         job.error = str(e)[:500]
         _put(job, "error", {"error": job.error})
 
@@ -244,18 +295,20 @@ def submit_revise(plan, options=None):
                     "the record the Plan Workbench holds validates; a hand-written one may not")
     if err:
         return {"error": err["error"], "detail": err.get("detail"), "hint": err.get("hint")}
-    _reap()
-    busy = _queue_full()
-    if busy:
-        return busy
-    job = Job(None, None, options, kind="revise", plan=plan)
-    _JOBS[job.id] = job
+    with _JOBS_LOCK:
+        _reap()
+        busy = _queue_full()
+        if busy:
+            return busy
+        job = Job(None, None, options, kind="revise", plan=plan)
+        _JOBS[job.id] = job
     _POOL.submit(_run, job)
     return {"job_id": job.id}
 
 
 def _queue_full():
-    waiting = sum(1 for j in _JOBS.values() if j.status == "queued")
+    with _JOBS_LOCK:
+        waiting = sum(1 for j in list(_JOBS.values()) if j.status == "queued")
     if waiting >= MAX_QUEUED:
         return {"error": f"the pool has {waiting} job(s) waiting already; try again when one finishes",
                 "queued": waiting, "busy": True}
@@ -264,11 +317,15 @@ def _queue_full():
 
 def revised_plan(job_id):
     """The revised record of a DONE revise job, with its placement stripped and its
-    revision_report kept. Stripped because the bench re-solves every record it loads
-    (`evaluate.py` never reuses a carried placement, and a carried one would lie the moment a
-    wall was dragged); the report says what engine the loop's own key was measured on. None
-    for an unknown job, a compose job, or one not yet done."""
-    job = _JOBS.get(job_id)
+    revision_report kept. Stripped so the bench places it afresh: the loaded record is an
+    explicit act, and a carried placement would lie the moment a wall was dragged. (This said
+    "`evaluate.py` never reuses a carried placement", which WP-17.3 made false: the bench keeps a
+    placement OF THE RECORD on the open path, re-judged and with its solver claim withheld, and
+    solves on an explicit act -- `corpus.carried`, the audit of Phase 17.) The report says what
+    engine the loop's own key was measured on. None for an unknown job, a compose job, or one
+    not yet done."""
+    with _JOBS_LOCK:
+        job = _JOBS.get(job_id)
     if not job or job.kind != "revise" or not job.result or "plan" not in job.result:
         return None
     OP = core._mod("openings", os.path.join(core.ROOT, "build", "openings.py"))
@@ -280,12 +337,13 @@ def submit(brief, candidates=4, options=None):
     err = _validate_brief(brief)
     if err:
         return {"error": err["error"], "detail": err.get("detail"), "hint": err.get("hint")}
-    _reap()
-    busy = _queue_full()
-    if busy:
-        return busy
-    job = Job(brief, candidates, options)
-    _JOBS[job.id] = job
+    with _JOBS_LOCK:
+        _reap()
+        busy = _queue_full()
+        if busy:
+            return busy
+        job = Job(brief, candidates, options)
+        _JOBS[job.id] = job
     _POOL.submit(_run, job)
     return {"job_id": job.id}
 
@@ -319,9 +377,21 @@ def _validate_brief(brief):
     return None
 
 
+def _touch(job_id):
+    """A reader asked after this job: a queued job ages from now (finding 29). Touched BEFORE the
+    reap that follows, or a poll would reap the very job it is asking after."""
+    with _JOBS_LOCK:
+        job = _JOBS.get(job_id)
+    if job is not None:
+        job.touched = time.time()
+    return job
+
+
 def get(job_id):
-    _reap()   # the TTL is enforced on every touch, not only on the next submit
-    job = _JOBS.get(job_id)
+    with _JOBS_LOCK:
+        _touch(job_id)
+        _reap()   # the TTL is enforced on every touch, not only on the next submit
+        job = _JOBS.get(job_id)
     if not job:
         return None
     return {"job_id": job.id, "status": job.status, "error": job.error,
@@ -329,13 +399,19 @@ def get(job_id):
 
 
 def candidate_plan(job_id, n):
-    job = _JOBS.get(job_id)
+    with _JOBS_LOCK:
+        job = _JOBS.get(job_id)
     if not job or not job.result:
         return None
     cands = job.result.get("candidates", [])
     if not (0 <= n < len(cands)):
         return None
-    return cands[n].get("plan")
+    plan = cands[n].get("plan")
+    # registered again as it is served, so a candidate opened late is not lost to the registry's
+    # eviction while its job is still held
+    if isinstance(plan, dict):
+        corpus.remember_placement(plan)
+    return plan
 
 
 # How long the consumer sleeps between drains of the queue, and how many of those sleeps
@@ -371,7 +447,7 @@ async def events(job_id):
     all, so the buffer has to exist independently of a loop. So the consumer drains it
     without blocking and awaits between drains, which holds no thread.
     """
-    job = _JOBS.get(job_id)
+    job = _touch(job_id)
     if not job:
         yield _sse("error", {"error": "unknown job"})
         return
@@ -388,6 +464,8 @@ async def events(job_id):
             idle += 1
             if idle >= _HEARTBEAT_EVERY:
                 idle = 0
+                # an open stream is a reader still asking: a queued job it waits on is not reaped
+                job.touched = time.time()
                 yield ": heartbeat\n\n"
             continue
         idle = 0
@@ -461,7 +539,19 @@ def _sse(event, data):
     return f"event: {event}\ndata: {json.dumps(data)}\n\n"
 
 
+def _age_s(job, now):
+    """How long a job has been reapable: from its finish if it finished, from its reader's LAST
+    TOUCH if it is still queued (finding 29), and never while it runs (None)."""
+    if job.status in ("done", "error"):
+        return now - (job.finished or job.created)
+    if job.status == "queued":
+        return now - (getattr(job, "touched", None) or job.created)
+    return None
+
+
 def _reap():
     now = time.time()
-    for jid in [j for j, job in _JOBS.items() if now - job.created > TTL_S]:
-        del _JOBS[jid]
+    with _JOBS_LOCK:
+        for jid in [j for j, job in list(_JOBS.items())
+                    if (_age_s(job, now) or 0.0) > TTL_S]:
+            del _JOBS[jid]

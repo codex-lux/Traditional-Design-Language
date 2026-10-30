@@ -120,6 +120,20 @@ def drawn(tmp_path_factory):
                     plan = _hostile(json.load(fh), payload)
                 d = tmp_path_factory.mktemp(f"{kind}-{os.path.basename(rel)[:-5]}")
                 out[kind, rel] = _sheets(plan, str(d))
+            # A REFUSED FIRE, DRIVEN (Phase 17, 29 Oct 2026). The Tidewater house was the probe's
+            # refused fire, and the gridded wing (ruling 4) put its drawing room back on the west
+            # gable, so it refuses none and `data-hearth-refused` went unwritten on every sheet --
+            # the reach test below said so. The same hostile record, its drawing room set 5 ft
+            # inboard after the placement, has its fire refused by the hearth pass and drawn.
+            with open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")) as fh:
+                placed = GEO.solve(_hostile(json.load(fh), payload), engine="heuristic")
+            drawing = next(r for lv in placed["levels"] for r in lv["rooms"]
+                           if r["id"].startswith("drawing"))
+            drawing["geometry"]["x_ft"] += 5.0
+            _L("threshold").hearth_pass(placed, _L("plan_check").load_corpus(), {})
+            d = tmp_path_factory.mktemp(f"{kind}-refused-fire")
+            out[kind, "driven-refused-fire"] = [os.path.join(str(d), "plan.svg")]
+            RP.render(placed, out[kind, "driven-refused-fire"][0], register="working")
     finally:
         GEO._SOLVE_CACHE = saved
     return out
@@ -168,7 +182,7 @@ def test_every_attribute_that_carries_a_record_id_is_reached(drawn, kind):
     """THE REACH, over all three plans together: each carrier is written with the payload in it
     at least once, so reverting any ONE of them to `_esc` is a breakout the test above sees."""
     seen = set()
-    for rel in PLANS:
+    for rel in PLANS + ("driven-refused-fire",):
         for path in drawn[kind, rel]:
             for el in _parse(path).iter():
                 seen |= {k for k, v in el.attrib.items() if PAYLOADS[kind] in v}
@@ -192,3 +206,33 @@ def test_the_frame_attribute_is_well_formed_for_any_level_id():
     frames = {"plates": [{"id": FULL, "px_per_ft": 13.0}]}
     el = ET.fromstring(f"<svg data-frame='{SS.frame_attr(frames)}'/>")
     assert json.loads(el.attrib["data-frame"]) == frames
+
+
+def test_the_placements_own_figures_are_escaped_where_the_plan_sheet_prints_them(tmp_path):
+    """THE AUDIT OF PHASE 17. The probe above poisons the DECLARED record's ids; the placement's own
+    keys reach the sheet too, and a record a client posts carries them. `footprint.bays` (the title
+    block) and a relaxation mark's `off_ft` (its tooltip) were written into the SVG unescaped, so a
+    posted placement opened an element on the sheet the Drawing Set injects.
+    Mutation: drop either `_esc(str(...))` in `render_plan.render` -- red."""
+    with open(os.path.join(ROOT, "plans", "spec-builder-colonial.json")) as fh:
+        plan = json.load(fh)
+    saved = GEO._SOLVE_CACHE
+    GEO._SOLVE_CACHE = {}
+    try:
+        placed = GEO.solve(plan, engine="heuristic")
+    finally:
+        GEO._SOLVE_CACHE = saved
+    for field in ("bays", "area_sf"):        # bay_module_ft is read as a number upstream
+        placed["footprint"][field] = f"<b>{field}</b>&"
+    marks = ((placed["geometry_report"].get("relaxations") or {}).get("marks")) or []
+    lvl = [m for m in marks if (m.get("level") or 0) == 0]
+    assert lvl, "the premise: this placement draws a relaxation mark on its ground plate"
+    for m in marks:
+        m["off_ft"] = "<b>off</b>&"
+    path = str(tmp_path / "plan.svg")
+    RP.render(placed, path, register="working")
+    root = _parse(path)                     # a loose `<` or `&` fails to parse here
+    text = open(path, encoding="utf-8").read()
+    assert not any(el.tag.rsplit("}", 1)[-1] == "b" for el in root.iter()), "the placement opened an element"
+    assert "&lt;b&gt;bays&lt;/b&gt;" in text and "&lt;b&gt;off&lt;/b&gt;" in text, \
+        "the premise: both fields reach the sheet"

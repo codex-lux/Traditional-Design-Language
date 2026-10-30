@@ -667,7 +667,16 @@ export function divergence(rooms, tolFt = 0.5) {
    that line, as disjoint intervals. A mark with runs is drawn along them. A mark with
    neither extent nor runs is NOT drawn: it is returned in `unlocated` for the caption to
    name. Guessing a position for it would be the same error in a smaller place. */
-export function relaxationMarks(marks, levelIndex, W, H) {
+/* The union of the record's massing elements, or the block where it states none -- in lockstep
+   with `build/render_plan.py::building_extent`. */
+export function buildingExtent(footprint, W, H) {
+  const blocks = footprint?.blocks;
+  if (!blocks || !blocks.length) return [0, 0, W, H];
+  return [Math.min(...blocks.map((b) => b.x_ft)), Math.min(...blocks.map((b) => b.y_ft)),
+    Math.max(...blocks.map((b) => b.x_ft + b.width_ft)), Math.max(...blocks.map((b) => b.y_ft + b.depth_ft))];
+}
+
+export function relaxationMarks(marks, levelIndex, W, H, extent = null) {
   const drawn = [], unlocated = [];
   for (const m of (marks || [])) {
     if ((m.level ?? 0) !== levelIndex) continue;
@@ -677,9 +686,12 @@ export function relaxationMarks(marks, levelIndex, W, H) {
     if (!runs) { unlocated.push(m); continue; }
     // clip to the sheet, drop anything with no length left, and hang the △ on the
     // longest surviving piece — one line, one mark, on the widest wall it is true of
-    const span = m.axis === 'x' ? H : W;
+    // clipped to the BUILDING, not the main block (Phase 17): a wing's relaxation was clipped to
+    // nothing and read as unlocated; on a one-rectangle house the extent is the block
+    const [x0, y0, x1, y1] = extent || [0, 0, W, H];
+    const [lo0, hi0] = m.axis === 'x' ? [y0, y1] : [x0, x1];
     const clipped = runs
-      .map(([lo, hi]) => [Math.max(0, Math.min(lo, hi)), Math.min(span, Math.max(lo, hi))])
+      .map(([lo, hi]) => [Math.max(lo0, Math.min(lo, hi)), Math.min(hi0, Math.max(lo, hi))])
       .filter(([lo, hi]) => hi - lo > 0.05);
     if (!clipped.length) { unlocated.push(m); continue; }
     const best = clipped.reduce((a, b) => (b[1] - b[0] > a[1] - a[0] ? b : a));

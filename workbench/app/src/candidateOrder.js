@@ -172,9 +172,64 @@ export function setSize(result, asked) {
   const at = np && np.returned === true && np.appended === true
     ? cands.findIndex((c) => c && c.parti === np.parti) : -1;
   const extra = at >= 0 ? cands[at] : null;
+  /* PHASE 17, WP-17.6: and the ones FILLED FROM THE POOL. Where fewer of the set could be drawn
+     than were asked for, the composer places further down its ranked list and a drawable house it
+     finds joins the set (`pool_fill.added`, by parti) -- so four asked for can return six, and the
+     strip read "returned 6 of 4". Those are counted out of the set's own number and named beside
+     it, as the appended one is. A parti both appended and filled is counted once, as appended. */
+  const pf = result && result.pool_fill;
+  const added = new Set(pf && Array.isArray(pf.added) ? pf.added : []);
+  const filled = cands
+    .map((c, index) => ({ c, index }))
+    .filter(({ c, index }) => c && added.has(c.parti) && index !== at)
+    .map(({ c, index }) => ({ parti: c.parti, name: c.parti_name || c.parti, index }));
   return {
-    own: cands.length - (extra ? 1 : 0),
+    own: cands.length - (extra ? 1 : 0) - filled.length,
     asked,
     appended: extra ? { parti: extra.parti, name: extra.parti_name || extra.parti, index: at } : null,
+    filled,
   };
+}
+
+/** WHY A DIAGRAM FURTHER DOWN THE POOL WAS NOT PLACED, by the bound the composer says stopped its
+ *  pool-fill (`pool_fill.stopped_by`, the Phase 17 audit's finding 26), as the glossary record that
+ *  words it. Only two bounds can leave a diagram unreached: the set's time, and the pool-fill's own
+ *  limit of placements. The surface printed "the set's time ran out" for both, and on a set of four
+ *  the limit is usually what stops it, with most of the time left -- one message for two causes.
+ *  A bound this table does not name (an older result, `set-full` or `pool` beside a list that
+ *  should then be empty) is given no cause: the diagrams are said to be not placed, and no more. */
+export const POOL_STOP_TERMS = Object.freeze({
+  budget: 'pool-fill-time-ran-out',
+  cap: 'pool-fill-limit-reached',
+});
+
+/** How a passed-over diagram is inked, by its STANDING and never by its reason's words: a refusal
+ *  takes the refusal's brick; a placement that could not be evaluated, or a refusal nobody here
+ *  can read, is unjudged and is not drawn as a refusal (batch D's note: every passed-over reason
+ *  sat under one brick border, so "its placement could not be evaluated" read as refused). */
+export function passedOverTone(standing) {
+  return standing === 'refused' ? 'refusal' : 'unjudged';
+}
+
+/** The diagrams the pool-fill placed and did not take, in the composer's words
+ *  (`pool_fill.passed_over`, each with its standing), and the ones it did not reach (`not_reached`),
+ *  with the bound that stopped it. Never a silence: a set that came back short with nothing said
+ *  reads as the composer not having tried.
+ *
+ *  A diagram the brief NAMED that the pool-fill placed and did not take is returned anyway, as the
+ *  named diagram (WP-14.19's guarantee), and the composer marks its entry `appended_as_named`
+ *  (finding 27). It is a column on this screen, so it is not listed again as passed over: one
+ *  diagram shown as offered and as not offered, side by side, is a contradiction on one screen. */
+export function poolPassedOver(result) {
+  const pf = result && result.pool_fill;
+  if (!pf) return { passed: [], notReached: [], notReachedTerm: null };
+  const passed = (Array.isArray(pf.passed_over) ? pf.passed_over : [])
+    .filter((p) => p && p.parti && p.appended_as_named !== true)
+    .map((p) => ({ parti: p.parti, name: p.parti_name || p.parti, why: p.why || '',
+      standing: p.standing || null, tone: passedOverTone(p.standing) }));
+  const notReached = (Array.isArray(pf.not_reached) ? pf.not_reached : []).filter(Boolean);
+  const stop = typeof pf.stopped_by === 'string' ? pf.stopped_by : null;
+  const notReachedTerm = notReached.length > 0 && stop && Object.prototype.hasOwnProperty.call(POOL_STOP_TERMS, stop)
+    ? POOL_STOP_TERMS[stop] : null;
+  return { passed, notReached, notReachedTerm };
 }

@@ -85,8 +85,6 @@ def test_the_grid_quantum_is_spelled_once_and_the_two_files_agree():
     would be silently wrong if the other moved."""
     CP = _mod("geometry_cp")
     assert GEO.ELEMENT_GRID_FT == 1.0 / CP.U
-    assert GEO.grid_allowance_ft() == 2.0 * GEO.ELEMENT_GRID_FT, (
-        "two quanta, one per inward-rounded edge of the axis")
 
 
 def test_the_model_and_the_disclosure_round_the_box_the_same_way():
@@ -144,19 +142,31 @@ def test_a_non_main_element_still_holds_its_rooms_after_the_grid_rounds_it(role)
     assert row["coverage_needed_on_the_proving_grid"] <= 1.0
 
 
-def test_the_allowance_is_derived_from_the_rounding_and_not_chosen():
-    """`(W - 2g)(H - 2g) >= need` solved for H, and nothing else. Driven on a synthetic
-    element so the assertion is about the arithmetic rather than about one plan."""
-    g = GEO.grid_allowance_ft()
+def test_a_derived_element_is_stated_on_the_grid_and_centred_exactly():
+    """RE-CUT AT WP-17.4 (ruled 29 Oct 2026, ruling 4). This test asserted
+    `(W - 2g)(H - 2g) >= need`: the grid ALLOWANCE that let a half-foot-centred box survive
+    `_element_boxes`' inward rounding. The prover then tiled the integer box and the gate measured
+    the float one, and read the strips between (5.5 sf on a hyphen, 28.6 on a wing) as floor in no
+    room. The element is integral at its source now, so the guarantee is stronger and simpler: the
+    box is whole feet, it holds its rooms' need, it is centred EXACTLY on an integral main block,
+    and the inward rounding is the identity on it."""
+    CP = _mod("geometry_cp")
     rooms = [{"id": "a", "type": "kitchen", "_area": 617.0, "block": "d",
               "exterior_walls": ["W"]}]
-    # `dependency_sizes` is `flank_sizes` in the merged spelling (the other Phase 11's name for
-    # the same function, dicts rather than tuples); the arithmetic this asserts is unchanged.
     row = GEO.flank_sizes({0: rooms}, 10.0)[0]
     W, H = row["W"], row["H"]
-    assert (W - g) * (H - g) >= 617.0 - 0.5, (
-        f"{W} x {H}: the usable box after two inward roundings per axis is smaller than the "
-        "617 sf it was sized for")
+    assert W == int(W) and H == int(H), (W, H)
+    assert W * H >= 617.0, f"{W} x {H} holds less than the 617 sf it was sized for"
+    plan = CP._multi_element_fixture()
+    _levels, prep = GEO.prep_rooms(plan)
+    fpd = CP._snap_fpd(GEO.derive_footprint(plan, None, prep))
+    for e in GEO.blocks_for(plan, fpd, prep, 0):
+        assert EL.integer_box(e["x"], e["y"], e["W"], e["H"], CP.U) == (
+            int(e["x"]), int(e["y"]), int(e["W"]), int(e["H"])), (
+            f"{e['id']}: the box is not on the grid, so the prover tiles a smaller one than the "
+            f"gate measures: {e}")
+        if e["role"] != "main":
+            assert abs((e["y"] + e["H"] / 2.0) - fpd["H"] / 2.0) < 1e-9, f"{e['id']} is off the axis"
 
 
 # --------------------------------------------------------------- unjudged is not a fit

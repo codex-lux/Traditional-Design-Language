@@ -338,13 +338,25 @@ class TestTheDataTheRulingCommittedTo:
         assert s["within_advisory"] is (0.18 <= s["share"] <= 0.27), (
             "the verdict and the arithmetic disagree about the same band", s)
 
+        # PHASE 17 (29 Oct 2026): the gridded service wing (ruling 4) re-places this record on the
+        # search engine and the passage is drawn ACROSS the house now, 38 x 12 ft, so its short side
+        # is its depth and setting `width_ft` alone left the share at 12/45 whatever was asked. The
+        # share reads the passage's SHORT side (`facade_share`), so the drive sets that side,
+        # whichever axis it lies on, and keeps the long side long.
         def _with_passage(width):
             q = copy.deepcopy(tidewater)
             for lv in q["levels"]:
                 for r in lv["rooms"]:
                     if r["id"] == "passage" and r.get("geometry"):
-                        r["geometry"]["width_ft"] = width
-            return FA.facade_share(q)
+                        g = r["geometry"]
+                        long_side = max(g["width_ft"], g["depth_ft"], width + 1.0)
+                        if g["width_ft"] <= g["depth_ft"]:
+                            g["width_ft"], g["depth_ft"] = width, long_side
+                        else:
+                            g["depth_ft"], g["width_ft"] = width, long_side
+            got = FA.facade_share(q)
+            assert got["passage_width_ft"] == width, ("the drive did not reach the share's side", got)
+            return got
 
         # All three states, DRIVEN, so none depends on the placement: below the band, inside it,
         # and above it. A 45 ft front puts [0.18, 0.27] at 8.1 to 12.15 ft of passage.
@@ -467,17 +479,22 @@ class TestTheBandIsSpelledONCE:
         # 12.62 ft passage on a 45 ft front), just ABOVE the record's own [0.18, 0.27] -- so the
         # record REFUSES it and a patch must ADMIT it for the flip to mean anything. [0.25, 0.35]
         # straddles it the right way: False under the record, True under the patch.
+        # AND AT PHASE 17 (29 Oct 2026) IT RAN BACK AGAIN, the fourth time: the gridded service wing
+        # (ruling 4) re-places this record and the passage's short side is 12.0 ft on a 45 ft
+        # front, a share of 0.2667, INSIDE the record's band. So the patch is chosen from the
+        # share's side of the record's verdict, as this comment said it would have to be: where
+        # the record admits the share the patch refuses it, and where it refuses the patch
+        # admits, and the flip is asserted either way.
         base = FA.facade_share(tidewater)
-        assert base["within_advisory"] is False, (
-            f"the record's own band admits the share {base['share']}, so a patch that also "
-            f"admits it proves nothing -- re-choose the patched band to straddle it")
-        monkeypatch.setattr(FA, "_advisory_band", lambda *a, **k: [0.25, 0.35])
+        sh = base["share"]
+        patched = [sh + 0.03, sh + 0.13] if base["within_advisory"] else [sh - 0.05, sh + 0.05]
+        patched = [round(patched[0], 4), round(patched[1], 4)]
+        monkeypatch.setattr(FA, "_advisory_band", lambda *a, **k: list(patched))
         s = FA.facade_share(tidewater)
-        assert s["advisory_band"] == [0.25, 0.35]
-        assert 0.25 <= s["share"] <= 0.35, (
-            f"the share is {s['share']}, outside the PATCHED band -- this control needs a share "
-            f"the record REFUSES and the patch ADMITS, or the flip proves nothing")
-        assert s["within_advisory"] is True, s
+        assert s["advisory_band"] == patched
+        assert s["within_advisory"] is (not base["within_advisory"]), (
+            f"the share {sh} reads the same under the record's band and under the patch {patched}: "
+            f"the reader is not taking the band from the record", base, s)
 
     def test_an_unreadable_band_reports_None_and_never_a_default(self, tidewater, monkeypatch):
         monkeypatch.setattr(FA, "_advisory_band", lambda *a, **k: None)

@@ -269,15 +269,31 @@ def test_a_stack_in_front_of_its_own_wall_is_drawn_last_over_a_mask_of_itself(co
     """The Tidewater east gable: its own stack stands in front of the wall, over the frieze, the
     cornice's members and the rake. The sheet paints it last with a fill; the DXF sets a mask of
     its outline after everything else it draws and the stack over the mask. The west gable's
-    stack stands directly behind it and the house hides the rest, so it is drawn on neither."""
+    stack stood directly behind it until Phase 17 and the house hid it; it stands off that line
+    now and is drawn `behind`, above the ridge, before the near one."""
     el = corpus["tidewater-georgian-careful"]
     sm = EL.stack_marks(el, "E")
-    assert [m["relation"] for m in sm["marks"]] == ["front"] and sm["hidden"] == 1, (
-        "the premise: the face's own stack in front, the far one hidden", sm["hidden"])
+    # THE FAR STACK SHOWS ON THIS FACE SINCE PHASE 17 (29 Oct 2026). It stood exactly behind the
+    # near one while each served one fire; the gridded wing (ruling 4) puts the drawing room back
+    # on the west gable, the west stack stands at the mean of its two fires' axes (y 20.10 against
+    # the east stack's 32.41), and the house no longer hides it above the ridge. So the face draws
+    # it `behind`, first, and the near one `front`, last -- the SVG twin in `test_elevation.py`
+    # was re-cut the same way. The premise is that the face's OWN stack stands in front; the
+    # paint order below is about that one, selected by its relation, never by being the only one.
+    rels = sorted(m["relation"] for m in sm["marks"])
+    assert "front" in rels and set(rels) <= {"front", "behind"} and rels.count("front") == 1, (
+        "the premise: the face's own stack in front, once", rels, sm["hidden"])
     msp = ezdxf.readfile(_dxf(el, "E")).modelspace()
     at = _order(msp)
-    (front,) = [e for e in msp.query("LWPOLYLINE") if e.dxf.layer == "TDL-ELEV-STACK"]
-    assert re.search(r'"relation":\s*"front"', "".join(str(v) for _c, v in front.get_xdata("TDL")))
+    stacks = [e for e in msp.query("LWPOLYLINE") if e.dxf.layer == "TDL-ELEV-STACK"]
+    assert len(stacks) == len(sm["marks"]), ("the DXF draws the stacks the sheet draws",
+                                             len(stacks), len(sm["marks"]))
+    rel = lambda e: re.search(r'"relation":\s*"(\w+)"',
+                              "".join(str(v) for _c, v in e.get_xdata("TDL"))).group(1)
+    (front,) = [e for e in stacks if rel(e) == "front"]
+    for e in stacks:
+        if e is not front:
+            assert at[id(e)] < at[id(front)], "a stack behind the house is drawn after the one before it"
     box = lambda pts: [round(f(p[i] for p in pts), 3) for i in (0, 1) for f in (min, max)]
     # THE STACK'S OWN MASK, BY ITS OUTLINE (re-cut 3 Oct 2026, the audit of WP-16.8's own diff):
     # this read the face's ONE wipeout, and every band is masked whole now, as the sheet paints it
@@ -289,8 +305,23 @@ def test_a_stack_in_front_of_its_own_wall_is_drawn_last_over_a_mask_of_itself(co
     assert len(own) == 1, ("the mask is the stack's own outline, once", len(own))
     (own,) = own
     bands = [box(e.get_points()) for e in msp.query("LWPOLYLINE") if e.dxf.layer == "TDL-ELEV-BAND"]
-    assert bands and all(box(_pts(m)) in bands for m in masks if m is not own), \
-        "every other mask on this face is a band's own box"
+    # AND AN OPENING'S OWN BOX SINCE PHASE 17 (29 Oct 2026): this face drew no opening until the
+    # gridded wing re-placed the ground floor, and it draws one door now, which crosses the water
+    # table and is masked over it before its lines are drawn (WP-16.8's rule, `_mask_over_bands`).
+    # Each such mask is held to the opening `opening_rects` draws, so a mask of anything else
+    # still fails, and to one mask per crossing; the stack behind the house is drawn whole, above
+    # the ridge, and takes none. That an opening crossing NO band is left unmasked is not held
+    # here -- this face's one door crosses the water table, so the conditional is unreached
+    # (measured: masking every opening leaves this test green). Over-masking glass the sheet
+    # fills anyway would hide nothing the sheet shows.
+    rects = [[round(r[k], 3) for k in ("x0_in", "x1_in", "sill_in", "head_in")]
+             for r in EL.opening_rects(el, "E")["rects"]]
+    others = [box(_pts(m)) for m in masks if m is not own]
+    assert bands and all(b in bands or b in rects for b in others), \
+        ("every other mask on this face is a band's own box or an opening's", others)
+    assert sum(b in rects for b in others) == sum(
+        any(min(r[1], bb[1]) - max(r[0], bb[0]) > 1e-6 and min(r[3], bb[3]) - max(r[2], bb[2]) > 1e-6
+            for bb in bands) for r in rects), "an opening that crosses a band is masked once"
     behind = [e for e in msp if e.dxf.layer in ("TDL-ELEV-WALL", "TDL-ELEV-ROOF", "TDL-ELEV-CORNICE",
                                                  "TDL-ELEV-FRIEZE", "TDL-ELEV-CORNICE-MEMBER",
                                                  "TDL-ELEV-OPENING", "TDL-ELEV-SASH", "TDL-ELEV-BAND")]
