@@ -27,10 +27,19 @@ TTL_S = 30 * 60
 # PHASE 17, WP-17.6: the TTL is counted from when a job FINISHED, never from when it was
 # submitted. A compose now places up to eight houses at a minute's budget each, and a job that
 # waited its turn and then ran for ten minutes was reaped from `_JOBS` before -- or while -- its
-# reader could fetch the result, which reads exactly like a compose that never answered. A job
-# still queued is reaped from its submission (it has not started, and nobody is served by it
-# waiting longer); a RUNNING job is never reaped, because the pool is one worker and the job is
-# the only thing it is doing.
+# reader could fetch the result, which reads exactly like a compose that never answered. A
+# RUNNING job is never reaped, because the pool is one worker and the job is the only thing it is
+# doing. A job still QUEUED is reaped TTL_S after its LAST TOUCH -- its submission, a poll, a
+# stream attaching, a heartbeat on an open stream -- and never while its reader is still asking
+# (the audit of Phase 17, finding 29). This comment said it was reaped from its submission because
+# "nobody is served by it waiting longer", and a reader polling IS served by it: at the measured
+# 592 s a compose, 1800 / 592 is three composes, so the fifth of five submitted together started
+# at about 2,368 s and was reaped at 1,800, its poll answered "unknown job" -- the compose that
+# never answered, which this TTL was moved to stop. An ABANDONED queued job (nobody polls) is still
+# reaped TTL_S after its reader stopped asking, so its plan does not sit in memory for ever.
+# Two alternatives were weighed and not taken: a queue bound derived from TTL_S over the worst
+# measured compose (about two) refuses at submit with a count, which is honest but drops depth
+# MAX_QUEUED admits; a longer TTL keeps every abandoned job's plan in memory longer.
 # The pool is one worker and its queue was unbounded: thirty 8 MB plans submitted behind one
 # long job were held in memory before any ran, and a job reaped from _JOBS after the TTL still
 # ran when its turn came, for nobody (the session's audit). A submit that finds this many jobs
@@ -69,6 +78,8 @@ class Job:
         self.result = None
         self.error = None
         self.created = time.time()
+        # when a reader last asked after this job (`_touch`); a queued job ages from this
+        self.touched = self.created
         self.finished = None
 
 
@@ -332,7 +343,17 @@ def _validate_brief(brief):
     return None
 
 
+def _touch(job_id):
+    """A reader asked after this job: a queued job ages from now (finding 29). Touched BEFORE the
+    reap that follows, or a poll would reap the very job it is asking after."""
+    job = _JOBS.get(job_id)
+    if job is not None:
+        job.touched = time.time()
+    return job
+
+
 def get(job_id):
+    _touch(job_id)
     _reap()   # the TTL is enforced on every touch, not only on the next submit
     job = _JOBS.get(job_id)
     if not job:
@@ -384,7 +405,7 @@ async def events(job_id):
     all, so the buffer has to exist independently of a loop. So the consumer drains it
     without blocking and awaits between drains, which holds no thread.
     """
-    job = _JOBS.get(job_id)
+    job = _touch(job_id)
     if not job:
         yield _sse("error", {"error": "unknown job"})
         return
@@ -401,6 +422,8 @@ async def events(job_id):
             idle += 1
             if idle >= _HEARTBEAT_EVERY:
                 idle = 0
+                # an open stream is a reader still asking: a queued job it waits on is not reaped
+                job.touched = time.time()
                 yield ": heartbeat\n\n"
             continue
         idle = 0
@@ -475,12 +498,12 @@ def _sse(event, data):
 
 
 def _age_s(job, now):
-    """How long a job has been reapable: from its finish if it finished, from its submission if
-    it is still queued, and never while it runs (None)."""
+    """How long a job has been reapable: from its finish if it finished, from its reader's LAST
+    TOUCH if it is still queued (finding 29), and never while it runs (None)."""
     if job.status in ("done", "error"):
         return now - (job.finished or job.created)
     if job.status == "queued":
-        return now - job.created
+        return now - (getattr(job, "touched", None) or job.created)
     return None
 
 
