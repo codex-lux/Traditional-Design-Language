@@ -202,3 +202,57 @@ def test_naming_the_parti_gives_the_house_the_product_builds():
     assert named.get("bays") != unnamed.get("bays"), (unnamed, named)
     townhouse = footprint(True, 30)
     assert (townhouse.get("bays"), townhouse.get("width_ft")) == (3, 24), townhouse
+
+
+def _side_hall_even_bay(type_pass, structural, monkeypatch):
+    """even-bay-front's verdict on the composed side hall under check_partis' own brief (adam-style,
+    2,600 sf, a 120 ft lot), the plan naming its parti, `plan_check` on the declared record -- the
+    deterministic heuristic placement. `type_pass` False stands `compose_to_the_type` down;
+    `structural` True puts the bath's claim back as `stacks_over`, the field it had before ruling 5's
+    re-filing. Returns "present", "unjudged", "not-applicable" or "clear"."""
+    import compose
+    geo = compose.PC._load("geometry", os.path.join(ROOT, "build", "geometry.py"))
+    # a PRIVATE solve cache before any solve: this test changes what the composer writes, and a
+    # record placed under one cell must not be read back under another (WP-14.33's trap)
+    monkeypatch.setattr(geo, "_SOLVE_CACHE", {})
+    brief = {"id": "check", "name": "check", "style": "adam-style", "target_area_sf": 2600,
+             "bedrooms": 3, "bathrooms": 2.0,
+             "context": {"climate_zone": "3A", "lot_width_ft": 120, "entrance_faces": "S",
+                         "jurisdiction": "IRC model text, advisory", "budget_tier": "custom"},
+             "household": "check"}
+    if not type_pass:
+        monkeypatch.setattr(compose, "compose_to_the_type", lambda *a, **k: None)
+    plan, _l, _p = compose.instantiate("side-hall-townhouse", brief)
+    plan["parti"] = "side-hall-townhouse"
+    bath = next(r for lv in plan["levels"] for r in lv["rooms"] if r["id"] == "primarybath")
+    assert bath.get("wet_stack_with") == "powder" and not bath.get("stacks_over"), (
+        "premise: the shipped parti files the bath over the powder room as a wet stack", bath)
+    if structural:
+        bath["stacks_over"] = bath.pop("wet_stack_with")
+    res = compose.PC.check(plan, compose.C)
+    if any(f.get("layer") == "fault" and (f.get("fault") or f.get("id")) == "even-bay-front"
+           for f in res["findings"]):
+        return "present"
+    if any(r["fault"] == "even-bay-front" for r in res["fault_unjudged"]):
+        return "unjudged"
+    if any(r["fault"] == "even-bay-front" for r in res["fault_not_applicable"]):
+        return "not-applicable"
+    return "clear"
+
+
+def test_the_side_halls_conviction_has_two_sufficient_causes(monkeypatch):
+    """THE AUDIT OF PHASE 17 (30 Oct 2026, finding 49), a MEASUREMENT PIN over four cells. The side
+    hall's even-bay fault went from unjudged to judged-and-failing at Phase 17. 01f11b2's message
+    gave the type pass as the cause; the report's section IX and the open question's amendment gave
+    ruling 5's re-filing of the bath's claim, "with the type pass switched off, the conviction
+    stands, so the type pass is not the cause". Measured both ways on one instrument, EITHER change
+    alone convicts: only with the type pass off AND the claim back as `stacks_over` does the fault
+    read unjudged, the parent's state. So "buying the unjudged back" needs both undone, not one. If
+    this table changes, every account of the cause has to be re-read."""
+    cells = {}
+    for type_pass in (True, False):
+        for structural in (False, True):
+            cells[(type_pass, structural)] = _side_hall_even_bay(type_pass, structural, monkeypatch)
+            monkeypatch.undo()
+    assert cells == {(True, False): "present", (False, False): "present",
+                     (True, True): "present", (False, True): "unjudged"}, cells
