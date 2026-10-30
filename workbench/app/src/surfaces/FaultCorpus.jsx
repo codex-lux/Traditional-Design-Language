@@ -136,15 +136,15 @@ export function FaultCorpus({ onCite, selection, setSelection }) {
       <button key={f.id} type="button" data-fault-row={f.id} aria-current={on ? 'true' : undefined}
         onClick={() => { setId(f.id); setSelection && setSelection({ fault: f.id }); }}
         style={{ display: 'block', width: '100%', textAlign: 'left', padding: '9px 12px 11px',
-          borderBottom: '1px solid var(--rule-soft)',
+          borderBottom: '1px solid var(--border-soft)',
           borderLeft: '2px solid ' + (on ? 'var(--gilt-deep)' : 'transparent'),
-          background: on ? 'var(--paper-deep)' : 'transparent', transition: 'var(--t-hover)' }}>
+          background: on ? 'var(--surface-raised)' : 'transparent', transition: 'var(--t-hover)' }}>
         <div style={{ font: 'var(--fw-reg) 15px/1.25 var(--display)', fontVariationSettings: '"opsz" 24',
-          color: on ? 'var(--ink)' : 'var(--ink-2)' }}>{f.name}</div>
+          color: on ? 'var(--text-body)' : 'var(--text-secondary)' }}>{f.name}</div>
         <div style={{ display: 'flex', gap: 10, marginTop: 5 }}>
           <span style={{ font: 'var(--type-data-s)', color: SEV_C[f.severity] }}>{f.severity}</span>
-          <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>{f.frequency}</span>
-          <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>{f.slots && f.slots[0]}</span>
+          <span style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)' }}>{f.frequency}</span>
+          <span style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)' }}>{f.slots && f.slots[0]}</span>
         </div>
       </button>
     );
@@ -152,7 +152,7 @@ export function FaultCorpus({ onCite, selection, setSelection }) {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: 0, flex: 1 }}>
-      <FilterStrip filters={filters} right={
+      <FilterStrip wrap filters={filters} right={
         <span style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           <Eyebrow as="span" style={{ whiteSpace: 'nowrap' }}>exceptions</Eyebrow>
           <StylePicker value={styleInView} onChange={(v) => filters.set('style', v)}
@@ -166,7 +166,7 @@ export function FaultCorpus({ onCite, selection, setSelection }) {
           label={all.length ? `Filter the ${all.length} faults by name, slot, severity or driver`
             : 'Filter the faults by name, slot, severity or driver'}
           placeholder={all.length ? `filter ${all.length} faults` : 'filter the faults'} width={180} />
-        <span style={{ width: 1, height: 18, background: 'var(--rule)' }} />
+        <span style={{ width: 1, height: 18, background: 'var(--border-hairline)' }} />
         <ChipGroup label="severity">
           <Eyebrow as="span">severity</Eyebrow>
           {['fatal', 'serious', 'minor'].map((s) => (
@@ -188,38 +188,38 @@ export function FaultCorpus({ onCite, selection, setSelection }) {
 
       <div style={{ flex: 1, display: 'flex', minHeight: 0 }}>
         <PullPane pane="faults" side="left"
-          style={{ borderRight: '1px solid var(--rule)', overflow: 'auto' }}>
-          <div style={{ padding: '11px 12px', borderBottom: '1px solid var(--rule)' }}>
+          style={{ borderRight: '1px solid var(--border-hairline)', overflow: 'auto' }}>
+          <div style={{ padding: '11px 12px', borderBottom: '1px solid var(--border-hairline)' }}>
             <Eyebrow>
               {all.length} solecisms · {list.length} shown here
               {list.length !== all.length && filters.activeCount > 0 ? ' · filtered' : ''}
             </Eyebrow>
-            <p style={{ font: 'var(--fw-reg) 12.5px/1.55 var(--body)', color: 'var(--ink-2)', margin: '7px 0 0' }}>
+            <p style={{ font: 'var(--fw-reg) 12.5px/1.55 var(--body)', color: 'var(--text-secondary)', margin: '7px 0 0' }}>
               {/* `all` is the FAULT list, and it is capped at the query's own limit — the
                    denominator was labelled "cause drivers" and would silently truncate. */}
               Of the {all.length} solecisms listed, exactly {driverCounts.ignorance || 0} name{driverCounts.ignorance === 1 ? 's' : ''}{' '}
-              <span style={{ color: 'var(--ink-2)' }}>ignorance</span>.
+              <span style={{ color: 'var(--text-secondary)' }}>ignorance</span>.
               This is a system explaining an economy, not scolding a builder.
             </p>
           </div>
           {list.length === 0 && all.length > 0 && (
-            <p style={{ font: 'var(--fw-reg) 12.5px/1.55 var(--body)', color: 'var(--ink-2)',
+            <p style={{ font: 'var(--fw-reg) 12.5px/1.55 var(--body)', color: 'var(--text-secondary)',
               margin: 0, padding: '14px 12px' }}>
               No fault matches. The corpus holds {all.length}; the filters above are hiding
               all of them.
             </p>
           )}
           {grouping && grouping.state === 'unjudged' && (
-            <p data-fault-groups-unjudged="" style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)',
-              margin: 0, padding: '10px 12px', borderBottom: '1px solid var(--rule-soft)' }}>
+            <p data-fault-groups-unjudged="" style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)',
+              margin: 0, padding: '10px 12px', borderBottom: '1px solid var(--border-soft)' }}>
               {grouping.reason}
             </p>
           )}
           {grouped
             ? grouped.map((g) => (
                 <div key={g.id} data-fault-group={g.id} data-fault-group-count={g.rows.length}>
-                  <div style={{ padding: '10px 12px 6px', borderBottom: '1px solid var(--rule-soft)',
-                    background: 'var(--paper-deep)' }}>
+                  <div style={{ padding: '10px 12px 6px', borderBottom: '1px solid var(--border-soft)',
+                    background: 'var(--surface-raised)' }}>
                     <Eyebrow><Term id={g.term} /> · {g.rows.length}</Eyebrow>
                   </div>
                   {g.rows.map(row)}
@@ -248,7 +248,7 @@ export function FaultCorpus({ onCite, selection, setSelection }) {
                   {assets.some((a) => a.file) ? 'evidence' : 'evidence · specified, not yet sourced'}
                 </Eyebrow>
                 {assets.length === 0 && (
-                  <p style={{ font: 'var(--fw-reg) 12.5px/1.55 var(--body)', color: 'var(--ink-2)', margin: 0 }}>
+                  <p style={{ font: 'var(--fw-reg) 12.5px/1.55 var(--body)', color: 'var(--text-secondary)', margin: 0 }}>
                     No image records are filed against this fault yet — the record is the
                     object until one is.
                   </p>

@@ -86,7 +86,7 @@ function GlossaryIndex({ lookup }) {
           </h2>
           <dl className="tdl-glossary-list">
             {g.terms.map((rec) => (
-              <div key={rec.id} className="tdl-glossary-entry" data-glossary-term={rec.id}>
+              <div key={rec.id} data-ground="vellum" className="tdl-vellum tdl-glossary-entry" data-glossary-term={rec.id}>
                 <dt>
                   <a href={formatHash('glossary', { term: rec.id })}>{rec.term}</a>
                   {rec.sense && <span className="tdl-glossary-sense">{rec.sense}</span>}
@@ -122,7 +122,7 @@ function TermPage({ id, glossary }) {
   );
   if (view.state !== 'ready') {
     return (
-      <article className="tdl-glossary-page" data-glossary-page={id} data-missing="">
+      <article data-ground="vellum" className="tdl-vellum tdl-glossary-page" data-glossary-page={id} data-missing="">
         {back}
         <h1 className="tdl-glossary-word">{view.text}</h1>
       </article>
@@ -136,7 +136,7 @@ function TermPage({ id, glossary }) {
   const surface = rec.surface && typeof rec.surface === 'object' ? rec.surface : null;
   const read = surface && Array.isArray(surface.read) ? surface.read : [];
   return (
-    <article className="tdl-glossary-page" data-glossary-page={rec.id}>
+    <article data-ground="vellum" className="tdl-vellum tdl-glossary-page" data-glossary-page={rec.id}>
       {back}
       <p className="tdl-glossary-kicker"><Term field="glossary.family" value={rec.family} /><code>{rec.id}</code></p>
       <h1 className="tdl-glossary-word">{rec.term}</h1>

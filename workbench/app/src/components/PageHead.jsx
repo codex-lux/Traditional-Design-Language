@@ -69,7 +69,7 @@ export function PageHead({ termId }) {
 
   return (
     <header className="tdl-page-head" data-page-head={termId}>
-      <Eyebrow as="div">{view.word}</Eyebrow>
+      <Eyebrow as="div" tone="accent">{view.word}</Eyebrow>
       {surface && surface.what && <p className="tdl-page-head-what">{surface.what}</p>}
       {hasDisclosure && (
         <>

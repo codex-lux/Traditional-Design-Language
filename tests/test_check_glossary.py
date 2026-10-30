@@ -35,8 +35,10 @@ import pytest
 pytest.importorskip("jsonschema")
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# `journey-state-failed` travels with `judgment-failed`, because the two are a declared homonym and
+# a record may not name a confusable the tree does not hold (the second audit of Phase 17)
 SEEDS = ("about-tdl", "judgment-passed", "judgment-failed", "judgment-unjudged",
-         "judgment-not-applicable")
+         "judgment-not-applicable", "journey-state-failed")
 
 # A quotation that is really in VISION.md, for synthetic editorial records.
 BASIS = 'VISION.md: "A traditional house is a sentence in a language, and the language can be written down."'
@@ -160,7 +162,8 @@ def test_the_control_passes(CG, control):
     # and it exercised what it exists to exercise, rather than passing by checking nothing
     # The denominator is the checker's own table, never a typed count (WP-14.17 added the eighth).
     assert f"bound fields: 1 of {len(CG.FIELDS)} (style.rank)" in out, out
-    assert "homonym pairs: 1" in out, out
+    # the synthetic arris pair, and the seeds' own `failed` pair (the second audit of Phase 17)
+    assert "homonym pairs: 2" in out, out
     assert "sources checked against the bibliography: 1" in out, out
     assert "citations checked: 4" in out, out
 

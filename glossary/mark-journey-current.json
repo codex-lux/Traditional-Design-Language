@@ -1,0 +1,10 @@
+{
+  "id": "mark-journey-current",
+  "term": "in hand",
+  "family": "mark",
+  "mark": "--mark-journey-current",
+  "order": 6,
+  "definition": "The step of the house's journey you are on now, drawn as a gilt ring round a gilt dot. Gilt is the one struck highlight on the instrument, and here it marks where you stand.",
+  "kind": "editorial",
+  "basis": "docs/ui-redesign-2026-10-29.md, the journey marks the redesign ruled: \"gilt ring with a gilt dot / dark tile with a gilt border\". The same note keeps the gilt for one duty, \"the one struck highlight `--gilt #AF8D49` for the active station\". workbench/app/src/theme/tokens.css states the mark beside its token: \"done is a vellum disc, the step in hand a gilt ring round a gilt dot\"."
+}

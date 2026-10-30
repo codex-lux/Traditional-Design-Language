@@ -909,6 +909,19 @@ def job_revised_plan(job_id: str):
     return plan
 
 
+# ----------------------------------------------------------------- the front door's hero
+@app.get("/api/front-door/hero")
+def front_door_hero(request: Request):
+    """The plan sheet of the first shipped record the product may draw (Phase 17, WP-17.3), or
+    `{"pending": true}` while the background sweep that finds it is still running. Never blocks:
+    the page asks again. Not metered: the sweep runs once per process (and once more after each
+    `invalidate`), and the first request starts it. There is NO startup warm, deliberately: an
+    `on_event("startup")` hook was written and never ran, because this app is built with a
+    `lifespan` and Starlette ignores startup hooks beside one (the second audit of Phase 17), and
+    moving it into the lifespan would start a CP-SAT sweep inside every test client."""
+    return _ok(corpus.front_door_hero_now())
+
+
 # ----------------------------------------------------------------- drawings
 @app.post("/api/drawings/{kind}")
 def drawings(kind: str, request: Request, body: dict = Body(...)):

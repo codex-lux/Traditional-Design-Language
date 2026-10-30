@@ -15,7 +15,11 @@ function _extends() { return _extends = Object.assign ? Object.assign.bind() : f
    (`--ink-4`) were kept for a caller that asked for them by name, and two callers did: a
    pointer on Brief Intake and the decision kinds on the Candidate Set, both words a reader reads.
    An eyebrow is always text, so a faint tone on it is always faint text; both are gone, and
-   `src/inks.test.mjs` refuses a table entry that brings one back. */
+   `src/inks.test.mjs` refuses a table entry that brings one back.
+
+   THE TONES ARE DUTIES SINCE PHASE 17. `secondary` is `--text-secondary`, which IS `--ink-2` on
+   vellum and `--ink-4` on the dark instrument (5.30 : 1 on `--heavy`), so one eyebrow reads on
+   both grounds; `accent` is `--text-accent`, the deep gilt on paper and the gilt on the dark. */
 function Eyebrow({
   children,
   tone = 'secondary',
@@ -25,10 +29,10 @@ function Eyebrow({
   ...rest
 }) {
   const tones = {
-    body: 'var(--ink)',
-    secondary: 'var(--ink-2)',
-    accent: 'var(--gilt-deep)',
-    paper: 'var(--ink-2)'
+    body: 'var(--text-body)',
+    secondary: 'var(--text-secondary)',
+    accent: 'var(--text-accent)',
+    paper: 'var(--text-secondary)'
   };
   const Tag = as;
   return /*#__PURE__*/React.createElement(Tag, _extends({

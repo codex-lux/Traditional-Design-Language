@@ -28,6 +28,7 @@ import { JUDGMENT_MARK, styleFindingMark } from './judgment.js';
 import { ruleMark, ruleState } from './proportions/page.js';
 import { indexTerms } from './glossary/lookup.js';
 import { elements, stripComments } from './sourceReader.mjs';
+import { stripGrounds } from './grounds.js';
 
 const SRC = fileURLToPath(new URL('.', import.meta.url));
 const ROOT = new URL('../../../', import.meta.url);
@@ -41,8 +42,11 @@ const MATERIALS = Object.freeze(['--hatch-masonry', '--hatch-crosshatch', '--hat
    any code from starting to draw it by name. */
 const UNUSED = Object.freeze(['--hatch-cross']);
 
-const stripCss = (s) => s.replace(/\/\*[\s\S]*?\*\//g, ' ');
-const stripJs = (s) => s.replace(/\/\*[\s\S]*?\*\//g, ' ').replace(/(^|[^:'"`\\])\/\/[^\n]*/g, '$1');
+// the two ground blocks are `grounds.js`'s to read and `grounds.test.mjs`'s to judge (Phase 17)
+const stripCss = (s) => stripGrounds(s).replace(/\/\*[\s\S]*?\*\//g, ' ');
+// THE SHARED LEXER (Phase 17's audit): the regex `/\*[\s\S]*?\*\//` read Transcription's
+// `accept="image/*"` as opening a comment and blanked 2,896 characters of live code, lines 437 to 516 of that file.
+const stripJs = (s) => stripComments(s);
 
 /* Every custom property the stylesheet declares, as [name, value] in order. A declaration is a
    name after `{`, `;` or a line start, then a colon -- the same reading `build/check_glossary.py`
@@ -457,4 +461,10 @@ test('JudgmentMark carries the state word to assistive tech on both of its branc
     'and where the visible word is withheld, it still reaches assistive tech');
   const glyph = readFileSync(join(SRC, 'components', 'MarkGlyph.jsx'), 'utf8');
   assert.match(glyph, /aria-hidden="true" data-duty=\{token\}/, 'a glyph is decorative; its word says it');
+});
+
+test('this file reads source through the shared lexer, past a string holding "/*" (the second audit of Phase 17)', () => {
+  const s = stripJs('<input accept="image/*" /> const live = 1; {/* a comment */}');
+  assert.ok(s.includes('const live = 1'), 'live code after the attribute is read');
+  assert.ok(!s.includes('a comment'), 'and the comment is not');
 });

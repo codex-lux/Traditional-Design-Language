@@ -57,6 +57,9 @@ const fmtCut = (c) => {
 };
 import { defaultAxon } from '../round/frame.js';
 import { plateKeyFor } from '../round/annotate.js';
+import { datumLines, viewBoxOf } from '../sheet/datumOverlay.js';
+import { feetInches16 as fmtFtIn } from '../fmt.js';
+import { MarkGlyph } from '../components/MarkGlyph.jsx';
 
 
 /* WP-12.0. The compass order, not a preference: `build/elevation.py`'s own FACES tuple is
@@ -99,7 +102,47 @@ const DISCLOSURE = {
     'bench sheet shows. Relaxations are counted in the header.',
 };
 
-export function DrawingSet({ go }) {
+/* HOW MUCH OF THE CORPUS WAS EVALUATED ON THIS HOUSE (Phase 17, WP-17.7): the faults that ran --
+   present or clear -- out of those that APPLY to the house, the unjudged in the total and never
+   among the evaluated. A not-applicable fault is not in the total (the second audit of Phase 17:
+   it was, under a record saying "out of those that apply"), because its question does not arise
+   for this house and it was never a fault the house could be judged against. Read off the bench's
+   own evaluation of this plan; where there is none, nothing is said. */
+function Evaluated({ check }) {
+  const f = check && check.fault_summary;
+  if (!f) return null;
+  const n = (k) => (Number.isFinite(f[k]) ? f[k] : 0);
+  const evaluated = n('present') + n('clear');
+  const of = evaluated + n('unjudged');
+  if (!of) return null;
+  return (
+    <div data-evaluated={evaluated} data-evaluated-of={of}
+      style={{ display: 'flex', gap: 8, alignItems: 'center', margin: '0 0 10px', font: 'var(--type-data-s)',
+        color: 'var(--text-secondary)' }}>
+      <MarkGlyph token="--mark-unjudged" size={10} />
+      <span>{evaluated} of {of} <Term id="faults-evaluated" /></span>
+    </div>
+  );
+}
+
+/* THE ONE-BUILDING BANNER (Phase 17, WP-17.7): every sheet in the set is drawn from one placement
+   of one record (WP-6.4), and the banner carries that placement's input digest, so two sheets can
+   be seen to be of the same house. A result with no digest says nothing rather than inventing one. */
+function OneBuilding({ solver }) {
+  const d = solver && solver.drawn_by ? solver.drawn_by.input_digest : null;
+  if (!d) return null;
+  return (
+    <div data-one-building={d} style={{ display: 'flex', gap: 10, alignItems: 'baseline', margin: '0 0 10px',
+      font: 'var(--type-data-s)', color: 'var(--text-secondary)' }}>
+      <span style={{ font: 'var(--type-eyebrow)', letterSpacing: 'var(--tr-eyebrow)', textTransform: 'uppercase',
+        color: 'var(--text-accent)' }}><Term id="one-building" /></span>
+      <code>{d}</code>
+      {solver.engine && <span>{solver.engine}</span>}
+    </div>
+  );
+}
+
+export function DrawingSet({ go, lastEval }) {
   const plan = React.useSyncExternalStore(planDoc.subscribe, planDoc.get);
   // WP-12.4: the model is the first plate and the five flat kinds are chips beneath it, so
   // arriving at ⑧ shows the house rather than one of its faces. It costs no extra call: the
@@ -135,6 +178,7 @@ export function DrawingSet({ go }) {
   const glossary = useGlossary();
   const word = recordWord(glossary);
   const [result, setResult] = React.useState(null);
+  const [showDatums, setShowDatums] = React.useState(false);
   const [error, setError] = React.useState(null);
   const [busy, setBusy] = React.useState(false);
   const cache = React.useRef({});
@@ -204,7 +248,7 @@ export function DrawingSet({ go }) {
     return (
       <div style={{ padding: '26px 30px', maxWidth: 640 }}>
         <Eyebrow>no plan on the bench</Eyebrow>
-        <p style={{ font: 'var(--fw-reg) 14px/1.6 var(--body)', color: 'var(--ink-2)', margin: '10px 0 14px' }}>
+        <p style={{ font: 'var(--fw-reg) 14px/1.6 var(--body)', color: 'var(--text-secondary)', margin: '10px 0 14px' }}>
           The drawing set is generated from the plan record on the workbench. Load or
           compose one first.
         </p>
@@ -222,6 +266,10 @@ export function DrawingSet({ go }) {
     URL.revokeObjectURL(a.href);
   }
 
+  /* Phase 17 (WP-17.7): the elevation's own datums over the plate, mapped through its frame */
+  const datums = result && result.svg ? datumLines(result.svg, result.datums) : null;
+  const box = result && result.svg ? viewBoxOf(result.svg) : null;
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: 0, flex: 1 }}>
       {/* `flex: none` and `nowrap` because the face group made this strip wider than the
@@ -231,12 +279,12 @@ export function DrawingSet({ go }) {
           the same reason the clear-all control in `Chrome.jsx` is sticky. */}
       <FilterStrip right={
         <span style={{ display: 'flex', gap: 10, alignItems: 'center', flex: 'none' }}>
-          <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', whiteSpace: 'nowrap' }}>
+          <span style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)', whiteSpace: 'nowrap' }}>
             {plan.id} · {plan.style}
           </span>
           {downloadable
             ? <ActionChip affix="↓" onClick={download}>download SVG</ActionChip>
-            : <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', whiteSpace: 'nowrap' }}>
+            : <span style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)', whiteSpace: 'nowrap' }}>
                 {refusal ? 'nothing to download — refused' : 'nothing to download yet'}
               </span>}
         </span>
@@ -266,7 +314,7 @@ export function DrawingSet({ go }) {
       </FilterStrip>
 
       <div style={{ flex: 1, overflow: 'auto', minHeight: 0, padding: '22px 26px 34px' }}>
-        {busy && <p style={{ font: 'var(--type-body)', color: 'var(--ink-2)' }}>generating from the record…</p>}
+        {busy && <p style={{ font: 'var(--type-body)', color: 'var(--text-secondary)' }}>generating from the record…</p>}
         {/* THE CONFLICT SET STANDS WHERE THE PLATE WOULD BE (WP-13.4). This panel has been "the
             generator refused" since WP-5.1 and it is the natural host: what is new is that a
             refusal may now be the TYPE's rather than the record's, and it arrives with the facts
@@ -278,17 +326,17 @@ export function DrawingSet({ go }) {
             reached this same panel and was called a refusal, in the refusal's ink. */}
         {!refusal && error && (
           <div data-drawing-error={error.status === 422 ? 'refused' : 'failed'}
-            style={{ border: '1px solid var(--rule)',
-              borderLeft: `2px solid ${error.status === 422 ? 'var(--refusal)' : 'var(--ink-2)'}`,
-              background: 'var(--paper-deep)', padding: '12px 14px', maxWidth: 640 }}>
+            style={{ border: '1px solid var(--border-hairline)',
+              borderLeft: `2px solid ${error.status === 422 ? 'var(--refusal)' : 'var(--text-secondary)'}`,
+              background: 'var(--surface-raised)', padding: '12px 14px', maxWidth: 640 }}>
             <Eyebrow tone="secondary" style={{ marginBottom: 6 }}>
               {error.status === 422 ? 'the generator refused' : 'the drawing could not be made'}
             </Eyebrow>
-            <p style={{ font: 'var(--fw-reg) 13.5px/1.6 var(--body)', color: 'var(--ink)', margin: 0 }}>
+            <p style={{ font: 'var(--fw-reg) 13.5px/1.6 var(--body)', color: 'var(--text-body)', margin: 0 }}>
               {errText}
             </p>
             {error.status === 422 && (
-            <p style={{ font: 'var(--fw-reg) 12.5px/1.55 var(--body)', color: 'var(--ink-2)', margin: '7px 0 0' }}>
+            <p style={{ font: 'var(--fw-reg) 12.5px/1.55 var(--body)', color: 'var(--text-secondary)', margin: '7px 0 0' }}>
               A refusal is content: this record does not carry what the {kind} generator
               needs, and it says so rather than inventing it.
             </p>
@@ -302,16 +350,18 @@ export function DrawingSet({ go }) {
                  fake-unjudged shape. Where the placement was refused the conflict set above says
                  so in the corpus's own words and this line does not appear at all. */
               refusal ? null : (
-              <div data-round-error="" style={{ font: 'italic 13px/1.6 var(--serif)', color: 'var(--ink-2)', padding: '18px 2px' }}>
+              <div data-round-error="" style={{ font: 'italic 13px/1.6 var(--serif)', color: 'var(--text-secondary)', padding: '18px 2px' }}>
                 COULD NOT EVALUATE — the scene could not be built: {errText}
               </div>
               )
             ) : sceneRefusal ? null : !scene ? (
-              <div style={{ font: 'italic 13px/1.6 var(--serif)', color: 'var(--ink-2)', padding: '18px 2px' }}>
+              <div style={{ font: 'italic 13px/1.6 var(--serif)', color: 'var(--text-secondary)', padding: '18px 2px' }}>
                 placing the house and building the model…
               </div>
             ) : (
               <PlateViewer label="the model" height="clamp(420px, 74vh, 960px)" note="drag orbits · a named view snaps back">
+                {/* the model and its flat plates are drawings: on vellum, whatever the page stands on */}
+                <div data-ground="vellum" className="tdl-vellum">
                 <RoundPlate
                   scene={scene.scene}
                   plates={scene.plates}
@@ -334,15 +384,22 @@ export function DrawingSet({ go }) {
                   subtitle={`${scene.scene?.parti || 'no parti named'} · ${scene.scene?.massing || 'no massing named'}`}
                   disclosures={(scene.plan?.geometry_report?.disclosures) || []}
                 />
+                </div>
               </PlateViewer>
             )}
           </div>
         )}
         {kind !== 'model' && result?.svg && (
           <div style={{ maxWidth: 1180 }}>
+            <OneBuilding solver={result.solver} />
+            <Evaluated check={lastEval && lastEval.check} />
+            {kind === 'elevation' && datums && (
+              <div style={{ display: 'flex', gap: 8, alignItems: 'center', margin: '0 0 8px' }}>
+                <Chip on={showDatums} onClick={() => setShowDatums(!showDatums)}><Term id="datum-overlay" /></Chip>
+              </div>
+            )}
             <PlateViewer label={'the ' + kind} height="clamp(420px, 74vh, 960px)">
-            <div style={{ background: 'var(--paper)', border: '1px solid var(--ink-2)',
-              boxShadow: 'var(--shadow-plate)', padding: '16px 18px 10px' }}>
+            <div data-ground="vellum" className="tdl-plate" style={{ padding: '16px 18px 10px', position: 'relative' }}>
               {/* The fit goes on the WRAPPER, not into a second `style` on the <svg>.
 
                   It used to be injected as `<svg style="max-width:100%;height:auto" …`
@@ -356,18 +413,34 @@ export function DrawingSet({ go }) {
                   it happens to be a near-identical vellum. Found by an adversarial audit
                   of WP-5.7; a CSS rule on the wrapper reaches the child and cannot
                   collide with anything the renderer wrote. */}
-              <div className="plate-fit" dangerouslySetInnerHTML={{ __html: result.svg }} />
-              <div style={{ borderTop: '1px solid var(--rule)', marginTop: 10, padding: '8px 2px 4px',
+              <div style={{ position: 'relative' }}>
+                <div className="plate-fit" dangerouslySetInnerHTML={{ __html: result.svg }} />
+                {kind === 'elevation' && showDatums && datums && box && (
+                  <svg data-datum-overlay={datums.length} viewBox={`${box.x} ${box.y} ${box.w} ${box.h}`}
+                    style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none' }}>
+                    {datums.map((d) => (
+                      <g key={d.id} data-datum={d.id}>
+                        <line x1={d.x1} y1={d.y} x2={d.x2} y2={d.y}
+                          style={{ stroke: 'var(--gilt-deep)', strokeWidth: 'var(--lw-construction)', strokeDasharray: 'var(--dash-extent)' }}
+                          vectorEffect="non-scaling-stroke" />
+                        <text x={d.x2} y={d.y - 3} textAnchor="end"
+                          style={{ font: 'var(--type-data-s)', fill: 'var(--gilt-deep)' }}>{d.id} {fmtFtIn(d.v_ft)}</text>
+                      </g>
+                    ))}
+                  </svg>
+                )}
+              </div>
+              <div style={{ borderTop: '1px solid var(--border-hairline)', marginTop: 10, padding: '8px 2px 4px',
                 display: 'flex', justifyContent: 'space-between', gap: 24, alignItems: 'baseline' }}>
                 {/* the interpunct join makes one unbreakable word; a zero-width space
                     after each lets the title fold at a word boundary and never inside a
                     word. `nowrap` here clipped it outright, and the loupe lays the plate
                     out at the PANE's width, which is narrower still than the surface. */}
                 <span style={{ font: 'var(--fw-med) 10.5px/1.4 var(--serif)', letterSpacing: '.3em',
-                  textTransform: 'uppercase', color: 'var(--ink)', flex: '0 1 auto', minWidth: 0 }}>
+                  textTransform: 'uppercase', color: 'var(--text-body)', flex: '0 1 auto', minWidth: 0 }}>
                   {(plan.name || plan.id).split(/\s+/).join('·\u200B')}
                 </span>
-                <span style={{ font: 'italic var(--fw-reg) 12.5px/1.5 var(--serif)', color: 'var(--ink-2)',
+                <span style={{ font: 'italic var(--fw-reg) 12.5px/1.5 var(--serif)', color: 'var(--text-secondary)',
                   textAlign: 'right', flex: '1 1 34ch', minWidth: '22ch' }}>
                   {DISCLOSURE[kind]}
                 </span>
@@ -375,13 +448,13 @@ export function DrawingSet({ go }) {
             </div>
             </PlateViewer>
             {result.relaxations && (
-              <p style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', margin: '10px 0 0' }}>
+              <p style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)', margin: '10px 0 0' }}>
                 {result.relaxations.count} cut(s) off the bay line
                 {result.relaxations.count ? ` · worst ${result.relaxations.max_off_grid_ft} ft` : ''}
               </p>
             )}
             {kind === 'elevation' && result.date_of_representation && (
-              <p style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', margin: '10px 0 0' }}>
+              <p style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)', margin: '10px 0 0' }}>
                 {(face || result.entrance_face)} elevation
                 {(face || result.entrance_face) === result.entrance_face
                   ? JOURNEY_WORDS.separator + word(ENTRANCE_FRONT_TERM)
@@ -396,7 +469,7 @@ export function DrawingSet({ go }) {
                 elevation and roof plates could not, because they were built on a placement
                 of their own. */}
             {result.solver && (
-              <p style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', margin: '4px 0 0' }}>
+              <p style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)', margin: '4px 0 0' }}>
                 {/* Three states, not two. A ternary here would have made an ABSENT engine
                     read as "searched", which is a definite claim about a placement nobody
                     can name — the one collapse this corpus refuses first. */}

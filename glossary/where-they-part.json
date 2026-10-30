@@ -1,0 +1,9 @@
+{
+  "id": "where-they-part",
+  "term": "where they part",
+  "family": "edge",
+  "order": 41,
+  "definition": "The shared node nearest to both styles in their two kit cascades taken together, ties broken by id, so it does not depend on which is named first. Each style's own levels are those the other's cascade lacks.",
+  "kind": "editorial",
+  "basis": "docs/workbench.md, Compare since Phase 17: \"the one with the fewest levels above it in the two kit cascades taken together\", \"so the answer does not depend on which style is named first\", and \"A pair whose cascades share nothing part at no node\"."
+}

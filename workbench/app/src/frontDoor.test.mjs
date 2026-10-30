@@ -31,12 +31,16 @@ import assert from 'node:assert/strict';
 import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { navModel, flatItems, inHandFrom, guidedExampleStyle, NAV } from './nav/navModel.js';
 import { indexTerms } from './glossary/lookup.js';
-import { journeyState, JOURNEY_WORDS } from './journey/journey.js';
+import { journeyState, JOURNEY_WORDS, JOURNEY } from './journey/journey.js';
 import { parseHash, SURFACE_PATHS } from './router.js';
 import { parseCite } from './citations.js';
-import { mapRows } from './frontdoor/spineMap.js';
+import { sidebarView } from './nav/sidebar.js';
+import { barView } from './journey/bar.js';
+import { stations } from './journey/spine.js';
+import { STATION_MARKS } from './journey/spine.js';
+import { GLYPHS } from './frontdoor/glyphs.js';
 import {
-  aboutView, guidedView, rankRows, total, entranceItems, resumeView,
+  aboutView, guidedView, rankRows, total, entranceItems, resumeView, stationTiles, libraryCards,
 } from './frontdoor/frontDoor.js';
 import { aboutLine, lineOf } from './frontdoor/aboutLine.js';
 
@@ -110,64 +114,43 @@ test('the premise: the records, the styles and the example brief the front door 
 
 /* ------------------------------------------------------------------ the map and the site map */
 
-test('every item the site map gives is in the front door’s map, once, as navModel gives it — and nothing else is', () => {
-  const guided = guidedExampleStyle(LOOKUP);
-  const states = {
-    'the front door, nothing held': frontModel(),
-    'a style held': frontModel({ held: 'craftsman' }),
-    'a plan on the bench': frontModel({ plan: { id: 'p', name: 'A plan', levels: [] } }),
-    // the in-hand style's sections are items too, and a map that dropped nested items would pass
-    // every state above: this one has them
-    'the in-hand dossier': frontModel({ place: at(`#/style/${guided}/kit`),
-      dossier: { id: guided, sections: [{ id: 'identify' }, { id: 'kit', count: 5 }, { id: 'faults', count: 2 }] } }),
-    'a glossary missing a record': frontModel({ lookup: without('surface-faults', 'nav-group-library') }),
-  };
-  for (const [name, model] of Object.entries(states)) {
-    const items = flatItems(model);
-    assert.ok(items.length > 0, `${name}: the denominator — a model with no items makes the comparison vacuous`);
-    const c = compare(model);
-    assert.deepEqual(c.missing, [], `${name}: navModel items the map dropped`);
-    assert.deepEqual(c.extra, [], `${name}: map entries navModel did not give (or gave once)`);
-    assert.deepEqual(c.differs, [], `${name}: map entries that say something navModel did not`);
-    assert.ok(c.order, `${name}: the map reads in navModel's order`);
-    assert.deepEqual(mapRows(model).map((r) => [r.id, r.termId, r.label, r.missing]),
-      model.groups.map((g) => [g.id, g.termId, g.label, g.missing]), `${name}: one row per group, as navModel heads it`);
+test('the five stations are the journey\'s steps in order, with its words, its marks, and no link where it blocks (Phase 17)', () => {
+  const plan = { id: 'p', name: 'A plan', levels: [] };
+  for (const [name, args] of Object.entries({ 'nothing on the bench': {}, 'a plan on the bench': { plan } })) {
+    const js = journeyState({ session: {}, plan: args.plan });
+    const bar = barView(js, { surface: 'overview' });
+    const tiles = stationTiles(bar, js.resume, frontModel(args));
+    assert.deepEqual(tiles.map((t) => t.id), JOURNEY.map((j) => j.id), `${name}: the five steps, in order`);
+    tiles.forEach((t, i) => {
+      assert.equal(t.words, js.steps[i].words || null, `${name}: ${t.id} says the journey's words`);
+      assert.equal(t.href === null, !bar.items[i].link, `${name}: ${t.id} is a link exactly where the bar says`);
+      assert.ok(Object.values(STATION_MARKS).includes(t.mark), `${name}: ${t.id} carries a station mark`);
+      // the station's OWN mark, the sidebar's for the same step (Phase 17's audit: one constant mark passed)
+      assert.equal(t.mark, stations(bar, js.resume)[i].mark, `${name}: ${t.id} carries the spine's mark for it`);
+    });
   }
-  const nested = mapRows(states['the in-hand dossier']).flatMap((r) => r.items).filter((i) => i.depth > 0);
-  assert.ok(nested.some((i) => i.id === 'transcription') && nested.some((i) => i.id.startsWith('in-hand:')),
-    'the premise: nested items are exercised — Trace a drawing and the in-hand sections');
+  // with nothing on the bench the drawings and the export are blocked, so neither tile is a link
+  const cold = stationTiles(barView(journeyState({}), { surface: 'overview' }), null, frontModel());
+  assert.equal(cold.find((t) => t.id === 'drawings').href, null);
 });
 
-test('every NAV item reaches the map on the front door, so a place added to the site map arrives with no edit here', () => {
-  const ids = new Set(mapRows(frontModel()).flatMap((r) => r.items.map((i) => i.id)));
-  const nav = NAV.flatMap((g) => g.items.flatMap((i) => [i, ...(i.children || [])])).map((i) => i.id);
-  assert.deepEqual(nav.filter((id) => !ids.has(id)), [],
-    'on the front door the style in hand is the guided example, so every NAV item — in-hand included — is drawn');
-  for (const r of mapRows(frontModel())) {
-    for (const it of r.items) {
-      assert.ok(SURFACE_PATHS[parseHash(it.href).surface], `${it.id}: ${it.href} is an address the router writes`);
-    }
-  }
-  const here = mapRows(frontModel()).flatMap((r) => r.items).filter((i) => i.current).map((i) => i.id);
-  assert.deepEqual(here, ['overview'], 'on the front door, the front door is the one place marked current');
+test('the library cards are the sidebar\'s five library rows, in its order, with the API\'s figures (Phase 17)', () => {
+  const model = frontModel();
+  const view = sidebarView(model, { surface: 'overview' });
+  const cards = libraryCards(view, LOOKUP);
+  assert.deepEqual(cards.map((c) => c.id), view.library.rows.map((r) => r.id));
+  assert.deepEqual(cards.map((c) => c.id), ['style', 'proportions', 'faults', 'elements', 'glossary']);
+  cards.forEach((c, i) => assert.equal(c.figure, typeof view.library.rows[i].meta === 'number' ? view.library.rows[i].meta : null));
+  assert.ok(cards.every((c) => c.what), 'each card says what its place is, from its surface record');
+  assert.ok(cards.every((c) => GLYPHS[c.id] && GLYPHS[c.id].length > 0), 'each card has its drawn figure');
 });
 
-test('TwoSpineMap.jsx draws mapRows(model) and keeps no list of its own (a source guard)', () => {
-  const src = source('components/TwoSpineMap.jsx');
-  const live = src.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[\s;,{}()])\/\/[^\n]*/g, '$1');
-  assert.match(live, /import\s*\{\s*mapRows\s*\}\s*from\s*'\.\.\/frontdoor\/spineMap\.js'/, 'it reads the map from spineMap.js');
-  assert.match(live, /mapRows\(model\)/, 'and hands it the model it was given');
-  assert.doesNotMatch(live, /navModel\(|NAV\b/, 'it does not build or walk a model of its own');
-  assert.doesNotMatch(live, /href=["'{]\s*['"`]?#/, 'no address is written into it');
-  assert.doesNotMatch(live, /['"`]#\//, 'no hash path in any string');
-  const strings = [...live.matchAll(/'([^'\n]*)'|"([^"\n]*)"|`([^`]*)`/g)].map((m) => m[1] ?? m[2] ?? m[3]);
-  const names = new Set([
-    ...Object.keys(SURFACE_PATHS),
-    ...NAV.flatMap((g) => [g.id, g.termId, ...g.items.flatMap((i) => [i.id, i.termId,
-      ...(i.children || []).flatMap((c) => [c.id, c.termId])])]).filter(Boolean),
-  ]);
-  assert.deepEqual(strings.filter((s) => names.has(s)), [], 'no surface id, item id or record id is spelled in it');
-  assert.doesNotMatch(live, /<Term\s+id=["'{]\s*['"`]/, 'a group heading is its row’s record, never a literal id');
+test('the front door draws the stations and the cards from those two functions, and no map of its own (a source guard)', () => {
+  const live = source('surfaces/Overview.jsx').replace(/\/\*[\s\S]*?\*\//g, '');
+  assert.match(live, /stationTiles\(bar, journey\.resume, model\)/);
+  assert.match(live, /libraryCards\(sidebarView\(model,/);
+  assert.doesNotMatch(live, /TwoSpineMap|mapRows/, 'the sidebar is the map; the page does not say it twice');
+  assert.doesNotMatch(live, /data-reader\b/, 'the readers\' paragraphs are gone from the page');
 });
 
 /* ------------------------------------------------------------------ what this is, for whom */
@@ -333,7 +316,7 @@ function jsxText(src) {
 }
 
 test('the front door writes no sentence of its own: its words are records’, its one label is the search', () => {
-  const texts = [...jsxText(source('surfaces/Overview.jsx')), ...jsxText(source('components/TwoSpineMap.jsx'))];
+  const texts = [...jsxText(source('surfaces/Overview.jsx'))];
   assert.deepEqual(jsxText('<p>a b c</p><a>{x} d</a>'), ['a b c', 'd'],
     'the premise: the reader finds JSX text, after a tag and after an expression');
   assert.deepEqual(texts, ['Search the corpus', '⌘K'],
@@ -354,7 +337,7 @@ test('the front door names no style id, no longer reads what_this_is, and keeps 
     'the guided example is read from its record’s citations; no style id is written here (PRD §B)');
   assert.doesNotMatch(live, /what_this_is/, 'the agent’s orientation string stays served and is not this page’s paragraph');
   assert.doesNotMatch(live, /\bDOORS\b/, 'the app-written doors are retired');
-  for (const f of ['surfaces/Overview.jsx', 'components/TwoSpineMap.jsx']) {
+  for (const f of ['surfaces/Overview.jsx']) {
     const l = source(f).replace(/\/\*[\s\S]*?\*\//g, '');
     assert.doesNotMatch(l, /--ink-4/, `${f}: no readable text in --ink-4 in new code`);
   }

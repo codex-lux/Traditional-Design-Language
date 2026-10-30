@@ -28,6 +28,7 @@ import { ORDERS, order, setSize } from '../candidateOrder.js';
 import { adaptCandidate, selectionAction, selectionView, setStanding, tallyView } from '../candidateCard.js';
 import { Term } from '../components/Term.jsx';
 import { revisedEventLine } from '../revision.js';
+import { Vellum } from '../components/Vellum.jsx';
 
 
 export function CandidateSet({ onCite, go, selection, setSelection }) {
@@ -94,22 +95,22 @@ export function CandidateSet({ onCite, go, selection, setSelection }) {
         <h2 style={{ font: 'var(--fw-reg) var(--fs-d2)/1.1 var(--display)', margin: '8px 0 10px' }}>
           Compose from a brief
         </h2>
-        <p style={{ font: 'var(--fw-reg) 14px/1.6 var(--body)', color: 'var(--ink-2)', margin: '0 0 14px' }}>
+        <p style={{ font: 'var(--fw-reg) 14px/1.6 var(--body)', color: 'var(--text-secondary)', margin: '0 0 14px' }}>
           The composer returns several contrasting candidates, fatal-free first and then by
           score, and never calls one good. Start at Brief Intake.
         </p>
         {s.jobError && (
           <p data-job-error={s.jobError.state}
-            style={{ font: 'var(--fw-reg) 14px/1.6 var(--body)', color: 'var(--ink)', margin: '0 0 14px' }}>
+            style={{ font: 'var(--fw-reg) 14px/1.6 var(--body)', color: 'var(--text-body)', margin: '0 0 14px' }}>
             {JOURNEY_WORDS.candidates[s.jobError.state]}
-            {s.jobError.reason && <span style={{ color: 'var(--ink-2)' }}>{JOURNEY_WORDS.separator}{s.jobError.reason}</span>}
+            {s.jobError.reason && <span style={{ color: 'var(--text-secondary)' }}>{JOURNEY_WORDS.separator}{s.jobError.reason}</span>}
           </p>
         )}
         {s.progress.length > 0 && (
-          <div style={{ border: '1px solid var(--rule)', padding: '10px 12px', marginBottom: 14 }}>
+          <div style={{ border: '1px solid var(--border-hairline)', padding: '10px 12px', marginBottom: 14 }}>
             <Eyebrow style={{ marginBottom: 6 }}>composing…</Eyebrow>
             {s.progress.map((p, i) => (
-              <div key={i} style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', padding: '1px 0' }}>
+              <div key={i} style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)', padding: '1px 0' }}>
                 {p.stage ? `${p.stage} — ${p.note || ''}`
                   : p.revised ? revisedEventLine(p)
                   /* "tried", not "candidate N": this is the order compose() reached the
@@ -128,7 +129,9 @@ export function CandidateSet({ onCite, go, selection, setSelection }) {
 
   const axisWhat = Object.fromEntries(
     ((result.score_model || {}).axes || []).map((a) => [a.axis, a.what]));
-  const cands = (result.candidates || []).map((c, i) => adaptCandidate(c, i, nativePartis, axisWhat));
+  const cands = (result.candidates || []).map((c, i) => ({ ...adaptCandidate(c, i, nativePartis, axisWhat),
+      // Phase 17: the score's own denominator, the result's and never a typed figure
+      scoreOf: result.score_model && Number.isFinite(result.score_model.of) ? result.score_model.of : null }));
   const chosen = ORDERS[sort] || ORDERS.score;
   const list = cands.slice().sort(order(chosen.cmp));
   const dropped = result.dropped_lot_infeasible || [];
@@ -184,7 +187,7 @@ export function CandidateSet({ onCite, go, selection, setSelection }) {
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: 0, flex: 1 }}>
       <FilterStrip wrap right={
         <span data-set-size={size.own} data-set-asked={size.asked}
-          style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>
+          style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)' }}>
           returned {size.own} of {size.asked} asked for
           {/* the one the brief named and the ranking passed over, appended after the set rather
               than counted in it (WP-14.19), named by the record that says so */}
@@ -197,7 +200,7 @@ export function CandidateSet({ onCite, go, selection, setSelection }) {
               leaves out the diagram the brief named and the ranking passed over, appended after the
               set, and "2 refused" read beside it was a count over a population it did not name. */}
           {tally.refused > 0 && (
-            <span data-set-refused={tally.refused} style={{ color: 'var(--refusal)' }}>
+            <span data-set-refused={tally.refused} style={{ color: 'var(--refusal-text)' }}>
               {JOURNEY_WORDS.separator}{tally.refused} of {tally.of} <Term id="judgment-refused" />
             </span>
           )}
@@ -233,12 +236,12 @@ export function CandidateSet({ onCite, go, selection, setSelection }) {
             </button>
           : <span data-selection-action={view.state}
               style={{ font: 'var(--type-data-s)',
-                color: view.tone === 'refusal' ? 'var(--refusal)' : 'var(--ink-2)' }}>
+                color: view.tone === 'refusal' ? 'var(--refusal-text)' : 'var(--text-secondary)' }}>
               {view.words}
             </span>}
       </span>
       {openError && (
-        <span role="alert" data-selection-error="" style={{ font: 'var(--type-data-s)', color: 'var(--ink)' }}>
+        <span role="alert" data-selection-error="" style={{ font: 'var(--type-data-s)', color: 'var(--text-body)' }}>
           {openError}
         </span>
       )}
@@ -276,7 +279,7 @@ export function CandidateSet({ onCite, go, selection, setSelection }) {
                 result's own `score_model` (WP-14.31): this paragraph typed "out of 100" and
                 "eight axes" beside a definition written here, three facts nothing checked. */}
             <p data-score-model={result.score_model ? result.score_model.of : undefined}
-              style={{ font: 'var(--fw-reg) 13px/1.55 var(--body)', color: 'var(--ink-2)',
+              style={{ font: 'var(--fw-reg) 13px/1.55 var(--body)', color: 'var(--text-secondary)',
                 margin: '8px 0 0', maxWidth: '62ch' }}>
               {chosen.says}
               {result.score_model && Array.isArray(result.score_model.axes) && (
@@ -286,8 +289,8 @@ export function CandidateSet({ onCite, go, selection, setSelection }) {
             </p>
           </div>
           {household && (
-            <p style={{ font: 'var(--type-prose)', color: 'var(--ink-2)', margin: 0, maxWidth: '42ch',
-              borderLeft: '2px solid var(--rule)', paddingLeft: 14 }}>
+            <p style={{ font: 'var(--type-prose)', color: 'var(--text-secondary)', margin: 0, maxWidth: '42ch',
+              borderLeft: '2px solid var(--border-hairline)', paddingLeft: 14 }}>
               {household}
             </p>
           )}
@@ -305,7 +308,7 @@ export function CandidateSet({ onCite, go, selection, setSelection }) {
               )}
               {c.refused
                 ? <span data-candidate-refused={c.refused.kind}
-                    style={{ display: 'block', font: 'var(--type-data-s)', color: 'var(--refusal)',
+                    style={{ display: 'block', font: 'var(--type-data-s)', color: 'var(--refusal-text)',
                       marginTop: 14 }}
                     title={refusalHeadline(c.refused)}>
                     refused{c.refused.facts.length ? ` — ${c.refused.facts.join(', ')}` : ''}; not
@@ -335,7 +338,7 @@ export function CandidateSet({ onCite, go, selection, setSelection }) {
             the diagram the brief asked for would otherwise read as the guarantee kept. */}
         {result.named_parti && result.named_parti.returned === false && (
           <p data-named-parti-missing={result.named_parti.parti} role="note"
-            style={{ font: 'var(--fw-reg) 13px/1.55 var(--body)', color: 'var(--ink-2)', margin: '16px 0 0',
+            style={{ font: 'var(--fw-reg) 13px/1.55 var(--body)', color: 'var(--text-secondary)', margin: '16px 0 0',
               borderLeft: '2px solid var(--refusal)', paddingLeft: 12, maxWidth: '74ch' }}>
             <Term id="named-by-the-brief" />{JOURNEY_WORDS.separator}
             <span style={{ fontFamily: 'var(--mono)', fontSize: 12 }}>{result.named_parti.parti}</span>
@@ -344,16 +347,16 @@ export function CandidateSet({ onCite, go, selection, setSelection }) {
         )}
 
         {dropped.length > 0 && (
-          <div data-set-aside="" style={{ marginTop: 16, border: '1px solid var(--rule)', padding: '11px 13px',
-            color: 'var(--ink-2)', backgroundImage: 'var(--mark-set-aside)' }}>
-            <span style={{ background: 'var(--paper)', display: 'inline-block', padding: '3px 7px' }}>
+          <div data-set-aside="" style={{ marginTop: 16, border: '1px solid var(--border-hairline)', padding: '11px 13px',
+            color: 'var(--text-secondary)', backgroundImage: 'var(--mark-set-aside)' }}>
+            <span style={{ background: 'var(--surface-panel)', display: 'inline-block', padding: '3px 7px' }}>
               <Eyebrow as="span" tone="secondary">
                 {dropped.length} diagram{dropped.length === 1 ? '' : 's'} considered and dropped — the lot, not the score
               </Eyebrow>
             </span>
             {dropped.map((d) => (
-              <p key={d.parti} style={{ font: 'var(--fw-reg) 13px/1.55 var(--body)', color: 'var(--ink-2)',
-                margin: '7px 0 0', background: 'var(--paper)', padding: '2px 7px', display: 'inline-block' }}>
+              <p key={d.parti} style={{ font: 'var(--fw-reg) 13px/1.55 var(--body)', color: 'var(--text-secondary)',
+                margin: '7px 0 0', background: 'var(--surface-panel)', padding: '2px 7px', display: 'inline-block' }}>
                 <span style={{ fontFamily: 'var(--mono)', fontSize: 12 }}>{d.parti_name}</span> — {d.why}
               </p>
             ))}
@@ -361,21 +364,22 @@ export function CandidateSet({ onCite, go, selection, setSelection }) {
         )}
 
         <p style={{ font: 'var(--fw-reg) italic var(--fs-lede)/1.6 var(--body)', fontStyle: 'italic',
-          color: 'var(--ink)', margin: '20px 0 0', maxWidth: '74ch', borderTop: '1px solid var(--rule)',
+          color: 'var(--text-body)', margin: '20px 0 0', maxWidth: '74ch', borderTop: '1px solid var(--border-hairline)',
           paddingTop: 16 }}>
           A plan with no fatal findings is not therefore good. The corpus can tell you what is wrong
           and cannot tell you what is alive.
         </p>
 
         <div style={{ display: 'flex', gap: 26, marginTop: 26, alignItems: 'flex-start', flexWrap: 'wrap' }}>
-          <div style={{ flex: '1 1 460px', minWidth: 420 }}>
+          <Vellum data-decision-receipt="" style={{ flex: '1 1 460px', minWidth: 420, padding: '16px 20px 18px',
+            borderTop: '2px dashed var(--border-paper)', borderBottom: '2px dashed var(--border-paper)' }}>
             {/* Named, not numbered. The column ordinal is a position in the CURRENT order
                  and `sel` is an index into the SERVER's order; before the three orderings
                  landed those agreed by construction in the default view and they no longer
                  do, so clicking the column marked 2 could open a log headed "candidate 3".
                  A parti name cannot disagree with itself. */}
             <Eyebrow>decision log · {(sel ? cands.find((x) => x.id === sel) : cands[0])?.parti_name || '—'}</Eyebrow>
-            <p style={{ font: 'var(--fw-reg) 13px/1.55 var(--body)', color: 'var(--ink-2)', margin: '7px 0 10px',
+            <p style={{ font: 'var(--fw-reg) 13px/1.55 var(--body)', color: 'var(--text-secondary)', margin: '7px 0 10px',
               maxWidth: '64ch' }}>
               What the composer chose where the brief was silent. Read it — those are the assumptions,
               not facts.
@@ -390,32 +394,32 @@ export function CandidateSet({ onCite, go, selection, setSelection }) {
               const c = (sel ? cands.find((x) => x.id === sel) : cands[0])?.raw || {};
               const rows = c.decisions_structured
                 || (c.decisions || []).map((d) => ({ statement: d, kind: 'assumption' }));
-              const TONE = { judgment: 'var(--gilt-deep)', refusal: 'var(--brick)',
-                unsolved: 'var(--ink-2)', disclosure: 'var(--sepia)', authored: 'var(--ink-2)',
+              const TONE = { judgment: 'var(--text-accent)', refusal: 'var(--refusal-text)',
+                unsolved: 'var(--text-secondary)', disclosure: 'var(--sepia)', authored: 'var(--text-secondary)',
                 // WP-9.2's sixth kind: a move the loop applied, with its basis as `because`
                 revision: 'var(--gilt)' };
               return rows.map((d, i) => (
                 <div key={i} style={{ margin: '0 0 9px', paddingLeft: 12,
-                  borderLeft: `2px solid ${TONE[d.kind] || 'var(--rule-soft)'}` }}>
+                  borderLeft: `2px solid ${TONE[d.kind] || 'var(--border-soft)'}` }}>
                   {d.kind && d.kind !== 'assumption' && (
                     <Eyebrow as="span" style={{ color: TONE[d.kind] }}>{d.kind}</Eyebrow>
                   )}
                   {d.field && (
-                    <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)',
+                    <span style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)',
                       marginLeft: d.kind && d.kind !== 'assumption' ? 8 : 0 }}>
                       {d.field}{d.chose ? ` · ${d.chose}` : ''}
                     </span>
                   )}
-                  <p style={{ font: 'var(--fw-reg) 13px/1.55 var(--body)', color: 'var(--ink-2)',
+                  <p style={{ font: 'var(--fw-reg) 13px/1.55 var(--body)', color: 'var(--text-secondary)',
                     margin: '2px 0 0' }}>{d.statement}</p>
                 </div>
               ));
             })()}
-          </div>
+          </Vellum>
           <div style={{ flex: '0 1 420px', minWidth: 380 }}>
             <Eyebrow style={{ marginBottom: 9 }}>how to read this</Eyebrow>
             {(result.how_to_read_this || []).map((h, i) => (
-              <p key={i} style={{ font: 'var(--fw-reg) 12.5px/1.55 var(--body)', color: 'var(--ink-2)',
+              <p key={i} style={{ font: 'var(--fw-reg) 12.5px/1.55 var(--body)', color: 'var(--text-secondary)',
                 margin: '0 0 8px' }}>{h}</p>
             ))}
           </div>

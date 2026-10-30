@@ -1,0 +1,9 @@
+{
+  "id": "period-floruit",
+  "term": "floruit",
+  "family": "model",
+  "order": 42,
+  "definition": "The years of a style's dominant, characteristic production: when it was built most and most like itself.",
+  "kind": "editorial",
+  "basis": "schema/style-node.schema.json, the period object: floruit_start is the \"Start of the period of dominant/characteristic production.\", and floruit_end the end of it."
+}

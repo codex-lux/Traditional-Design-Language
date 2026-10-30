@@ -1,0 +1,9 @@
+{
+  "id": "period-decline",
+  "term": "decline",
+  "family": "model",
+  "order": 43,
+  "definition": "The years after a style's floruit in which it was still built, less often and less purely, before it stopped or was revived.",
+  "kind": "editorial",
+  "basis": "schema/style-node.schema.json, the period object: decline_end is the \"Last meaningful vernacular production before revival, if any.\""
+}

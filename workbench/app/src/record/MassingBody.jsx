@@ -35,7 +35,7 @@ export function MassingBody({ rec }) {
           {facts.map(([k, termId]) => (
             <React.Fragment key={k}>
               <dt style={data}><Term id={termId} /></dt>
-              <dd style={{ ...data, color: 'var(--ink)', margin: 0 }}>{m[k]}</dd>
+              <dd style={{ ...data, color: 'var(--text-body)', margin: 0 }}>{m[k]}</dd>
             </React.Fragment>
           ))}
         </dl>

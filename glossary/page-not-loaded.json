@@ -1,0 +1,9 @@
+{
+  "id": "page-not-loaded",
+  "term": "This page could not be loaded",
+  "family": "product",
+  "order": 46,
+  "definition": "The code for this page could not be fetched or could not run, so nothing of it is shown. Often a new version was put up after the tab was opened, and reloading the tab fetches the current one.",
+  "kind": "editorial",
+  "basis": "docs/workbench.md, the shell since Phase 17: \"If the code for one cannot be fetched, as when a new version was put up after the tab was opened, the page says it could not be loaded\", and \"reloading the tab fetches the current version\"."
+}

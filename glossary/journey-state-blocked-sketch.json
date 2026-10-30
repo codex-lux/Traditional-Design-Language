@@ -1,0 +1,9 @@
+{
+  "id": "journey-state-blocked-sketch",
+  "term": "blocked: a working sketch",
+  "family": "house",
+  "order": 28,
+  "definition": "The plan on the bench is a working sketch, and an export would present it as a drawing.",
+  "kind": "editorial",
+  "basis": "docs/workbench.md, the shell since Phase 17, the table of the words a station of the house's journey carries, which says of \"blocked: a working sketch\" that \"the plan on the bench is a working sketch, and an export would present it as a drawing\". The same section says why the word is prose: \"it is a sentence about the house and not an error code\"."
+}

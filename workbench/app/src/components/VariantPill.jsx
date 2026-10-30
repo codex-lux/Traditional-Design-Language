@@ -1,4 +1,5 @@
 import React from "react";
+import { LadderChip } from "./Chip.jsx";
 
 /* A four-rank ladder, not a binary. 'forbidden' is positive knowledge — 851 forbidden
    variants and 228 forbidden bindings — and gets the loudest form in the system: a
@@ -13,20 +14,20 @@ const LADDERS = {
   variant: {
     canonical: 'var(--var-canonical)',
     permitted: 'var(--var-permitted)',
-    atypical: 'var(--ink-2)',
+    atypical: 'var(--text-secondary)',
     forbidden: 'var(--var-forbidden)'
   },
   binding: {
     specified: 'var(--bind-specified)',
     extends: 'var(--bind-extends)',
     forbidden: 'var(--bind-forbidden)',
-    open: 'var(--ink-2)'
+    open: 'var(--text-secondary)'
   },
   affinity: {
     canonical: 'var(--aff-canonical)',
     common: 'var(--aff-common)',
     possible: 'var(--aff-possible)',
-    atypical: 'var(--ink-2)',
+    atypical: 'var(--text-secondary)',
     forbidden: 'var(--aff-forbidden)'
   }
 };
@@ -37,7 +38,19 @@ function VariantPill({
   note,
   style
 }) {
-  const colour = (LADDERS[ladder] || LADDERS.variant)[status] || 'var(--ink-2)';
+  // THE VARIANT AND BINDING LADDERS ARE CHIPS SINCE PHASE 17 (`chips.js`): a swatch in the rung's
+  // pigment beside a word in a text duty, legible on both grounds. Affinity keeps its inks here.
+  if (ladder === 'variant' || ladder === 'binding') {
+    return /*#__PURE__*/React.createElement("span", {
+      style: { display: 'inline-flex', alignItems: 'baseline', gap: 8, minWidth: 0, ...style }
+    }, /*#__PURE__*/React.createElement(LadderChip, { ladder, value: status }, name || status),
+    name && /*#__PURE__*/React.createElement("span", {
+      style: { font: 'var(--type-data-s)', color: 'var(--text-secondary)' }
+    }, status), note && /*#__PURE__*/React.createElement("span", {
+      style: { font: 'var(--fw-reg) 12.5px/1.5 var(--body)', color: 'var(--text-secondary)', maxWidth: 'var(--measure-note)' }
+    }, note));
+  }
+  const colour = (LADDERS[ladder] || LADDERS.variant)[status] || 'var(--text-secondary)';
   const forbidden = status === 'forbidden';
   return /*#__PURE__*/React.createElement("span", {
     style: {
@@ -67,7 +80,7 @@ function VariantPill({
   }, status), note && /*#__PURE__*/React.createElement("span", {
     style: {
       font: 'var(--fw-reg) 12.5px/1.5 var(--body)',
-      color: 'var(--ink-2)',
+      color: 'var(--text-secondary)',
       maxWidth: 'var(--measure-note)'
     }
   }, note));

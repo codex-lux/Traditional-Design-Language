@@ -1,0 +1,9 @@
+{
+  "id": "journey-state-blocked-refused",
+  "term": "blocked: refused",
+  "family": "house",
+  "order": 27,
+  "definition": "The plan on the bench breaks a hard fact of its type, so nothing may be drawn from it.",
+  "kind": "editorial",
+  "basis": "docs/workbench.md, the shell since Phase 17, the table of the words a station of the house's journey carries, which says of \"blocked: refused\" that \"the plan on the bench breaks a hard fact of its type, so nothing may be drawn from it\". The same section says why the word is prose: \"it is a sentence about the house and not an error code\"."
+}

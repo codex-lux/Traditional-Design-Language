@@ -128,7 +128,9 @@ class TestTheCymas:
     def test_ogee_is_the_same_curve_as_cyma_reversa(self):
         a, _ = PROF.member_path("ogee", 0.0, 0.0, 3.0, 5.0)
         b, _ = PROF.member_path("cyma-reversa", 0.0, 0.0, 3.0, 5.0)
-        assert _sample(a) == pytest.approx(_sample(b))
+        # flattened: pytest 9 refuses `approx` over nested sequences (requirements allow >=7)
+        flat = lambda pts: [c for p in pts for c in p]
+        assert flat(_sample(a)) == pytest.approx(flat(_sample(b)))
 
 
 class TestRoundsAndHollows:

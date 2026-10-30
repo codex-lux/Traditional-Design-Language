@@ -145,7 +145,7 @@ export function KitSurface({ styleId, onCite, selection, setSelection }) {
           <span data-kit-shown={kit ? rows.length : undefined}
             data-kit-returned={kit ? kit.slots_returned : undefined}
             data-kit-total={kit ? kit.slots_total : undefined}
-            style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>
+            style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)' }}>
             {/* The slot count was the literal 95 while the ontology held 97, and main's
                 fallback still carries a 97. A number typed into a view goes stale the day
                 the corpus moves, so the total comes from the payload that knows it
@@ -161,7 +161,7 @@ export function KitSurface({ styleId, onCite, selection, setSelection }) {
         <FilterInput value={q} onChange={(v) => filters.set('q', v)} count={rows.length}
           label="Filter these slots by name, group, binding or source"
           placeholder="filter slots" width={170} />
-        <span style={{ width: 1, height: 18, background: 'var(--rule)' }} />
+        <span style={{ width: 1, height: 18, background: 'var(--border-hairline)' }} />
         {/* Eight groups is a lot of chips to hold open when most visits steer by one.
             Folded by default — open, they pushed the count and the specified-only toggle
             off the right-hand edge of the strip, which is how a bar of filters starts
@@ -178,7 +178,7 @@ export function KitSurface({ styleId, onCite, selection, setSelection }) {
 
       <div style={{ flex: 1, display: 'flex', minHeight: 0 }}>
         <PullPane pane="kit" side="left"
-          style={{ borderRight: '1px solid var(--rule)', overflow: 'auto', padding: '14px 12px 22px' }}>
+          style={{ borderRight: '1px solid var(--border-hairline)', overflow: 'auto', padding: '14px 12px 22px' }}>
           {cascadeRows.length > 0 && (
             <ProvenanceTrace cascade={cascadeRows} sourceId={source} collapseFrom={7}
               onSelect={(x) => { setSource(x); onCite && onCite('style:' + x); }} />
@@ -187,8 +187,8 @@ export function KitSurface({ styleId, onCite, selection, setSelection }) {
 
         <div style={{ flex: 1, overflow: 'auto', minHeight: 0 }}>
           {!inKit && (
-            <p data-slot-absent={openSlot} style={{ font: 'var(--fw-reg) 13px/1.55 var(--body)', color: 'var(--ink-2)',
-              margin: 0, padding: '10px 12px', borderBottom: '1px solid var(--rule)', background: 'var(--paper-deep)' }}>
+            <p data-slot-absent={openSlot} style={{ font: 'var(--fw-reg) 13px/1.55 var(--body)', color: 'var(--text-secondary)',
+              margin: 0, padding: '10px 12px', borderBottom: '1px solid var(--border-hairline)', background: 'var(--surface-raised)' }}>
               <RecordLink cite={'slot:' + openSlot} /> is not among the slots this kit lists
               {specifiedOnly ? ' as bound — “specified only” is on' : ''}
             </p>
@@ -198,7 +198,7 @@ export function KitSurface({ styleId, onCite, selection, setSelection }) {
               and the table scrolls sideways instead: a name cut to "a…" is not a row anybody can read. */}
           <div data-kit-table="" style={{ minWidth: 640 }}>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, padding: '10px 10px 8px',
-            borderBottom: '1px solid var(--rule)', position: 'sticky', top: 0, background: 'var(--paper)', zIndex: 1 }}>
+            borderBottom: '1px solid var(--border-hairline)', position: 'sticky', top: 0, background: 'var(--surface-panel)', zIndex: 1 }}>
             <Eyebrow as="span" style={{ width: 132, flex: 'none' }}>group</Eyebrow>
             <Eyebrow as="span" style={{ flex: 1 }}>slot</Eyebrow>
             <Eyebrow as="span" style={{ width: 74, flex: 'none' }}>binding</Eyebrow>
@@ -216,7 +216,7 @@ export function KitSurface({ styleId, onCite, selection, setSelection }) {
             <Eyebrow style={{ marginBottom: 5 }}><Term id="thin-kit" /></Eyebrow>
             {thin.state === 'ready' && (
               <p data-term-definition="thin-kit"
-                style={{ font: 'var(--fw-reg) 12.5px/1.6 var(--body)', color: 'var(--ink-2)', margin: 0 }}>
+                style={{ font: 'var(--fw-reg) 12.5px/1.6 var(--body)', color: 'var(--text-secondary)', margin: 0 }}>
                 {thin.definition}
               </p>
             )}

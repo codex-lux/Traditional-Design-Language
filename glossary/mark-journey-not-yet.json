@@ -1,0 +1,10 @@
+{
+  "id": "mark-journey-not-yet",
+  "term": "not yet",
+  "family": "mark",
+  "mark": "--mark-journey-not-yet",
+  "order": 7,
+  "definition": "A step of the house's journey not yet reached, drawn as a dashed ring. Nothing is wrong with it; the house simply has not got there, and the step may not open until the one before it is done.",
+  "kind": "editorial",
+  "basis": "docs/ui-redesign-2026-10-29.md, the journey marks: \"dashed graphite ring / dashed\" outline for a step not yet reached. workbench/app/src/theme/tokens.css says why none of the three borrows a verdict's form: \"Not a verdict, so no judgment's form.\""
+}

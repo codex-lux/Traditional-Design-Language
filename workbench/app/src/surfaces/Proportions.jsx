@@ -69,12 +69,12 @@ function OrderPlate({ data }) {
   const hasPedestal = rows.some((r) => r.id === 'pedestal' || r.id === 'subplinth');
 
   return (
-    <div style={{ background: 'var(--paper)', border: '1px solid var(--ink-2)',
+    <div data-ground="vellum" style={{ background: 'var(--surface-paper)', border: '1px solid var(--draw-dim)',
       boxShadow: 'var(--shadow-plate)', padding: '18px 20px 12px' }}>
       <svg viewBox={`${-CAP} ${-3 * U} ${CAP + maxX + RIGHT} ${H + 6 * U}`}
         style={{ display: 'block', width: '100%' }} role="img" aria-label={data.name}>
         {/* the axis the whole order is measured from */}
-        <line x1={0} y1={sy(-2 * U)} x2={0} y2={sy(H + 2 * U)} stroke="var(--hair)" strokeWidth=".7"
+        <line x1={0} y1={sy(-2 * U)} x2={0} y2={sy(H + 2 * U)} stroke="var(--draw-grid)" strokeWidth=".7"
           strokeDasharray="14 4 2.5 4" vectorEffect="non-scaling-stroke" />
         {bands.map((b) => {
           const bp = bandPath(b);
@@ -85,8 +85,8 @@ function OrderPlate({ data }) {
                 say it had been measured flush (WP-14.2). */}
             <path data-asm={b.asm} data-member={b.id} data-unpublished={b.unpublished ? '' : undefined}
               d={bp.d}
-              fill={b.side ? 'var(--sepia-pale)' : 'var(--paper-lit)'}
-              stroke={b.unpublished ? 'var(--judge-unjudged)' : 'var(--ink)'}
+              fill={b.side ? 'var(--sepia-pale)' : 'var(--surface-lit)'}
+              stroke={b.unpublished ? 'var(--judge-unjudged)' : 'var(--draw-seen)'}
               strokeDasharray={b.unpublished ? '3 2' : undefined}
               strokeWidth={b.h > U * 1.2 ? 1.1 : 0.7}
               vectorEffect="non-scaling-stroke">
@@ -111,12 +111,12 @@ function OrderPlate({ data }) {
                 stroke="var(--draw-dim)" strokeWidth=".9" vectorEffect="non-scaling-stroke" />
             ))}
             <text x={-4 * U} y={sy((a.y0 + a.y1) / 2) - 0.6 * U} fontSize={2.3 * U}
-              fontFamily="var(--serif)" letterSpacing={0.18 * U} fill="var(--ink-2)" textAnchor="end"
+              fontFamily="var(--serif)" letterSpacing={0.18 * U} fill="var(--draw-note)" textAnchor="end"
               dominantBaseline="middle" style={{ textTransform: 'uppercase' }}>
               {a.id}
             </text>
             <text x={-4 * U} y={sy((a.y0 + a.y1) / 2) + 2.2 * U} fontSize={1.9 * U}
-              fontFamily="var(--serif)" fill="var(--ink-4)" textAnchor="end" dominantBaseline="middle">
+              fontFamily="var(--serif)" fill="var(--draw-note)" textAnchor="end" dominantBaseline="middle">
               {inches(a.y1 - a.y0)}
             </text>
           </g>
@@ -130,7 +130,7 @@ function OrderPlate({ data }) {
             stroke="var(--draw-dim)" strokeWidth=".9" vectorEffect="non-scaling-stroke" />
         ))}
         <text x={dimX + 2.6 * U} y={sy(H / 2)} fontSize={2.4 * U} fontFamily="var(--serif)"
-          fill="var(--ink-2)" transform={`rotate(-90 ${dimX + 2.6 * U} ${sy(H / 2)})`}
+          fill="var(--draw-note)" transform={`rotate(-90 ${dimX + 2.6 * U} ${sy(H / 2)})`}
           textAnchor="middle">{inches(H)} stack</text>
         {/* the diameter the whole plate is drawn against, at the foot of the shaft */}
         {!nominal && (
@@ -138,17 +138,17 @@ function OrderPlate({ data }) {
             <line x1={0} y1={sy(-1.4 * U)} x2={r0} y2={sy(-1.4 * U)} stroke="var(--draw-dim)"
               strokeWidth=".7" vectorEffect="non-scaling-stroke" />
             <text x={r0 + 1.2 * U} y={sy(-1.4 * U)} fontSize={1.9 * U} fontFamily="var(--serif)"
-              fill="var(--ink-4)" dominantBaseline="middle">½ diameter {inches(r0)}</text>
+              fill="var(--draw-note)" dominantBaseline="middle">½ diameter {inches(r0)}</text>
           </g>
         )}
       </svg>
-      <div style={{ borderTop: '1px solid var(--rule)', marginTop: 8, paddingTop: 8,
+      <div style={{ borderTop: '1px solid var(--border-hairline)', marginTop: 8, paddingTop: 8,
         display: 'flex', justifyContent: 'space-between', gap: 18, flexWrap: 'wrap' }}>
         <span style={{ font: 'var(--fw-med) 10.5px/1.3 var(--serif)', letterSpacing: '.3em',
-          textTransform: 'uppercase', color: 'var(--ink)' }}>
+          textTransform: 'uppercase', color: 'var(--text-body)' }}>
           {(data.pack || '').split('-').join('·')}
         </span>
-        <span style={{ font: 'italic var(--fw-reg) 12.5px/1.45 var(--serif)', color: 'var(--ink-2)',
+        <span style={{ font: 'italic var(--fw-reg) 12.5px/1.45 var(--serif)', color: 'var(--text-secondary)',
           textAlign: 'right', maxWidth: '46ch' }}>
           Half the order in section: every band is a member the engine emitted, run from the
           axis to the outer face the engine constructed for it — none traced.
@@ -172,15 +172,15 @@ function OrderPlate({ data }) {
 const SECTION_GAP = { marginTop: 30 };
 const H3 = {
   font: 'var(--type-eyebrow)', letterSpacing: 'var(--tr-eyebrow)', textTransform: 'uppercase',
-  color: 'var(--ink-2)', fontWeight: 500, margin: '0 0 10px',
+  color: 'var(--text-secondary)', fontWeight: 500, margin: '0 0 10px',
 };
-const NOTE = { font: 'var(--fw-reg) 12.5px/1.55 var(--body)', color: 'var(--ink-2)', maxWidth: '76ch' };
-const CELL = { font: 'var(--type-data-s)', color: 'var(--ink-2)', padding: '5px 14px 3px 0', verticalAlign: 'top',
+const NOTE = { font: 'var(--fw-reg) 12.5px/1.55 var(--body)', color: 'var(--text-secondary)', maxWidth: '76ch' };
+const CELL = { font: 'var(--type-data-s)', color: 'var(--text-secondary)', padding: '5px 14px 3px 0', verticalAlign: 'top',
   overflowWrap: 'anywhere' };
 const TH = {
   font: 'var(--type-eyebrow)', letterSpacing: 'var(--tr-eyebrow)', textTransform: 'uppercase',
-  color: 'var(--ink-2)', textAlign: 'left', padding: '0 14px 6px 0', fontWeight: 500,
-  borderBottom: '1px solid var(--rule)',
+  color: 'var(--text-secondary)', textAlign: 'left', padding: '0 14px 6px 0', fontWeight: 500,
+  borderBottom: '1px solid var(--border-hairline)',
 };
 
 /* A pack, named first with its id beside it, as a real link to its address on this surface.
@@ -218,7 +218,7 @@ function PackList({ groups, selection, params, packId, compact }) {
           {g.packs.map((p) => (
             <div key={p.id} data-pack-row={p.id} style={{ padding: compact ? '2px 12px' : '4px 0',
               borderLeft: compact ? `2px solid ${p.id === packId ? 'var(--gilt-deep)' : 'transparent'}` : 'none',
-              background: compact && p.id === packId ? 'var(--paper-deep)' : 'transparent',
+              background: compact && p.id === packId ? 'var(--surface-raised)' : 'transparent',
               font: compact ? 'var(--type-data-s)' : 'var(--fw-reg) 14px/1.5 var(--serif)',
               display: compact ? 'block' : 'flex', gap: 12, alignItems: 'flex-start' }}>
               {/* WP-14.24: the pack's first assembly at the wall datum, from the list route's served
@@ -251,11 +251,11 @@ function Head({ data, meta, isOrder }) {
           letterSpacing: 'var(--tr-display)', margin: '0 0 2px' }}>{data.name}</h2>
         <span className="tdl-record-note" data-pack-id="">{data.pack}</span>
       </div>
-      <div style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', marginTop: 4 }}>
+      <div style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)', marginTop: 4 }}>
         <Term field="pack.kind" value={data.kind || meta?.kind} />
         {resolved && <> · an overlay, read through {resolved.join(' → ')}</>}
       </div>
-      <div data-module="" style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', marginTop: 8, maxWidth: '90ch' }}>
+      <div data-module="" style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)', marginTop: 8, maxWidth: '90ch' }}>
         <Term id="module" /> {feetInches16(data.module_in)}
         {data.module_name && <span style={{ fontFamily: 'var(--serif)', fontSize: 13 }}> — {data.module_name}</span>}
         {' · '}{data.parts} <Term id="part">parts</Term> of {feetInches16(data.part_in)}
@@ -265,8 +265,8 @@ function Head({ data, meta, isOrder }) {
         <div style={{ marginTop: 10, maxWidth: 360 }}>
           {Object.entries(data.totals).map(([k, v]) => (
             <div key={k} style={{ display: 'flex', justifyContent: 'space-between', padding: '1px 0' }}>
-              <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>{k.replace(/_/g, ' ')}</span>
-              <span style={{ font: 'var(--type-data-s)', color: 'var(--ink)' }}>
+              <span style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)' }}>{k.replace(/_/g, ' ')}</span>
+              <span style={{ font: 'var(--type-data-s)', color: 'var(--text-body)' }}>
                 {k.endsWith('_in') ? feetInches16(v) : v}
               </span>
             </div>
@@ -353,17 +353,17 @@ function Conflicts({ conflicts }) {
         <Term id="pack-conflict" /> · {conflicts.length}
       </h3>
       {conflicts.map((c, i) => (
-        <div key={i} data-conflict={c.with || ''} style={{ border: '1px solid var(--rule)',
+        <div key={i} data-conflict={c.with || ''} style={{ border: '1px solid var(--border-hairline)',
           borderLeft: '2px solid var(--sev-serious)', padding: '11px 13px', marginBottom: 12, maxWidth: '84ch' }}>
           <div style={{ font: 'var(--type-eyebrow)', letterSpacing: 'var(--tr-eyebrow)',
             textTransform: 'uppercase', color: 'var(--sev-serious)', marginBottom: 6 }}>
             against {c.with}{c.severity ? ` · ${c.severity}` : ''}
           </div>
-          <p style={{ font: 'var(--fw-reg) 13.5px/1.6 var(--body)', color: 'var(--ink)', margin: 0 }}>{c.statement}</p>
+          <p style={{ font: 'var(--fw-reg) 13.5px/1.6 var(--body)', color: 'var(--text-body)', margin: 0 }}>{c.statement}</p>
           {c.resolution && (
-            <p style={{ font: 'var(--fw-reg) 13px/1.6 var(--body)', color: 'var(--ink-2)', margin: '8px 0 0' }}>
+            <p style={{ font: 'var(--fw-reg) 13px/1.6 var(--body)', color: 'var(--text-secondary)', margin: '8px 0 0' }}>
               <span style={{ font: 'var(--type-eyebrow)', letterSpacing: 'var(--tr-eyebrow)',
-                textTransform: 'uppercase', color: 'var(--ink-2)', marginRight: 8 }}>resolution</span>
+                textTransform: 'uppercase', color: 'var(--text-secondary)', marginRight: 8 }}>resolution</span>
               {c.resolution}
             </p>
           )}
@@ -416,7 +416,7 @@ function Rules({ rules, styleId }) {
                   <td style={{ ...CELL, fontFamily: 'var(--mono)', overflowWrap: 'anywhere' }}>
                     {r.expression}
                   </td>
-                  <td data-value="" style={{ ...CELL, color: 'var(--ink)' }}>
+                  <td data-value="" style={{ ...CELL, color: 'var(--text-body)' }}>
                     <span style={{ display: 'inline-flex', alignItems: 'center', gap: 7, flexWrap: 'wrap' }}>
                       <JudgmentMark state={ruleMark(r)} />
                       {r.judgment ? <Term id="judgment-yours-to-judge" />
@@ -433,7 +433,7 @@ function Rules({ rules, styleId }) {
                 </tr>
                 {r.note && (
                   <tr>
-                    <td colSpan={4} style={{ ...NOTE, padding: '0 0 9px 16px', borderBottom: '1px solid var(--rule-soft)' }}>
+                    <td colSpan={4} style={{ ...NOTE, padding: '0 0 9px 16px', borderBottom: '1px solid var(--border-soft)' }}>
                       {r.note}
                     </td>
                   </tr>
@@ -467,13 +467,13 @@ function Authorities({ compare, packId, selection, params }) {
         <tbody>
           {rows.map((a) => (
             <tr key={a.pack} data-authority-row={a.pack}
-              style={{ background: a.pack === packId ? 'var(--paper-deep)' : 'transparent' }}>
+              style={{ background: a.pack === packId ? 'var(--surface-raised)' : 'transparent' }}>
               <td style={CELL}>
                 <PackLink id={a.pack} name={a.authority} selection={selection} params={params} on={a.pack === packId} />
               </td>
               <td style={CELL}>{a.year}</td>
-              <td style={{ ...CELL, color: 'var(--ink)' }}>{feetInches16(a.column_in)}</td>
-              <td style={{ ...CELL, color: 'var(--ink)' }}>{feetInches16(a.entablature_in)}</td>
+              <td style={{ ...CELL, color: 'var(--text-body)' }}>{feetInches16(a.column_in)}</td>
+              <td style={{ ...CELL, color: 'var(--text-body)' }}>{feetInches16(a.entablature_in)}</td>
               <td style={CELL}>{a.entablature_over_column}</td>
             </tr>
           ))}
@@ -491,7 +491,7 @@ function UsedBy({ usedBy, styleId }) {
       {groups.length === 0 && <p style={{ ...NOTE, margin: 0 }}>No style binds, receives or names this pack.</p>}
       {groups.map((g) => (
         <div key={g.key} data-used-by={g.key} style={{ marginBottom: 12 }}>
-          <div style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', marginBottom: 4 }}>
+          <div style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)', marginBottom: 4 }}>
             {g.term ? <Term id={g.term} /> : <>named in the pack’s <code>applies_to</code>, not reached by it</>}
             {' · '}{g.rows.length}
           </div>
@@ -502,7 +502,7 @@ function UsedBy({ usedBy, styleId }) {
                 style={{ font: 'var(--fw-reg) 13.5px/1.5 var(--serif)',
                   borderBottom: row.style === styleId ? '1px solid var(--gilt-deep)' : undefined }}>
                 <RecordLink cite={`style:${row.style}`} />
-                {row.from && <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>
+                {row.from && <span style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)' }}>
                   {' '}from <RecordLink cite={`style:${row.from}`} /></span>}
               </span>
             ))}
@@ -532,7 +532,7 @@ function Reach({ reach, styleId, error }) {
 function Sources({ data }) {
   const lines = authorityLines(data);
   const works = sourceLines(data);
-  const line = { font: 'italic var(--fw-reg) 13.5px/1.55 var(--serif)', color: 'var(--ink)',
+  const line = { font: 'italic var(--fw-reg) 13.5px/1.55 var(--serif)', color: 'var(--text-body)',
     margin: '0 0 6px', maxWidth: '84ch' };
   return (
     <section data-section="sources" style={SECTION_GAP}>
@@ -554,14 +554,14 @@ function Proof({ invariants }) {
   const tally = invariantTally(invariants);
   const bodyId = 'tdl-proportions-proof';
   return (
-    <section data-section="proof" style={{ ...SECTION_GAP, borderTop: '1px solid var(--rule)', paddingTop: 14 }}>
+    <section data-section="proof" style={{ ...SECTION_GAP, borderTop: '1px solid var(--border-hairline)', paddingTop: 14 }}>
       <div style={{ display: 'flex', alignItems: 'baseline', gap: 16, flexWrap: 'wrap' }}>
         <button type="button" data-proof-toggle="" aria-expanded={open} aria-controls={bodyId}
           onClick={() => prefs.setFold(PROOF_FOLD, !open)}
           style={{ ...H3, margin: 0, border: 'none', background: 'none', cursor: 'pointer', padding: 0 }}>
           <span aria-hidden="true" style={{ marginRight: 8 }}>{open ? '−' : '+'}</span>How this was checked
         </button>
-        <span data-proof-tally="" style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>
+        <span data-proof-tally="" style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)' }}>
           <Term id="invariant">invariants</Term>: {tally.passed} <Term id="judgment-passed" />
           {' · '}{tally.failed} <Term id="judgment-failed" />
           {' · '}{tally.unjudged} <Term id="judgment-unjudged" />
@@ -678,12 +678,12 @@ export function Proportions({ selection }) {
         placeholder="filter the packs" width={165} />
       {styleId && (
         <span data-style-in-hand={styleId} style={{ display: 'inline-flex', alignItems: 'center', gap: 6,
-          font: 'var(--type-data-s)', color: 'var(--ink-2)', whiteSpace: 'nowrap' }}>
+          font: 'var(--type-data-s)', color: 'var(--text-secondary)', whiteSpace: 'nowrap' }}>
           for <RecordLink cite={`style:${styleId}`} />
           <Chip on onClick={clearStyle} title="read every pack again">×</Chip>
         </span>
       )}
-      {packId && <span style={{ width: 1, height: 18, background: 'var(--rule)' }} />}
+      {packId && <span style={{ width: 1, height: 18, background: 'var(--border-hairline)' }} />}
       {packId && (isOrder ? (
         <FilterGroup label="at" summary={`${feetInches16(diamAt)} column`}>
           <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
@@ -691,7 +691,7 @@ export function Proportions({ selection }) {
             <input type="range" {...RANGES.diameter} value={diamAt} aria-label="column diameter, inches"
               onChange={(e) => f.set('diameter', e.target.value)}
               style={{ width: 110, accentColor: 'var(--gilt-deep)' }} />
-            <span style={{ font: 'var(--type-data)', color: 'var(--ink)' }}>{feetInches16(diamAt)}</span>
+            <span style={{ font: 'var(--type-data)', color: 'var(--text-body)' }}>{feetInches16(diamAt)}</span>
           </span>
         </FilterGroup>
       ) : (
@@ -702,19 +702,19 @@ export function Proportions({ selection }) {
             <input type="range" {...RANGES.ceiling} value={ceiling} aria-label="ceiling height, inches"
               onChange={(e) => f.set('ceiling', e.target.value)}
               style={{ width: 90, accentColor: 'var(--gilt-deep)' }} />
-            <span style={{ font: 'var(--type-data)', color: 'var(--ink)' }}>{feetInches16(ceiling)}</span>
+            <span style={{ font: 'var(--type-data)', color: 'var(--text-body)' }}>{feetInches16(ceiling)}</span>
             <Eyebrow as="span">opening</Eyebrow>
             <input type="range" {...RANGES.opening} value={opening} aria-label="opening width, inches"
               onChange={(e) => f.set('opening', e.target.value)}
               style={{ width: 90, accentColor: 'var(--gilt-deep)' }} />
-            <span style={{ font: 'var(--type-data)', color: 'var(--ink)' }}>{feetInches16(opening)}</span>
+            <span style={{ font: 'var(--type-data)', color: 'var(--text-body)' }}>{feetInches16(opening)}</span>
             {classA && (
               <span data-class-a={classA.dimension} style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
                 <Eyebrow as="span">{classA.words}</Eyebrow>
                 <input type="range" {...RANGES[classA.key]} value={classAAt} aria-label={`${classA.words}, inches`}
                   onChange={(e) => f.set(classA.key, e.target.value)}
                   style={{ width: 90, accentColor: 'var(--gilt-deep)' }} />
-                <span style={{ font: 'var(--type-data)', color: 'var(--ink)' }}>{feetInches16(classAAt)}</span>
+                <span style={{ font: 'var(--type-data)', color: 'var(--text-body)' }}>{feetInches16(classAAt)}</span>
               </span>
             )}
           </span>
@@ -758,7 +758,7 @@ export function Proportions({ selection }) {
       {strip}
       <div style={{ flex: 1, display: 'flex', minHeight: 0 }}>
         <PullPane pane="proportions" side="left"
-          style={{ borderRight: '1px solid var(--rule)', overflow: 'auto', padding: '12px 0 20px' }}>
+          style={{ borderRight: '1px solid var(--border-hairline)', overflow: 'auto', padding: '12px 0 20px' }}>
           {listState || <PackList groups={groups} selection={sel} params={params} packId={packId} compact />}
         </PullPane>
         <div data-pack-page={packId} style={{ flex: 1, overflow: 'auto', minHeight: 0, padding: '18px 24px 34px' }}>

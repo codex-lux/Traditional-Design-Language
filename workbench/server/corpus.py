@@ -120,6 +120,20 @@ def kit_cascade(style_id):
     if style_id not in D["styles"]:
         return {"error": f"unknown style '{style_id}'"}
     chain = [style_id] + core._cascade(style_id)  # _cascade returns ancestors only
+    # Phase 17 (WP-17.10): each ban the RESOLVED kit carries, credited to the node that wrote it
+    # (`_bound_by` for a whole slot, `_written_by` for a variant row; WP-16.2), so the cascade
+    # column can say which level forbade what. Read off `_resolved_kit`, the one cascade; a ban a
+    # level wrote and a descendant lifted is not in the resolved kit and is not credited here.
+    bans = {}
+    resolved = core._resolved_kit(style_id) or {}
+    for sid_, rec in sorted(resolved.items()):
+        if not isinstance(rec, dict):
+            continue
+        if rec.get("binding") == "forbidden" and rec.get("_bound_by"):
+            bans.setdefault(rec["_bound_by"], []).append({"slot": sid_, "variant": None})
+        for v in rec.get("variants") or []:
+            if isinstance(v, dict) and v.get("status") == "forbidden" and v.get("_written_by"):
+                bans.setdefault(v["_written_by"], []).append({"slot": sid_, "variant": v.get("id") or v.get("name")})
     rows = []
     for dist, sid in enumerate(chain):
         kit = D["kits"].get(sid)
@@ -130,7 +144,8 @@ def kit_cascade(style_id):
                 counts[b] = counts.get(b, 0) + 1
         node = D["styles"].get(sid) or {}
         rows.append({"distance": dist, "id": sid, "name": node.get("name", sid),
-                     "rank": node.get("rank"), "has_kit": kit is not None, **counts})
+                     "rank": node.get("rank"), "has_kit": kit is not None, **counts,
+                     "bans": bans.get(sid, [])})
     return {"style": style_id, "levels": len(rows), "cascade": rows,
             "note": ("Nearest first. A thin kit is correct, not incomplete — "
                      "a style states only what the cascade does not already give it.")}
@@ -1022,7 +1037,10 @@ def compare_kits(a, b):
                     "differ_in_answer": answer,
                     "differ_in_source_only": len(rows) - answer},
             "proportions": {"a": style_packs(a), "b": style_packs(b)},
-            "plans": {"a": dossier_plan_types(a)["partis"], "b": dossier_plan_types(b)["partis"]}}
+            "plans": {"a": dossier_plan_types(a)["partis"], "b": dossier_plan_types(b)["partis"]},
+            # Phase 17 (WP-17.13): the two kit cascades, for where the pair parts in the graph;
+            # the page reads it from this one payload (`compare/parting.js` decides the node)
+            "cascades": {"a": kit_cascade(a), "b": kit_cascade(b)}}
 
 
 # ----------------------------------------------------------------- record pages (WP-14.23)
@@ -1077,9 +1095,21 @@ def slot(slot_id):
     if not isinstance(out, dict) or "error" in out:
         return out
     b = _resolved_bindings()[slot_id]
+    # PHASE 17 (WP-17.13): who binds it across EVERY style, as four parts that partition them --
+    # a specified binding settled by one node, one a later node EXTENDED (its resolved record's
+    # `_source_chain` names more than one writer), forbidden, and open, which is every style the
+    # other three do not name. Read off the same resolved kits, so the four add up to the styles.
+    D = core._data()
+    spec = set(b["specified"])
+    ext = sorted(sid for sid in spec
+                 if len(((core._resolved_kit(sid) or {}).get(slot_id) or {}).get("_source_chain") or []) > 1)
+    named = spec | set(b["forbidden"])
     out["bindings"] = {
         "specified": b["specified"],
         "forbidden": b["forbidden"],
+        "extends": ext,
+        "open": sorted(sid for sid in D["styles"] if sid not in named),
+        "of": len(D["styles"]),
         "note": ("Read from each style's resolved kit, after the lineage cascade: a style that "
                  "inherits the slot from an ancestor is counted with the ancestor's binding."),
     }
@@ -1316,6 +1346,241 @@ def plate_direction(elev, face=None):
     return {"face": f, "mirrored": m.get(f) if isinstance(m, dict) and f in m else None}
 
 
+# ----------------------------------------------------------------- the first drawable record
+# THE RULE THE TESTS AND THE FRONT DOOR SHARE (Phase 17, WP-17.3). `tests/drawable.py` searched
+# the shipped plans for the first one the refusal verdict lets a surface draw (WP-13.4); the front
+# door's hero plate is that same record, so the search lives here once and the test helper
+# imports it. A literal filename would be one plan's luck: the record is FOUND, cheapest first, by
+# reading the verdict. `DRAWABLE_ORDER` is a hint about cost and never a claim about which record
+# draws -- a stale order costs seconds and nothing else.
+DRAWABLE_ORDER = (
+    "plans/reference/bad-06-open-concept-render.json",
+    "plans/reference/bad-04-log-cabin.json",
+    "plans/reference/bad-03-narrow-lot-townhome.json",
+    "plans/reference/bad-02-flex-room-craftsman.json",
+    "plans/reference/bad-01-grilling-porch-ranch.json",
+    "plans/tidewater-georgian-careful.json",
+    "plans/spec-builder-colonial.json",
+)
+
+
+# THE HERO'S ORDER IS A DIFFERENT HINT AND THE SAME RULE (Phase 17). The cheapest-first order
+# above puts the reference plans' BAD examples first, because they place fastest; read for the
+# front door, that made "Bad Example 6" the product's first picture. The hero walks the shipped
+# plans and the GOOD examples first. The verdict still decides which record draws; only which one
+# is asked first moves, and every shipped record is still asked before the hero says "refused".
+# Measured 29 Oct 2026: good-01 and good-02 are refused after spending their whole proof budget
+# (118 s to reach good-03 cold), so good-03 is asked first -- a cost hint, exactly as above.
+HERO_ORDER = (
+    "plans/reference/good-03-parlor-drawing-room-house.json",
+    "plans/reference/good-01-veranda-gallery-estate.json",
+    "plans/reference/good-02-portico-library-house.json",
+    "plans/reference/good-04-rambling-porch-farmhouse.json",
+    "plans/reference/good-05-lobby-gallery-mansion.json",
+    "plans/reference/good-06-dogtrot-farmhouse-sketch.json",
+    "plans/reference/good-07-diamond-plan-house.json",
+    "plans/tidewater-georgian-careful.json",
+    "plans/spec-builder-colonial.json",
+)
+
+
+def _shipped_plans(order=DRAWABLE_ORDER):
+    """Every shipped plan record, the order hint first and the rest behind it in a stable order."""
+    seen, out = set(), []
+    for rel in order:
+        path = os.path.join(ROOT, rel)
+        if os.path.exists(path):
+            out.append(path)
+            seen.add(os.path.realpath(path))
+    for d in ("plans", os.path.join("plans", "reference")):
+        for name in sorted(os.listdir(os.path.join(ROOT, d))):
+            if not name.endswith(".json"):
+                continue
+            path = os.path.join(ROOT, d, name)
+            if os.path.realpath(path) not in seen:
+                out.append(path)
+                seen.add(os.path.realpath(path))
+    return out
+
+
+_FIRST_DRAWABLE = None
+_FIRST_DRAWABLE_BY = {}
+_HERO_GEN = [0]          # advanced by `reset_front_door`; a sweep writes only into its own generation
+# the budget a record is judged at, and the plate is drawn at it too: one solve, one placement
+SWEEP_CANDIDATES = 60
+
+
+def first_drawable(order=None):
+    """`(path, tried)`: the first shipped record `_placed` does not refuse, and how many were tried.
+    Memoised for the life of the process: the sweep is a solve per record, and the corpus does not
+    move under a running server except through `invalidate`, which clears it."""
+    global _FIRST_DRAWABLE
+    # A SWEEP STARTED BEFORE `reset_front_door` MAY NOT WRITE ITS ANSWER AFTER IT (the second audit
+    # of Phase 17): the generation it began in is compared before the memo is written, so a reload
+    # that lands while a sweep runs is not undone by that sweep finishing.
+    gen = _HERO_GEN[0]
+    if order is not None:
+        key = tuple(order)
+        if key in _FIRST_DRAWABLE_BY:
+            return _FIRST_DRAWABLE_BY[key]
+        res = _sweep(order)
+        if gen == _HERO_GEN[0]:
+            _FIRST_DRAWABLE_BY[key] = res
+        return res
+    if _FIRST_DRAWABLE is None:
+        res = _sweep(DRAWABLE_ORDER)
+        if gen != _HERO_GEN[0]:
+            return res
+        _FIRST_DRAWABLE = res
+    return _FIRST_DRAWABLE
+
+
+def _sweep(order):
+    """`(path, tried)` over every shipped record, `order` first: the first `_placed` does not refuse."""
+    tried = 0
+    found = None
+    for path in _shipped_plans(order):
+        tried += 1
+        try:
+            plan = json.load(open(path, encoding="utf-8"))
+        except (OSError, ValueError):
+            continue
+        placed = _placed(core.copy_json(plan), None, SWEEP_CANDIDATES)
+        if "refused_placement" not in placed and "error" not in placed:
+            found = path
+            break
+    return (found, tried)
+
+
+_HERO = None
+import threading as _threading
+_HERO_LOCK = _threading.Lock()
+
+
+def front_door_hero():
+    """The front door's hero plate (Phase 17, ruled 29 Oct 2026): the plan sheet of the first
+    shipped record the product may draw, whole -- the drawing result with its disclosures, not the
+    SVG alone -- and the record's id and name. Where no record is drawable it says so, with the
+    count it swept, and draws nothing. Memoised beside `first_drawable`."""
+    global _HERO
+    if _HERO is not None:
+        return _HERO
+    # one sweep at a time: two first visitors do not solve the same records twice
+    with _HERO_LOCK:
+        if _HERO is not None:
+            return _HERO
+        return _compute_hero()
+
+
+def _compute_hero():
+    global _HERO
+    gen = _HERO_GEN[0]
+    path, tried = first_drawable(HERO_ORDER)
+    if path is None:
+        out = {"refused": True, "tried": tried, "plan_id": None, "name": None, "drawing": None}
+    else:
+        plan = json.load(open(path, encoding="utf-8"))
+        # THE PLATE IS THE PLACEMENT THAT WAS JUDGED (the second audit of Phase 17): the sweep judged
+        # each record at SWEEP_CANDIDATES and the plate was drawn at `drawing`'s default of 250, a
+        # second solve with its own cache key -- half the sweep's cost, and a "may be drawn" verdict
+        # standing over a placement nobody judged. At the same budget `_placed` answers from cache.
+        res = drawing("plan", plan, candidates=SWEEP_CANDIDATES)
+        if not isinstance(res, dict) or not isinstance(res.get("svg"), str):
+            raise RuntimeError("the judged placement drew no plate")
+        out = {"refused": False, "tried": tried, "plan_id": plan.get("id"),
+               "name": plan.get("name") or plan.get("id"), "drawing": res}
+    if gen == _HERO_GEN[0]:
+        _HERO = out
+    return out
+
+
+_HERO_THREAD = None
+_HERO_THREAD_GEN = [-1]
+_HERO_ERROR = []         # [exception type name, monotonic time] while a sweep's failure stands
+HERO_RETRY_S = 300.0
+import time as _time
+
+
+def front_door_hero_now():
+    """The hero WITHOUT WAITING (Phase 17): the plate where it is ready, and `{"pending": True}`
+    while its sweep runs, which this call starts in the background if nothing has. A page must
+    never hold a request open on a sweep that solves records for up to minutes -- the browser walk
+    measured its first cold load stalling past thirty seconds on exactly that -- so the front door
+    asks again rather than waiting."""
+    global _HERO_THREAD
+    if _HERO is not None:
+        return _HERO
+    # A SWEEP THAT RAISED IS SAID, NOT RETRIED ON EVERY POLL (Phase 17's audit): the first version
+    # swallowed the exception, so the route answered `pending` forever and started the sweep again
+    # each time the page asked. It answers `failed` naming the exception's TYPE -- its text can carry
+    # a path, so the text is logged instead -- and a failure older than HERO_RETRY_S may be tried
+    # again, so one transient fault does not leave the front door unjudged for the process's life.
+    if _HERO_ERROR:
+        if _time.monotonic() - _HERO_ERROR[1] < HERO_RETRY_S:
+            return {"failed": True, "reason": _HERO_ERROR[0]}
+        _HERO_ERROR.clear()
+    alive = _HERO_THREAD is not None and _HERO_THREAD.is_alive()
+    # a thread still running from before a reset is not this generation's sweep: start one that is
+    if not alive or _HERO_THREAD_GEN[0] != _HERO_GEN[0]:
+        gen = _HERO_GEN[0]
+
+        def run():
+            try:
+                front_door_hero()
+            # SystemExit too: `render_plan` and `resolve_kit` raise it, and a thread it ends would leave
+            # the route `pending` and start a sweep on every poll (the second audit of Phase 17)
+            except (Exception, SystemExit) as e:    # noqa: BLE001 -- a failed sweep is unjudged
+                import logging
+                logging.getLogger("tdl.front-door").exception("the hero sweep failed")
+                if gen == _HERO_GEN[0]:
+                    _HERO_ERROR[:] = [type(e).__name__, _time.monotonic()]
+        _HERO_THREAD_GEN[0] = gen
+        _HERO_THREAD = _threading.Thread(target=run, name="front-door-hero", daemon=True)
+        _HERO_THREAD.start()
+    return {"pending": True}
+
+
+def reset_front_door():
+    global _FIRST_DRAWABLE, _HERO
+    _FIRST_DRAWABLE = None
+    _FIRST_DRAWABLE_BY.clear()
+    _HERO = None
+    _HERO_ERROR.clear()
+    _HERO_GEN[0] += 1
+
+
+def elevation_datums(elev):
+    """The horizontal datums an elevation STATES, in feet above grade, for the Drawing Set's
+    datum overlay (Phase 17, WP-17.7). Every figure is read off the elevation record the plate was
+    drawn from and named with the field it came from; a datum the record does not state is not
+    in the list, never a default. The upper floor is stated only where the record names an upper
+    storey, because a one-storey house has none to draw (WP-16.1's `storey_count` finding)."""
+    out = []
+
+    def add(did, inches, source, pack=None):
+        if isinstance(inches, (int, float)):
+            out.append({"id": did, "v_ft": round(inches / 12.0, 4), "from": source, "pack": pack})
+
+    add("grade", 0.0, "the plate's own datum")
+    g = elev.get("ground_grade_to_floor_in")
+    add("ground-floor", g, "ground_grade_to_floor_in")
+    # by the elevation's own storey count (the second audit of Phase 17): `upper_storey_id` is the
+    # GROUND storey's id on a one-storey house (`build/elevation.py` falls back to it), so reading
+    # it drew an upper floor 14.28 ft up on good-03, which has one storey
+    sc = elev.get("storey_count")
+    if isinstance(sc, int) and sc >= 2 and isinstance(g, (int, float)):
+        h = elev.get("ground_storey_height_in")
+        if isinstance(h, (int, float)):
+            add("upper-floor", g + h, "ground_grade_to_floor_in + ground_storey_height_in")
+    wt = elev.get("water_table_belt") or {}
+    if wt.get("applicable"):
+        add("water-table", wt.get("water_table_height_above_finished_grade_in"),
+            "water_table_belt.water_table_height_above_finished_grade_in", wt.get("source"))
+    ec = elev.get("eave_cornice") or {}
+    add("eave", elev.get("grade_to_true_eave_in"), "grade_to_true_eave_in", ec.get("order_pack"))
+    return out
+
+
 def drawing(kind, plan, parti=None, face=None, candidates=250, register="presentation"):
     """Run the build/ pipeline for one drawing and return its SVG, re-tokenized to
     the Drawn Language. Everything is generated from the record — the same modules
@@ -1408,6 +1673,8 @@ def drawing(kind, plan, parti=None, face=None, candidates=250, register="present
                     **plate_direction(elev, face),
                     "date_of_representation": elev.get("date_of_representation"),
                     "glass_module_in": elev.get("glass_module_in"),
+                    # Phase 17: the datums the elevation states, for the overlay (WP-17.7)
+                    "datums": elevation_datums(elev),
                     # the engine and the input digest, as the plan sheet has carried since
                     # WP-11.8: a reader comparing two plates of "the same house" can now tell
                     # whether the INPUT differed (finding J6 of the 4 Sep diagnosis).
@@ -1799,4 +2066,5 @@ def invalidate():
                                        # see it; test_invalidate_clears_every_cache_it_claims_to names it.
     reset_pack_list()                  # WP-14.24: the pack list and its thumbnails, a module
                                        # global of the same kind, named in the same test.
+    reset_front_door()                 # Phase 17: the first drawable record and the hero plate
     return {"reloaded": True}

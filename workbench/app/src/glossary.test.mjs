@@ -28,6 +28,7 @@ import { readFileSync, readdirSync, statSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { FIELDS } from './glossary/fields.js';
+import { stripComments as lexStrip } from './sourceReader.mjs';
 
 const SRC = fileURLToPath(new URL('./', import.meta.url));
 const ROOT = new URL('../../../', import.meta.url);
@@ -47,8 +48,9 @@ function byField(recs) {
 }
 
 // Block comments and line comments, leading or trailing (a `//` after `:` is a URL and is kept).
-const stripComments = (s) => s.replace(/\/\*[\s\S]*?\*\//g, (m) => m.replace(/[^\n]/g, ' '))
-  .replace(/(^|[\s;,{}()])\/\/[^\n]*/g, '$1');
+// THE SHARED LEXER (Phase 17's audit): the regex `/\*[\s\S]*?\*\//` read Transcription's
+// `accept="image/*"` as opening a comment and blanked 2,896 characters of live code, lines 437 to 516 of that file.
+const stripComments = (s) => lexStrip(s);
 
 /* A string literal written as an attribute value: "x", 'x', {'x'}, {"x"} or {`x`} with no
    interpolation. Anything else (a variable, an expression) is not a literal. */
@@ -220,4 +222,10 @@ test('the Glossary draws its family headings and its term page labels from recor
     'a chip, which a Term may not sit in, takes the same record’s word');
   assert.doesNotMatch(src, /\{(?:g|rec)\.family\}\s*</, 'a family printed as its machine value');
   assert.doesNotMatch(src, />\s*\{f\}\s*<\/Chip>/, 'a chip printed as its machine value');
+});
+
+test('this file reads source through the shared lexer, past a string holding "/*" (the second audit of Phase 17)', () => {
+  const s = stripComments('<input accept="image/*" /> const live = 1; {/* a comment */}');
+  assert.ok(s.includes('const live = 1'), 'live code after the attribute is read');
+  assert.ok(!s.includes('a comment'), 'and the comment is not');
 });

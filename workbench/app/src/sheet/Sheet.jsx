@@ -295,7 +295,7 @@ function keyPlanFor(rooms, wall, drs, parts, stair, levelIndex, served, breasts)
 }
 
 export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, selectedRoom,
-                        onPickRoom, onResizeRoom, title, subtitle, styleName }) {
+                        onPickRoom, onResizeRoom, title, subtitle, styleName, pins, onPickPin }) {
   useFontMetrics();          // re-fit every label once EB Garamond itself has arrived
   const ov = overlays || {};
   const fp = placement?.footprint || {};
@@ -457,17 +457,17 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
                            rxMarks, spanCap, drs, wins, diverged, keyMargin: keyPlan.margin, bays });
 
   return (
-    <div style={{ position: 'relative', background: 'var(--paper)', border: '1px solid var(--ink-2)',
+    <div data-ground="vellum" style={{ position: 'relative', background: 'var(--paper)', border: '1px solid var(--ink-2)',
       boxShadow: 'var(--shadow-plate)', padding: '18px 22px 14px' }}>
       {sketch && (
         <div data-working-sketch="" data-sketch-refused={sketch.refused ? sketch.refused.kind : ''}
           style={{ border: `1px solid ${sketch.refused ? 'var(--refusal)' : 'var(--ink-2)'}`,
             padding: '6px 10px', margin: '0 0 10px',
             font: 'var(--type-eyebrow)', letterSpacing: 'var(--tr-eyebrow)',
-            textTransform: 'uppercase', color: sketch.refused ? 'var(--refusal)' : 'var(--ink)' }}>
+            textTransform: 'uppercase', color: sketch.refused ? 'var(--refusal-text)' : 'var(--text-body)' }}>
           working sketch — not a drawing
           <span style={{ font: 'italic var(--fw-reg) 12px/1.45 var(--serif)', letterSpacing: 0,
-            textTransform: 'none', color: 'var(--ink-2)', marginLeft: 10 }}>
+            textTransform: 'none', color: 'var(--text-secondary)', marginLeft: 10 }}>
             {sketch.refused
               ? 'this placement was refused; it is drawn only because a wall drag asked for the '
                 + 'fast search by name, and it may not be exported'
@@ -478,9 +478,9 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
       )}
       <div style={{ textAlign: 'center', margin: '4px 0 2px' }}>
         <div style={{ font: 'var(--fw-med) 17px/1.35 var(--serif)', letterSpacing: 'var(--tr-drawing)',
-          textTransform: 'uppercase', color: 'var(--ink)' }}>{interpunct}</div>
+          textTransform: 'uppercase', color: 'var(--text-body)' }}>{interpunct}</div>
         <div style={{ font: 'var(--fw-reg) 11px/1.4 var(--serif)', letterSpacing: 'var(--tr-caps)',
-          textTransform: 'uppercase', color: 'var(--ink-2)', marginTop: 4 }}>
+          textTransform: 'uppercase', color: 'var(--text-secondary)', marginTop: 4 }}>
           {styleName} &nbsp;·&nbsp; {subtitle}
         </div>
         <div style={{ width: 150, height: 0, borderTop: '1px solid var(--rule)', margin: '9px auto 0' }} />
@@ -999,6 +999,20 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
             offered for, so `elementFromPoint` at the handle returned the partition and
             the gesture the caption promised could not be started at all. An affordance
             painted over is an affordance that does not exist. */}
+        {/* PHASE 17: findings pinned where they fall (`sheet/pins.js`), one ring per room in its
+            worst severity's ink with the count in ink inside, on a vellum disc so it reads on any
+            wash. Under the drag handles, so a handle is never painted over. */}
+        {(pins || []).map((p) => (
+          <g key={'pin' + p.room} data-pin={p.room} data-pin-n={p.n} data-pin-worst={p.worst || ''}
+            role={onPickPin ? 'button' : undefined} aria-label={`${p.n} findings at ${p.room}`}
+            onClick={onPickPin ? (e) => { e.stopPropagation(); onPickPin(p.room); } : undefined}
+            style={{ cursor: onPickPin ? 'pointer' : 'default' }}>
+            <circle cx={p.x} cy={p.y} r={0.95} fill="var(--paper)"
+              style={{ ...PEN.profile, stroke: `var(--sev-${p.worst || 'info'})` }} vectorEffect="non-scaling-stroke" />
+            <text x={p.x} y={p.y + 0.36} textAnchor="middle"
+              style={{ font: 'var(--fw-med) 1px/1 var(--mono)', fontSize: 1.05, fill: 'var(--ink)' }}>{p.n}</text>
+          </g>
+        ))}
         {onResizeRoom && rooms.filter((r) => r.id === selectedRoom).map((r) => (
           <g key={'h' + r.id}>
             <DragHandle x={r.x + r.w} y={r.y + r.h / 2} axis="x" room={r} bays={bays}
@@ -1018,10 +1032,10 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
         display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 24,
         flexWrap: 'wrap' }}>
         <div data-plate-title="" style={{ font: 'var(--fw-med) 10.5px/1.4 var(--serif)',
-          letterSpacing: '.3em', textTransform: 'uppercase', color: 'var(--ink)',
+          letterSpacing: '.3em', textTransform: 'uppercase', color: 'var(--text-body)',
           flex: '1 0 auto' }}>{interpunct}</div>
         <div data-plate-note="" style={{ font: 'italic var(--fw-reg) 13px/1.45 var(--serif)',
-          color: 'var(--ink-2)', textAlign: 'right', flex: '1 1 34ch', minWidth: '22ch' }}>
+          color: 'var(--text-secondary)', textAlign: 'right', flex: '1 1 34ch', minWidth: '22ch' }}>
           {/* FIRST, because it governs everything after it: a plate a reader may not measure
               from must say so before it says what engine drew it. */}
           {sketch

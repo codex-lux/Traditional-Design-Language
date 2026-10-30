@@ -1,0 +1,9 @@
+{
+  "id": "front-door-new-brief",
+  "term": "Start a new brief",
+  "family": "product",
+  "order": 32,
+  "definition": "Begin a different house: state what it must be, its style and floor area first, and compose candidates from it. The house in hand stays where it is until you replace it.",
+  "kind": "editorial",
+  "basis": "docs/workbench.md, the front door since Phase 17: \"Beside it is one primary act and one secondary\", the secondary being to start a new brief."
+}

@@ -70,7 +70,7 @@ function ElementsIndex() {
     <div data-elements-index="" style={{ display: 'flex', flexDirection: 'column', minHeight: 0, flex: 1 }}>
       <FilterStrip filters={filters} right={
         <span data-index-shown={body ? shown.length : undefined} data-index-total={body ? slots.length : undefined}
-          style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>
+          style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)' }}>
           {body ? `${shown.length} of ${slots.length}` : '…'}
         </span>
       }>
@@ -86,7 +86,7 @@ function ElementsIndex() {
           {RECORD_KINDS.map((k) => <KindLink key={k.surface} kind={k} count={perKind[k.cite]} />)}
         </nav>
 
-        {failed && <p style={{ font: 'var(--type-body)', color: 'var(--ink-2)' }}>The slots could not be read.</p>}
+        {failed && <p style={{ font: 'var(--type-body)', color: 'var(--text-secondary)' }}>The slots could not be read.</p>}
         {!body && !failed && <p style={data}>reading the slots…</p>}
         {body && groups.map((g) => {
           const rows = shown.filter((s) => s.group === g.id);

@@ -19,14 +19,14 @@ it, so the mechanism that collided five times is unavailable rather than discour
 Decisions deferred rather than made quietly. Two of these came from authoring the
 Georgian kit end to end, which was the point of doing it.
 
-**284 questions, of which 159 are open.** A question is OPEN while
+**284 questions, of which 158 are open.** A question is OPEN while
 it awaits a ruling; the two HALF CLOSED entries count as open, because a half-closed
 question is an open one. Status words in use, and no others —
 **open:** `OPEN`, `STILL OPEN`, `HALF CLOSED`, `PARTLY`, `IN PROGRESS`;
 **settled:** `CLOSED`, `RESOLVED`, `RULED`, `FIXED`, `CONFIRMED`, `ANSWERED`, `LEFT AS A STANDING DISCLOSURE`, `SUPERSEDED`, `WITHDRAWN`.
 `build/check_ids.py` fails the build on any other word rather than assuming it benign.
 
-## Open — 159
+## Open — 158
 
 Awaiting a ruling. This is the list to read first.
 
@@ -149,7 +149,6 @@ Awaiting a ruling. This is the list to read first.
 | **oq/the-even-bay-fault-judges-the-drawn-parity-of-an-incomplete-front** | OPEN | [the parity of what was drawn, on a front the record says is not the one drawn](open-questions/oq-the-even-bay-fault-judges-the-drawn-parity-of-an-incomplete-front.md) |
 | **oq/the-facade-layer-counts-a-dependencys-windows-as-bays-of-the-front** | OPEN | [an eighth layer reads the main block as the whole house](open-questions/oq-the-facade-layer-counts-a-dependencys-windows-as-bays-of-the-front.md) |
 | **oq/the-front-door-is-chosen-by-a-width-the-record-need-not-state** | OPEN | [the widest-door rule is applied to a field a door record may omit, and a stated 3 ft then beats an unstated 3.5](open-questions/oq-the-front-door-is-chosen-by-a-width-the-record-need-not-state.md) |
-| **oq/the-journey-bars-next-jumps-rows-when-the-strip-wraps** | OPEN | [the act's row is steady, the bar above it is not](open-questions/oq-the-journey-bars-next-jumps-rows-when-the-strip-wraps.md) |
 | **oq/the-massing-states-its-hearth-in-prose-and-a-substring-test-reads-it** | OPEN | [two vocabularies for one fact](open-questions/oq-the-massing-states-its-hearth-in-prose-and-a-substring-test-reads-it.md) |
 | **oq/the-massings-first-roof-default-is-read-raw** | OPEN | [eleven of forty massings name a roof the roof layer does not draw first](open-questions/oq-the-massings-first-roof-default-is-read-raw.md) |
 | **oq/the-measurement-that-defaulted-the-stacking-rule-has-inverted** | OPEN | [the argument for STACK_HARD being off no longer holds on the plan it was made on](open-questions/oq-the-measurement-that-defaulted-the-stacking-rule-has-inverted.md) |
@@ -192,7 +191,7 @@ Awaiting a ruling. This is the list to read first.
 | **oq/which-packs-module-is-a-building-input** | HALF CLOSED — class A settled 26 Sep 2026 (WP-14.33): `room-harmonic` declared, the other two left undeclared by ruling; classes B, C and D unruled | [`trim-classical`'s module is the ceiling the reader sets; which other packs' modules are, and which only look as if they are](open-questions/oq-which-packs-module-is-a-building-input.md) |
 | **oq/which-rooms-take-the-hearth** | OPEN | [the corpus says the end rooms and never which rooms those are](open-questions/oq-which-rooms-take-the-hearth.md) |
 
-## Settled — 125
+## Settled — 126
 
 Ruled, closed or recorded as a standing disclosure. Kept in full: the ruling and the original question both, because what was asked stays legible beside what was decided.
 
@@ -308,6 +307,7 @@ Ruled, closed or recorded as a standing disclosure. Kept in full: the ruling and
 | **oq/the-facade-is-a-result-not-an-input** | RULED 4 Sep 2026 | [the bay rhythm follows the plan's organising move, and one hard test is inverted by saying so](open-questions/oq-the-facade-is-a-result-not-an-input.md) |
 | **oq/the-frozen-fixture-is-regenerated-by-solving** | CLOSED 5 September 2026 (WP-11.8) — keep `auto`, correct the README | [the contract fixture's own README says why that cannot work, and its generator does it anyway](open-questions/oq-the-frozen-fixture-is-regenerated-by-solving.md) |
 | **oq/the-gable-end-draws-a-full-cornice-whatever-the-kit-says-of-the-return** | CLOSED 30 September 2026 (ruled 29 September 2026; executed by WP-16.5; the rake is `oq/the-rake-is-drawn-as-an-edge-and-carries-no-member`) | [what a gable end shows at the eave](open-questions/oq-the-gable-end-draws-a-full-cornice-whatever-the-kit-says-of-the-return.md) |
+| **oq/the-journey-bars-next-jumps-rows-when-the-strip-wraps** | CLOSED | [the act's row is steady, the bar above it is not](open-questions/oq-the-journey-bars-next-jumps-rows-when-the-strip-wraps.md) |
 | **oq/the-link-ink-reads-below-aa** | CLOSED 26 September 2026 (WP-14.33) — answer 2, links are set in ink with the gilt underline | [every link in the workbench is set in an ink that falls short of the common legibility floor](open-questions/oq-the-link-ink-reads-below-aa.md) |
 | **oq/the-parti-dissolved-its-own-dependencies** | RULED 2 Sep 2026 | [a Georgian main block asked to hold a service program the type put in outbuildings](open-questions/oq-the-parti-dissolved-its-own-dependencies.md) |
 | **oq/the-placer-seats-windows-a-foot-apart-and-the-corpus-states-the-pier-three-ways** | CLOSED 1 October 2026 (ruled 29 September 2026; U1–U4 taken as recommended under a standing instruction; executed by WP-16.6; the corner pier is `oq/the-wall-at-the-corner-is-ruled-by-nothing`) | [which ratio governs the wall between two windows](open-questions/oq-the-placer-seats-windows-a-foot-apart-and-the-corpus-states-the-pier-three-ways.md) |

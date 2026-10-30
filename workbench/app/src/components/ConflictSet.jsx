@@ -34,17 +34,17 @@ import { Eyebrow } from './Eyebrow.jsx';
 import { conflictLines, unstatedConflicts, namesSomething, refusalHeadline } from '../sheet/refusal.js';
 
 const PANEL = {
-  border: '1px solid var(--rule)',
+  border: '1px solid var(--border-hairline)',
   borderLeft: '2px solid var(--refusal)',
-  background: 'var(--paper)',
+  background: 'var(--surface-panel)',
   padding: '14px 16px',
   maxWidth: 1000,
   margin: '0 0 14px',
 };
-const LEAD = { font: 'var(--fw-reg) 13.5px/1.6 var(--body)', color: 'var(--ink)', margin: '7px 0 0' };
-const LIST = { font: 'var(--fw-reg) 12.5px/1.6 var(--body)', color: 'var(--ink-2)',
+const LEAD = { font: 'var(--fw-reg) 13.5px/1.6 var(--body)', color: 'var(--text-body)', margin: '7px 0 0' };
+const LIST = { font: 'var(--fw-reg) 12.5px/1.6 var(--body)', color: 'var(--text-secondary)',
   margin: '8px 0 0', paddingLeft: 18 };
-const FINE = { font: 'var(--type-data-s)', color: 'var(--ink-2)', margin: '9px 0 0' };
+const FINE = { font: 'var(--type-data-s)', color: 'var(--text-secondary)', margin: '9px 0 0' };
 
 export function ConflictSet({ refusal, infeasible, drawnBelow = false, where = 'the drawing', note }) {
   if (refusal) {
@@ -60,7 +60,7 @@ export function ConflictSet({ refusal, infeasible, drawnBelow = false, where = '
         </Eyebrow>
         {refusal.error && <p style={LEAD}>{refusal.error}</p>}
         {refusal.facts.length > 0 && (
-          <p style={{ ...FINE, color: 'var(--ink-2)' }}>
+          <p style={{ ...FINE, color: 'var(--text-secondary)' }}>
             hard fact{refusal.facts.length === 1 ? '' : 's'} of the type not held:{' '}
             <span style={{ fontFamily: 'var(--mono)' }}>{refusal.facts.join(', ')}</span>
           </p>

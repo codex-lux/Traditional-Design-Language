@@ -22,7 +22,7 @@ import { Eyebrow } from './Eyebrow.jsx';
 import { siblingsOf, benchOf } from '../dossier/relations.js';
 
 const block = { marginBottom: 20 };
-const note = { font: 'var(--type-data-s)', color: 'var(--ink-2)', margin: 0 };
+const note = { font: 'var(--type-data-s)', color: 'var(--text-secondary)', margin: 0 };
 
 function Links({ nodes, attr }) {
   return (
@@ -69,7 +69,7 @@ export function RelationsPanel({ dossier, styleId, taxa }) {
         {bench && (
           <>
             <p style={{ margin: '0 0 3px' }}>
-              <a href={formatHash('workbench', {}, {})} style={{ font: 'var(--fw-reg) 14px/1.4 var(--serif)', color: 'var(--ink)' }}>
+              <a href={formatHash('workbench', {}, {})} style={{ font: 'var(--fw-reg) 14px/1.4 var(--serif)', color: 'var(--text-body)' }}>
                 {bench.title || bench.id || 'the plan'}
               </a>
             </p>

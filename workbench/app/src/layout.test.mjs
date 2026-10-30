@@ -202,7 +202,8 @@ test('no pane takes a third of the window, at every width, including the narrow 
 });
 
 test('clampAll leaves a layout that already fits completely alone', async () => {
-  const { layout } = await fresh();
+  // the assistant open by the reader's own stored choice: since Phase 17 it is folded otherwise
+  const { layout } = await fresh({ [KEY]: JSON.stringify({ widths: {}, collapsed: { rail: false } }) });
   layout.setWidth('nav', 200);
   layout.setWidth('rail', 300);
   layout.clampAll(1920);
@@ -325,7 +326,8 @@ test('a private window that refuses to store still gets a working layout', async
 
 test('the narrow fold is the ruled width, and PANES is unchanged by it', async () => {
   const { NARROW_FOLD_PX, PANES } = await fresh();
-  assert.equal(NARROW_FOLD_PX, 1500);
+  // ruled 29 Oct 2026 (Phase 17): the assistant opens only when summoned, at every width
+  assert.equal(NARROW_FOLD_PX, Infinity);
   assert.equal(PANES.rail.label, 'the rail', 'the pane keeps its name: the walk and the spine read it');
   assert.ok(PANES.kit, 'PANES.kit is kept');
 });
@@ -339,10 +341,12 @@ test('nothing stored and a first clampAll at 1280: the assistant starts folded',
   assert.equal(layout.isOpen('nav'), true, 'the surface list is not the assistant');
 });
 
-test('nothing stored and a first clampAll at 1680: the assistant stays open', async () => {
+test('nothing stored and a first clampAll at 1680: the assistant starts folded too (Phase 17)', async () => {
   const { layout, PANES } = await fresh();
   layout.clampAll(1680);
-  assert.equal(layout.isOpen('rail'), true);
+  assert.equal(layout.isOpen('rail'), false, 'it opens only when summoned');
+  // and summoned, it opens at its own width
+  layout.setCollapsed('rail', false);
   assert.equal(layout.width('rail'), PANES.rail.def);
 });
 
@@ -358,9 +362,10 @@ test('a stored folded assistant stays folded at 1680', async () => {
   assert.equal(layout.isOpen('rail'), false);
 });
 
-test('only the first clampAll folds: 1680 then 1280 leaves it open', async () => {
+test('only the first clampAll folds: once opened at 1680, 1280 leaves it open', async () => {
   const { layout } = await fresh();
   layout.clampAll(1680);
+  layout.setCollapsed('rail', false);
   layout.clampAll(1280);
   assert.equal(layout.isOpen('rail'), true, 'a narrowed window has not dismissed the pane');
   // and the other way: a reader who unfolds it on a narrow window keeps it through a resize
@@ -372,13 +377,12 @@ test('only the first clampAll folds: 1680 then 1280 leaves it open', async () =>
   assert.equal(b.layout.isOpen('rail'), true);
 });
 
-test('1499 folds and 1500 does not', async () => {
-  const a = await fresh();
-  a.layout.clampAll(1499);
-  assert.equal(a.layout.isOpen('rail'), false);
-  const b = await fresh();
-  b.layout.clampAll(1500);
-  assert.equal(b.layout.isOpen('rail'), true);
+test('every width folds: 1499, 1500 and a 3840 px screen alike (Phase 17)', async () => {
+  for (const w of [1499, 1500, 3840]) {
+    const a = await fresh();
+    a.layout.clampAll(w);
+    assert.equal(a.layout.isOpen('rail'), false, String(w));
+  }
 });
 
 test('what is not a stored choice does not stop the fold', async () => {

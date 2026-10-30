@@ -1,0 +1,9 @@
+{
+  "id": "candidate-may-be-refused",
+  "term": "may be refused",
+  "family": "house",
+  "order": 35,
+  "definition": "Nobody has yet asked this candidate's placement the hard facts of its type, so the bench will place it and may refuse it. It is unjudged, never assumed drawable.",
+  "kind": "editorial",
+  "basis": "docs/workbench.md, the Candidate Set since Phase 17: \"unjudged: a hatched ring, because nobody asked the type's facts of it, so the bench may yet refuse it\"."
+}

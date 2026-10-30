@@ -251,9 +251,9 @@ function NumeralKey({ plan }) {
           <Eyebrow as="div" style={{ marginBottom: 3 }}>{assemblyWords(g.asm)}</Eyebrow>
           {g.rows.map((r) => (
             <div key={r.member} data-key-row={r.numeral ?? 'undrawn'}
-              style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', display: 'flex', gap: 8 }}>
-              <span style={{ minWidth: 18, textAlign: 'right', color: 'var(--ink)' }}>{r.numeral ?? '–'}</span>
-              <span style={{ fontFamily: 'var(--serif)', color: 'var(--ink)' }}>{r.name}</span>
+              style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)', display: 'flex', gap: 8 }}>
+              <span style={{ minWidth: 18, textAlign: 'right', color: 'var(--text-body)' }}>{r.numeral ?? '–'}</span>
+              <span style={{ fontFamily: 'var(--serif)', color: 'var(--text-body)' }}>{r.name}</span>
               <span>{r.words}</span>
               {r.drawn === false && <span>· stands beside a drawn member; not drawn</span>}
               {r.unconstructed && <span>· <Term id="figure-drawn-from-record">drawn plain</Term></span>}
@@ -308,7 +308,7 @@ export function AssemblyPlate({ data }) {
             height={`${Math.ceil(plan.height) + 6}px`}>
             <FrameSvg plan={plan} name={data.name} hatchId={`hatch-${hatchBase}-${plan.index}`} />
           </PlateViewer>
-          <div data-key-terms="" style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', margin: '6px 2px 0' }}>
+          <div data-key-terms="" style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)', margin: '6px 2px 0' }}>
             <Term id="member" /> · <Term id="wall-plane" /> · <Term id="part" />
             {plan.items.some((it) => it.zones) && <> · <Term id="zone" /></>}
           </div>
@@ -317,7 +317,7 @@ export function AssemblyPlate({ data }) {
         </div>
       ))}
       {layout.unplaced.length > 0 && (
-        <ul data-unplaced="" style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', margin: '4px 0 10px' }}>
+        <ul data-unplaced="" style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)', margin: '4px 0 10px' }}>
           {layout.unplaced.map((u) => (
             <li key={`${u.id}-${u.index}`}>{u.id ? assemblyWords(u.id) : `#${u.index}`}: not drawn — {u.reason}</li>
           ))}
@@ -336,7 +336,7 @@ function FrameFoot({ plan }) {
   const captions = [upright && 'upright', turned && 'turned'].filter(Boolean).join(' ');
   return (
     <p data-foot={plan.index} data-captions={captions}
-      style={{ font: 'italic var(--fw-reg) 13px/1.5 var(--serif)', color: 'var(--ink-2)', margin: '4px 2px 0' }}>
+      style={{ font: 'italic var(--fw-reg) 13px/1.5 var(--serif)', color: 'var(--text-secondary)', margin: '4px 2px 0' }}>
       <Term id="figure-drawn-from-record" />
       {upright && <> · <Term id="figure-drawn-upright" /></>}
       {turned && <> · <Term id="figure-drawn-turned" /></>}

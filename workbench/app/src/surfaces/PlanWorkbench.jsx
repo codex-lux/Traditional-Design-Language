@@ -31,6 +31,8 @@ import { Term } from '../components/Term.jsx';
 import { useGlossary } from '../api/useGlossary.js';
 import { describeTerm } from '../glossary/termView.js';
 import { unjudgedReason } from '../faults/unjudged.js';
+import { pinsOf } from '../sheet/pins.js';
+import { levelRooms } from '../sheet/derive.js';
 
 /* Findings carry a server-minted id now (OQ 32) — built from the layer, the room and the rule
    or fault id, which are what a finding is ABOUT. The hash below is the old client-side key and
@@ -368,7 +370,7 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
         <h2 style={{ font: 'var(--fw-reg) var(--fs-d2)/1.1 var(--display)', margin: '8px 0 10px' }}>
           Load a plan record
         </h2>
-        <p style={{ font: 'var(--fw-reg) 14px/1.6 var(--body)', color: 'var(--ink-2)', margin: '0 0 16px' }}>
+        <p style={{ font: 'var(--fw-reg) 14px/1.6 var(--body)', color: 'var(--text-secondary)', margin: '0 0 16px' }}>
           Open one of the corpus's example plans, compose candidates from a brief,
           or paste a record. The drawing is a render of the record — nothing is drawn that
           is not in it.
@@ -381,10 +383,10 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
             })}>{e}</Chip>
           ))}
         </div>
-        <label style={{ display: 'block', marginTop: 18, font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>
+        <label style={{ display: 'block', marginTop: 18, font: 'var(--type-data-s)', color: 'var(--text-secondary)' }}>
           …or paste a plan record JSON
           <textarea rows={4} style={{ display: 'block', width: '100%', marginTop: 6,
-            background: 'var(--paper-mat)', border: '1px solid var(--rule-soft)', color: 'var(--ink)',
+            background: 'var(--surface-well)', border: '1px solid var(--border-soft)', color: 'var(--text-body)',
             font: 'var(--type-data-s)', padding: 8 }}
             onBlur={(e) => {
               try {
@@ -523,7 +525,9 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
   const infeasible = refusal ? null : placement?.geometry_report?.infeasible;
   // `--verd` names no token; the stylesheet's is `--verdigris`, so a green disclosure line drew in
   // the inherited ink (WP-14.33's audit).
-  const TONE = { iron: 'var(--sev-fatal)', copper: 'var(--sepia)', verd: 'var(--verdigris)' };
+  // and a green one is a DUTY, because these are words (Phase 17's audit: `--verdigris` is green-deep, which
+  // read 3.52 : 1 on the instrument; a map reaches `color:` by a route no source scan reads)
+  const TONE = { iron: 'var(--sev-fatal)', copper: 'var(--sepia)', verd: 'var(--sev-cleared)' };
   const levelIndices = (plan.levels || []).map((l) => l.index ?? 0);
   const declared = plan.adjacencies || [];
 
@@ -542,7 +546,7 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
             <span style={{ display: 'inline-flex', alignItems: 'center', gap: 9 }}>
               <Chip on={strict} onClick={() => setStrict(!strict)}
                 title={describeTerm(glossary, 'strict-completeness').title}>strict</Chip>
-              <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>candidates {seeds}</span>
+              <span style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)' }}>candidates {seeds}</span>
               <input type="range" min="40" max="800" step="40" value={seeds} aria-label="how many candidate placements the search tries"
                 onChange={(e) => setSeeds(+e.target.value)} style={{ width: 84, accentColor: 'var(--gilt-deep)' }} />
               <ActionChip onClick={() => runEvaluate(plan, { engine: 'cp' })} affix="⊢"
@@ -581,9 +585,12 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
         </span>
       }>
         <Eyebrow as="span">style</Eyebrow>
+        <span style={{ font: 'var(--fw-reg) 13px/1.3 var(--body)', color: 'var(--text-secondary)', whiteSpace: 'nowrap' }}>
+          <Term id="judge-this-plan-as" />
+        </span>
         <StylePicker value={plan.style} onChange={(v) => planDoc.update(mutations.setStyle(v))}
           label="Judge this plan against a different style — findings appear and clear" width={190} />
-        <span style={{ width: 1, height: 18, background: 'var(--rule)' }} />
+        <span style={{ width: 1, height: 18, background: 'var(--border-hairline)' }} />
         <ChipGroup label="level">
           <Eyebrow as="span">level</Eyebrow>
           {levelIndices.map((i) => (
@@ -593,7 +600,7 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
           ))}
         </ChipGroup>
         <Chip on={ghost} onClick={() => setGhost(!ghost)}>ghost below</Chip>
-        <span style={{ width: 1, height: 18, background: 'var(--rule)' }} />
+        <span style={{ width: 1, height: 18, background: 'var(--border-hairline)' }} />
         <FilterGroup label="overlays"
           active={(ov.daylight ? 1 : 0) + (ov.wet ? 1 : 0) + (ov.privacy ? 1 : 0)}
           summary={[ov.daylight && 'daylight', ov.wet && 'wet', ov.privacy && 'privacy']
@@ -609,8 +616,8 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
       <div style={{ flex: 1, display: 'flex', minHeight: 0 }}>
         {/* the critique */}
         <PullPane pane="workbench" side="left"
-          style={{ borderRight: '1px solid var(--rule)', display: 'flex', flexDirection: 'column' }}>
-          <div style={{ padding: '12px 12px 10px', borderBottom: '1px solid var(--rule)' }}>
+          style={{ borderRight: '1px solid var(--border-hairline)', display: 'flex', flexDirection: 'column' }}>
+          <div style={{ padding: '12px 12px 10px', borderBottom: '1px solid var(--border-hairline)' }}>
             <SeverityTally counts={counts} active={sev} onSelect={setSev} />
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginTop: 10 }}>
               <ChipGroup label="finding layer">
@@ -625,7 +632,7 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
             </div>
             {(room || sev || layer) && (
               <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginTop: 9 }}>
-                <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>
+                <span style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)' }}>
                   {shown.length} of {findings.length} findings shown
                   {room ? ` · at ${room}` : ''}
                 </span>
@@ -634,7 +641,7 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
               </div>
             )}
             {newKeys > 0 && (
-              <div style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', marginTop: 7 }}>
+              <div style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)', marginTop: 7 }}>
                 {newKeys} finding{newKeys === 1 ? '' : 's'} new since the last evaluation
               </div>
             )}
@@ -644,11 +651,11 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
             transition: 'opacity .2s' }}>
             {byLayer.map((g) => (
               <div key={g.layer}>
-                <div style={{ position: 'sticky', top: 0, zIndex: 1, background: 'var(--paper-deep)',
-                  borderBottom: '1px solid var(--rule)', padding: '5px 10px', display: 'flex',
+                <div style={{ position: 'sticky', top: 0, zIndex: 1, background: 'var(--surface-raised)',
+                  borderBottom: '1px solid var(--border-hairline)', padding: '5px 10px', display: 'flex',
                   justifyContent: 'space-between' }}>
                   <Eyebrow tone="secondary" as="span">{g.layer}</Eyebrow>
-                  <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>{g.rows.length}</span>
+                  <span style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)' }}>{g.rows.length}</span>
                 </div>
                 {g.rows.map((f) => (
                   <FindingRow key={f.id} finding={f} dense expanded={openId === f.id}
@@ -677,7 +684,7 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
             ))}
 
             {judgmentGroups.length > 0 && (
-              <div data-judgment-panel="" style={{ borderTop: '2px solid var(--rule)', padding: '12px 12px 16px' }}>
+              <div data-judgment-panel="" style={{ borderTop: '2px solid var(--border-hairline)', padding: '12px 12px 16px' }}>
                 {judgmentGroups.map((g) => {
                   const faultRows = g.faults.slice(0, FAULT_ROWS);
                   const more = g.faults.length - faultRows.length;
@@ -694,7 +701,7 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
                           check's `constraint_summary.unjudged`. Each is named apart, so the masthead's
                           number is visibly one part of this one rather than a contradiction of it. */}
                       <div data-judgment-split="" style={{ display: 'flex', flexWrap: 'wrap', gap: 14,
-                        font: 'var(--type-data-s)', color: 'var(--ink-2)', marginBottom: 9 }}>
+                        font: 'var(--type-data-s)', color: 'var(--text-secondary)', marginBottom: 9 }}>
                         {g.constraints.length > 0 && <span><Term id="constraint" /> · {g.constraints.length}</span>}
                         {g.faults.length > 0 && <span><Term id="fault" /> · {g.faults.length}</span>}
                       </div>
@@ -713,7 +720,7 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
                         </div>
                       ))}
                       {more > 0 && (
-                        <div style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', marginBottom: 8 }}>
+                        <div style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)', marginBottom: 8 }}>
                           and {more} more
                         </div>
                       )}
@@ -724,17 +731,17 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
             )}
 
             {declared.length > 0 && (
-              <div style={{ borderTop: '1px solid var(--rule)', padding: '12px', background: 'var(--paper-mat)' }}>
+              <div style={{ borderTop: '1px solid var(--border-hairline)', padding: '12px', background: 'var(--surface-well)' }}>
                 <Eyebrow style={{ marginBottom: 8 }}>you asserted</Eyebrow>
                 {declared.map((a, i) => (
                   <p key={i} style={{ fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: 15,
-                    lineHeight: 1.5, color: 'var(--ink-2)', margin: '0 0 6px', display: 'flex', gap: 8 }}>
+                    lineHeight: 1.5, color: 'var(--text-secondary)', margin: '0 0 6px', display: 'flex', gap: 8 }}>
                     <span style={{ flex: 1 }}>{a.a} — {a.relation} — {a.b}</span>
                     <button type="button" onClick={() => planDoc.update(mutations.revokeRelation(i))}
-                      style={{ font: 'var(--type-data-s)', color: 'var(--gilt-deep)' }}>revoke</button>
+                      style={{ font: 'var(--type-data-s)', color: 'var(--text-accent)' }}>revoke</button>
                   </p>
                 ))}
-                <p style={{ font: 'var(--fw-reg) 12px/1.5 var(--body)', color: 'var(--ink-2)', margin: 0 }}>
+                <p style={{ font: 'var(--fw-reg) 12px/1.5 var(--body)', color: 'var(--text-secondary)', margin: 0 }}>
                   An assertion clears a finding only if the validator clears it.
                 </p>
               </div>
@@ -744,7 +751,7 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
 
         {/* the sheet */}
         <div style={{ flex: 1, overflow: 'auto', minHeight: 0, padding: '20px 26px 30px',
-          background: 'var(--paper)' }}>
+          background: 'var(--surface-panel)' }}>
           <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between',
             gap: 20, marginBottom: 14 }}>
             <div>
@@ -753,7 +760,7 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
                 {' '}· both levels solved together
               </Eyebrow>
               <div style={{ font: 'var(--type-data-s)',
-                color: evalError ? 'var(--sev-serious)' : 'var(--ink-2)', marginTop: 6 }}>
+                color: evalError ? 'var(--sev-serious)' : 'var(--text-secondary)', marginTop: 6 }}>
                 {evalError
                   ? `not evaluated: ${evalError} — what is shown below is the LAST successful evaluation`
                   : reviseError
@@ -796,7 +803,7 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
               </div>
             </div>
             {check && (
-              <div style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>
+              <div style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)' }}>
                 check {lastEval.timing_ms?.check} ms · place {lastEval.timing_ms?.place ?? '—'} ms
               </div>
             )}
@@ -808,29 +815,29 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
               labelled — not a solution": true of the 25 Aug ruling and false of the 15 Sep one,
               which is that no user-facing surface draws a refused placement at all. */}
           {gaveUp.length > 0 && (
-            <div style={{ maxWidth: 1000, border: '1px solid var(--rule)',
+            <div style={{ maxWidth: 1000, border: '1px solid var(--border-hairline)',
               borderLeft: '3px solid var(--sev-fatal)', padding: '10px 14px', margin: '0 0 14px' }}>
               <Eyebrow tone="secondary">what this placement gave up</Eyebrow>
-              <ul style={{ font: 'var(--fw-reg) 12.5px/1.6 var(--body)', color: 'var(--ink-2)',
+              <ul style={{ font: 'var(--fw-reg) 12.5px/1.6 var(--body)', color: 'var(--text-secondary)',
                 margin: '6px 0 0', paddingLeft: 18 }}>
                 {gaveUp.map((d) => (
-                  <li key={d.id} style={{ color: TONE[d.tone] || 'var(--ink-2)' }}>{d.text}</li>
+                  <li key={d.id} style={{ color: TONE[d.tone] || 'var(--text-secondary)' }}>{d.text}</li>
                 ))}
               </ul>
-              <p style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', margin: '8px 0 0' }}>
+              <p style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)', margin: '8px 0 0' }}>
                 Each line is a count the placement record already carried and no surface read.
                 A proof against a relaxed hard set is a proof of a different question.
               </p>
             </div>
           )}
           {underBand?.count > 0 && (
-            <div style={{ maxWidth: 1000, border: '1px solid var(--rule)',
+            <div style={{ maxWidth: 1000, border: '1px solid var(--border-hairline)',
               borderLeft: '3px solid var(--sepia)', padding: '10px 14px', margin: '0 0 14px' }}>
               <Eyebrow tone="secondary">
                 {underBand.count} room{underBand.count === 1 ? '' : 's'} placed below
                 {' '}its own band
               </Eyebrow>
-              <ul style={{ font: 'var(--fw-reg) 12.5px/1.6 var(--body)', color: 'var(--ink-2)',
+              <ul style={{ font: 'var(--fw-reg) 12.5px/1.6 var(--body)', color: 'var(--text-secondary)',
                 margin: '6px 0 0', paddingLeft: 18 }}>
                 {underBand.rooms.map((r) => (
                   <li key={r.room}>
@@ -839,7 +846,7 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
                   </li>
                 ))}
               </ul>
-              <p style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', margin: '8px 0 0' }}>
+              <p style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)', margin: '8px 0 0' }}>
                 The record still declares the full size; only the placement is short, and nothing
                 downstream reads these coordinates — so without this panel the trade is invisible.
                 A room below its band is a defect that survives the life of the building.
@@ -852,23 +859,23 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
               and data-findings are two routes' counts of one placement, for the walk. */}
           {assessment && (
             <div data-panel="critique" data-classified={classified} data-findings={nonInfo}
-              style={{ maxWidth: 1000, border: '1px solid var(--rule)',
-                borderLeft: `3px solid ${assessmentStale ? 'var(--ink-4)' : 'var(--gilt-deep)'}`,
+              style={{ maxWidth: 1000, border: '1px solid var(--border-hairline)',
+                borderLeft: `3px solid ${assessmentStale ? 'var(--border-hairline)' : 'var(--gilt-deep)'}`,
                 padding: '10px 14px', margin: '0 0 14px', opacity: assessmentStale ? 0.7 : 1 }}>
               <Eyebrow tone="secondary">
                 critique · by class{assessment.engine ? ` · ${engineLabel(assessment.engine)}` : ''}
                 {assessment.key ? ` · key [${assessment.key.join(', ')}]` : ''}
               </Eyebrow>
               <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap', marginTop: 6,
-                font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>
+                font: 'var(--type-data-s)', color: 'var(--text-secondary)' }}>
                 {CLASSES.map((c) => (
-                  <span key={c} style={{ color: 'var(--ink-2)' }}>
+                  <span key={c} style={{ color: 'var(--text-secondary)' }}>
                     {CLASS_SHORT[c]} {assessment.counts[c] || 0}
                   </span>
                 ))}
-                <span style={{ color: 'var(--ink-2)' }}>could not evaluate {assessment.couldNot}</span>
+                <span style={{ color: 'var(--text-secondary)' }}>could not evaluate {assessment.couldNot}</span>
               </div>
-              <p style={{ font: 'var(--type-data-s)', color: assessmentStale ? 'var(--sev-serious)' : 'var(--ink-2)', margin: '8px 0 0' }}>
+              <p style={{ font: 'var(--type-data-s)', color: assessmentStale ? 'var(--sev-serious)' : 'var(--text-secondary)', margin: '8px 0 0' }}>
                 {assessmentStale
                   ? 'this critique is of an earlier evaluation — the record has changed; run it again'
                   : 'each finding row carries its class; a move answers it, or it is the engine\'s, the critic\'s own, or the architect\'s. Nothing here calls the plan good.'}
@@ -878,7 +885,7 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
           <RevisionPanel report={plan.revision_report} live={live} statements={statements}
             onCiteFinding={(id) => { setOpenId(id); const f = findings.find((x) => x.id === id); if (f?.at) setRoom(f.at); }} />
           {placement?.geometry_report?.solver?.refinements?.length > 0 && (
-            <p style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', margin: '0 0 10px' }}>
+            <p style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)', margin: '0 0 10px' }}>
               solver refinements ({placement.geometry_report.solver.refinements.length}):{' '}
               {placement.geometry_report.solver.refinements.slice(0, 2).join(' · ')}
               {placement.geometry_report.solver.refinements.length > 2 ? ' · …' : ''}
@@ -906,6 +913,10 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
                   return below.length ? Math.max(...below) : null;
                 })()}
                 selectedRoom={room}
+                // Phase 17: the findings in view, pinned on the rooms they name (`sheet/pins.js`);
+                // a pin is the room's own filter, the same act as clicking the room
+                pins={placement ? pinsOf(shown, levelRooms(plan, placement, level)) : []}
+                onPickPin={(id) => { setRoom(room === id ? null : id); setLayer(null); }}
                 onPickRoom={(r) => { setRoom(room === r.id ? null : r.id); setLayer(null); }}
                 onResizeRoom={(r, axis, size) => {
                   // The record declares width_ft as the SHORT dimension; the placed rect
@@ -940,7 +951,7 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
           <p data-engine-claim={claim.verdict} data-engine-name={claim.engine || ''}
             data-placement-refused={refusal ? refusal.kind : ''}
             data-working-sketch={sketch ? 'true' : ''}
-            style={{ font: 'var(--fw-reg) 12.5px/1.6 var(--body)', color: 'var(--ink-2)',
+            style={{ font: 'var(--fw-reg) 12.5px/1.6 var(--body)', color: 'var(--text-secondary)',
               margin: '16px 0 0', maxWidth: '76ch' }}>
             {/* A REFUSAL IS SAID BEFORE THE ENGINE IS NAMED. The sentences below are about a
                 placement on a sheet, and on a refusal there is no sheet: without this the

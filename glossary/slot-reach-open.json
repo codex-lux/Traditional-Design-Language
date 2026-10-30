@@ -1,0 +1,9 @@
+{
+  "id": "slot-reach-open",
+  "term": "open, in the end",
+  "family": "product",
+  "order": 45,
+  "definition": "The styles in which nothing in the whole cascade specifies or forbids this slot, so it is a free choice. A style whose own kit says nothing but whose ancestor binds the slot is not counted here.",
+  "kind": "editorial",
+  "basis": "docs/workbench.md, the Elements since Phase 17: the bar is \"read off each style's resolved kit after the lineage cascade\": \"open, where nothing in the cascade specifies or forbids the slot\"."
+}
