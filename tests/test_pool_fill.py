@@ -214,9 +214,9 @@ def test_the_passed_over_reason_is_in_the_terms_of_the_standing():
 
 
 def test_set_drawability_gives_two_counts_and_names_each_unjudged_fact():
-    cards = [_card("a", drawability={"drawable": True, "unjudged": ["hearth"]}),
-             _card("b", drawability={"drawable": False, "unjudged": ["hearth"]}),
-             _card("c", refused=dict(REFUSED), drawability={"drawable": False, "unjudged": []}),
+    cards = [_card("a", drawability={"where_judged": True, "drawable": False, "unjudged": ["hearth"]}),
+             _card("b", drawability={"where_judged": False, "drawable": False, "unjudged": ["hearth"]}),
+             _card("c", refused=dict(REFUSED), drawability={"where_judged": False, "unjudged": []}),
              _card("d", stop=CO.PLACEMENT_UNJUDGED)]
     d = CO.set_drawability(cards)
     assert d == {"returned": 4, "not_refused": 2, "drawable_where_judged": 1,
@@ -224,6 +224,32 @@ def test_set_drawability_gives_two_counts_and_names_each_unjudged_fact():
     line = CO.drawability_line(d)
     assert "2 not refused, 1 drawable where judged (hearth unjudged on 2)" in line
     assert "not counted as held" in line
+
+
+def test_a_card_counts_drawable_where_judged_off_the_instruments_verdict_and_not_its_strict_flag(monkeypatch):
+    """Integrating the audit's batches (30 Oct 2026): batch D's card read `assess()["drawable"]`,
+    which batch B made the STRICT state. No composed house reaches it while none states a fire, so
+    every set read "0 drawable where judged" over houses the instrument calls drawable where judged.
+    Driven on `assess` itself, for each of the four verdicts."""
+    DR = CO._mod("drawability", os.path.join(ROOT, "build", "drawability.py"))
+    plan = {"id": "x", "geometry_report": {"solver": {}},
+            "levels": [{"index": 0, "rooms": [{"id": "r", "geometry": {"x": 0, "y": 0, "w": 1, "h": 1}}]}]}
+    want = {DR.DRAWABLE: True, DR.DRAWABLE_WHERE_JUDGED: True, DR.NOT_DRAWABLE: False,
+            DR.COULD_NOT_EVALUATE: False}
+    for verdict, where in want.items():
+        fake = {"verdict": verdict, "drawable": verdict == DR.DRAWABLE,
+                "unjudged": ["hearth"] if verdict == DR.DRAWABLE_WHERE_JUDGED else []}
+        monkeypatch.setattr(DR, "assess", lambda p, _f=fake: dict(_f))
+        card = CO.card_drawability(plan)
+        assert card["verdict"] == verdict and card["where_judged"] is where, (verdict, card)
+    assert card["unjudged"] == []
+    monkeypatch.setattr(DR, "assess", lambda p: {"verdict": DR.DRAWABLE_WHERE_JUDGED, "drawable": False,
+                                                 "unjudged": ["hearth", "continuity_whole_run"]})
+    card = CO.card_drawability(plan)
+    assert card["unjudged"] == ["hearth", "continuity_whole_run"], "the instrument's list, unrenamed"
+    d = CO.set_drawability([{"parti": "a", "refused": None, "revision": {"stop_reason": "no-rounds"},
+                             "drawability": card}])
+    assert d["drawable_where_judged"] == 1, d
 
 
 def test_the_pool_fill_line_counts_refused_and_unjudged_apart():

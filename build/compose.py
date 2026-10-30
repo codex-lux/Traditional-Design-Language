@@ -2179,10 +2179,14 @@ def card_drawability(plan):
         return None
     DR = _mod("drawability", f"{ROOT}/build/drawability.py")
     a = DR.assess(plan)
-    unjudged = sorted(k for k, v in (a.get("facts") or {}).items() if v == "unjudged")
-    if a.get("continuity_whole_run") == "unjudged" and "bearing" not in unjudged:
-        unjudged.append("bearing over its whole run")
-    return {"drawable": bool(a.get("drawable")), "unjudged": unjudged,
+    # THE INSTRUMENT'S OWN VERDICT, NEVER ITS `drawable` FLAG (integrating the audit's batches, 30 Oct
+    # 2026): `assess`'s `drawable` is the STRICT state, which no composed house reaches while no
+    # composed house states a fire, so a count keyed on it read 0 on every set. "Drawable where
+    # judged" is DRAWABLE or DRAWABLE WHERE JUDGED, and `unjudged` is the instrument's own list.
+    return {"verdict": a.get("verdict"),
+            "where_judged": a.get("verdict") in (DR.DRAWABLE, DR.DRAWABLE_WHERE_JUDGED),
+            "drawable": bool(a.get("drawable")),
+            "unjudged": list(a.get("unjudged") or []),
             "downgraded": list(a.get("downgraded") or []),
             "rooms_over_band": len(a.get("rooms_over_band") or [])}
 
@@ -2194,7 +2198,7 @@ def set_drawability(cards):
     finds every judged fact held and no room past its band), with each fact nobody could judge
     counted by name over the not-refused cards."""
     placed = [c for c in cards if placement_standing(c) == "placed"]
-    where = [c for c in placed if (c.get("drawability") or {}).get("drawable")]
+    where = [c for c in placed if (c.get("drawability") or {}).get("where_judged")]
     unjudged = {}
     for c in placed:
         for f in (c.get("drawability") or {}).get("unjudged") or []:
