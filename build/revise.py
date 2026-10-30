@@ -231,7 +231,16 @@ def _attrib(before, after):
 
 
 def revise(plan, rounds=6, engine="auto", candidates=250, budget_s=None, brief=None, place=True,
-           parti=None, on_round=None, C=None, seed=7, time_limit_s=25.0, surfaced=None):
+           parti=None, on_round=None, C=None, seed=7, time_limit_s=25.0, surfaced=None,
+           reserve_round=False):
+    # `reserve_round` (R12, ruled 30 Oct 2026, "the compose budget becomes a REAL ceiling"): where
+    # True, a round -- a single-move retry, or the reclaim's re-placement after the rounds -- is
+    # begun only where what is left of `budget_s` can hold it, and one that cannot is REFUSED AND
+    # SAID in `report["budget_refused"]`. A round re-places, so what it may cost is what this
+    # house's FIRST placement cost (measured here, on this engine and this time limit), and on an
+    # engine that runs the prover never less than the solve's own `time_limit_s`, because a prover
+    # that decided fast once may run to its limit after a move. Every other caller leaves it False
+    # and the loop is unchanged: the budget is tested at the top of a round, as it always was.
     core = _mod("tdlcore", os.path.join(ROOT, "mcp_server", "core.py"))
     C = C or PC.load_corpus()
     parti_rec = core.load_parti(parti) if isinstance(parti, str) else parti
@@ -265,6 +274,25 @@ def revise(plan, rounds=6, engine="auto", candidates=250, budget_s=None, brief=N
 
     crit = _crit(plan)
     plan = crit["plan"]                      # carries the placement from here on
+    first_placement_s = time.perf_counter() - t0
+    round_cost_s = (max(first_placement_s, 0.0 if engine == "heuristic" else float(time_limit_s))
+                    if reserve_round else 0.0)
+    budget_refused = None
+
+    def _cannot_fit(what):
+        # R12: the work a round (or a retry, or the reclaim) would begin, held against what is
+        # left. Returns the refusal, stated, or None where it fits or no reservation was asked.
+        if not reserve_round or budget_s is None:
+            return None
+        elapsed = time.perf_counter() - t0
+        if elapsed + round_cost_s <= budget_s:
+            return None
+        return {"what": what, "elapsed_s": round(elapsed, 1), "round_cost_s": round(round_cost_s, 1),
+                "budget_s": round(float(budget_s), 1),
+                "why": (f"{max(float(budget_s) - elapsed, 0.0):.1f} s of the {float(budget_s):g} s budget "
+                        f"was left and a {what} re-places at up to {round_cost_s:.1f} s "
+                        f"(this house's first placement took {first_placement_s:.1f} s); refused rather "
+                        f"than begun past the budget")}
     # the placed loop needs a placed house to hold its rounds against; a first placement that
     # could not be evaluated is stated and the loop does not run on a declared key wearing a
     # placed mode's name (WP-9.4)
@@ -280,6 +308,10 @@ def revise(plan, rounds=6, engine="auto", candidates=250, budget_s=None, brief=N
         rounds = 0
     while n < rounds:
         if budget_s is not None and time.perf_counter() - t0 > budget_s:
+            stop = "budget"
+            break
+        budget_refused = _cannot_fit("round")
+        if budget_refused is not None:
             stop = "budget"
             break
         n += 1
@@ -371,7 +403,8 @@ def revise(plan, rounds=6, engine="auto", candidates=250, budget_s=None, brief=N
             _report(rnd)
             continue
 
-        over_budget = lambda: budget_s is not None and time.perf_counter() - t0 > budget_s
+        over_budget = lambda: ((budget_s is not None and time.perf_counter() - t0 > budget_s)
+                               or _cannot_fit("retry") is not None)
         snapshot = copy.deepcopy(plan)
         applied = []
         for mid, issue in picks:
@@ -498,6 +531,16 @@ def revise(plan, rounds=6, engine="auto", candidates=250, budget_s=None, brief=N
         CO = _mod("compose", os.path.join(ROOT, "build", "compose.py"))
         kept, kept_crit = copy.deepcopy(plan), crit
         res, clog = CO.reclaim(plan, brief["target_area_sf"], brief.get("area_tolerance", 0.12), crit["check"])
+        reclaim_refused = _cannot_fit("reclaim") if clog else None
+        if reclaim_refused is not None:
+            # the reclaim re-places the house: begun past the budget it would be the overrun R12
+            # forbids. Its shortened sizes are given back, it is not placed, and
+            # `budget_refused` says so (`reclaimed` stays None, the shape the panel reads as "no
+            # reclaim ran"); the record keeps the rounds' sizes.
+            budget_refused = budget_refused or reclaim_refused
+            plan = kept
+            crit["plan"] = plan
+            clog = []
         if clog:
             OP.strip_placement(plan)
             crit = _crit(plan)
@@ -584,6 +627,9 @@ def revise(plan, rounds=6, engine="auto", candidates=250, budget_s=None, brief=N
               "remaining": remaining, "handed_to_architect": handed, "refused": refused,
               "suspects": suspects, "reclaimed": reclaimed,
               "placement_unjudged": placement_unjudged or None,
+              # R12: a round, a retry or the reclaim the budget could not hold, refused and said;
+              # absent unless the caller asked for the reservation
+              **({"budget_refused": budget_refused} if reserve_round else {}),
               "placement_refused": {"before": refused_before, "after": refused_after},
               # WHERE THIS REPORT IS BEING READ, stated by the caller. The bench's solve path
               # runs the rounds inline and draws the loop's OWN placement, so the panel may

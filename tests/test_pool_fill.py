@@ -119,3 +119,117 @@ def test_a_spent_budget_names_what_it_did_not_reach(monkeypatch):
 def test_revise_false_places_nothing_and_says_nothing_about_a_pool(monkeypatch):
     res, placed = _compose(monkeypatch, drawable=set(), revise=False)
     assert placed == [] and "pool_fill" not in res
+
+
+# ------------------------------------------------------------------------------------------------
+# THE PHASE 17 AUDIT, FINDINGS 1 AND 31, AND R10 (ruled 30 Oct 2026). The fill counted a candidate
+# as drawable on `revision is not None and not refused` -- a second spelling of standing -- so a
+# loop whose first placement could NOT BE EVALUATED (`refused` None, nothing judged) counted toward
+# `have`, could stop the fill, and was added as found. Every spy card above carries stop_reason
+# 'no-rounds' and `refused` None or a refusal, so the two spellings agreed on every one of them: a
+# fixture where both branches return the same answer guards neither. These state a THIRD verdict.
+def _compose3(monkeypatch, drawable, unjudged, candidates=2, brief=None):
+    """`_compose` with a third verdict: a parti in `unjudged` is a loop whose first placement could
+    not be evaluated (stop_reason PLACEMENT_UNJUDGED, no geometry_report, so `refused` None)."""
+    placed = []
+    orig = RV.revise
+
+    def spy(plan, **kw):
+        out = orig(plan, **kw)
+        if kw.get("place"):
+            pid = max((p for p in CO.PARTIS if str(plan.get("id", "")).startswith(p)), key=len)
+            placed.append(pid)
+            if pid in unjudged:
+                out["report"]["stop_reason"] = RV.STOP_PLACEMENT_UNJUDGED
+                out["report"]["placement_unjudged"] = "unsolved"
+                out["plan"].pop("geometry_report", None)
+            else:
+                gr = out["plan"].setdefault("geometry_report", {})
+                gr["refused"] = None if pid in drawable else dict(REFUSED)
+        return out
+    monkeypatch.setattr(RV, "revise", spy)
+    res = CO.compose(brief or _brief(), candidates=candidates, revise=True, revise_rounds=0,
+                     revise_engine="heuristic", revise_budget_s=600)
+    return res, placed
+
+
+def test_a_placement_that_could_not_be_evaluated_is_not_counted_drawable(monkeypatch):
+    res0, placed0 = _baseline(monkeypatch)
+    asked, pool = placed0[:2], placed0[2:]
+    # one asked candidate may be drawn; the first pool diagram could not be judged; the second is
+    # drawable. The old spelling counted the unjudged one, stopped the fill at two, and added it.
+    res, placed = _compose3(monkeypatch, drawable={asked[0], pool[1]}, unjudged={pool[0]})
+    pf = res["pool_fill"]
+    assert pool[0] not in pf["added"], "an unjudged placement was added to the set as drawable"
+    assert pf["added"] == [pool[1]], "the fill went on past it to the drawable diagram"
+    assert placed == asked + pool[:2]
+    entry = next(p for p in pf["passed_over"] if p["parti"] == pool[0])
+    assert entry["standing"] == "unjudged"
+    assert "could not be evaluated" in entry["why"] and "refused" not in entry["why"]
+    assert pool[0] not in [c["parti"] for c in res["candidates"]], "the unjudged diagram is not returned"
+    line = next(ln for ln in res["how_to_read_this"] if "further down the ranked pool" in ln)
+    assert "1 whose placement could not be judged" in line and "0 still refused" in line, line
+    # R10: both counts, over the returned set, every compose that placed
+    dr = res["drawability"]
+    assert dr["returned"] == 3 and dr["not_refused"] == 2, dr
+    assert any(ln.startswith("Of the 3 candidate(s) returned, 2 not refused")
+               for ln in res["how_to_read_this"])
+
+
+def test_a_named_diagram_returned_anyway_is_counted_apart_and_the_asked_count_is_the_asked(monkeypatch):
+    # finding 6: the appended-named line said "among the {len(returned) - 1} candidate(s) asked
+    # for", which counts a pool-filled house as asked; and the named diagram the fill had placed
+    # and not taken sat in `passed_over` uncounted apart while it was returned
+    res0, placed0 = _baseline(monkeypatch)
+    asked, pool = placed0[:2], placed0[2:]
+    brief = _brief()
+    brief["parti"] = pool[1]
+    res, placed = _compose3(monkeypatch, drawable={pool[0]}, unjudged=set(), brief=brief)
+    assert res["named_parti"]["appended"] is True
+    line = next(ln for ln in res["how_to_read_this"] if ln.startswith(f"The brief named {pool[1]}."))
+    assert "among the 2 candidate(s) asked for (and the 1 the pool-fill added)" in line, line
+    entry = next(p for p in res["pool_fill"]["passed_over"] if p["parti"] == pool[1])
+    assert entry.get("appended_as_named") is True
+    pline = next(ln for ln in res["how_to_read_this"] if "further down the ranked pool" in ln)
+    assert "returned anyway as the diagram the brief named" in pline, pline
+
+
+# --- the pure halves, driven on cards this test writes (milliseconds, no compose) ---------------
+def _card(parti, refused=None, stop="no-rounds", revision=True, unjudged_reason=None, drawability=None):
+    rv = None if not revision else {"stop_reason": stop, "placement_unjudged": unjudged_reason}
+    return {"parti": parti, "parti_name": parti.title(), "refused": refused, "revision": rv,
+            "drawability": drawability}
+
+
+def test_the_passed_over_reason_is_in_the_terms_of_the_standing():
+    ref = CO.passed_over_entry(_card("a", refused=dict(REFUSED)))
+    assert ref["standing"] == "refused" and ref["why"] == "refused: stacks"
+    unj = CO.passed_over_entry(_card("b", stop=CO.PLACEMENT_UNJUDGED, unjudged_reason="unsolved"))
+    assert unj["standing"] == "unjudged"
+    assert unj["why"] == "its placement could not be evaluated: unsolved"
+    odd = CO.passed_over_entry(_card("c", refused={"kind": "not-a-kind-anyone-wrote"}))
+    assert odd["standing"] == "unjudged" and "could not be read" in odd["why"]
+    wrapped = CO.passed_over_entry(_card("d", refused={"refused_placement": dict(REFUSED)}))
+    assert wrapped["standing"] == "refused" and wrapped["why"] == "refused: stacks"
+
+
+def test_set_drawability_gives_two_counts_and_names_each_unjudged_fact():
+    cards = [_card("a", drawability={"drawable": True, "unjudged": ["hearth"]}),
+             _card("b", drawability={"drawable": False, "unjudged": ["hearth"]}),
+             _card("c", refused=dict(REFUSED), drawability={"drawable": False, "unjudged": []}),
+             _card("d", stop=CO.PLACEMENT_UNJUDGED)]
+    d = CO.set_drawability(cards)
+    assert d == {"returned": 4, "not_refused": 2, "drawable_where_judged": 1,
+                 "unjudged_facts": {"hearth": 2}}
+    line = CO.drawability_line(d)
+    assert "2 not refused, 1 drawable where judged (hearth unjudged on 2)" in line
+    assert "not counted as held" in line
+
+
+def test_the_pool_fill_line_counts_refused_and_unjudged_apart():
+    pf = {"placed_from_pool": 3, "added": ["x"],
+          "passed_over": [{"parti": "a", "standing": "refused"}, {"parti": "b", "standing": "unjudged"}]}
+    line = CO.pool_fill_line(pf, 2)
+    assert "1 placed and not refused and added to the set (x)" in line
+    assert "1 still refused, 1 whose placement could not be judged" in line
+    assert "drawable and added" not in line, "the fill takes 'not refused', which is not 'drawable'"
