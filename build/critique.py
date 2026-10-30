@@ -254,6 +254,11 @@ def _intended_move(plan, f):
             return None, "the record's own stacking claim cannot be evaluated -- it names no room, or a room on this room's own level, or one more than a level below. No placement changes that and no move may edit a claim its author wrote: `build/check_stacking.py` fails the build on it and the author fixes the record (WP-11.6)"
         if k == "room-not-placed":
             return None, "a room the placer never reached. Both engines place level 0 and level 1 only, so a room above them has no rectangle and nothing a move can edit would give it one -- oq/the-placer-places-two-levels-and-says-nothing-about-the-third"
+        if k == "wet-stack-shares-no-chase":
+            # THE AUDIT OF PHASE 17 (30 Oct 2026). WP-17.1 gave the drawn layer this kind and this
+            # branch no case, so it fell through to the sentence below -- true of a DIFFERENT rule,
+            # which is WP-11.9's aspect findings exactly ("run the critique and read the why").
+            return None, "servicing: the record pairs two wet rooms on one chase (`wet_stack_with`) and the placement drew them where no chase can serve both. Neither engine is told this claim as a fact -- their wet-over-wet charge is generic -- no move edits where a room lands, and the claim refuses nothing (WP-17.1, ruling 5 of 29 Oct 2026)"
         return None, "a drawn-against-declared size or a landing off its well is a placement outcome; the record already states the right size"
     if layer in ("adjacency", "circulation", "privacy", "grouping", "completeness", "servicing", "plan"):
         return None, "topology: which rooms touch which is the parti's and the author's; a door the grammar prescribes is added only to reach a stranded room (drawn layer)"

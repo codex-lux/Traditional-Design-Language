@@ -174,6 +174,23 @@ def test_the_drawn_layer_reports_a_wet_stack_that_shares_no_chase():
     assert f["severity"] == "minor" and f.get("room") == "hallbath"
 
 
+def test_the_critique_reads_a_wet_stack_finding_with_its_own_reason():
+    """THE AUDIT OF PHASE 17 (30 Oct 2026). `critique._intended_move`'s drawn branch had no case for
+    `wet-stack-shares-no-chase` and handed it the fall-through about a room's SIZE -- a true sentence
+    about a different rule (WP-11.9's aspect findings, met again)."""
+    CR = _mod("build/critique.py", "critique_wet")
+    f = {"id": "drawn:hallbath#wet", "layer": "drawn", "kind": "wet-stack-shares-no-chase",
+         "severity": "minor", "engine": "heuristic", "room": "hallbath",
+         "statement": "Bath and Kitchen share no chase"}
+    plan = {"id": "t", "levels": [{"index": 1, "rooms": [{"id": "hallbath", "type": "bathroom"}]}]}
+    move, why = CR._intended_move(plan, f)
+    assert move is None and "wet_stack_with" in why and "servicing" in why, why
+    assert "drawn-against-declared size" not in why, why
+    got, _cne = CR.classify(plan, {"findings": [f]})
+    (issue,) = [i for c in CR.CLASSES for i in got[c] if i["id"] == f["id"]]
+    assert issue["class"] == "architect" and "servicing" in issue["why"], issue
+
+
 def test_check_plans_holds_a_plan_to_its_partis_wet_stack():
     """`build/check_plans.py` joins a hand-authored plan to the parti it names. The careful record
     names centre-passage-double-pile, whose primary bath claims a WET stack with the butler's pantry
