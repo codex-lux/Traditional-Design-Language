@@ -5,7 +5,7 @@ house: on Lucas's brief four of four came back refused while nothing further dow
 was ever placed. Where fewer of the set may be drawn than were asked for, the placed loop places
 down the pool -- at most `POOL_FILL_PLACEMENTS`, inside the set's budget -- and a candidate it finds
 drawable joins the set. Every diagram placed and still refused is named with its reason, every one
-the budget or the bound did not reach is named, and the set keeps the 16 Oct key (ruling 7).
+the budget or the bound did not reach is named, and the set keeps the one key (`rank_key`: the standing first since 30 Oct 2026).
 
 The verdict on each placement is STATED by a spy over the real placed loop, on the search engine
 with no rounds, because a real compose refuses or draws by the placer's lights and this file's
@@ -87,7 +87,7 @@ def test_a_set_with_nothing_drawable_places_down_the_pool_and_takes_what_it_find
     returned = [c["parti"] for c in res["candidates"]]
     assert set(returned) == set(asked) | {target}
     keys = [CO.rank_key(c) for c in res["candidates"]]
-    assert keys == sorted(keys), "the filled set keeps the one key (ruling 7)"
+    assert keys == sorted(keys), "the filled set keeps the one key (`rank_key`)"
     assert any("placed from further down the ranked pool" in ln for ln in res["how_to_read_this"])
 
 

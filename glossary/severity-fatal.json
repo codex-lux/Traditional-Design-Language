@@ -17,5 +17,9 @@
   "see": [
     "fault:shutter-half-width-leaf",
     "term:fault"
-  ]
+  ],
+  "confusable_with": [
+    "judgment-refused"
+  ],
+  "more": "A fatal finding is not a refusal: it is found on a house that can be drawn. A refused placement may carry no fatal finding at all, and still nothing is drawn from it."
 }

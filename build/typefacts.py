@@ -619,7 +619,8 @@ def bearing(plan):
                       "framing catalogue was unreadable or the record was not placed by an engine")
     elif over:
         halves["capacity"] = DOWNGRADED
-        detail.append(f"{over} clear span(s) exceed the capacity the framing tradition states "
+        detail.append(f"reported, and it does not refuse (ruled 16 Sep 2026): {over} clear "
+                      f"span(s) exceed the capacity the framing tradition states "
                       f"(structure.span_check's own count)")
     else:
         halves["capacity"] = HELD
@@ -861,6 +862,106 @@ KIND_DOWNGRADED = "type-fact-downgraded"
 REFUSAL_KINDS = (KIND_INFEASIBLE, KIND_DOWNGRADED)
 
 
+# THE REFUSAL'S CLASS: WHOSE FAILURE IS IT (ruled by Lucas, 30 Oct 2026). Lucas composed a
+# Tidewater brief and read "the brief or the parti is what changes" under a native five-part
+# Palladian that the prover had simply run out of time on: the hill-climb's fallback, which is told
+# none of these facts, drew the layout that was refused. `build/drawability.py` had classified every
+# release since WP-17.0 and no surface printed it. The classification lives HERE now, in the leaf
+# that writes the refusal, so the class rides on the one verdict every surface already reads; the
+# instrument delegates to it rather than keeping a second spelling.
+#
+#   PROVEN     every downgraded label of the fact was refuted alone at this footprint, or the record
+#              carries a proven infeasibility: a fact about the house as composed.
+#   UNDECIDED  released off a conflict core or an undecided round and never re-proven: the budget
+#              ran out. The placer's, not the house's.
+#   MISMATCH   the model held the fact, or never posed it, and the gate measures it broken: the
+#              instrument's.
+#   SEARCH     the placement is the hill-climb's, which is told none of these facts: the placer's.
+#
+# Only PROVEN says the brief or the parti must change. The other three say more time, or a better
+# placer, might draw the same house.
+PROVEN, UNDECIDED, MISMATCH, SEARCH = "PROVEN", "UNDECIDED", "MISMATCH", "SEARCH"
+REFUSAL_CLASSES = (PROVEN, UNDECIDED, MISMATCH, SEARCH)
+
+# a type fact's name -> the prover's rank name (`geometry_cp._RANK`)
+_PROVER_KIND = {"tiling": "tiling", "stacks": "stack", "bearing": "bearing", "hearth": "hearth"}
+
+
+def refusal_class(fact, plan):
+    """The class of one downgraded fact, read off what the ENGINE said about it
+    (`geometry_report.solver.facts`, `infeasible.proven`), never guessed and never read from prose."""
+    rep = plan.get("geometry_report") or {}
+    sv = rep.get("solver") or {}
+    eng = str(sv.get("engine") or "")
+    if (rep.get("infeasible") or {}).get("proven"):
+        return PROVEN
+    if not eng.startswith("cp"):
+        return SEARCH
+    kind = _PROVER_KIND.get(fact, fact)
+    pf = (sv.get("facts") or {}).get(kind) or {}
+    if pf.get("status") == "held":
+        return MISMATCH                       # the model held it; the gate measured otherwise
+    if pf.get("status") == "unjudged":
+        return MISMATCH                       # the model was never asked; the gate measured it
+                                              # (no budget ran out on it: not UNDECIDED)
+    # READ FROM STRUCTURE, NEVER FROM PROSE (the audit of Phase 17, 30 Oct 2026, finding 14). The
+    # prover files every downgraded label of a fact `proven` (refuted alone at this footprint) or
+    # `carried` (released off a conflict core or an undecided round and never re-proven), in
+    # `geometry_cp.facts_account`, from the same set its per-pin notes are written from. A fact is
+    # PROVEN only where EVERY downgraded label of it is proven; one carried label makes it
+    # UNDECIDED. A record from before the split carries neither list and is UNDECIDED: no
+    # structure, and prose is not read for a proof.
+    down = set(pf.get("downgraded") or [])
+    if down and not pf.get("carried") and down <= set(pf.get("proven") or []):
+        return PROVEN
+    return UNDECIDED
+
+
+# What each class says to a reader who is not on the workbench (the MCP tool, a route's error).
+# The workbench words the same four through glossary records (`refusal-proven` and its three);
+# these are the Python surfaces' one spelling, and only PROVEN says the brief must change.
+CLASS_SENTENCE = {
+    PROVEN: ("The prover showed this house, as composed, cannot hold these facts: the brief or the "
+             "parti is what changes."),
+    UNDECIDED: ("Not proven: the prover's time ran out before it found an arrangement that holds "
+                "these facts. The refusal is of this arrangement, not of the house, and a longer "
+                "placement may draw the same house."),
+    SEARCH: ("Not proven: the prover did not answer in time and the fallback search, which is told "
+             "none of the type's facts, drew this arrangement. The refusal is of the arrangement, "
+             "not of the house."),
+    MISMATCH: ("Not proven: the prover held these facts, or was never asked them, and the drawing "
+               "gate measures them broken. The disagreement is the tool's, not the house's."),
+    None: ("The refusal does not say whether it was proven, and it is not assumed to be: read it "
+           "as a refusal of this arrangement, not of the house."),
+}
+
+
+def class_sentence(ref):
+    """The reader-facing sentence for a refusal's class; the unstated sentence for a refusal from
+    before the class existed, never the PROVEN one."""
+    cls = (ref or {}).get("class")
+    return CLASS_SENTENCE.get(cls if cls in REFUSAL_CLASSES else None)
+
+
+def overall_class(classes, proven_infeasible=False):
+    """One class for a whole refusal. PROVEN only where the record carries a proven infeasibility
+    or EVERY downgraded fact is proven: one fact the placer merely failed to hold means another
+    placement might hold it, and the refusal is then not a statement about the house. Of the rest,
+    SEARCH before UNDECIDED before MISMATCH -- the order in which more time on the prover is the
+    answer. `None` where nothing is downgraded."""
+    if proven_infeasible:
+        return PROVEN
+    vals = set((classes or {}).values())
+    if not vals:
+        return None
+    if vals == {PROVEN}:
+        return PROVEN
+    for c in (SEARCH, UNDECIDED, MISMATCH):
+        if c in vals:
+            return c
+    return UNDECIDED
+
+
 def refusal(plan):
     """`None`, or the typed refusal every surface reads. THE ONE VERDICT (WP-13.4).
 
@@ -869,7 +970,10 @@ def refusal(plan):
          "conflicts": [the prover's own conflict entries, or one row per downgraded fact],
          "lines":     [one reader-facing sentence per conflict],
          "engine":    geometry_report.solver.engine,
-         "status":    geometry_report.solver.status}
+         "status":    geometry_report.solver.status,
+         "classes":   {fact: PROVEN | UNDECIDED | MISMATCH | SEARCH} per downgraded fact,
+         "class":     the whole refusal's class (`overall_class`),
+         "proven":    whether the refusal is a statement about the house (class PROVEN)}
 
     `kind` is `infeasible` wherever the record carries a PROVEN infeasibility, because that is
     the stronger statement -- the prover showed the declared facts cannot all hold, so the
@@ -925,8 +1029,11 @@ def refusal(plan):
                               "status": DOWNGRADED, "detail": detail})
             lines.append(f"{FACT_TITLES.get(name, name)}: {detail}" if detail
                          else f"{FACT_TITLES.get(name, name)}: measured, and it does not hold.")
+    classes = {name: refusal_class(name, plan) for name in down}
+    cls = overall_class(classes, proven)
     return {"kind": kind, "facts": down, "conflicts": conflicts, "lines": lines,
-            "engine": solver.get("engine"), "status": solver.get("status")}
+            "engine": solver.get("engine"), "status": solver.get("status"),
+            "classes": classes, "class": cls, "proven": cls == PROVEN}
 
 
 def judge(plan):

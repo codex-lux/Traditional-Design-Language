@@ -85,12 +85,12 @@ export function byScore(a, b) {
 }
 
 /* WHAT THE TYPE'S OWN FACTS HAVE SAID OF A CANDIDATE, as a rank (audit follow-up, 16 Oct 2026;
-   ruled by Lucas: a refused candidate ranks last within equal judged fatals). The composer's key
-   is `(judged fatals, standing, unjudged fatals, score, ...)` with standing placed < unjudged <
-   refused (`compose.rank_key`); this is the same three-way reading off the card's `standing`
-   (`candidateStanding.standingOf`, the app's one reader of it). A card with no standing -- a
-   fixture, never a served candidate -- is read as unjudged, which is the middle of the three and
-   moves nothing relative to its peers. */
+   re-ruled by Lucas 30 Oct 2026: the standing is the FIRST key, ahead of judged fatals). The
+   composer's key is `(standing, judged fatals, unjudged fatals, score, ...)` with standing
+   placed < unjudged < refused (`compose.rank_key`); this is the same three-way reading off the
+   card's `standing` (`candidateStanding.standingOf`, the app's one reader of it). A card with no
+   standing -- a fixture, never a served candidate -- is read as unjudged, which is the middle of
+   the three and moves nothing relative to its peers. */
 const STANDING_RANK = Object.freeze({ placed: 0, unjudged: 1, refused: 2 });
 export function standingRank(c) {
   const r = c && STANDING_RANK[c.standing];
@@ -98,13 +98,13 @@ export function standingRank(c) {
 }
 const refusedDiff = (a, b) => (standingRank(a) === 2 ? 1 : 0) - (standingRank(b) === 2 ? 1 : 0);
 
-const DQ_LAST = 'Any plan carrying a fatal finding sorts last whatever it scores, and says '
-              + 'so on its own column.';
-const REFUSED_LAST = 'A refused plan sorts after one that is not.';
+const DQ_LAST = 'Then any plan carrying a fatal finding sorts last among its own kind, whatever it '
+              + 'scores, and says so on its own column.';
+const REFUSED_LAST = 'A refused plan sorts after one that is not, whatever either’s fatal count.';
 const FATAL_SAYS = 'Fatal findings decide the order before the score does — a plan carrying two '
                  + 'sorts below a plan carrying one, and both below a plan carrying none. Between '
                  + 'equal counts, the plan with fewer fatal faults nobody could judge comes first.';
-const SAYS_TAIL = `${DQ_LAST} ${REFUSED_LAST}`;
+const SAYS_TAIL = `${REFUSED_LAST} ${DQ_LAST}`;
 
 export const ORDERS = {
   score: {
@@ -121,25 +121,30 @@ export const ORDERS = {
   },
   fatal: {
     chip: 'fatal first',
-    says: `${FATAL_SAYS} ${REFUSED_LAST}`,
-    /* R13 (29 Sep 2026), then the refusal ruling (16 Oct 2026): judged fatals, then STANDING
-       (placed, unjudged, refused), then UNJUDGED fatals, then the score -- the composer's own
-       key (`compose.rank_key`), so this reading order agrees with the order the set was
-       returned in. An unjudged fatal is not a fatal: `order()` below does not read it. */
-    cmp: (a, b) => ((a.fatal_n || 0) - (b.fatal_n || 0))
-      || (standingRank(a) - standingRank(b))
+    says: `${REFUSED_LAST} ${FATAL_SAYS}`,
+    /* R13 (29 Sep 2026), the refusal ruling (16 Oct 2026), and its order re-ruled 30 Oct 2026:
+       STANDING (placed, unjudged, refused), then judged fatals, then UNJUDGED fatals, then the
+       score -- the composer's own key (`compose.rank_key`), so this reading order agrees with the
+       order the set was returned in. An unjudged fatal is not a fatal: `order()` below does not
+       read it. */
+    cmp: (a, b) => (standingRank(a) - standingRank(b))
+      || ((a.fatal_n || 0) - (b.fatal_n || 0))
       || ((a.unjudged_fatal_n || 0) - (b.unjudged_fatal_n || 0)) || byScore(a, b),
   },
 };
 
-/** ONE RULE OUTRANKS ALL THREE ORDERINGS: a disqualified candidate sorts last under every one
- *  of them, whatever it scores and however native it is. It has to, because a disqualified
- *  plan is scored like any other and its number can be the highest on the screen; letting it
- *  head the columns under "highest score first" would rebuild, in the ordering, exactly the
+/** TWO RULES OUTRANK ALL THREE ORDERINGS, IN THIS ORDER (re-ruled 30 Oct 2026). First the
+ *  STANDING: a plan that may be drawn comes before one nobody placed, and both before one the
+ *  type's facts refuse, whatever any of them scores or carries -- on Lucas's Tidewater brief two
+ *  refused plans with no fatal led four drawable ones, and neither could be opened. Then, within
+ *  one standing, a disqualified candidate sorts last, whatever it scores and however native it
+ *  is: a disqualified plan is scored like any other and its number can be the highest on the
+ *  screen, and letting it head the columns under "highest score first" would rebuild the
  *  misreading this surface was fixed to prevent. Applied OUTSIDE each comparator so a new
- *  ordering cannot forget it. */
+ *  ordering cannot forget either. */
 export function order(cmp) {
-  return (a, b) => ((a.fatal_n ? 1 : 0) - (b.fatal_n ? 1 : 0)) || cmp(a, b);
+  return (a, b) => (standingRank(a) - standingRank(b))
+    || ((a.fatal_n ? 1 : 0) - (b.fatal_n ? 1 : 0)) || cmp(a, b);
 }
 
 /** THE NATIVITY LINE A COLUMN PRINTS (WP-14.27). The column typed "NOT native to this style" in

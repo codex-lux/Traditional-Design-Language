@@ -36,15 +36,16 @@ def _composer_order(c):
 
 
 def _assert_the_ruled_properties(cands):
-    """Read off the returned cards, never off the key: judged fatals never rise, and within equal
-    judged fatals a refused house never stands above one that may be drawn."""
-    fatals = [c["counts"].get("fatal", 0) for c in cands]
-    assert fatals == sorted(fatals), "a fatal-bearing plan came back above a cleaner one"
-    for f in set(fatals):
-        ranks = [CO.STANDING_RANK[CO.placement_standing(c)] for c in cands
-                 if c["counts"].get("fatal", 0) == f]
-        assert ranks == sorted(ranks), (
-            f"at {f} judged fatal(s) a refused house came back above one that may be drawn")
+    """Read off the returned cards, never off the key: the standing never rises (placed, then not
+    placed, then refused -- ruled 30 Oct 2026, the FIRST key), and within one standing judged
+    fatals never rise."""
+    ranks = [CO.STANDING_RANK[CO.placement_standing(c)] for c in cands]
+    assert ranks == sorted(ranks), "a refused house came back above one that may be drawn"
+    for r in set(ranks):
+        fatals = [c["counts"].get("fatal", 0) for c in cands
+                  if CO.STANDING_RANK[CO.placement_standing(c)] == r]
+        assert fatals == sorted(fatals), (
+            "within one standing a fatal-bearing plan came back above a cleaner one")
 
 
 @pytest.fixture(scope="module")

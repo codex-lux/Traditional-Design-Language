@@ -1,5 +1,5 @@
 {
- "_what": "One table of RANKINGS, held by both languages (16 Oct 2026, the refusal ruling). `compose.rank_key` (Python) orders these cards, and the workbench's 'fatal first' ordering -- applied to the same raw cards through the real card adapter and `order()` -- must put them in the same order. `tests/test_refusal_ranks_last.py` is the Python half and `workbench/app/src/candidateOrder.test.mjs` the JavaScript. A card carries only the fields the key reads; the adapter fills the rest.",
+ "_what": "One table of RANKINGS, held by both languages (16 Oct 2026, the refusal ruling; its order re-ruled 30 Oct 2026: the standing first). `compose.rank_key` (Python) orders these cards, and the workbench's 'fatal first' ordering -- applied to the same raw cards through the real card adapter and `order()` -- must put them in the same order. `tests/test_refusal_ranks_last.py` is the Python half and `workbench/app/src/candidateOrder.test.mjs` the JavaScript. A card carries only the fields the key reads; the adapter fills the rest.",
  "_not_here": "The score and native orderings of the workbench are not the composer's key and are not in this table: they demote a refused card and are held by their own tests.",
  "cases": [
   {
@@ -47,7 +47,7 @@
    ]
   },
   {
-   "name": "judged fatals decide before the standing: a refused house with none outranks a placed one with one",
+   "name": "the standing decides before judged fatals: a placed house with one outranks a refused house with none (ruled 30 Oct 2026)",
    "cards": [
     {
      "parti": "placed-one-fatal",
@@ -86,8 +86,41 @@
     }
    ],
    "expected": [
-    "refused-no-fatal",
-    "placed-one-fatal"
+    "placed-one-fatal",
+    "refused-no-fatal"
+   ]
+  },
+  {
+   "name": "the standing decides before judged fatals in the middle too: a placed house with one fatal outranks a house nobody placed with none",
+   "cards": [
+    {
+     "parti": "unplaced-clean",
+     "counts": {
+      "fatal": 0
+     },
+     "score": 80,
+     "demerits": 0.0,
+     "unjudged_fatal": [],
+     "refused": null,
+     "revision": null
+    },
+    {
+     "parti": "placed-one-fatal",
+     "counts": {
+      "fatal": 1
+     },
+     "score": 30,
+     "demerits": 0.0,
+     "unjudged_fatal": [],
+     "refused": null,
+     "revision": {
+      "stop_reason": "converged"
+     }
+    }
+   ],
+   "expected": [
+    "placed-one-fatal",
+    "unplaced-clean"
    ]
   },
   {

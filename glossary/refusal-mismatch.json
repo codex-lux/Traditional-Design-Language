@@ -1,0 +1,11 @@
+{
+  "id": "refusal-mismatch",
+  "term": "not proven: the tool disagrees with itself",
+  "family": "house",
+  "definition": "The prover held the fact, or was never asked it, and the drawing gate measures it broken. The disagreement is the tool’s, not the house’s, and the brief is not at fault.",
+  "kind": "editorial",
+  "basis": "Editorial. build/typefacts.py, the refusal's class: \"Only PROVEN says the brief or the parti must change.\" and its classes: \"the model held the fact, or never posed it, and the gate measures it broken: the\"",
+  "see": [
+    "term:judgment-refused"
+  ]
+}

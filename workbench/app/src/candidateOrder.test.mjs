@@ -291,7 +291,7 @@ test('"fatal first" orders every card in the composer\'s shared table as the com
   }
   // the table separates the three keys: each of the two keys that could swap places is driven
   const names = RANKS.cases.map((c) => c.name).join('\n');
-  assert.match(names, /judged fatals decide before the standing/);
+  assert.match(names, /standing decides before judged fatals/);
   assert.match(names, /standing comes before the unjudged fatals/);
 });
 
@@ -310,17 +310,20 @@ test('EVERY ordering puts a refused plan after one that is not, whatever it scor
   }
 });
 
-test('a plan that is both disqualified and refused sorts by the disqualification first, as the composer\'s key does', () => {
+test('a refused plan with no fatal sorts after a drawable plan carrying fatals, under every ordering (ruled 30 Oct 2026)', () => {
+  /* Re-cut from the 16 Oct order, which put the disqualification first: on Lucas's Tidewater brief
+     two refused plans with no fatal finding headed four drawable ones and neither could be
+     opened. The standing is the first key now, and within one standing fewer fatals still lead. */
   const REF = { kind: 'infeasible', facts: ['bearing'], conflicts: [], lines: [] };
   const raw = (parti, fatal, refused) => ({ parti, score: 50, counts: { fatal }, refused,
     revision: { stop_reason: 'converged' } });
   const cards = adapt([raw('placed-two-fatals', 2, null), raw('refused-one-fatal', 1, REF), raw('refused-clean', 0, REF)]);
   for (const [name, o] of Object.entries(ORDERS)) {
     const got = cards.slice().sort(order(o.cmp)).map((c) => c.parti);
-    assert.equal(got[0], 'refused-clean', `${name}: no fatal outranks a fatal, refused or not`);
+    assert.equal(got[0], 'placed-two-fatals', `${name}: a refused plan headed a drawable one`);
   }
   assert.deepEqual(cards.slice().sort(order(ORDERS.fatal.cmp)).map((c) => c.parti),
-    ['refused-clean', 'refused-one-fatal', 'placed-two-fatals'], 'fewer fatals first, then standing');
+    ['placed-two-fatals', 'refused-clean', 'refused-one-fatal'], 'standing first, then fewer fatals');
 });
 
 test('standingRank is the composer\'s three-way reading, and a card with no standing is the middle one', () => {
@@ -330,4 +333,22 @@ test('standingRank is the composer\'s three-way reading, and a card with no stan
   for (const [name, o] of Object.entries(ORDERS)) {
     assert.match(o.says, /refused plan sorts after one that is not/i, `${name} does not say it`);
   }
+});
+
+/* WHICH FATAL, AND WHAT THE RETRY DID (30 Oct 2026). A disqualified card said "1 fatal finding" and
+   never which; it carries `fatal_findings` now, the checker's own sentences, and the band lists
+   them. A refused native card says whether the composer retried it and what came back. */
+test('the card carries every judged fatal by its sentence, and drops a row with none', () => {
+  const card = adaptCandidate({ parti: 'p', counts: { fatal: 2 }, disqualified: true,
+    fatal_findings: [{ id: 'a', layer: 'drawn', statement: 'The Passage That Stops' },
+      { id: 'b', layer: 'fault', statement: '' }, null] }, 0, null, null);
+  assert.deepEqual(card.fatal_findings.map((f) => f.statement), ['The Passage That Stops']);
+  assert.deepEqual(adaptCandidate({ parti: 'q', counts: { fatal: 0 } }, 0, null, null).fatal_findings, []);
+});
+
+test('the card carries the retry as served, and nothing where none was asked', () => {
+  const r = { retry: true, outcome: 'placed', first_class: 'UNDECIDED', why: 'retried' };
+  assert.deepEqual(adaptCandidate({ parti: 'p', counts: {}, retry: r }, 0, null, null).retry, r);
+  assert.equal(adaptCandidate({ parti: 'p', counts: {} }, 0, null, null).retry, null);
+  assert.equal(adaptCandidate({ parti: 'p', counts: {}, retry: ['x'] }, 0, null, null).retry, null);
 });

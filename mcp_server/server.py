@@ -319,7 +319,7 @@ def tdl_compose(brief: dict, candidates: int = 4, include_plans: bool = False,
 
     Seeds from the canonical partis native to the style, sizes every room from the room catalogue,
     repairs against the validator until it stops improving, reclaims the area the repair spent, and
-    returns candidates fatal-free first and then by score.
+    returns candidates drawable first, then fatal-free, then by score.
 
     A brief that names a `parti` is guaranteed a candidate built on it: scored by the same arithmetic
     as the rest, and, if the composer's own ranking does not return it, appended after the set as one
@@ -336,16 +336,18 @@ def tdl_compose(brief: dict, candidates: int = 4, include_plans: bool = False,
     much of the hundred that was. A fatal finding sets `disqualified` true and states why in
     `disqualified_because`; the candidate is still scored, because whole sets come back
     disqualified on styles the fault corpus cannot clear and four such plans still differ, but it
-    never outranks a clean one whatever it scores — that is enforced by the return order, not by
-    the number, and no score is a case for building it. `demerits` is the superseded
+    never outranks a clean one of the same standing whatever it scores — that is enforced by the
+    return order, not by the number, and no score is a case for building it. `demerits` is the superseded
     lower-is-better total and ranks nothing.
 
-    Among candidates with the same number of fatal findings, one whose placement the type's own
-    hard facts REFUSE (`refused` is set once the placed loop has run) is returned after one they
-    allow, and a candidate nobody has placed stands between the two: "0 fatal" counts findings and
-    does not say a house may be drawn, so the return order does not let the best score of a refused
-    set head it. Where every candidate is refused the order is the score's, and `refused` says so
-    on each.
+    The FIRST key of the return order is whether the house may be drawn (ruled 30 Oct 2026). One
+    whose placement the type's own
+    hard facts REFUSE (`refused` is set once the placed loop has run) is returned after every one
+    they allow, whatever either's fatal count, and a candidate nobody has placed stands between
+    the two: "0 fatal" counts findings about a house and does not say the house may be drawn.
+    Within one standing, fewer fatal findings come first, then fewer unjudged fatals, then the
+    score. Where every candidate is refused the order is the fatal count's and then the score's,
+    and `refused` says so on each.
 
     Read `trades_away` before `score` — every diagram gives something up, and the best-scoring plan is
     not always the one the client wants. Read `decisions` too: those are what the composer chose where

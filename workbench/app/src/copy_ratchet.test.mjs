@@ -268,10 +268,12 @@ const BASELINE = {
   prose: [
     ["components/ConflictSet.jsx", "disclosure",
       "This refusal names no fact, no conflict and no sentence. That is a defect in the refusal, not a small refusal: it is being shown as it arrived rather than dressed up."],
+    // 30 Oct 2026: "the brief or the parti is what changes" left both rows; the refusal's class
+    // says whose failure it is, in its glossary record's words (`refusal-proven` and its three)
     ["components/ConflictSet.jsx", "disclosure",
-      "Nothing is drawn from this placement. The record still carries the search&rsquo;s least-bad arrangement — it is what the conflict set above is an explanation of — and no surface draws it and no export may take it. {…} The brief or the parti is what changes. {…}"],
+      "Nothing is drawn from this placement. The record still carries the least-bad arrangement the placer reached — it is what the conflict set above is an explanation of — and no surface draws it and no export may take it. {…}"],
     ["components/RevisionPanel.jsx", "disclosure",
-      "The placement the loop stopped on is still refused {…} : no sheet, export or model is drawn from it. The brief or the parti is what changes."],
+      "The placement the loop stopped on is still refused {…} : no sheet, export or model is drawn from it. {…} {…}"],
     ["components/RevisionPanel.jsx", "disclosure",
       "The placement was refused when the loop started and is not now: the type’s own facts hold on the house it ended with."],
     ["dossier/Evidence.jsx", "disclosure",
@@ -281,7 +283,7 @@ const BASELINE = {
     ["surfaces/BriefIntake.jsx", "voice",
       "brief intake only style and target area are required — everything else absent becomes a logged decision"],
     ["surfaces/CandidateSet.jsx", "voice",
-      "The composer returns several contrasting candidates, fatal-free first and then by score, and never calls one good. Start at Brief Intake."],
+      "The composer returns several contrasting candidates, drawable first, then fatal-free, then by score, and never calls one good. Start at Brief Intake."],
     ["surfaces/CandidateSet.jsx", "voice",
       "A plan with no fatal findings is not therefore good. The corpus can tell you what is wrong and cannot tell you what is alive."],
     ["surfaces/CandidateSet.jsx", "voice",
@@ -367,8 +369,11 @@ const BASELINE = {
       "This deployment has no password set — it accepts an API token only, so there is nothing to type here. Set WORKBENCH_PASSWORD to allow browser access."],
     ["Gate.jsx", "voice",
       "A shared password, not an account — everyone who has it sees the same corpus."],
+    // re-ruled 30 Oct 2026: the standing is the first key, so the disqualification is said second
     ["candidateOrder.js", "voice",
-      "Any plan carrying a fatal finding sorts last whatever it scores, and says so on its own column."],
+      "Then any plan carrying a fatal finding sorts last among its own kind, whatever it scores, and says so on its own column."],
+    ["candidateOrder.js", "voice",
+      "A refused plan sorts after one that is not, whatever either’s fatal count."],
     ["candidateOrder.js", "voice",
       "Ordered by whether the diagram is native to the style, then by score — so the column numbered 1 is the most native, not the highest scoring. {…}"],
     ["candidateOrder.js", "voice",

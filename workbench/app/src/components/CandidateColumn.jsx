@@ -3,6 +3,7 @@ import { nativityLine } from "../candidateOrder.js";
 import { Term } from "./Term.jsx";
 import { JudgmentMark } from "./JudgmentMark.jsx";
 import { MarkGlyph } from "./MarkGlyph.jsx";
+import { refusalClassTerm } from "../sheet/refusal.js";
 
 /* P4 — rank them, never crown one. Three rules this component exists to enforce:
    1. trades_away sits adjacent to the score at all times, never behind a disclosure.
@@ -71,7 +72,13 @@ function ScoreBlock({ candidate: c }) {
       h("div", { style: { ...EYE, color: 'var(--sev-fatal)' } }, "disqualified"),
       h("p", { style: { font: 'var(--fw-reg) 12.5px/1.5 var(--body)', color: 'var(--text-secondary)',
                         margin: '3px 0 0' } },
-        c.disqualified_because || "a fatal finding")),
+        c.disqualified_because || "a fatal finding"),
+      /* WHICH FATAL (30 Oct 2026): the band said "1 fatal finding" and never which. Each is the
+         checker's own sentence, off the card the composer serves (`fatal_findings`). */
+      (c.fatal_findings || []).length > 0 && h("ul", { "data-fatal-findings": c.fatal_findings.length,
+        style: { font: 'var(--fw-reg) 12.5px/1.5 var(--body)', color: 'var(--text-body)',
+                 margin: '4px 0 0', paddingLeft: 16 } },
+        c.fatal_findings.map((f, i) => h("li", { key: f.id || i, "data-fatal-id": f.id || '' }, f.statement)))),
     c.score_unscored_because && h("p", {
       style: { font: 'var(--fw-reg) 12.5px/1.5 var(--body)', color: 'var(--text-secondary)',
                margin: '6px 0 0' }
@@ -138,14 +145,21 @@ function StandingBand({ c }) {
         background: 'var(--sev-fatal-field)', font: 'var(--type-data-s)', color: 'var(--text-body)' } },
       h(MarkGlyph, { token: "--mark-refused", size: 11, style: { display: 'inline-block', verticalAlign: 'middle', marginRight: 7 } }),
       h(Term, { id: "judgment-refused" }),
-      c.refused.facts && c.refused.facts.length ? ` · ${c.refused.facts.join(', ')}` : null);
+      c.refused.facts && c.refused.facts.length ? ` · ${c.refused.facts.join(', ')}` : null,
+      /* WHOSE FAILURE (ruled 30 Oct 2026): proven, or the placer's, in its record's words */
+      " · ", h("span", { "data-refusal-class-term": refusalClassTerm(c.refused) },
+        h(Term, { id: refusalClassTerm(c.refused) })),
+      c.retry && c.retry.outcome === 'refused'
+        ? h("span", { "data-retry": "refused" }, " · refused again on a longer attempt") : null);
   }
   const placed = c.standing === 'placed';
   return h("div", { "data-candidate-standing": placed ? "placed" : "unjudged",
     style: { display: 'flex', alignItems: 'center', gap: 7, marginTop: 10, font: 'var(--type-data-s)',
       color: 'var(--text-secondary)' } },
     h(MarkGlyph, { token: placed ? "--mark-passed" : "--mark-unjudged", size: 11 }),
-    placed ? h(Term, { id: "candidate-placed" })
+    placed ? h(React.Fragment, null, h(Term, { id: "candidate-placed" }),
+        c.retry && c.retry.outcome === 'placed'
+          ? h("span", { "data-retry": "placed" }, " · on a second, longer attempt") : null)
       : h(React.Fragment, null, h(Term, { id: "judgment-unjudged" }), " · ",
         h("i", { style: { font: 'italic var(--fw-reg) 13px/1.3 var(--body)' } }, h(Term, { id: "candidate-may-be-refused" }))));
 }

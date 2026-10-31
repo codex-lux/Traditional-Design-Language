@@ -1,4 +1,5 @@
-"""The composer ranks a refused house after a drawable one (ruled by Lucas, 16 Oct 2026).
+"""The composer ranks a refused house after a drawable one (ruled by Lucas, 16 Oct 2026; the
+order re-ruled 30 Oct 2026: the standing is the FIRST key, ahead of judged fatals).
 
 `oq/the-composer-ranks-first-a-house-that-may-not-be-drawn` measured `compose` handing back, as
 its first recommendation, a candidate the type's hard facts forbid drawing (WP-13.4), while a
@@ -11,8 +12,8 @@ What these tests hold, and what each is for:
   `standingOf` is held to (`workbench/app/src/candidateSelection.test.mjs`). `refused` is `None`
   on a card for three reasons and one of them is a pass; a reader collapsing them is the fake
   pass this corpus names first.
-- `rank_key` puts the standing AFTER the judged fatals and BEFORE the unjudged fatals and the
-  score. Each of the three orderings that could be written instead is a different house first,
+- `rank_key` puts the standing FIRST, before the judged fatals, the unjudged fatals and the
+  score (30 Oct 2026; until then it sat after the judged fatals). Each of the three orderings that could be written instead is a different house first,
   and each is driven below by a pair of cards that only that ordering separates.
 - the composer's own re-sort, after the placed loop, reads it. That is the one place the field
   exists, and the one line a pure test of `rank_key` cannot reach, so it is driven through a real
@@ -96,13 +97,25 @@ class TestRefusedRanksLastWithinEqualFatals:
                       _card("drawable-worse", score=40.0, unjudged=2)])
         assert got == ["drawable-worse", "refused-best"]
 
-    def test_judged_fatals_are_still_the_first_key(self):
-        """The ruling is 'within equal judged fatals'. A refused house with no fatal finding
-        still stands above a drawable one carrying a fatal: WP-4.5's guarantee that a fatal
-        plan never displaces a clean one is the one thing this key must not trade away."""
+    def test_the_standing_is_the_first_key(self):
+        """Ruled 30 Oct 2026, reversing the 16 Oct order. On Lucas's Tidewater brief two refused
+        houses with no fatal led four drawable houses carrying one each, and neither could be
+        opened. A refused house with no fatal finding now stands BELOW a drawable one carrying a
+        fatal: a fatal is a finding about a house that can be drawn, and a refusal says nothing
+        can be drawn from the placement."""
+        got = _order([_card("refused-clean", fatal=0, score=99.0, refused=REFUSED),
+                      _card("drawable-fatal", fatal=1, score=1.0)])
+        assert got == ["drawable-fatal", "refused-clean"]
+
+    def test_within_one_standing_judged_fatals_still_lead(self):
+        """WP-4.5's guarantee survives inside a standing: a drawable house carrying a fatal never
+        leads a drawable house carrying none, whatever it scores."""
         got = _order([_card("drawable-fatal", fatal=1, score=99.0),
+                      _card("drawable-clean", fatal=0, score=1.0)])
+        assert got == ["drawable-clean", "drawable-fatal"]
+        got = _order([_card("refused-fatal", fatal=1, score=99.0, refused=REFUSED),
                       _card("refused-clean", fatal=0, score=1.0, refused=REFUSED)])
-        assert got == ["refused-clean", "drawable-fatal"]
+        assert got == ["refused-clean", "refused-fatal"]
 
     def test_the_standing_is_ahead_of_the_unjudged_fatals(self):
         """R13 (29 Sep 2026) breaks a tie against a candidate with fatals nobody could judge. The
@@ -142,7 +155,7 @@ class TestRefusedRanksLastWithinEqualFatals:
         """The declared pass writes `refused` as None and no `revision`; a bare card is the
         shape `test_fault_governing` hands the key and must not raise."""
         bare = {"parti": "bare", "counts": {"fatal": 0}, "score": 1.0, "demerits": 0.0}
-        assert CO.rank_key(bare)[1] == CO.STANDING_RANK["unjudged"]
+        assert CO.rank_key(bare)[0] == CO.STANDING_RANK["unjudged"]
 
 
 # ---------------------------------------------------------------- the composer's own sort
@@ -171,7 +184,7 @@ class TestOneRankingTwoLanguages:
 
     def test_the_table_separates_the_keys_that_could_swap_places(self):
         names = " ".join(c["name"] for c in _rank_cases())
-        assert "judged fatals decide before the standing" in names
+        assert "standing decides before judged fatals" in names
         assert "standing comes before the unjudged fatals" in names
         assert len(_rank_cases()) >= 8
 
@@ -259,8 +272,8 @@ class TestComposeReSortsOnTheRefusalItself:
         res = compose_module.compose(_brief(), candidates=4, revise=True, revise_rounds=0,
                                      revise_engine="heuristic", revise_budget_s=120)
         # RE-CUT 29 Oct 2026 (WP-17.6): with three of the four drawable the pool-fill places down
-        # the pool and adds what it finds drawable, ranked by the same key -- fatals first (ruling
-        # 7), so an added house carrying more fatals stands after the refused one, rightly. The
+        # the pool and adds what it finds drawable, ranked by the same key -- the standing first
+        # since 30 Oct 2026, so an added drawable house stands before the refused one. The
         # standing is a property of the set ASKED FOR, which is what this test reads; the added
         # houses are held to the key by `tests/test_pool_fill.py`.
         added = set((res.get("pool_fill") or {}).get("added") or [])
@@ -293,7 +306,7 @@ class TestComposeReSortsOnTheRefusalItself:
         assert "_sort_key = rank_key" in src
         # THREE SINCE PHASE 17 (29 Oct 2026, WP-17.6): the declared pass, the placed loop, and the
         # set the pool-fill returns -- the asked set and the drawable houses added from the pool are
-        # ordered by the same key (ruling 7), so a house filled from the pool never leads a
-        # fatal-free one. The third site is named, so a fourth sort, or the third on another key, fails.
+        # ordered by the same key (the standing first since 30 Oct 2026), so a house filled from the
+        # pool never leads a drawable fatal-free one. The third site is named, so a fourth sort, or the third on another key, fails.
         assert src.count("key=_sort_key") == 3
         assert "returned = sorted(out[:candidates] + added, key=_sort_key)" in src

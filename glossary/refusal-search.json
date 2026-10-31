@@ -1,0 +1,11 @@
+{
+  "id": "refusal-search",
+  "term": "not proven: placed by the search",
+  "family": "house",
+  "definition": "The prover did not answer in time, and the fallback search, which is told none of the type’s facts, drew the arrangement that was refused. The refusal is about that arrangement, not the house.",
+  "kind": "editorial",
+  "basis": "Editorial. build/typefacts.py, the refusal's class: \"Only PROVEN says the brief or the parti must change.\" and its classes: \"the placement is the hill-climb's, which is told none of these facts: the placer's.\"",
+  "see": [
+    "term:judgment-refused"
+  ]
+}

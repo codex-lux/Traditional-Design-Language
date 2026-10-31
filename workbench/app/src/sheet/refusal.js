@@ -82,10 +82,37 @@ export function readRefusal(body) {
     lines: strings(raw.lines),
     engine: str(raw.engine),
     status: str(raw.status),
+    // WHOSE FAILURE IT IS (ruled 30 Oct 2026): `typefacts.refusal_class`, one of four, or null
+    // where the server did not say -- a refusal from before the class existed, read as NOT proven
+    cls: REFUSAL_CLASSES.includes(str(raw.class)) ? str(raw.class) : null,
     // the one sentence the route puts beside the refusal; on the evaluate path it rides on the
     // 200 body rather than on the refusal, so a caller may pass either and get the same object
     error: str(body.error) || str(raw.error),
   };
+}
+
+/* THE REFUSAL'S CLASS, AND THE GLOSSARY RECORD THAT SAYS IT (ruled by Lucas, 30 Oct 2026).
+
+   A refusal said "the brief or the parti is what changes" whatever it was, and on Lucas's
+   Tidewater brief the native five-part Palladian was refused because the prover ran out of time
+   and the fallback search, told none of the type's facts, drew the layout that failed. The class
+   is `build/typefacts.py::refusal_class`'s, carried on the refusal; only PROVEN is a statement
+   about the house. The words are glossary records, never this file's: a class the server did not
+   state reads `refusal-class-unstated`, which is not proven -- a refusal is never assumed to be
+   about the house because nobody said otherwise. `REFUSAL_CLASSES` is a copy of
+   `typefacts.REFUSAL_CLASSES` in another language; `tests/test_refusal_class.py` holds the two. */
+export const REFUSAL_CLASSES = Object.freeze(['PROVEN', 'UNDECIDED', 'MISMATCH', 'SEARCH']);
+const CLASS_TERM = Object.freeze({
+  PROVEN: 'refusal-proven', UNDECIDED: 'refusal-undecided',
+  MISMATCH: 'refusal-mismatch', SEARCH: 'refusal-search',
+});
+export function refusalClassTerm(r) {
+  if (!r) return null;
+  return CLASS_TERM[r.cls] || 'refusal-class-unstated';
+}
+/* Whether the refusal is a statement about the HOUSE. Only a proven one is. */
+export function refusalIsProven(r) {
+  return Boolean(r) && r.cls === 'PROVEN';
 }
 
 /* The sentences a conflict-set panel prints, in the corpus's own words.

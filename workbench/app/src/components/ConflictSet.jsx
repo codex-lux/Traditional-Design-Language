@@ -1,7 +1,8 @@
 /* THE CONFLICT SET, WHERE THE PLATE WOULD BE (WP-13.4).
 
    Lucas ruled on 15 Sep 2026 that a placement breaking a hard fact of the type is REFUSED, not
-   drawn, and that the bench shows the conflict set: the brief or the parti is what changes.
+   drawn, and that the bench shows the conflict set. On 30 Oct 2026 he ruled that it say WHOSE
+   failure the refusal is: only a proven one says the brief or the parti must change.
    This is what stands in the plate's place. It is NOT a toast and NOT a red banner — same
    rectangle, same weight, same padding as a result, on `components/RefusalCard.jsx`'s
    precedent, because a refusal is content and not an error.
@@ -31,7 +32,10 @@
    six. */
 import React from 'react';
 import { Eyebrow } from './Eyebrow.jsx';
-import { conflictLines, unstatedConflicts, namesSomething, refusalHeadline } from '../sheet/refusal.js';
+import { conflictLines, unstatedConflicts, namesSomething, refusalHeadline, refusalClassTerm } from '../sheet/refusal.js';
+import { Term } from './Term.jsx';
+import { useGlossary } from '../api/useGlossary.js';
+import { termView } from '../glossary/termView.js';
 
 const PANEL = {
   border: '1px solid var(--border-hairline)',
@@ -47,12 +51,16 @@ const LIST = { font: 'var(--fw-reg) 12.5px/1.6 var(--body)', color: 'var(--text-
 const FINE = { font: 'var(--type-data-s)', color: 'var(--text-secondary)', margin: '9px 0 0' };
 
 export function ConflictSet({ refusal, infeasible, drawnBelow = false, where = 'the drawing', note }) {
+  const glossary = useGlossary();
   if (refusal) {
+    const classTerm = refusalClassTerm(refusal);
+    const classView = termView(glossary, { id: classTerm });
     const lines = conflictLines(refusal);
     const unstated = unstatedConflicts(refusal);
     const named = namesSomething(refusal);
     return (
       <div data-conflict-set="refusal" data-refusal-kind={refusal.kind}
+        data-refusal-class={refusal.cls || ''}
         data-refusal-facts={refusal.facts.length} data-refusal-lines={lines.length}
         data-refusal-unstated={unstated} style={PANEL}>
         <Eyebrow tone="secondary">
@@ -80,11 +88,17 @@ export function ConflictSet({ refusal, infeasible, drawnBelow = false, where = '
             refusal, not a small refusal: it is being shown as it arrived rather than dressed up.
           </p>
         )}
+        {/* WHOSE FAILURE IT IS (ruled 30 Oct 2026). Until this the panel ended "the brief or
+            the parti is what changes" on every refusal; that is true of a PROVEN one alone, and
+            the words for each class are its glossary record's, never this file's. */}
+        <p data-refusal-class-term={classTerm} style={{ ...LEAD, color: 'var(--text-body)' }}>
+          <strong><Term id={classTerm} /></strong>
+          {classView.state === 'ready' ? <> — {classView.definition}</> : null}
+        </p>
         <p style={FINE}>
-          Nothing is drawn from this placement. The record still carries the search&rsquo;s
-          least-bad arrangement — it is what the conflict set above is an explanation of — and no
-          surface draws it and no export may take it.{' '}
-          <strong>The brief or the parti is what changes.</strong>
+          Nothing is drawn from this placement. The record still carries the
+          least-bad arrangement the placer reached — it is what the conflict set above is an
+          explanation of — and no surface draws it and no export may take it.
           {refusal.engine
             ? ` Refused on ${refusal.engine === 'cp-sat' ? 'the proof (CP-SAT)' : refusal.engine}${refusal.status ? `, ${refusal.status}` : ''}.`
             : ''}
