@@ -564,7 +564,14 @@ const NOT_FRONT = OPPOSITE[FRONT] || 'N';
      contract forbids -- a 150 s death that looked exactly like a slow solve. The block at the
      foot of this file does the same thing correctly only because it arrives from another
      route. `reload()` is the honest spelling of what this wants. */
-  await page.reload({ waitUntil: 'networkidle' });
+  /* `load`, NOT `networkidle`, AND THE WAIT BELOW IS THE ONE THAT MEANS SOMETHING (19 Nov 2026).
+     A reload of the bench boots an evaluate, and that request is CP-SAT at the interactive
+     budget -- measured here at 28.1 s before the sheet arrives, more on a CI runner -- so
+     `networkidle` (no request for 500 ms, inside Playwright's default 30 s) raced the solve and
+     lost twice running on PR #45's runner, dying here and reading like a broken surface. The
+     page is loaded when the document is; the sheet is waited for by its own selector below,
+     with the budget the solve needs. */
+  await page.reload({ waitUntil: 'load' });
 }
 // The sheet arrives AFTER the evaluate, and the evaluate runs CP-SAT at the interactive
 // budget (`BUDGET_INTERACTIVE_S`, 25 s) before it can fall back -- measured here at 28.1 s
@@ -911,6 +918,12 @@ const sheetBox = () => page.evaluate(() => {
   const s = document.querySelector('main svg[role="img"]');
   return s ? s.getBoundingClientRect().width : 0;
 });
+// THE LOUPE IS ON THE SHEET, SO WAIT FOR THE SHEET (19 Nov 2026). The re-solve above runs the
+// corrective rounds -- about 62 s on a quiet box -- and its panel can arrive before the sheet it
+// redraws, so on PR #45's runner the default 30 s click timed out on a `+` that had not been
+// drawn yet. The sheet's own wait uses the budget the solve needs, as the wait after the reload
+// above does.
+await page.waitForSelector('svg[role="img"]', { timeout: 150000 });
 const wFit = await sheetBox();
 await page.getByRole('button', { name: '+', exact: true }).first().click();
 await page.getByRole('button', { name: '+', exact: true }).first().click();
@@ -4156,7 +4169,9 @@ check('and the spine brings it back', await page.locator('nav[aria-label="surfac
        DRAWABLE record. Every assertion below then measures the wrong house and the first of
        them ("a refused placement draws NO plate") fails on a plate that is correctly there. */
     await page.goto(BASE + '#/workbench');
-    await page.reload({ waitUntil: 'networkidle' });
+    // `load`, not `networkidle`: the refused record's evaluate is the same 25 s solve the
+    // reload near the top of this file races (see the note there); its conflict set is the wait.
+    await page.reload({ waitUntil: 'load' });
     await page.waitForSelector('[data-conflict-set]', { timeout: 90000 }).catch(() => {});
 
     const bench = await page.evaluate(() => {
