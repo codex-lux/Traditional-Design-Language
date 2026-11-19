@@ -1,6 +1,10 @@
 import React from 'react';
 import { Eyebrow } from './Eyebrow.jsx';
 import { adaptRevision, roundLine, CLASSES, classTag } from '../revision.js';
+import { Term } from './Term.jsx';
+import { useGlossary } from '../api/useGlossary.js';
+import { termView } from '../glossary/termView.js';
+import { readRefusal, refusalClassTerm } from '../sheet/refusal.js';
 
 /* The loop's account of itself, on the bench (WP-9.3).
 
@@ -67,6 +71,10 @@ function Move({ m, findingText, onCite }) {
 
 export function RevisionPanel({ report, live, statements, onCiteFinding }) {
   const r = adaptRevision(report);
+  const glossary = useGlossary();
+  // whose failure the refusal the loop stopped on is (ruled 30 Oct 2026): its class's record
+  const afterClassTerm = r && r.refusedAfter ? refusalClassTerm(readRefusal(r.refusedAfter)) : null;
+  const afterClass = afterClassTerm ? termView(glossary, { id: afterClassTerm }) : null;
   const findingText = (id) => (statements && statements[id]) || id;
   if (!r && !(live && live.length)) return null;
   return (
@@ -106,7 +114,11 @@ export function RevisionPanel({ report, live, statements, onCiteFinding }) {
               {r.refusedAfter.facts && r.refusedAfter.facts.length
                 ? ` — ${r.refusedAfter.facts.join(', ')} ${r.refusedAfter.facts.length === 1 ? 'is' : 'are'} downgraded`
                 : ''}
-              : no sheet, export or model is drawn from it. The brief or the parti is what changes.
+              : no sheet, export or model is drawn from it.{' '}
+              <span data-refusal-class-term={afterClassTerm}>
+                <Term id={afterClassTerm} />
+                {afterClass && afterClass.state === 'ready' ? <> — {afterClass.definition}</> : null}
+              </span>
             </p>
           )}
           {r.refusalCleared && (

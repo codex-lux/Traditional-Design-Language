@@ -120,6 +120,59 @@ compose budget (`oq/the-side-hall-partis-stacks-cannot-co-hold-in-band`, amended
   as a wet stack; re-filing it moved that placement and took the build's reds from 20 to 108. Reported,
   ceiling one: `oq/a-shipped-record-files-a-wet-stack-as-structural`.
 
+**A REFUSAL BLAMED THE BRIEF FOR THE PLACER'S FAILURE, AND TWO REFUSED HOUSES LED THE SET (30 Oct 2026).**
+Read `docs/reports/the-refusal-that-blamed-the-brief-2026-10-30.md` before touching `compose.rank_key`,
+`typefacts.refusal_class`, `compose.retry_decision` or a refusal's wording. Lucas read two refused cards
+with fatal 0 above four drawable ones with fatal 1, under a panel ending "the brief or the parti is what
+changes" while the native five-part had only run out of prover time. *(Corrected 19 Nov 2026: the
+report called that refusal the fallback search's, SEARCH; it was the prover's, UNDECIDED. See below.)*
+He ruled two things, asked and answered as two acts:
+- **Drawable first.** `rank_key` is (standing, judged fatals, unjudged fatals, score): placed, then not
+  yet placed, then refused, whatever the fatal count. This reverses the 16 Oct key's order.
+- **The composer retries an unproven refusal automatically.** A native diagram refused UNDECIDED or
+  SEARCH is placed once more at 2x the compose budget, inside the set's budget, adopted only if not
+  refused, and every branch is said on `card.retry` and in the decisions.
+- **A fatal is a finding about a house that can be drawn; a refusal says nothing can be drawn.** Every
+  refusal carries `class` (PROVEN / UNDECIDED / MISMATCH / SEARCH) from `typefacts.refusal_class`, the
+  one spelling (`drawability._class_of` delegates). Only PROVEN says the brief or the parti must change;
+  a refusal stating no class is never read as proven. The words are glossary records (`refusal-*`).
+- **A disqualified card names its fatals** (`fatal_findings`), and the bearing sentence says capacity
+  does not refuse.
+
+**AND THE PLACED TIER WAS SPLIT, AND EVERY CP REFUSAL HAD BEEN CLASSED SEARCH (19 Nov 2026).** Read
+the same report's §X before touching `compose.drawability_tier`, `candidateOrder.tierOf`, the rail's
+refusal sentence or `geometry._finish`. Two rulings, asked and answered as two acts:
+- **A placed house the acceptance instrument reads NOT DRAWABLE ranks below every drawable house and
+  above every unplaced one.** The first key is `compose.drawability_tier`: drawable where judged,
+  placed and not shown drawable, not yet placed, refused. A placed card is never read drawable on an
+  absence. `placement_standing` is unchanged, and so are the pool-fill and R10's two counts.
+- **A refused card stays unopenable** (WP-13.4 and the 16 Oct ruling, re-affirmed).
+
+What else changed:
+- **The assistant is told the refusal's class.** The client sends `refused.class` and `rail.py`
+  writes `typefacts.class_sentence`; a client sending no `class` key gets its old prompt byte for byte.
+- **`geometry._finish` judged the refusal before it wrote the solver block**, so every refusal of a
+  CP-SAT placement read no engine and was classed SEARCH. The solver block is written first now. The
+  30 Oct reading of the five-part ("the hill-climb drew it") was the instrument's.
+- **The retry multiple is measured and stays 2.0.** On his brief, four draws at each of 1×, 1.5× and
+  2×: the five-part 0 of 12 placed, the single pile 2 of 4 at 2× and none below. A longer budget
+  scales every prover stage's share, so the reinstatement pass is shut whatever T is
+  (`oq/the-reinstatement-pass-gets-no-time-after-an-undecided-portfolio`).
+- **Three pre-existing reds join the known list, attributed against a clean worktree of `d9231d7`**:
+  `tests/test_composition.py::TestSolveIntegration::test_service_rooms_land_toward_the_rear` and, in
+  `tests/test_scene_entrance.py`, the flight's treads test and the checker-and-plate front-door bay
+  test. **The known list is 23 ids**: the 18 gate rows, `test_solver`'s half bound,
+  `test_parti_composability`, and these three. *(Corrected 19 Nov 2026, at the merge of main's
+  `f59137b`: main's line fixed all three -- the service-room row by its reinstatement pass, the two
+  entrance pins re-pinned to the placement that moved -- and they pass on the merged tree, run by
+  id. **The known list is 20 ids again.**)*
+- **The whole build on this tree is `3 of 54 checks failed`, and every `tests/` red is on that list
+  by id** (22 failed / 4,057 passed / 134 skipped; one CP-band gate row passed). The server suite's
+  one red was `c67cefa`'s own: `test_refusal_routes`' shape pin, never judged in that package's run
+  because the suite skipped without fastapi. It is widened to `class`, `classes`, `proven`, held to
+  `typefacts.REFUSAL_CLASSES`, and mutation-checked. **A pin skipped for want of a library is a pin
+  nobody read: install fastapi before trusting the server suite's colour.**
+
 **AND WP-17.9 AUDITED THE TRANCHE TWICE ON 30 OCT 2026: READ THE REPORT'S §X AND §XI BEFORE TRUSTING A
 FIGURE ABOVE.** Rulings 9-14 are recorded as question-and-answer acts, and the report and
 `PLAN-OF-ACTION.md`'s Phase 17 board carry them.
@@ -1483,7 +1536,7 @@ deferred. §XII covers the guards.
   - **The branch is not yet mergeable.** Main carries a parallel Phase 14, and joining the two is
     the next piece of work. (Joined the same day: see the paragraph on the two Phase 14s above.)
 
-**The test figure in the counts paragraph below is 4,191, the app suite 892 and the server suite 521** (4,191 since 19 Nov 2026: `tests/test_reinstate_outside_the_cores.py` added two and nothing was removed, re-collected with `pytest --collect-only`; it was 4,189 at the merge, a THIRD VALUE at the merge of the two Phase 17s, 30 Oct 2026, reconciled BY NAME against both parents and their base `6fcc665`: `tests/` is this line's 4,188 plus the Workbench line's one new test (`test_chronology_parity`), and the three base ids only main still carries are ones this line re-cut away; the app suite is the base's 816 plus 11 of this line's and 65 of the Workbench line's, and the eight base app tests absent from the merge are ones main removed with the journey bar; the server suite is the base's 467 plus 35 of this line's and 19 of main's. Before the merge: 4,188 and 827 here, 4,076, 820 and a server suite of 478 at `739ff29`, the audit of Phase 17's three blocking fixes; the audit's remaining findings and its second audit, 30 Oct 2026, reconciled BY NAME against a worktree of `739ff29`: 115 tests added and 3 re-cut away -- the portfolio-report test and two wet-stack census tests R9's revert re-cut -- and the server suite 478 -> 502; 4,058 and 820 at Phase 17's first tranche, and before it 4,006 and 816 until Phase 17's first tranche, 29-30 Oct 2026, reconciled BY NAME against a worktree of `6fcc665`: 65 tests added and 3 re-cut away -- the allowance test ruling 4 retired, and the Tidewater W cases moved to the spec Colonial's W face -- and 10 added to the server suite, 467 -> 477; with `ezdxf` installed 14 more collect, as in CI; 3,995 until the parti check's instrument of 16 Oct 2026, which added 11 tests, all in `tests/test_parti_check_judges_the_product_house.py`, and removed none, reconciled by name; the app suite was 814 until the CI fixes of 16 Oct 2026, which added the two row-pitch guards; 3,957 and 804 until the follow-up of 16 Oct 2026, reconciled by name against `e048a89`: 38 Python tests added in `tests/test_refusal_ranks_last.py`, 2 in the rail's server suite, 11 app tests added and 1 re-cut under a new name, none removed. The app suite was 767 until the candidate-click fix of 15-16 Oct 2026, which added nineteen app tests: seven in the first pass and twelve in the pass its audit forced; 786 was the figure written then, and the follow-up's own first commit made it 804 without this line moving). §X.12 (4 Oct 2026) added two guards to `tests/test_determinism.py`, reconciled by name against `630a924`; it was 3,955 before. The audit of
+**The test figure in the counts paragraph below is 4,254, the app suite 900 and the server suite 522** (a THIRD VALUE at the merge of main's `f59137b` into this branch, 19 Nov 2026, reconciled BY NAME: this branch's 4,223, plus the 29 of `tests/test_refusal_repair.py` (the repair, ruled 19 Nov 2026), plus main's two in `tests/test_reinstate_outside_the_cores.py`, and none removed -- main's own 4,191 is the base's 4,189 plus those two; the app suite gained the repair adapter's test and the server suite is unmoved; 4,223, 899 and 522 until then, and 4,216, 898 and 521 until the placed tier was split, 19 Nov 2026, reconciled BY NAME against a worktree of `c67cefa`: 7 tests added -- 3 in `TestThePlacedStandingIsSplitByTheInstrument`, 3 new rows of the shared ranking table, and the solver-before-verdict spy in `tests/test_refusal_class.py` -- and none removed; the app suite gained `tierOf`'s test and the server suite the rail's class test, while `test_refusal_routes`' shape pin was re-cut, not added; 4,189 and 892 until the refusal that blamed the brief, 30 Oct 2026, reconciled BY NAME against a worktree of `d9231d7`: 29 tests added -- 14 in `tests/test_refusal_class.py`, 11 in `tests/test_refusal_retry.py`, 4 in `tests/test_refusal_ranks_last.py` -- and 2 re-cut away, the fatals-first key test and its table row; six app tests added, none removed. Before that it was a THIRD VALUE at the merge of the two Phase 17s, 30 Oct 2026, reconciled BY NAME against both parents and their base `6fcc665`: `tests/` is this line's 4,188 plus the Workbench line's one new test (`test_chronology_parity`), and the three base ids only main still carries are ones this line re-cut away; the app suite is the base's 816 plus 11 of this line's and 65 of the Workbench line's, and the eight base app tests absent from the merge are ones main removed with the journey bar; the server suite is the base's 467 plus 35 of this line's and 19 of main's. Before the merge: 4,188 and 827 here, 4,076, 820 and a server suite of 478 at `739ff29`, the audit of Phase 17's three blocking fixes; the audit's remaining findings and its second audit, 30 Oct 2026, reconciled BY NAME against a worktree of `739ff29`: 115 tests added and 3 re-cut away -- the portfolio-report test and two wet-stack census tests R9's revert re-cut -- and the server suite 478 -> 502; 4,058 and 820 at Phase 17's first tranche, and before it 4,006 and 816 until Phase 17's first tranche, 29-30 Oct 2026, reconciled BY NAME against a worktree of `6fcc665`: 65 tests added and 3 re-cut away -- the allowance test ruling 4 retired, and the Tidewater W cases moved to the spec Colonial's W face -- and 10 added to the server suite, 467 -> 477; with `ezdxf` installed 14 more collect, as in CI; 3,995 until the parti check's instrument of 16 Oct 2026, which added 11 tests, all in `tests/test_parti_check_judges_the_product_house.py`, and removed none, reconciled by name; the app suite was 814 until the CI fixes of 16 Oct 2026, which added the two row-pitch guards; 3,957 and 804 until the follow-up of 16 Oct 2026, reconciled by name against `e048a89`: 38 Python tests added in `tests/test_refusal_ranks_last.py`, 2 in the rail's server suite, 11 app tests added and 1 re-cut under a new name, none removed. The app suite was 767 until the candidate-click fix of 15-16 Oct 2026, which added nineteen app tests: seven in the first pass and twelve in the pass its audit forced; 786 was the figure written then, and the follow-up's own first commit made it 804 without this line moving). §X.12 (4 Oct 2026) added two guards to `tests/test_determinism.py`, reconciled by name against `630a924`; it was 3,955 before. The audit of
 WP-16.8's own diff (3 Oct 2026) added 71 tests and re-cut 2 away: 53 in the new
 `tests/test_audit_of_wp_16_8.py`, 8 in `tests/test_window_pier.py`, 3 each in `tests/test_roof.py`
 and `tests/test_roof_form.py`, and 1 each in `tests/test_ifc_openings_are_the_sheets.py`,
@@ -2279,7 +2332,7 @@ A place is now a URL, and that URL is the citation grammar written down — `#/k
 beside it so the two cannot drift. **The grammar is spelled in three places — `REF_RE` and
 `CITE_RE` in `workbench/server/`, `parseCite` in the app — and an audit found two of the three
 disagreeing about the dot in a constraint id, which is why `test_grammar_agreement.py` now
-reads the JavaScript and holds all three against each other. Do not add a fourth copy.** Search is `⌘K` over `/api/search/index` (929 named things,
+reads the JavaScript and holds all three against each other. Do not add a fourth copy.** Search is `⌘K` over `/api/search/index` (934 named things,
 dispatching by citation); `/` filters the list in front of you; `?` explains both. Filters live
 in the query string via `filters/useFilters.js` — do not reintroduce per-surface filter state.
 `Chip` is now only ever a filter; acts are `ActionChip`. Report:
@@ -2293,8 +2346,8 @@ and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 
 migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
 2044 image records, **73 sourced** (the first ever — drawn by the corpus from its own
-proportion packs; 1971 still wanted, and 955 of those can never be harvested) · 14 reference plans · 27 MCP tools · **54 checks, 4,191 tests**
-(plus the workbench app suite, **892** under `node --test` (827 until the merge of the two Phase 17s, 30 Oct 2026; 820 until the audit of Phase 17, 30 Oct 2026; 816 until Phase 17's first tranche; 767 until 15 Oct 2026, 804 until 16 Oct 2026's follow-up, 814 until its CI fixes); both a THIRD VALUE at the merge of the two Phase 14s, 27 Sep 2026, reconciled BY NAME against both parents: the ink line's 3,090 and 316 and main's 2,824 and 659, of which 149 tests and 95 app tests are the ink line's own and 416 and 439 main's. The only tests a parent has and the merge lacks are one base test each line re-cut: main's copy of the transom test, which the ink line re-cut, and the ink line's copy of a compose-events app test, which main re-cut. Main's pair was measured 26 Sep 2026 on WP-14.33's audited tree, the first as the sum of four `--shard i/4` runs in `git worktree`s, 22 failed + 2,777 passed + 25 skipped -- all 22 failures the WP-14.32 baseline's; it read 2,795 and 636 at WP-14.32, where 32 failed + 2,739 passed + 24 skipped, 7 of those failures the shards' `git archive` extracts carrying no `.git`, and 2,746 and 515 at WP-14.15. The app suite had read 210 here since before Phase 12, while the suite grew past five hundred: nothing polices this line). Those figures were 970/36 before the
+proportion packs; 1971 still wanted, and 955 of those can never be harvested) · 14 reference plans · 27 MCP tools · **54 checks, 4,254 tests**
+(plus the workbench app suite, **900** under `node --test` (899 until the repair, 19 Nov 2026; 898 until the placed tier was split, 19 Nov 2026; 892 until the refusal that blamed the brief, 30 Oct 2026; 827 until the merge of the two Phase 17s, 30 Oct 2026; 820 until the audit of Phase 17, 30 Oct 2026; 816 until Phase 17's first tranche; 767 until 15 Oct 2026, 804 until 16 Oct 2026's follow-up, 814 until its CI fixes); both a THIRD VALUE at the merge of the two Phase 14s, 27 Sep 2026, reconciled BY NAME against both parents: the ink line's 3,090 and 316 and main's 2,824 and 659, of which 149 tests and 95 app tests are the ink line's own and 416 and 439 main's. The only tests a parent has and the merge lacks are one base test each line re-cut: main's copy of the transom test, which the ink line re-cut, and the ink line's copy of a compose-events app test, which main re-cut. Main's pair was measured 26 Sep 2026 on WP-14.33's audited tree, the first as the sum of four `--shard i/4` runs in `git worktree`s, 22 failed + 2,777 passed + 25 skipped -- all 22 failures the WP-14.32 baseline's; it read 2,795 and 636 at WP-14.32, where 32 failed + 2,739 passed + 24 skipped, 7 of those failures the shards' `git archive` extracts carrying no `.git`, and 2,746 and 515 at WP-14.15. The app suite had read 210 here since before Phase 12, while the suite grew past five hundred: nothing polices this line). Those figures were 970/36 before the
 infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
 suite of 33 until WP-5.11 read the total. **It said 32 again for an hour on 27 Aug, in this
 sentence, for the same reason** — the 27 Aug merge resolved the conflict here by measuring

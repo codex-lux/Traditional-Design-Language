@@ -3505,9 +3505,15 @@ def _finish(plan, best, fpd, levels, solver=None, infeasible=None):
         "note": ("Rooms placed below the floor of their own catalogue band (OQ 54)." if ub
                  else "Every room was placed at or above the floor of its own catalogue band.")}
     plan["geometry_report"]["voids"] = voids_report(_rects, _prep, ring=None)
-    _disclose(plan, fpd)
+    # THE SOLVER REPORT IS WRITTEN BEFORE THE VERDICT IS DRAWN (19 Nov 2026). `_disclose` ends in
+    # `TF.judge`, and the refusal's class is read off `geometry_report.solver` -- which this
+    # function used to write AFTER `_disclose`, so every refusal of a CP-SAT placement read no
+    # engine and was classed SEARCH ("the fallback search drew this arrangement") over a record
+    # whose solver block said cp-sat. Found by a sweep printing both. `_disclose` reads nothing
+    # from the solver block, so the order is free.
     if solver:
         plan["geometry_report"]["solver"] = solver
+    _disclose(plan, fpd)
     if infeasible:
         _refuse(plan, infeasible)      # attach the conflict set, then re-decide (WP-13.4)
     return plan

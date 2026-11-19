@@ -36,15 +36,21 @@ def _composer_order(c):
 
 
 def _assert_the_ruled_properties(cands):
-    """Read off the returned cards, never off the key: judged fatals never rise, and within equal
-    judged fatals a refused house never stands above one that may be drawn."""
-    fatals = [c["counts"].get("fatal", 0) for c in cands]
-    assert fatals == sorted(fatals), "a fatal-bearing plan came back above a cleaner one"
-    for f in set(fatals):
-        ranks = [CO.STANDING_RANK[CO.placement_standing(c)] for c in cands
-                 if c["counts"].get("fatal", 0) == f]
-        assert ranks == sorted(ranks), (
-            f"at {f} judged fatal(s) a refused house came back above one that may be drawn")
+    """Read off the returned cards, never off the key: the tier never rises (drawable where judged,
+    then placed and not shown drawable, then not placed, then refused -- the FIRST key, ruled
+    30 Oct 2026 and split 19 Nov 2026), and within one tier judged fatals never rise. The tier is
+    read off each card's own standing and its own `drawability`, not through `drawability_tier`."""
+    def tier(c):
+        st = CO.placement_standing(c)
+        if st == "placed":
+            return 0 if (c.get("drawability") or {}).get("where_judged") is True else 1
+        return {"unjudged": 2, "refused": 3}[st]
+    ranks = [tier(c) for c in cands]
+    assert ranks == sorted(ranks), "a less drawable house came back above a more drawable one"
+    for r in set(ranks):
+        fatals = [c["counts"].get("fatal", 0) for c in cands if tier(c) == r]
+        assert fatals == sorted(fatals), (
+            "within one tier a fatal-bearing plan came back above a cleaner one")
 
 
 @pytest.fixture(scope="module")

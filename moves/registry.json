@@ -15,7 +15,9 @@
       "add the door the opening grammar prescribes between a stranded room and a placed neighbour",
       "drop a room the parti marks optional that the placement cannot hold",
       "split a room where its grouping's own record says to split rather than enlarge",
-      "ask the engine for a proof or a wider search"
+      "ask the engine for a proof or a wider search",
+      "resize a broken stack's upper room to the declared size of the room it declares it stacks over, as a judgment (ruled 19 Nov 2026)",
+      "move a declared fire onto the one flue wall the massing names and the room declares exterior (ruled 19 Nov 2026, on the 26 Sep ruling that the massing and kit govern the fire's wall)"
     ],
     "may_not": [
       "add a room the parti has no place for",
@@ -363,6 +365,41 @@
       "note": "Ruled 1 Sep 2026. Only where a grouping's own record states the transformation; the scullery case (kitchen-work-core, 'Add a back kitchen or scullery rather than enlarging') adds a room and is not built -- see refusals."
     },
     {
+      "id": "size-the-upper-room-to-the-room-it-stacks-over",
+      "answers": {
+        "layer": "drawn",
+        "kind": "stack-broken"
+      },
+      "kind": "editorial",
+      "judgment": true,
+      "basis": "build/plan_check.py drawn layer stack-broken: \"Place the two together, or drop the stacks_over claim.\" -- the record's own stacks_over claim is the reason; no corpus sentence states that the two rooms must be one size, which is why this is a judgment.",
+      "precondition": "both the room and the room it declares it stacks over state a declared width and length, the upper room is not already that size, and the room below's size lies inside the upper room's own area, width and proportion bands",
+      "touches": [
+        "levels[].rooms[].width_ft",
+        "levels[].rooms[].length_ft"
+      ],
+      "requires": "re-place",
+      "authority": "dimensions",
+      "note": "Ruled 19 Nov 2026 (docs/reports/the-refusal-repaired-2026-11-19.md). Replaces the stated refusal `align-upper-walls-to-the-room-below`, whose reason was: \"No corpus record states that a room's declared exterior walls should match the room it stacks over. An editorial move with no quotable basis is a guess wearing a registry id.\" The ruling keeps that reason true and acts anyway, as a judgment: the move edits only declared dimensions, the placement is re-solved, and the loop's acceptance rule decides whether the stack now lands. On the search a broken stack stays a placement outcome (critique._is_placement), so the move is offered where the engine proves."
+    },
+    {
+      "id": "put-the-fire-on-the-flue-wall",
+      "answers": {
+        "layer": "hearth",
+        "kind": "hearth-off-the-stack-wall"
+      },
+      "kind": "editorial",
+      "judgment": true,
+      "basis": "build/hearths.py flue_walls: \"The style's massing and kit govern the wall a fire stands on.\" -- the wall is the one hearths.flue_walls names and the room declares exterior, never this move's choice.",
+      "precondition": "the room states a fire on a wall the massing puts no stack on, hearths.flue_walls reads the massing and names walls, and exactly one of them is among the room's declared exterior walls",
+      "touches": [
+        "levels[].rooms[].hearth[].wall"
+      ],
+      "requires": "re-place",
+      "authority": "declared",
+      "note": "Ruled 19 Nov 2026 (docs/reports/the-refusal-repaired-2026-11-19.md). A fire the placement released from a correctly declared wall has no declared disagreement, and stays with the placer and the retry. No composed house states a fire, so the composer's repair never reaches this move; the bench's inline revision on a hand-authored record does."
+    },
+    {
       "id": "search-harder",
       "answers": {
         "class": "placement"
@@ -391,10 +428,6 @@
     {
       "id": "shorten-for-daylight",
       "why": "compose.repair shortened a room's length when its window head could not reach the back of it -- a SIZE move for an ARRANGEMENT finding, which OQ 92 ruled against ('the tail wagging the dog'), and against the finding's own fix text. Retired, deliberately."
-    },
-    {
-      "id": "align-upper-walls-to-the-room-below",
-      "why": "No corpus record states that a room's declared exterior walls should match the room it stacks over. An editorial move with no quotable basis is a guess wearing a registry id."
     },
     {
       "id": "accept-the-drawn-size",

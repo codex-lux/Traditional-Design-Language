@@ -71,3 +71,13 @@ re-anchored. This entry exists so that the cost of that ruling is written where 
   facts, and the refusal names several.
 - How often a composed set's candidates take this path. The two measured were both undecided on the
   portfolio; the rate over a brief's whole pool was not counted.
+
+## Amended 19 November 2026: the retry sweep on Lucas's Tidewater brief
+
+The native five-part and single pile, composed once and placed as the composer's retry places them,
+four draws at each of 60, 90 and 120 s on one quiet four-core container (CP under a wall clock is a
+draw, not a figure): the five-part 0 of 12 placed, every refusal UNDECIDED on bearing, stacks and
+tiling (once stacks and tiling); the single pile 0 of 8 at 60 and 90 s and 2 of 4 at 120 s. Every
+placement is the prover's. A longer budget scales every stage's share, so it does not move the
+reinstatement pass's window; on the five-part, more time bought nothing. Figures:
+`docs/reports/the-refusal-that-blamed-the-brief-2026-10-30.md` §X. **Still open.**

@@ -362,3 +362,52 @@ test('both export controls go through api/client.js and are blocked on a refusal
   assert.match(live('api/client.js'), /exportCad:/,
     'api/client.js must expose the export route it was given');
 });
+
+/* WHOSE FAILURE A REFUSAL IS (ruled by Lucas, 30 Oct 2026). `typefacts.refusal_class` puts one of
+   four classes on every refusal; this app reads it and words it through a glossary record. A class
+   the server did not state, or one this app does not know, reads as UNSTATED and never as proven:
+   "the brief or the parti must change" is said of a proven refusal alone. */
+import { REFUSAL_CLASSES, refusalClassTerm, refusalIsProven } from './sheet/refusal.js';
+
+test('the class rides on the refusal, and only a stated one of the four is read', () => {
+  for (const cls of REFUSAL_CLASSES) {
+    assert.equal(readRefusal({ ...DOWNGRADED, class: cls }).cls, cls);
+  }
+  assert.equal(readRefusal(DOWNGRADED).cls, null, 'an older refusal states no class');
+  assert.equal(readRefusal({ ...DOWNGRADED, class: 'MAYBE' }).cls, null, 'an unknown class is not read');
+  assert.equal(readRefusal({ refused_placement: { ...DOWNGRADED, class: 'SEARCH' } }).cls, 'SEARCH',
+    'the 422 wrapper carries the class through');
+});
+
+test('each class names its own glossary record, and an unstated one is never the proven one', () => {
+  const term = (cls) => refusalClassTerm(readRefusal({ ...DOWNGRADED, class: cls }));
+  assert.deepEqual(REFUSAL_CLASSES.map(term),
+    ['refusal-proven', 'refusal-undecided', 'refusal-mismatch', 'refusal-search']);
+  assert.equal(refusalClassTerm(readRefusal(DOWNGRADED)), 'refusal-class-unstated');
+  assert.equal(refusalClassTerm(null), null);
+  assert.equal(refusalIsProven(readRefusal({ ...DOWNGRADED, class: 'PROVEN' })), true);
+  for (const cls of ['UNDECIDED', 'MISMATCH', 'SEARCH', undefined]) {
+    assert.equal(refusalIsProven(readRefusal({ ...DOWNGRADED, class: cls })), false, String(cls));
+  }
+});
+
+test('every record a class names exists in the glossary', () => {
+  const here = dirname(fileURLToPath(import.meta.url));
+  const ids = [...REFUSAL_CLASSES.map((c) => refusalClassTerm(readRefusal({ ...DOWNGRADED, class: c }))),
+    'refusal-class-unstated'];
+  for (const id of ids) {
+    const rec = JSON.parse(readFileSync(resolve(here, '../../../glossary', `${id}.json`), 'utf8'));
+    assert.equal(rec.id, id);
+    assert.equal(/brief or the parti must change/.test(rec.definition), id === 'refusal-proven',
+      `${id}: only the proven record says the brief or the parti must change`);
+  }
+});
+
+test('the conflict panel no longer says "the brief or the parti is what changes" of every refusal', () => {
+  const here = dirname(fileURLToPath(import.meta.url));
+  for (const f of ['components/ConflictSet.jsx', 'components/RevisionPanel.jsx']) {
+    const src = stripComments(readFileSync(resolve(here, f), 'utf8'));
+    assert.ok(!/brief or the parti is what changes/.test(src), `${f} still says it unconditionally`);
+    assert.match(src, /refusalClassTerm\(/, `${f} does not read the class`);
+  }
+});

@@ -329,11 +329,17 @@ def _refusal_line(ev):
         return f"This evaluation is of {_SKETCH_WORDS}; it cannot be exported. {counts}"
     facts = _refusal_facts(r)
     what = (f"{r['kind']}: {', '.join(facts)}" if facts else r["kind"])
+    # THE CLASS (19 Nov 2026): a client that sends the `class` key is told whether the refusal is
+    # proven of the house, in `typefacts.class_sentence`'s own words -- the client's string only
+    # SELECTS a sentence, it never reaches the prompt, and anything but one of the four classes
+    # selects the unstated one, which is never read as proven. A client that sends no `class` key
+    # (an older one) gets the sentence it always got, byte for byte.
+    cls = (" " + corpus._typefacts().class_sentence({"class": r.get("class")})) if "class" in r else ""
     if sketch:
         return (f"This is {_SKETCH_WORDS}. It is REFUSED ({what}): the type's own hard facts do not "
-                f"hold for it, so it cannot be exported. {counts}")
+                f"hold for it, so it cannot be exported.{cls} {counts}")
     return (f"This placement is REFUSED ({what}): the type's own hard facts do not hold, so it cannot "
-            f"be drawn or exported. {counts}")
+            f"be drawn or exported.{cls} {counts}")
 
 
 def _context_block(ctx):

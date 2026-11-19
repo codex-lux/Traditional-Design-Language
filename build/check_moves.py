@@ -23,7 +23,9 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 LAYERS = {"plan", "room", "furniture", "daylight", "adjacency", "completeness", "circulation",
-          "privacy", "servicing", "grouping", "code", "style", "fault", "drawn"}
+          "privacy", "servicing", "grouping", "code", "style", "fault", "drawn",
+          # 19 Nov 2026: the hearth layer, for `put-the-fire-on-the-flue-wall` (ruled that day)
+          "hearth"}
 
 # What a move may write. Declared fields only; the ruled authority (1 Sep 2026) admits room
 # add/remove, door add/remove and window add/remove, and nothing a placement writes.
@@ -34,6 +36,9 @@ ALLOWED_TOUCHES = {
     "levels[].rooms[].windows[].width_ft", "levels[].rooms[].windows[].height_ft",
     "levels[].rooms[].doors[]", "levels[].rooms[].doors[].to",
     "levels[].floor_to_ceiling_ft",
+    # 19 Nov 2026: a declared fire's wall, which the record AUTHORS (plan schema 0.7.0) and
+    # the placer reads -- not a placement key. Ruled for `put-the-fire-on-the-flue-wall`.
+    "levels[].rooms[].hearth[].wall",
     "declared.<slot>", "declared.shutter", "declared.dormer.count",
     "measurements.shutter_leaf_width_in", "measurements.window_opening_width_in",
     # a brief's adjacency row naming a room the loop DROPS goes with the room -- within the

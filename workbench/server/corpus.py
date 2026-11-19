@@ -1231,7 +1231,9 @@ def refused_response(ref):
         sentence = ("This placement is REFUSED: it breaks the type's own facts"
                     + (f" -- {what}" if what else "")
                     + ". The record keeps the least-bad placement as the conflict set's own "
-                      "explanation; no sheet, export or model is drawn from it.")
+                      "explanation; no sheet, export or model is drawn from it. "
+                    # whose failure it is (ruled 30 Oct 2026), in typefacts' one spelling
+                    + _typefacts().class_sentence(ref))
     return {"error": sentence, "refused_placement": ref, "unsolved": True}
 
 

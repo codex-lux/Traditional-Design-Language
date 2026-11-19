@@ -249,7 +249,11 @@ def _intended_move(plan, f):
                 return "move-window-off-the-needed-wall", None
             return None, "the room has one exterior wall and the piece wants an unbroken run of it; the corpus hands the arrangement to the architect (OQ 92)"
         if k == "stack-broken":
-            return None, "both engines charge a broken stack and neither could keep it; no record edit states where an upper room lands (align-upper-walls was refused for want of a basis)"
+            # RULED 19 NOV 2026: the upper room may take the declared size of the room it
+            # declares it stacks over, as a judgment. `_is_placement` still classes this kind a
+            # placement outcome on the SEARCH -- a broken stack there is usually the search's
+            # noise -- so the move is reached where the engine proves.
+            return "size-the-upper-room-to-the-room-it-stacks-over", None
         if k == "stack-unjudged":
             return None, "the record's own stacking claim cannot be evaluated -- it names no room, or a room on this room's own level, or one more than a level below. No placement changes that and no move may edit a claim its author wrote: `build/check_stacking.py` fails the build on it and the author fixes the record (WP-11.6)"
         if k == "room-not-placed":
@@ -262,6 +266,11 @@ def _intended_move(plan, f):
         return None, "a drawn-against-declared size or a landing off its well is a placement outcome; the record already states the right size"
     if layer in ("adjacency", "circulation", "privacy", "grouping", "completeness", "servicing", "plan"):
         return None, "topology: which rooms touch which is the parti's and the author's; a door the grammar prescribes is added only to reach a stranded room (drawn layer)"
+    if layer == "hearth" and k == "hearth-off-the-stack-wall":
+        # RULED 19 NOV 2026, on the 26 Sep ruling that the massing and kit govern the fire's
+        # wall. Only this kind: `room-without-a-hearth` asks the author to state a fire, which
+        # no move may do for them.
+        return "put-the-fire-on-the-flue-wall", None
     return None, "no move reads this layer"
 
 

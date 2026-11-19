@@ -364,7 +364,7 @@ class TestTheComposerBreaksTiesAgainstAnUnjudgedFatal:
         assert "_sort_key = rank_key" in src
         # THREE SINCE PHASE 17 (29 Oct 2026, WP-17.6): the declared pass, the placed loop, and the
         # set the pool-fill returns -- the asked set and the drawable houses added from the pool are
-        # ordered by the same key (ruling 7), so a house filled from the pool never leads a
+        # ordered by the same key (the standing first, 30 Oct 2026), so a house filled from the pool never leads a
         # fatal-free one. The third site is named, so a fourth sort, or the third on another key, fails.
         assert src.count("key=_sort_key") == 3
         assert "returned = sorted(out[:candidates] + added, key=_sort_key)" in src

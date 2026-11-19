@@ -131,6 +131,10 @@ export function adaptCandidate(c, i, nativePartis, axisWhat) {
       a.what || !axisWhat?.[a.axis] ? a : { ...a, what: axisWhat[a.axis] })),
     disqualified: !!c.disqualified,
     disqualified_because: c.disqualified_because,
+    // every judged fatal by the checker's own sentence (30 Oct 2026); [] from an older server
+    fatal_findings: Array.isArray(c.fatal_findings)
+      ? c.fatal_findings.filter((f) => f && typeof f.statement === 'string' && f.statement.trim())
+      : [],
     score_unscored_because: c.score_unscored_because,
     score_weight_evaluated: c.score_weight_evaluated,
     score_weight_unevaluated: c.score_weight_unevaluated,
@@ -162,6 +166,17 @@ export function adaptCandidate(c, i, nativePartis, axisWhat) {
     refused: readRefusal(c.refused),
     // what the type's facts have been asked of this candidate: refused | placed | unjudged
     standing: standingOf(c),
+    // what the acceptance instrument said of a PLACED card (`compose.card_drawability`); null where
+    // the composer wrote none. `where_judged` true only where it said so: the 19 Nov 2026 tier
+    where_judged: !!(c.drawability && typeof c.drawability === 'object' && c.drawability.where_judged === true),
+    drawability_verdict: c.drawability && typeof c.drawability.verdict === 'string' ? c.drawability.verdict : null,
+    // the composer's retry of an unproven refusal (ruled 30 Oct 2026): null where none was asked
+    retry: c.retry && typeof c.retry === 'object' && !Array.isArray(c.retry) ? c.retry : null,
+    // the composer's repair of a refused record (ruled 19 Nov 2026): null where none was asked.
+    // `repaired` true ONLY where the server said the repaired record was kept, so a card whose
+    // repair refused or was judged worse is never read as a changed house.
+    repair: c.repair && typeof c.repair === 'object' && !Array.isArray(c.repair) ? c.repair : null,
+    repaired: !!(c.repair && typeof c.repair === 'object' && c.repair.repaired === true),
     // WP-9.2/9.3: what the placed revision loop bought on this candidate. `score_before` is
     // the same instrument as `score` (both on the stripped declared record); `rank_before`
     // is the SERVER's order before revision and is labelled as such, because `rank` on

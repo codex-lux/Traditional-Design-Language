@@ -2103,9 +2103,14 @@ def place_plan(plan, parti=None, candidates=250, svg_path=None, engine="auto"):
                 "reason": ("The type's own facts do not hold on this placement, so it is not "
                            "drawn and no coordinates are returned. " + " ".join(ref.get("lines") or [])),
                 "placement_refused": ref,
+                "refusal_class": ref.get("class"),
                 "note": ("This is a judgment about THIS record, not a limit on this deployment "
                          "and not a missing capability. The conflict set above says what could "
-                         "not hold; the brief or the parti is what changes. No file was written."
+                         "not hold. "
+                         # whose failure it is (ruled 30 Oct 2026): only a proven refusal says
+                         # the brief or the parti must change
+                         + _mod("typefacts", os.path.join(ROOT, "build", "typefacts.py"))
+                         .class_sentence(ref) + " No file was written."
                          + (f" {svg_path} was NOT written." if svg_path else ""))}
     if svg_path:
         rp = _mod("render_plan", os.path.join(ROOT, "build", "render_plan.py"))

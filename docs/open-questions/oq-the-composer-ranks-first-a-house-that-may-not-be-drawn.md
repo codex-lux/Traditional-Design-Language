@@ -184,3 +184,21 @@ Three independent auditors read the execution. What they found in this question'
   guards took 41: 39 red on the first run, 2 blind (`answerIsForHere` ignoring the id, which two
   origin-less houses expose, and the assistant's server widening its kind list), each given a test and
   re-run red.
+
+## Re-ruled, 30 October 2026 — the standing is the first key
+
+**Asked** (Lucas, on his Tidewater brief): two refused houses, the native five-part Palladian and a
+borrowed octagon, led the set because they carried no fatal finding, ahead of four drawable houses
+that each carried one, and neither of the first two could be opened. The 16 October key put judged
+fatals first and the standing second, so "refused ranks last" held only within one fatal count.
+
+**Answered: drawable first.** `compose.rank_key` is now the standing (placed, then not yet placed,
+then refused), then judged fatals, then unjudged fatals, then the score. A fatal is a finding about a
+house that can be drawn; a refusal says nothing can be drawn from the placement, so no count of
+findings may put a refused house ahead of one a reader can open. Within one standing the 16 October
+order holds, so a drawable house carrying a fatal still never leads a drawable house carrying none.
+`tests/fixtures/candidate_rank.json` carries the reversed case and a new middle-tier case;
+`candidateOrder.js::order()` applies the standing before the disqualification under every ordering.
+See `docs/reports/the-refusal-that-blamed-the-brief-2026-10-30.md`. This ruling reverses ruling 7 of
+29 October 2026's order and nothing else of it.
+

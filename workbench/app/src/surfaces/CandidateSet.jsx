@@ -98,8 +98,8 @@ export function CandidateSet({ onCite, go, selection, setSelection }) {
           Compose from a brief
         </h2>
         <p style={{ font: 'var(--fw-reg) 14px/1.6 var(--body)', color: 'var(--text-secondary)', margin: '0 0 14px' }}>
-          The composer returns several contrasting candidates, fatal-free first and then by
-          score, and never calls one good. Start at Brief Intake.
+          The composer returns several contrasting candidates, drawable first, then fatal-free,
+          then by score, and never calls one good. Start at Brief Intake.
         </p>
         {s.jobError && (
           <p data-job-error={s.jobError.state}

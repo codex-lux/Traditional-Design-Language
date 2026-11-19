@@ -1,0 +1,11 @@
+{
+  "id": "refusal-proven",
+  "term": "proven refusal",
+  "family": "house",
+  "definition": "The prover showed that this house, as composed, cannot hold the fact at this footprint. The refusal is about the house: the brief or the parti must change before it can be drawn.",
+  "kind": "editorial",
+  "basis": "Editorial. build/typefacts.py, the refusal's class: \"Only PROVEN says the brief or the parti must change.\" and its classes: \"every downgraded label of the fact was refuted alone at this footprint, or the record\"",
+  "see": [
+    "term:judgment-refused"
+  ]
+}

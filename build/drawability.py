@@ -91,10 +91,9 @@ def _m(name):
     return modcache.load(name, os.path.join(ROOT, "build", name + ".py"))
 
 
+# The four classes are `typefacts`'s (the leaf that writes them onto the refusal); the names are
+# kept here because readers of this instrument import them from it.
 PROVEN, UNDECIDED, MISMATCH, SEARCH = "PROVEN", "UNDECIDED", "MISMATCH", "SEARCH"
-
-# typefacts' fact name -> the prover's rank name (`geometry_cp._RANK`)
-_PROVER_KIND = {"tiling": "tiling", "stacks": "stack", "bearing": "bearing", "hearth": "hearth"}
 
 
 def rooms_over_band(plan):
@@ -217,34 +216,10 @@ def no_worse(a, b):
 
 
 def _class_of(fact, plan):
-    rep = plan.get("geometry_report") or {}
-    sv = rep.get("solver") or {}
-    eng = str(sv.get("engine") or "")
-    if (rep.get("infeasible") or {}).get("proven"):
-        return PROVEN
-    if not eng.startswith("cp"):
-        return SEARCH
-    kind = _PROVER_KIND.get(fact, fact)
-    pf = (sv.get("facts") or {}).get(kind) or {}
-    if pf.get("status") == "held":
-        return MISMATCH                       # the model held it; the gate measured otherwise
-    if pf.get("status") == "unjudged":
-        return MISMATCH                       # the model was never asked; the gate measured it
-                                              # (no budget ran out on it: not UNDECIDED)
-    # READ FROM STRUCTURE, NEVER FROM PROSE (the audit of Phase 17, 30 Oct 2026, finding 14). The
-    # prover files every downgraded label of a fact `proven` (refuted alone at this footprint) or
-    # `carried` (released off a conflict core or an undecided round and never re-proven), in
-    # `geometry_cp.facts_account`, from the same set its per-pin notes are written from. A fact is
-    # PROVEN only where EVERY downgraded label of it is proven; one carried label makes it
-    # UNDECIDED. A record from before the split carries neither list and is UNDECIDED: no
-    # structure, and prose is not read for a proof. The prose reading this replaces --
-    # any(PROOF_PHRASE in note and kind in note) over `solver.refinements` -- made a fact with one
-    # proven and one carried bearing axis PROVEN, and read a proven hearth release (whose note
-    # names the room's fire and never the word "hearth") UNDECIDED.
-    down = set(pf.get("downgraded") or [])
-    if down and not pf.get("carried") and down <= set(pf.get("proven") or []):
-        return PROVEN
-    return UNDECIDED
+    """The refusal class of one downgraded fact. ONE SPELLING (30 Oct 2026): it lives in
+    `typefacts.refusal_class`, the leaf that writes the refusal, so the class a surface prints and
+    the class this instrument reports cannot disagree."""
+    return _m("typefacts").refusal_class(fact, plan)
 
 
 DRAWABLE = "DRAWABLE"

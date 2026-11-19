@@ -1,0 +1,11 @@
+{
+  "id": "refusal-undecided",
+  "term": "not proven: out of time",
+  "family": "house",
+  "definition": "The prover gave the fact up without a proof: its time ran out before it found an arrangement that holds it. The refusal is about this arrangement, not the house; a longer placement may draw the same house.",
+  "kind": "editorial",
+  "basis": "Editorial. build/typefacts.py, the refusal's class: \"Only PROVEN says the brief or the parti must change.\" and its classes: \"released off a conflict core or an undecided round and never re-proven: the budget\"",
+  "see": [
+    "term:judgment-refused"
+  ]
+}
