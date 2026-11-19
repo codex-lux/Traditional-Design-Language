@@ -572,6 +572,12 @@ const NOT_FRONT = OPPOSITE[FRONT] || 'N';
      page is loaded when the document is; the sheet is waited for by its own selector below,
      with the budget the solve needs. */
   await page.reload({ waitUntil: 'load' });
+  // AND THEN IDLE, WITH THE SOLVE'S BUDGET (19 Nov 2026, the second correction). `load` alone let
+  // the walk click on while the bench's follow-up requests (the critique beside the evaluate) were
+  // still in flight, so the panel and the sheet below counted findings from two evaluations
+  // (PR #45's runner: 78 against 74). What broke before was `networkidle`'s 30 s default, not
+  // the idle condition, so the idle condition stays, with the timeout the solve needs.
+  await page.waitForLoadState('networkidle', { timeout: 150000 }).catch(() => {});
 }
 // The sheet arrives AFTER the evaluate, and the evaluate runs CP-SAT at the interactive
 // budget (`BUDGET_INTERACTIVE_S`, 25 s) before it can fall back -- measured here at 28.1 s
@@ -601,6 +607,9 @@ await page.waitForSelector('svg[role="img"]', { timeout: 150000 });
      until something asks. Press the chip the reader would press. */
   await page.getByRole('button', { name: /re-solve/i }).first().click();
   await page.waitForSelector('[data-panel="revision"]', { timeout: 150000 }).catch(() => {});
+  // and for the bench to settle: the panel can land before the critique and the sheet it sits
+  // beside, and the counts below read all three (the second correction above, same reason).
+  await page.waitForLoadState('networkidle', { timeout: 150000 }).catch(() => {});
   const panel = await page.locator('[data-panel="revision"]').innerText().catch(() => '');
   check('re-solve runs the corrective rounds on a drawable record', !!panel);
   check('and on a record that draws, the panel claims the SHEET above it',
@@ -923,11 +932,30 @@ const sheetBox = () => page.evaluate(() => {
 // redraws, so on PR #45's runner the default 30 s click timed out on a `+` that had not been
 // drawn yet. The sheet's own wait uses the budget the solve needs, as the wait after the reload
 // above does.
-await page.waitForSelector('svg[role="img"]', { timeout: 150000 });
-const wFit = await sheetBox();
-await page.getByRole('button', { name: '+', exact: true }).first().click();
-await page.getByRole('button', { name: '+', exact: true }).first().click();
-await page.waitForTimeout(500);
+//
+// AND WHEN IT DOES NOT COME, SAY WHAT THE BENCH SHOWED INSTEAD OF DYING (19 Nov 2026). On PR #45's
+// runner this wait ran its full 150 s with no sheet, twice, on good-03 -- a record drawable on
+// every engine here, whose re-solve with the rounds takes 33 to 57 s on both trees measured -- and
+// an uncaught TimeoutError printed nothing about what was on the page. It is a FAIL, never a
+// pass, and it carries the bench's own state so the next run says why.
+const sheetCame = await page.waitForSelector('svg[role="img"]', { timeout: 150000 })
+  .then(() => true).catch(() => false);
+if (!sheetCame) {
+  const seen = await page.evaluate(() => ({
+    hash: location.hash,
+    refused: !!document.querySelector('[data-conflict-set]'),
+    busy: [...document.querySelectorAll('[aria-busy="true"], [data-placing]')].length,
+    main: ((document.querySelector('main') || {}).innerText || '').replace(/\s+/g, ' ').slice(0, 700),
+  })).catch((e) => ({ error: String(e) }));
+  check(`the bench draws its sheet after the re-solve -- none in 150 s; the bench showed ${JSON.stringify(seen)}`,
+    false);
+}
+const wFit = sheetCame ? await sheetBox() : 0;
+if (sheetCame) {
+  await page.getByRole('button', { name: '+', exact: true }).first().click();
+  await page.getByRole('button', { name: '+', exact: true }).first().click();
+  await page.waitForTimeout(500);
+}
 const wBig = await sheetBox();
 check(`the loupe magnifies the sheet (${Math.round(wFit)}px → ${Math.round(wBig)}px)`,
   wFit > 50 && wBig > wFit * 1.2);
@@ -4172,6 +4200,7 @@ check('and the spine brings it back', await page.locator('nav[aria-label="surfac
     // `load`, not `networkidle`: the refused record's evaluate is the same 25 s solve the
     // reload near the top of this file races (see the note there); its conflict set is the wait.
     await page.reload({ waitUntil: 'load' });
+    await page.waitForLoadState('networkidle', { timeout: 150000 }).catch(() => {});
     await page.waitForSelector('[data-conflict-set]', { timeout: 90000 }).catch(() => {});
 
     const bench = await page.evaluate(() => {
@@ -4606,6 +4635,7 @@ async function journeyRead() {
      `networkidle` raced another surface's solve and died at 30 s with 601 checks green, on a page
      that needs only its own crumbs. Waited for by their own selector. */
   await page.goto(BASE + '/#/style/tidewater-georgian/kit/cornice', { waitUntil: 'load' });
+  await page.waitForLoadState('networkidle', { timeout: 150000 }).catch(() => {});
   await page.waitForSelector('nav[aria-label="crumbs"] li', { timeout: 60000 }).catch(() => {});
   await page.waitForTimeout(1200);
   const dossier = await (await fetch(BASE + '/api/styles/tidewater-georgian/dossier')).json().catch(() => null);
@@ -4719,6 +4749,7 @@ async function journeyRead() {
   // zeroes cannot both be the shell failing to draw them.
   // `load` and the head, for the reason given at the crumbs block above: the same long-lived page.
   await page.goto(BASE + '/#/phylogeny/tidewater-georgian?view=map', { waitUntil: 'load' });
+  await page.waitForLoadState('networkidle', { timeout: 150000 }).catch(() => {});
   await page.waitForSelector('[data-page-head]', { timeout: 60000 }).catch(() => {});
   await page.waitForTimeout(1500);
   const trailAndHead = async () => [await page.locator('nav[aria-label="crumbs"]').count(),
