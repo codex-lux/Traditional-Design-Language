@@ -124,8 +124,9 @@ compose budget (`oq/the-side-hall-partis-stacks-cannot-co-hold-in-band`, amended
 Read `docs/reports/the-refusal-that-blamed-the-brief-2026-10-30.md` before touching `compose.rank_key`,
 `typefacts.refusal_class`, `compose.retry_decision` or a refusal's wording. Lucas read two refused cards
 with fatal 0 above four drawable ones with fatal 1, under a panel ending "the brief or the parti is what
-changes" while the native five-part had only run out of prover time. He ruled two things, asked and
-answered as two acts:
+changes" while the native five-part had only run out of prover time. *(Corrected 19 Nov 2026: the
+report called that refusal the fallback search's, SEARCH; it was the prover's, UNDECIDED. See below.)*
+He ruled two things, asked and answered as two acts:
 - **Drawable first.** `rank_key` is (standing, judged fatals, unjudged fatals, score): placed, then not
   yet placed, then refused, whatever the fatal count. This reverses the 16 Oct key's order.
 - **The composer retries an unproven refusal automatically.** A native diagram refused UNDECIDED or
@@ -137,6 +138,31 @@ answered as two acts:
   a refusal stating no class is never read as proven. The words are glossary records (`refusal-*`).
 - **A disqualified card names its fatals** (`fatal_findings`), and the bearing sentence says capacity
   does not refuse.
+
+**AND THE PLACED TIER WAS SPLIT, AND EVERY CP REFUSAL HAD BEEN CLASSED SEARCH (19 Nov 2026).** Read
+the same report's §X before touching `compose.drawability_tier`, `candidateOrder.tierOf`, the rail's
+refusal sentence or `geometry._finish`. Two rulings, asked and answered as two acts:
+- **A placed house the acceptance instrument reads NOT DRAWABLE ranks below every drawable house and
+  above every unplaced one.** The first key is `compose.drawability_tier`: drawable where judged,
+  placed and not shown drawable, not yet placed, refused. A placed card is never read drawable on an
+  absence. `placement_standing` is unchanged, and so are the pool-fill and R10's two counts.
+- **A refused card stays unopenable** (WP-13.4 and the 16 Oct ruling, re-affirmed).
+
+What else changed:
+- **The assistant is told the refusal's class.** The client sends `refused.class` and `rail.py`
+  writes `typefacts.class_sentence`; a client sending no `class` key gets its old prompt byte for byte.
+- **`geometry._finish` judged the refusal before it wrote the solver block**, so every refusal of a
+  CP-SAT placement read no engine and was classed SEARCH. The solver block is written first now. The
+  30 Oct reading of the five-part ("the hill-climb drew it") was the instrument's.
+- **The retry multiple is measured and stays 2.0.** On his brief, four draws at each of 1×, 1.5× and
+  2×: the five-part 0 of 12 placed, the single pile 2 of 4 at 2× and none below. A longer budget
+  scales every prover stage's share, so the reinstatement pass is shut whatever T is
+  (`oq/the-reinstatement-pass-gets-no-time-after-an-undecided-portfolio`).
+- **Three pre-existing reds join the known list, attributed against a clean worktree of `d9231d7`**:
+  `tests/test_composition.py::TestSolveIntegration::test_service_rooms_land_toward_the_rear` and, in
+  `tests/test_scene_entrance.py`, the flight's treads test and the checker-and-plate front-door bay
+  test. **The known list is 23 ids**: the 18 gate rows, `test_solver`'s half bound,
+  `test_parti_composability`, and these three.
 
 **AND WP-17.9 AUDITED THE TRANCHE TWICE ON 30 OCT 2026: READ THE REPORT'S §X AND §XI BEFORE TRUSTING A
 FIGURE ABOVE.** Rulings 9-14 are recorded as question-and-answer acts, and the report and

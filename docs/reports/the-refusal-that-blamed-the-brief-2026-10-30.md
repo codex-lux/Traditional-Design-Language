@@ -99,7 +99,11 @@ What it shows:
   answer at 60 s or at 120 s, and both times the hill-climb drew the layout that failed. Its card now
   says *not proven: placed by the search* where it said *the brief or the parti is what changes*. It
   is not evidence that the five-part cannot be drawn on this brief.
-- **The retry drew a house.** The native single pile was refused on its first placement (SEARCH) and
+  *(Corrected 19 Nov 2026, §X: the class was the instrument's. The prover drew it both times; every
+  CP refusal was classed SEARCH because the verdict was judged before the solver report was written.
+  Its true class is UNDECIDED, and "not evidence that it cannot be drawn" still stands.)*
+- **The retry drew a house.** The native single pile was refused on its first placement (SEARCH, *read
+  UNDECIDED on the corrected code, §X*) and
   placed on the second; without the retry it would have stood refused at the foot of the set.
 - **The octagon's refusal is proven**, so it is the one card that still says the brief or the parti
   must change. It is borrowed, so it was not retried in any case.
@@ -112,11 +116,13 @@ What it shows:
 ## VII. What was deliberately not done
 
 - **The assistant is not told the class.** The client sends the rail `last_eval.refused = {kind,
-  facts}`; widening that is a client change and is left.
-- **No new WP number** (see the head of this report).
+  facts}`; widening that is a client change and is left. *(Done 19 Nov 2026, §X.)*
+- **No new WP number** (see the head of this report). *(Unchanged, for the same reason.)*
 - **The retry multiple is not tuned.** The plan asked for draws at 1×, 1.5× and 2×; one compose of his
   brief takes several minutes and CP under a wall clock is a draw, so the sweep is left to a quiet box.
+  *(Measured 19 Nov 2026, §X: 2.0 is kept, on evidence.)*
 - **A refused card stays unopenable** (WP-13.4 and the 16 Oct ruling); the retry is the recourse ruled.
+  *(Re-affirmed by Lucas, 19 Nov 2026, §X.)*
 
 ## VIII. Tests
 
@@ -139,3 +145,84 @@ two). Eight mutations of the new guards, each asserted landed, all red.
   that list and is said here rather than fixed.
 - The two CAD selftests are could-not-evaluate (no `ezdxf`/`ifcopenshell` here), as named.
 - The app suite is 898 of 898; the test count is reconciled in §VIII and CLAUDE.md.
+
+## X. The placed tier split, and what became of §VII (19 November 2026)
+
+### The rulings
+
+Put as two direct questions; the answers arrived the same session. The questions and the answers are
+two acts.
+
+- **Asked:** on the draw in §VI, living-hall-picturesque is placed with no fatal and leads the set,
+  while `drawability.assess` reads it NOT DRAWABLE (rooms past their band). Where should a placed but
+  not drawable house sit against a drawable one, and against one nobody has placed? **Answered: below
+  every drawable house and above the not-yet-placed**, because a placed house can be opened and read
+  and an unplaced one may still be refused.
+- **Asked:** should a refused candidate open on the bench as a refused sketch, under its banner and
+  never exportable? **Answered: no, it stays unopenable.** WP-13.4 and the 16 Oct ruling stand.
+
+### What was built
+
+- **`compose.drawability_tier`**: 0 drawable where judged (`card.drawability.where_judged` is true),
+  1 placed and not shown drawable (NOT DRAWABLE, COULD NOT EVALUATE, or no reading on the card),
+  2 not yet placed, 3 refused. `rank_key`'s first key is the tier. A placed card is never read as
+  drawable on an absence. `placement_standing` and `STANDING_RANK` are unchanged, so the pool-fill,
+  the tally and R10's two counts ("not refused" beside "drawable where judged") are too.
+- **The app**: `candidateCard.adaptCandidate` carries `where_judged` and `drawability_verdict`;
+  `candidateOrder.tierOf` mirrors the Python and `order()` and the fatal-first comparator read it.
+  `tests/fixtures/candidate_rank.json` gains three cases both languages are held to: a drawable house
+  with a fatal above a NOT DRAWABLE one with none; a placed-not-drawable above an unplaced one; a
+  placed card with no reading or one the instrument could not judge, never above a drawable one.
+- **The assistant is told the class.** `railContext.lastEvalSummary` sends `refused.class` (one of the
+  four, or null); `rail.py` adds `typefacts.class_sentence` for it. The client's string only selects
+  a sentence and never reaches the prompt, and a client sending no `class` key gets the sentence it
+  always got, byte for byte.
+
+### What was found: every CP refusal was classed SEARCH
+
+The retry sweep printed `class: SEARCH` beside `engine: cp-sat` on every five-part draw.
+`geometry._finish` ran `_disclose`, which ends in `typefacts.judge`, **before** it wrote
+`geometry_report.solver`, so `refusal_class` read no engine and returned SEARCH for every refusal of a
+prover placement. `drawability.assess`, which reads the finished record, was right; the refusal on the
+record, and every surface that printed its class, was not. The solver block is written first now
+(`_disclose` reads nothing from it), and `tests/test_refusal_class.py` spies on `judge` to hold that
+the engine is on the record when the verdict is drawn; reverting the order turns it red.
+
+This falsifies §VI's reading of the five-part ("the hill-climb drew it, twice"). The prover drew it
+both times and released facts it never re-proved: UNDECIDED. It also changes which refusals the retry
+may ask: a CP refusal now carries its true class, so a PROVEN or MISMATCH one is no longer retried as
+though the search had drawn it.
+
+### The retry multiple, measured
+
+The two native diagrams refused on his brief, each composed once (`revise=False`) and then placed as
+the retry places them (`revise.revise`, `engine="auto"`, `reserve_round`), at 1×, 1.5× and 2×
+`BUDGET_COMPOSE_S`, four draws each, the solve cache cleared before each, on the corrected code. One
+four-core container with nothing else running. CP under a wall clock is a draw, not a figure.
+
+| diagram | 60 s (1×) | 90 s (1.5×) | 120 s (2×) | class of every refusal |
+|---|---|---|---|---|
+| five-part-palladian | 0 of 4 placed | 0 of 4 | 0 of 4 | UNDECIDED (bearing, stacks, tiling; once stacks, tiling) |
+| centre-passage-single-pile | 0 of 4 | 0 of 4 | **2 of 4** | UNDECIDED (two or three of bearing, stacks, tiling) |
+
+Every placement, refused or not, is the prover's (`cp-sat`, FEASIBLE). **2.0 is the smallest multiple
+that moved the yield, so `RETRY_LIMIT_MULTIPLE` stays 2.0, now on evidence.** It moves the single
+pile, which is close, and does not move the five-part at any multiple tried.
+
+**Why more time does not move the five-part.** The prover's stages are shares of the budget it is
+given: the worker portfolio, every fact hard, runs to 0.75 T; where it does not decide, the ladder's
+undecided scout releases every live type fact at once
+(`oq/an-undecided-scout-releases-every-type-fact-at-once`); and the reinstatement pass, which would
+offer them back, is capped at 0.6 T from the start, so it is already shut when the ladder returns
+(`oq/the-reinstatement-pass-gets-no-time-after-an-undecided-portfolio`). Doubling T doubles every
+share and leaves the arithmetic as it was. This explanation is read from the published shares and the
+facts account on each record (`carried`, never re-proven); the five-part's own stages were not timed.
+It is not evidence that the five-part can hold its facts on this brief, and not evidence that it
+cannot. The two questions are amended with this table.
+
+### Not done
+
+- **The reinstatement window is not fixed.** It moves placements corpus-wide and is its own package.
+- **No repair move reads a refusal.** The move that would, `align-upper-walls-to-the-room-below`, is a
+  stated refusal in `moves/registry.json` for want of a quotable basis; a refusal-driven repair needs
+  a ruling or a source.

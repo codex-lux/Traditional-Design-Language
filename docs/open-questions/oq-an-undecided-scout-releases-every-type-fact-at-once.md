@@ -36,3 +36,13 @@ scout, runs only where the portfolio does not decide. On a quiet four-core box t
 decides with every fact held. **The question is not answered**: where the portfolio does not decide (the
 centre passages and the five-part at the compose budget) the scout still releases what it released, and
 the policy sweep this question asks for was not run in Phase 17's first tranche.
+
+## Amended 19 November 2026: the retry sweep on Lucas's Tidewater brief
+
+The native five-part and single pile, composed once and placed as the composer's retry places them,
+four draws at each of 60, 90 and 120 s on one quiet four-core container (CP under a wall clock is a
+draw, not a figure): the five-part 0 of 12 placed, every refusal UNDECIDED on bearing, stacks and
+tiling (once stacks and tiling); the single pile 0 of 8 at 60 and 90 s and 2 of 4 at 120 s. Every
+placement is the prover's. A longer budget scales every stage's share, so it does not move the
+reinstatement pass's window; on the five-part, more time bought nothing. Figures:
+`docs/reports/the-refusal-that-blamed-the-brief-2026-10-30.md` §X. **Still open.**
