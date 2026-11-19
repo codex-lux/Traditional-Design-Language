@@ -1,6 +1,6 @@
 # The butler's pantry, and the room bands the window never reached (19 Nov 2026)
 
-*Status: built, `37b9886` (the prover) and `4c7de6d` (the walk). Raised by PR #45's CI, where Lucas
+*Status: built, `37b9886` (the prover), and `4c7de6d` and `595071f` (the walk). Raised by PR #45's CI, where Lucas
 ruled the same day that `tests/test_composition.py`'s service-room row asks the rear of every room
 the corpus classes as service or work. Done as the suggested task "Fix the proof's butler's pantry
 on the entrance front", in this session.*
@@ -81,7 +81,23 @@ so its drawability does not move.
   - shard 5 holds the gate after the new file repacked the shards, and has only gate rows, with the
     Tidewater hearth row down from 2 of 3 fires to 1 of 3;
   - shard 3 is `check_partis`.
-- **The composer.** It was composed on each tree; see §VII.
+- **The composer.** `briefs/family-georgian.json` was composed once on each tree with the placed loop
+  on (`compose.compose(brief, 4)`), serially:
+
+  | tree | wall time | returned, in order | not refused |
+  |---|---|---|---|
+  | `cbc714a` | 510.7 s | living hall, five-part, single pile, double pile, courtyard | 2 |
+  | this change | 485.3 s | the same five, in the same order | 2 |
+
+  Only the double pile took the new step (`outside the cores`). The refusal's fact list moved on three
+  candidates: the five-part lost `tiling`, and both piles gained `bearing`. These are single runs of a
+  prover under a wall clock, which Phase 17 measured as landing in different states run to run. So
+  that movement is not attributed to the change, and the set and its order are the stable result.
+- **The Drawing Set's time.** The Tidewater record's `auto` placement goes from 17.4 s to 41.4 s. Its
+  polish now runs to its budget (FEASIBLE) instead of proving a house with 22 bands released OPTIMAL
+  early. That is inside the 40 s batch budget, and it is a cost a reader of the Drawing Set will feel.
+  It also lengthened a request the browser walk's `networkidle` waits raced, which is §VII's third
+  finding.
 
 ## VI. The guard
 
@@ -108,7 +124,11 @@ the check that commit changed. Both were timeouts waiting on the bench.
 - `4c7de6d` gives the two bench reloads `load` and lets their existing 150 s and 90 s selector waits
   wait, and makes the loupe click wait for the sheet. No assertion changes.
 
-The composer comparison (§V) is appended below when it lands.
+A third followed: on `4c7de6d` the walk ran 601 checks green, including all 16 Drawing Set checks,
+and died at `walk.mjs:4602`. A `goto` to the cornice kit page was waiting for `networkidle`, while the
+Drawing Set's placement, now 41.4 s, was still in flight from the journey block. `595071f` makes that
+long-lived page's two navigations (lines 4602 and 4713) wait for `load` and then for the element each
+block reads.
 
 ## VIII. Not done
 
