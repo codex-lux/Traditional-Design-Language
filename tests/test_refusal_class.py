@@ -129,3 +129,39 @@ class TestTheCardNamesItsFatals:
     def test_both_card_builders_carry_it(self):
         src = open(os.path.join(ROOT, "build", "compose.py"), encoding="utf-8").read()
         assert src.count('"fatal_findings": fatal_findings(') == 2
+
+
+class TestTheVerdictIsDrawnAfterTheSolverIsKnown:
+    """19 Nov 2026. `geometry._finish` ran `_disclose` -- which ends in `TF.judge`, where the class is
+    read off `geometry_report.solver` -- BEFORE it wrote the solver block, so every refusal of a
+    CP-SAT placement read no engine and was classed SEARCH over a record whose solver said cp-sat.
+    A sweep of the five-part on Lucas's brief printed `class: SEARCH` beside `engine: cp-sat`."""
+
+    def test_the_prover_records_solver_is_on_the_record_when_the_verdict_is_judged(self, monkeypatch):
+        import json
+        GEO = modcache.load("geometry", os.path.join(ROOT, "build", "geometry.py"))
+        try:
+            import ortools  # noqa: F401
+        except ImportError:
+            import pytest
+            pytest.skip("COULD NOT EVALUATE: ortools is not installed, so no CP record is written")
+        monkeypatch.setattr(GEO, "_SOLVE_CACHE", {})
+        seen = []
+        real = GEO.TF.judge
+
+        def spy(plan):
+            seen.append(((plan.get("geometry_report") or {}).get("solver") or {}).get("engine"))
+            return real(plan)
+        monkeypatch.setattr(GEO.TF, "judge", spy)
+        with open(os.path.join(ROOT, "plans", "reference", "bad-04-log-cabin.json")) as fh:
+            plan = json.load(fh)
+        out = GEO.solve(plan, engine="cp", time_limit_s=20)
+        if "error" in out:
+            import pytest
+            pytest.skip(f"COULD NOT EVALUATE: the prover did not place it here ({out['error'][:80]})")
+        assert (out["geometry_report"].get("solver") or {}).get("engine") == "cp-sat"
+        assert seen, "the premise: the verdict was judged"
+        assert seen[-1] == "cp-sat", f"the last verdict was judged before the solver was known: {seen}"
+        ref = out["geometry_report"].get("refused")
+        if ref:
+            assert ref["engine"] == "cp-sat" and ref["class"] != TF.SEARCH, ref

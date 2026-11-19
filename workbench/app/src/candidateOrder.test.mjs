@@ -5,7 +5,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, existsSync } from 'node:fs';
-import { whyText, isNative, nativityOf, NATIVITY_TERMS, byScore, ORDERS, order, unjudgedFatalsOf, standingRank } from './candidateOrder.js';
+import { whyText, isNative, nativityOf, NATIVITY_TERMS, byScore, ORDERS, order, unjudgedFatalsOf, standingRank, tierOf } from './candidateOrder.js';
 import { adaptCandidate } from './candidateCard.js';
 
 test('whyText joins the reasons list instead of concatenating it', () => {
@@ -331,7 +331,26 @@ test('standingRank is the composer\'s three-way reading, and a card with no stan
     [0, 1, 2, 1, 1]);
   assert.equal(standingRank(null), 1);
   for (const [name, o] of Object.entries(ORDERS)) {
-    assert.match(o.says, /refused plan sorts after one that is not/i, `${name} does not say it`);
+    assert.match(o.says, /shown drawable sorts first, then a placed plan not shown drawable, then one not yet placed, then a refused one/i, `${name} does not say it`);
+  }
+});
+
+test('tierOf splits the placed standing by the acceptance instrument, and never reads drawable on an absence (ruled 19 Nov 2026)', () => {
+  const DR = { verdict: 'DRAWABLE WHERE JUDGED', where_judged: true };
+  const ND = { verdict: 'NOT DRAWABLE', where_judged: false };
+  const raw = (parti, drawability, refused, revision) => ({ parti, score: 50, counts: { fatal: 0 },
+    refused, revision, ...(drawability === undefined ? {} : { drawability }) });
+  const REF = { kind: 'infeasible', facts: ['bearing'], conflicts: [], lines: [] };
+  const ok = { stop_reason: 'converged' };
+  const cards = adapt([raw('drawable', DR, null, ok), raw('not-drawable', ND, null, ok),
+    raw('placed-none', undefined, null, ok), raw('truthy-string', { where_judged: 'yes' }, null, ok),
+    raw('unplaced', DR, null, null), raw('refused', DR, REF, ok)]);
+  assert.deepEqual(cards.map(tierOf), [0, 1, 1, 1, 2, 3]);
+  assert.equal(cards[1].drawability_verdict, 'NOT DRAWABLE', 'the adapter carries the verdict');
+  for (const [name, o] of Object.entries(ORDERS)) {
+    const got = cards.slice().reverse().sort(order(o.cmp)).map((c) => c.parti);
+    assert.equal(got[0], 'drawable', `${name}: a plan shown drawable did not lead`);
+    assert.deepEqual(got.slice(-2), ['unplaced', 'refused'], `${name}: the unplaced and refused tiers`);
   }
 });
 

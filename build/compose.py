@@ -370,9 +370,32 @@ def placement_standing(c):
     return "unjudged"
 
 
+# THE FOUR TIERS OF THE FIRST KEY (ruled by Lucas, 19 Nov 2026). Asked: where does a candidate that
+# was placed but is not drawable sit -- not refused, but `drawability.assess` reads it NOT DRAWABLE
+# (on his Tidewater brief, living-hall-picturesque: no fatal, rooms past their band, LEADING a set
+# that held two drawable houses) -- against a candidate nobody has placed yet? Answered: below
+# every drawable house and above the not-yet-placed, because a placed house can be opened and its
+# problems read and an unplaced one may still be refused. A placed card whose drawability could
+# not be evaluated (or whose card carries none) is tier 1 and never tier 0: an unjudged fact is
+# never called held. `STANDING_RANK` and `placement_standing` are unchanged -- the pool-fill, the
+# tally and R10's two counts read them, and "not refused" and "drawable where judged" stay two
+# counts.
+TIERS = ("drawable", "placed-not-drawable", "unjudged", "refused")
+
+
+def drawability_tier(c):
+    """0 drawable where judged, 1 placed and not shown drawable, 2 not yet placed, 3 refused."""
+    st = placement_standing(c)
+    if st == "placed":
+        d = c.get("drawability") if isinstance(c, dict) else None
+        return 0 if isinstance(d, dict) and d.get("where_judged") is True else 1
+    return 2 if st == "unjudged" else 3
+
+
 def rank_key(c):
     """The composer's ranking key, at module level so it can be driven without a compose: whether
-    the PLACEMENT may be drawn (placed, then not yet placed, then refused), then judged fatals, then
+    the PLACEMENT may be drawn (`drawability_tier`: drawable where judged, then placed and not
+    shown drawable, then not yet placed, then refused), then judged fatals, then
     UNJUDGED fatals (R13), then the score, then the demerits and the parti id. The argument for
     each key is in `compose()`, where the set is sorted.
 
@@ -386,11 +409,16 @@ def rank_key(c):
     then the score -- so a drawable house carrying a fatal still never leads a drawable house
     carrying none.
 
+    THE PLACED TIER IS SPLIT (ruled 19 Nov 2026; `TIERS` above). "Placed" means not refused, not
+    drawable: a placed house the acceptance instrument reads NOT DRAWABLE ranks below every house
+    it reads drawable where judged, whatever either's fatal count, and above every house nobody
+    has placed.
+
     It reorders and removes nothing: every candidate stays in the set and a reader can still read
     why one was refused. It cannot pull a drawable candidate in from beyond the returned slice,
     because the slice is chosen before any candidate is placed (the first sort sees every card
     unjudged, so this key is a constant there); the pool-fill is the route for that."""
-    return (STANDING_RANK[placement_standing(c)], c["counts"].get("fatal", 0),
+    return (drawability_tier(c), c["counts"].get("fatal", 0),
             len(c.get("unjudged_fatal") or []),
             -(c["score"] if c["score"] is not None else -1e9),
             c["demerits"], c.get("parti") or "")
@@ -2972,8 +3000,8 @@ def compose(brief, candidates=4, on_candidate=None, revise=True, revise_rounds=4
               "Score is out of 100 and HIGHER IS BETTER. It is not a total of what is wrong: it is a weighted composite of eight axes, each one a share of its own denominator -- what came back clean out of what was actually checked -- so a bigger house is not penalised for being checked more times. score_axes carries every axis, its weight, its share and the denominator that share was taken over.",
               "An axis nothing could be evaluated on has its WEIGHT DROPPED and the total renormalised over the rest, never scored as a pass and never as a zero. score_weight_unevaluated says how much of the hundred that was, so a score computed over 94 points of evidence cannot be read as one computed over 100.",
               "A fatal finding DISQUALIFIES a candidate, and that is carried beside the score rather than inside it: `disqualified` is true and `disqualified_because` says so in words. A disqualified candidate never outranks a clean one of the same standing whatever it scores -- that is enforced by the ordering, not by the number -- and its score is not a case for building it. It is still scored because whole sets come back disqualified on styles the fault corpus cannot clear, and four plans that all carry a fatal still differ.",
-              "Candidates are RETURNED drawable first, then fatal-free first, then by score, so a plan carrying a fatal never displaces a clean one of the same standing even where its fidelity would outscore it. How the ones that came back are then ORDERED for reading is a separate choice -- by score, by nativity, or fatal-first -- and the reading order is named above them.",
-              "The FIRST key is whether the house may be drawn (ruled 30 Oct 2026): a candidate whose placement the type's own hard facts ALLOW TO BE DRAWN is returned first, whatever its fatal count; one they refuse (`refused`) is returned after every drawable one, and one nobody has placed (`revision` is null, or the loop could not judge its first placement) stands between the two -- not a pass. A fatal is a finding about a house that can be drawn; a refusal says nothing can be drawn from that placement at all. Within one standing, fewer fatal findings come first, then the one with FEWER FATAL FAULTS THE CORPUS COULD NOT JUDGE, and only then does the score decide. unjudged_fatal names them. An unjudged fatal is not a fatal -- it does not disqualify and is not in counts -- and it is not a pass either: nobody could say whether the fault is there.",
+              "Candidates are RETURNED in four tiers -- drawable where judged, then placed but not shown drawable (not refused, and the acceptance instrument reads it NOT DRAWABLE or could not judge it; `drawability` says which), then not yet placed, then refused -- and within a tier fatal-free first, then by score, so a plan carrying a fatal never displaces a clean one of the same standing even where its fidelity would outscore it. How the ones that came back are then ORDERED for reading is a separate choice -- by score, by nativity, or fatal-first -- and the reading order is named above them.",
+              "The FIRST key is whether the house may be drawn (ruled 30 Oct 2026): a candidate whose placement the type's own hard facts ALLOW TO BE DRAWN is returned first, whatever its fatal count; one they refuse (`refused`) is returned after every drawable one, and one nobody has placed (`revision` is null, or the loop could not judge its first placement) stands between the two -- not a pass. The allowed houses are split in two (ruled 19 Nov 2026): one the acceptance instrument reads drawable where judged (`drawability.where_judged`) comes before one it reads NOT DRAWABLE or could not judge, whatever either's fatal count, and both before one nobody has placed. A fatal is a finding about a house that can be drawn; a refusal says nothing can be drawn from that placement at all. Within one standing, fewer fatal findings come first, then the one with FEWER FATAL FAULTS THE CORPUS COULD NOT JUDGE, and only then does the score decide. unjudged_fatal names them. An unjudged fatal is not a fatal -- it does not disqualify and is not in counts -- and it is not a pass either: nobody could say whether the fault is there.",
               "demerits is the old lower-is-better total -- 100 a fatal, 8 a serious, 1 a minor, less 20 a point of fidelity. It is kept because it is a real quantity and because earlier reports quote it. It ranks nothing now.",
               "trades_away is the honest part. Every diagram gives something up, and the one that scores best is not always the one you want.",
               "decisions lists what the composer chose where the brief was silent. Read it — those are the assumptions, not facts.",

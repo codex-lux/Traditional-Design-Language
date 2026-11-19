@@ -87,6 +87,39 @@ class TestOneReadingOfAPlacementTwoLanguages:
         assert set(CO.STANDING_RANK) == {"placed", "unjudged", "refused"}
 
 
+class TestThePlacedStandingIsSplitByTheInstrument:
+    """Ruled by Lucas, 19 Nov 2026: a placed house `drawability.assess` reads NOT DRAWABLE ranks
+    below every house it reads drawable where judged, and above every house nobody has placed."""
+
+    def _c(self, drawability=..., refused=None, revision={"stop_reason": "converged"}):
+        c = {"counts": {"fatal": 0}, "score": 50.0, "demerits": 0.0, "refused": refused,
+             "revision": revision}
+        if drawability is not ...:
+            c["drawability"] = drawability
+        return c
+
+    def test_the_four_tiers(self):
+        dr = {"verdict": "DRAWABLE WHERE JUDGED", "where_judged": True}
+        nd = {"verdict": "NOT DRAWABLE", "where_judged": False}
+        assert CO.drawability_tier(self._c(dr)) == 0
+        assert CO.drawability_tier(self._c(nd)) == 1
+        assert CO.drawability_tier(self._c(dr, revision=None)) == 2, "drawability on an unplaced card is not read"
+        assert CO.drawability_tier(self._c(dr, refused=REFUSED)) == 3
+        assert CO.TIERS == ("drawable", "placed-not-drawable", "unjudged", "refused")
+
+    def test_a_placed_card_is_never_read_drawable_on_an_absence(self):
+        """Unjudged is not passed: no reading, a null reading, a COULD NOT EVALUATE verdict and a
+        truthy non-boolean all stay in the second tier."""
+        for d in (..., None, {}, {"verdict": "COULD NOT EVALUATE", "where_judged": False},
+                  {"where_judged": "yes"}, {"where_judged": 1}, "DRAWABLE"):
+            assert CO.drawability_tier(self._c(d)) == 1, repr(d)
+
+    def test_the_key_reads_the_tier_and_the_pool_fill_still_reads_the_standing(self):
+        nd = self._c({"verdict": "NOT DRAWABLE", "where_judged": False})
+        assert CO.rank_key(nd)[0] == 1
+        assert CO.placement_standing(nd) == "placed", "R10's 'not refused' count is unchanged"
+
+
 # ---------------------------------------------------------------- the key
 
 class TestRefusedRanksLastWithinEqualFatals:
@@ -155,7 +188,7 @@ class TestRefusedRanksLastWithinEqualFatals:
         """The declared pass writes `refused` as None and no `revision`; a bare card is the
         shape `test_fault_governing` hands the key and must not raise."""
         bare = {"parti": "bare", "counts": {"fatal": 0}, "score": 1.0, "demerits": 0.0}
-        assert CO.rank_key(bare)[0] == CO.STANDING_RANK["unjudged"]
+        assert CO.rank_key(bare)[0] == CO.TIERS.index("unjudged")
 
 
 # ---------------------------------------------------------------- the composer's own sort
@@ -186,7 +219,9 @@ class TestOneRankingTwoLanguages:
         names = " ".join(c["name"] for c in _rank_cases())
         assert "standing decides before judged fatals" in names
         assert "standing comes before the unjudged fatals" in names
-        assert len(_rank_cases()) >= 8
+        assert "outranks a placed house the instrument reads NOT DRAWABLE" in names
+        assert "placed house not shown drawable outranks one nobody has placed" in names
+        assert len(_rank_cases()) >= 11
 
 
 class TestWhatCountsAsARefusalIsTheTypesOwnList:

@@ -132,21 +132,25 @@ test('an evaluation that is not refused is summarised exactly as it always was',
 test('a refused evaluation says so beside its counts, whichever way the server carried the refusal', () => {
   // the evaluate route's 200 with the placement refused (the usual road to the screen)
   const viaRoute = lastEvalSummary({ check: { ...COUNTS }, placement_refused: REFUSAL });
-  assert.deepEqual(viaRoute, { ...COUNTS, refused: { kind: 'type-fact-downgraded', facts: ['stacks', 'tiling'] } });
+  assert.deepEqual(viaRoute, { ...COUNTS, refused: { kind: 'type-fact-downgraded', facts: ['stacks', 'tiling'], class: null } });
   // a placed record carrying the verdict in its geometry report
   const viaRecord = lastEvalSummary({ check: { ...COUNTS }, placement: { geometry_report: { refused: REFUSAL } } });
   assert.deepEqual(viaRecord, viaRoute);
-  // only kind and facts: the lines are the record's, which the model fetches with its own tools
-  assert.deepEqual(Object.keys(viaRoute.refused).sort(), ['facts', 'kind']);
+  // only kind, facts and class: the lines are the record's, which the model fetches with its own tools
+  assert.deepEqual(Object.keys(viaRoute.refused).sort(), ['class', 'facts', 'kind']);
   assert.deepEqual(lastEvalSummary({ check: { ...COUNTS }, placement_refused: { kind: 'infeasible', facts: ['bearing'] } }).refused,
-    { kind: 'infeasible', facts: ['bearing'] });
+    { kind: 'infeasible', facts: ['bearing'], class: null });
+  // the class is sent where the server stated one (19 Nov 2026), and only one of the four
+  assert.equal(lastEvalSummary({ check: { ...COUNTS }, placement_refused: { ...REFUSAL, class: 'SEARCH' } }).refused.class, 'SEARCH');
+  assert.equal(lastEvalSummary({ check: { ...COUNTS }, placement_refused: { ...REFUSAL, class: 'PROVEN' } }).refused.class, 'PROVEN');
+  assert.equal(lastEvalSummary({ check: { ...COUNTS }, placement_refused: { ...REFUSAL, class: 'proven, trust me' } }).refused.class, null);
   // the refusal is in the context a turn posts, beside the counts it must not be read apart from
   const ctx = railContext({ surface: 'workbench', lastEval: { check: { ...COUNTS }, placement_refused: REFUSAL } });
   assert.deepEqual(ctx.last_eval.counts, COUNTS.counts);
   assert.equal(ctx.last_eval.refused.kind, 'type-fact-downgraded');
   // a refusal on an evaluation whose check never completed is still told
   assert.deepEqual(lastEvalSummary({ placement_refused: REFUSAL }),
-    { refused: { kind: 'type-fact-downgraded', facts: ['stacks', 'tiling'] } });
+    { refused: { kind: 'type-fact-downgraded', facts: ['stacks', 'tiling'], class: null } });
 });
 
 test('the kinds the app can send are the kinds the type mints, and the assistant\'s server reads that list', () => {
@@ -170,16 +174,16 @@ test('a working sketch is sent as one, with its own refusal, and a plain placeme
     { ...COUNTS, sketch: true });
   // a sketch's refusal is the sketch's own, read through the one reader of a refusal body
   assert.deepEqual(lastEvalSummary({ check: { ...COUNTS }, placement: { sketch: sk(REFUSAL) } }),
-    { ...COUNTS, refused: { kind: 'type-fact-downgraded', facts: ['stacks', 'tiling'] }, sketch: true });
+    { ...COUNTS, refused: { kind: 'type-fact-downgraded', facts: ['stacks', 'tiling'], class: null }, sketch: true });
   assert.deepEqual(lastEvalSummary({ placement: { sketch: sk(REFUSAL) } }),
-    { refused: { kind: 'type-fact-downgraded', facts: ['stacks', 'tiling'] }, sketch: true });
+    { refused: { kind: 'type-fact-downgraded', facts: ['stacks', 'tiling'], class: null }, sketch: true });
   // a sketch that is not marked working is not one, and nothing else carries the flag
   for (const notSketch of [{ sketch: { working: false, refused: REFUSAL } }, { sketch: 'x' }, { sketch: [] }, {}, null]) {
     assert.equal('sketch' in lastEvalSummary({ check: { ...COUNTS }, placement: notSketch }), false, JSON.stringify(notSketch));
   }
   // the record's own refusal outranks the sketch's, as the bench's banner reads it
   const own = { kind: 'infeasible', facts: ['bearing'] };
-  assert.deepEqual(lastEvalSummary({ check: { ...COUNTS }, placement_refused: own, placement: { sketch: sk(REFUSAL) } }).refused, own);
+  assert.deepEqual(lastEvalSummary({ check: { ...COUNTS }, placement_refused: own, placement: { sketch: sk(REFUSAL) } }).refused, { ...own, class: null });
 });
 
 test('the assistant is handed only an evaluation that is of the plan on the bench, from where it came', () => {

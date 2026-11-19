@@ -372,8 +372,9 @@ const BASELINE = {
     // re-ruled 30 Oct 2026: the standing is the first key, so the disqualification is said second
     ["candidateOrder.js", "voice",
       "Then any plan carrying a fatal finding sorts last among its own kind, whatever it scores, and says so on its own column."],
+    // re-ruled 19 Nov 2026: the placed standing is split by the acceptance instrument's reading
     ["candidateOrder.js", "voice",
-      "A refused plan sorts after one that is not, whatever either’s fatal count."],
+      "A plan shown drawable sorts first, then a placed plan not shown drawable, then one not yet placed, then a refused one, whatever any fatal count."],
     ["candidateOrder.js", "voice",
       "Ordered by whether the diagram is native to the style, then by score — so the column numbered 1 is the most native, not the highest scoring. {…}"],
     ["candidateOrder.js", "voice",

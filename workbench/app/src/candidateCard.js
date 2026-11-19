@@ -166,6 +166,10 @@ export function adaptCandidate(c, i, nativePartis, axisWhat) {
     refused: readRefusal(c.refused),
     // what the type's facts have been asked of this candidate: refused | placed | unjudged
     standing: standingOf(c),
+    // what the acceptance instrument said of a PLACED card (`compose.card_drawability`); null where
+    // the composer wrote none. `where_judged` true only where it said so: the 19 Nov 2026 tier
+    where_judged: !!(c.drawability && typeof c.drawability === 'object' && c.drawability.where_judged === true),
+    drawability_verdict: c.drawability && typeof c.drawability.verdict === 'string' ? c.drawability.verdict : null,
     // the composer's retry of an unproven refusal (ruled 30 Oct 2026): null where none was asked
     retry: c.retry && typeof c.retry === 'object' && !Array.isArray(c.retry) ? c.retry : null,
     // WP-9.2/9.3: what the placed revision loop bought on this candidate. `score_before` is

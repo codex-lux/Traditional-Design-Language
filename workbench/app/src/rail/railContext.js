@@ -107,7 +107,10 @@ export function lastEvalSummary(lastEval) {
     constraint_summary: lastEval.check.constraint_summary,
     fault_summary: lastEval.check.fault_summary,
   } : ((refused || sketch) ? {} : undefined);
-  if (out && refused) out.refused = { kind: refused.kind, facts: refused.facts };
+  /* and its CLASS (19 Nov 2026): whether the refusal is proven of the house or only of this
+     arrangement. Always sent, null where the server stated none, so the assistant is told a
+     refusal of unstated class is not assumed proven; the server maps it to its own sentence. */
+  if (out && refused) out.refused = { kind: refused.kind, facts: refused.facts, class: refused.cls ?? null };
   if (out && sketch) out.sketch = true;
   return out;
 }

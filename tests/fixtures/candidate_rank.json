@@ -1,5 +1,5 @@
 {
- "_what": "One table of RANKINGS, held by both languages (16 Oct 2026, the refusal ruling; its order re-ruled 30 Oct 2026: the standing first). `compose.rank_key` (Python) orders these cards, and the workbench's 'fatal first' ordering -- applied to the same raw cards through the real card adapter and `order()` -- must put them in the same order. `tests/test_refusal_ranks_last.py` is the Python half and `workbench/app/src/candidateOrder.test.mjs` the JavaScript. A card carries only the fields the key reads; the adapter fills the rest.",
+ "_what": "One table of RANKINGS, held by both languages (16 Oct 2026, the refusal ruling; its order re-ruled 30 Oct 2026: the standing first; the placed standing split 19 Nov 2026 by `drawability.where_judged`, `compose.drawability_tier`). `compose.rank_key` (Python) orders these cards, and the workbench's 'fatal first' ordering -- applied to the same raw cards through the real card adapter and `order()` -- must put them in the same order. `tests/test_refusal_ranks_last.py` is the Python half and `workbench/app/src/candidateOrder.test.mjs` the JavaScript. A card carries only the fields the key reads; the adapter fills the rest.",
  "_not_here": "The score and native orderings of the workbench are not the composer's key and are not in this table: they demote a refused card and are held by their own tests.",
  "cases": [
   {
@@ -447,6 +447,143 @@
     "b-high",
     "c-mid",
     "a-low"
+   ]
+  },
+  {
+   "name": "a drawable house with a fatal outranks a placed house the instrument reads NOT DRAWABLE with none (ruled 19 Nov 2026)",
+   "cards": [
+    {
+     "parti": "placed-not-drawable-clean",
+     "counts": {
+      "fatal": 0
+     },
+     "score": 95,
+     "demerits": 0.0,
+     "unjudged_fatal": [],
+     "refused": null,
+     "revision": {
+      "stop_reason": "converged"
+     },
+     "drawability": {
+      "verdict": "NOT DRAWABLE",
+      "where_judged": false
+     }
+    },
+    {
+     "parti": "drawable-one-fatal",
+     "counts": {
+      "fatal": 1
+     },
+     "score": 40,
+     "demerits": 0.0,
+     "unjudged_fatal": [],
+     "refused": null,
+     "revision": {
+      "stop_reason": "converged"
+     },
+     "drawability": {
+      "verdict": "DRAWABLE WHERE JUDGED",
+      "where_judged": true
+     }
+    }
+   ],
+   "expected": [
+    "drawable-one-fatal",
+    "placed-not-drawable-clean"
+   ]
+  },
+  {
+   "name": "a placed house not shown drawable outranks one nobody has placed (ruled 19 Nov 2026)",
+   "cards": [
+    {
+     "parti": "unplaced-best",
+     "counts": {
+      "fatal": 0
+     },
+     "score": 99,
+     "demerits": 0.0,
+     "unjudged_fatal": [],
+     "refused": null,
+     "revision": null
+    },
+    {
+     "parti": "placed-not-drawable",
+     "counts": {
+      "fatal": 1
+     },
+     "score": 20,
+     "demerits": 0.0,
+     "unjudged_fatal": [],
+     "refused": null,
+     "revision": {
+      "stop_reason": "converged"
+     },
+     "drawability": {
+      "verdict": "NOT DRAWABLE",
+      "where_judged": false
+     }
+    }
+   ],
+   "expected": [
+    "placed-not-drawable",
+    "unplaced-best"
+   ]
+  },
+  {
+   "name": "a placed card whose drawability could not be evaluated, or carries none, is never read as drawable",
+   "cards": [
+    {
+     "parti": "placed-no-drawability",
+     "counts": {
+      "fatal": 0
+     },
+     "score": 90,
+     "demerits": 0.0,
+     "unjudged_fatal": [],
+     "refused": null,
+     "revision": {
+      "stop_reason": "converged"
+     }
+    },
+    {
+     "parti": "placed-could-not-evaluate",
+     "counts": {
+      "fatal": 0
+     },
+     "score": 80,
+     "demerits": 0.0,
+     "unjudged_fatal": [],
+     "refused": null,
+     "revision": {
+      "stop_reason": "converged"
+     },
+     "drawability": {
+      "verdict": "COULD NOT EVALUATE",
+      "where_judged": false
+     }
+    },
+    {
+     "parti": "drawable",
+     "counts": {
+      "fatal": 0
+     },
+     "score": 10,
+     "demerits": 0.0,
+     "unjudged_fatal": [],
+     "refused": null,
+     "revision": {
+      "stop_reason": "converged"
+     },
+     "drawability": {
+      "verdict": "DRAWABLE WHERE JUDGED",
+      "where_judged": true
+     }
+    }
+   ],
+   "expected": [
+    "drawable",
+    "placed-no-drawability",
+    "placed-could-not-evaluate"
    ]
   }
  ]

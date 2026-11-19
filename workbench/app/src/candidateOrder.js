@@ -96,11 +96,21 @@ export function standingRank(c) {
   const r = c && STANDING_RANK[c.standing];
   return typeof r === 'number' ? r : STANDING_RANK.unjudged;
 }
+/* THE PLACED STANDING IS SPLIT (ruled by Lucas, 19 Nov 2026; `compose.drawability_tier`): a placed
+   card the acceptance instrument reads drawable where judged, then a placed card it does not (NOT
+   DRAWABLE, could not judge, or no reading served), then not yet placed, then refused. A placed
+   card is never read as drawable on an absence: `where_judged` is true only where the composer
+   said so. */
+export function tierOf(c) {
+  const r = standingRank(c);
+  if (r === STANDING_RANK.placed) return c && c.where_judged === true ? 0 : 1;
+  return r + 1;
+}
 const refusedDiff = (a, b) => (standingRank(a) === 2 ? 1 : 0) - (standingRank(b) === 2 ? 1 : 0);
 
 const DQ_LAST = 'Then any plan carrying a fatal finding sorts last among its own kind, whatever it '
               + 'scores, and says so on its own column.';
-const REFUSED_LAST = 'A refused plan sorts after one that is not, whatever either’s fatal count.';
+const REFUSED_LAST = 'A plan shown drawable sorts first, then a placed plan not shown drawable, then one not yet placed, then a refused one, whatever any fatal count.';
 const FATAL_SAYS = 'Fatal findings decide the order before the score does — a plan carrying two '
                  + 'sorts below a plan carrying one, and both below a plan carrying none. Between '
                  + 'equal counts, the plan with fewer fatal faults nobody could judge comes first.';
@@ -127,7 +137,7 @@ export const ORDERS = {
        score -- the composer's own key (`compose.rank_key`), so this reading order agrees with the
        order the set was returned in. An unjudged fatal is not a fatal: `order()` below does not
        read it. */
-    cmp: (a, b) => (standingRank(a) - standingRank(b))
+    cmp: (a, b) => (tierOf(a) - tierOf(b))
       || ((a.fatal_n || 0) - (b.fatal_n || 0))
       || ((a.unjudged_fatal_n || 0) - (b.unjudged_fatal_n || 0)) || byScore(a, b),
   },
@@ -143,7 +153,7 @@ export const ORDERS = {
  *  misreading this surface was fixed to prevent. Applied OUTSIDE each comparator so a new
  *  ordering cannot forget either. */
 export function order(cmp) {
-  return (a, b) => (standingRank(a) - standingRank(b))
+  return (a, b) => (tierOf(a) - tierOf(b))
     || ((a.fatal_n ? 1 : 0) - (b.fatal_n ? 1 : 0)) || cmp(a, b);
 }
 
