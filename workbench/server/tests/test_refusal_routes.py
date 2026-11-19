@@ -99,10 +99,21 @@ def test_the_conflict_set_survives_the_frame_it_was_computed_in(client, refused_
     bench draws that list where the house would have been."""
     r = client.post("/api/drawings/plan", json={"plan": refused_plan})
     ref = r.json()["detail"]["refused_placement"]
-    assert set(ref) == {"kind", "facts", "conflicts", "lines", "engine", "status"}, (
+    # The contract grew three keys on 30 Oct 2026 (`c67cefa`, recorded in
+    # docs/reports/the-refusal-that-blamed-the-brief-2026-10-30.md): `class`, `classes` and
+    # `proven`, from `typefacts.refusal_class`, so a refusal says whose failure it is. This pin
+    # was not judged in that package's run (the suite skipped without fastapi) and went red at the
+    # next whole build, which is what it is for; it is widened here, not deleted.
+    assert set(ref) == {"kind", "facts", "conflicts", "lines", "engine", "status",
+                        "class", "classes", "proven"}, (
         f"the refusal's shape has moved: {sorted(ref)}. Both slices of WP-13.4 were built "
         f"against one written contract and neither may change it silently.")
     assert ref["conflicts"], "the evidence is gone and only the sentence survived"
+    from workbench.server import corpus
+    tf = corpus._typefacts()
+    assert ref["class"] in tf.REFUSAL_CLASSES, ref["class"]
+    assert ref["proven"] is (ref["class"] == tf.PROVEN), "proven must be the class's, not a guess"
+    assert set(ref["classes"]) <= set(ref["facts"]) and set(ref["classes"].values()) <= set(tf.REFUSAL_CLASSES)
 
 
 def test_the_scene_route_refuses(client, refused_plan):

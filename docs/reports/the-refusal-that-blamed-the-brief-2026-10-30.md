@@ -243,3 +243,26 @@ a draw. The octagon is the one card whose refusal says the brief or the parti mu
 - **No repair move reads a refusal.** The move that would, `align-upper-walls-to-the-room-below`, is a
   stated refusal in `moves/registry.json` for want of a quotable basis; a refusal-driven repair needs
   a ruling or a source.
+
+### The whole build (19 November 2026, `ed2a0be` plus the pin below)
+
+`python3 build/check_all.py`: **3 of 54 checks failed**. `pytest tests/` is 22 failed / 4,057 passed /
+134 skipped in 1:09:22, and every one of the 22 ids is on the 23-id known list: 17 gate rows (the
+eighteenth, a CP-band row, passed on this run), `test_solver`'s half bound, `test_parti_composability`,
+and the three pre-existing reds named above. The app suite is 899 of 899.
+
+**One red was this package's own, and it is older than this section.** The server suite read 1 failed /
+502 passed / 19 skipped: `workbench/server/tests/test_refusal_routes.py::
+test_the_conflict_set_survives_the_frame_it_was_computed_in` pins the served refusal's keys, and
+`c67cefa` added `class`, `classes` and `proven` to that refusal on purpose. That package's own run did
+not judge the pin, because the server suite skipped without fastapi; the first whole build with fastapi
+installed turned it red, which is what the pin is for. It is widened to the new shape, not deleted, and
+now also holds the class to the leaf's own vocabulary (`typefacts.REFUSAL_CLASSES`), `proven` to the
+class, and `classes` to the refused facts. A mutation setting `proven` to `True` in
+`typefacts.refusal_class` was asserted landed and turned it red; restored, the file passes, and
+`tests/test_modcache.py` stays green (the test reaches the leaf through `corpus._typefacts`, not a
+local loader).
+
+**Counts, reconciled by name against a worktree of `c67cefa`**: `tests/` 4,216 → 4,223, with 7 added
+(three in `TestThePlacedStandingIsSplitByTheInstrument`, three rows of the shared ranking table, and
+the solver-before-verdict spy) and none removed; app 898 → 899; server 521 → 522.
