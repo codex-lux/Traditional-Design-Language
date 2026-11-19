@@ -2371,6 +2371,12 @@ def _solve_cp(plan, parti=None, seed=7, time_limit_s=20.0, candidates=250, worke
                             # cannot restore or refute alone in budget stays CARRIED on the
                             # record (WP-13.3)
     seed_core = None
+    # WHICH PINS A CONFLICT CORE ACTUALLY NAMED, per kind, over every round of the ladder (19 Nov
+    # 2026). A round releases the WHOLE of a kind (WP-11.7, measured: the narrow release needs
+    # eight rounds), so most pins it releases were never in any conflict. The reinstatement pass
+    # reads this to offer a kind back as "everything no core named" before it falls to one pin at
+    # a time -- see `_reinstate`'s whole phase.
+    cored = {}
     # WHAT THE REINSTATEMENT PASS REACHED, AS COUNTS (the second audit of Phase 17, 30 Oct 2026).
     # Its line on `downgrade_rounds` says the same in prose; `geometry._cp_undecided` reads THIS,
     # because a pin the pass never reached is released on the clock and not on a proof, and an
@@ -2472,6 +2478,27 @@ def _solve_cp(plan, parti=None, seed=7, time_limit_s=20.0, candidates=250, worke
             if isinstance(got, dict):
                 vals = got
                 downgraded.difference_update(keys_k)
+                continue
+            # THE KIND LESS THE PINS A CORE NAMED (19 Nov 2026). The whole kind did not come back,
+            # and the singles below are budget-bound: on `plans/tidewater-georgian-careful.json`
+            # the ladder released all 24 shape pins on a core naming 3, the whole restore was
+            # INFEASIBLE, and the window reached two singles, so 22 rooms were drawn free of
+            # their own proportion band -- the drawing room 45 x 10, the butler's pantry on the
+            # entrance front -- while the lower-ranked hearth, offered whole next, came back. A
+            # core is SUFFICIENT and not minimal, so this is a guess and not a proof: if the rest
+            # does not co-hold either, it costs one solve and the singles run as before. A pin
+            # restored this way is restored on its own evidence, at this footprint, like any other.
+            rest = [k for k in keys_k if k not in cored.get(kind, ())]
+            if 2 <= len(rest) < len(keys_k):
+                cap = min(RESTORE_KIND_S, whole_deadline - time.monotonic())
+                if cap < RESTORE_MIN_S:
+                    continue
+                got = _try(rest, f"restore {kind} x{len(rest)} outside the cores", cap)
+                if got is None:
+                    break
+                if isinstance(got, dict):
+                    vals = got
+                    downgraded.difference_update(rest)
         single = [k for k in kinds if any(p[0] == k and p in downgraded for p in pending)]
         for n_, kind in enumerate(single):
             keys_k = [k for k in pending if k[0] == kind and k in downgraded]
@@ -2869,6 +2896,9 @@ def _solve_cp(plan, parti=None, seed=7, time_limit_s=20.0, candidates=250, worke
         idx = set(solver.SufficientAssumptionsForInfeasibility())
         core = [(t, k, key) for lit, t, k, key in reqs.lits if lit.Index() in idx]
         seed_core = [t for t, _k, _key in core]
+        for _t, _k, _key in core:
+            if _key:
+                cored.setdefault(_k, set()).add(_dk(_k, _key))
         # THE LADDER IS RANKED (WP-11.7), and it was a single kind until this package.
         # It read `[key for _t, k, key in core if k == "wall" and key]` -- so a wall pin was
         # the only downgradable fact, and every requirement added since would either have been
