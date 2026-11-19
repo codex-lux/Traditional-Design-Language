@@ -141,8 +141,19 @@ def test_check_plans_solve_with_stated_downgrades():
     """
     # The two vocabularies geometry_cp.py is allowed to use. A downgrade whose note
     # matches neither is exactly the silent softening this test guards against.
-    PROVEN = "proven — restored alone, no placement exists"
-    CARRIED = "carried from the conflict core — not individually re-proven in budget"
+    #
+    # READ FROM THE PROVER, NOT COPIED (19 Nov 2026). This file carried its own CARRIED string,
+    # "carried from the conflict core — not individually re-proven in budget", and WP-13.3
+    # reworded the prover's four sites to "carried — off a conflict core or an undecided round,
+    # ...". From then the test was red on every run that carried a pin, on a vocabulary
+    # mismatch and not on its property: CI shard 6 of PR #45 failed here with the notes saying
+    # exactly what the prover says. The prover spells both words once now and this test reads
+    # them; the property -- every downgrade states one of two things -- is unchanged, and a
+    # third, unstated note still fails below.
+    CP = mc.load("geometry_cp", os.path.join(BUILD, "geometry_cp.py"))
+    PROVEN, CARRIED = CP.PROVEN_NOTE, CP.CARRIED_NOTE
+    assert PROVEN != CARRIED and "proven" not in CARRIED.split("re-proven")[0], (
+        "the two notes must be told apart by their own words")
 
     for rel in ("plans/tidewater-georgian-careful.json",
                 "plans/spec-builder-colonial.json"):

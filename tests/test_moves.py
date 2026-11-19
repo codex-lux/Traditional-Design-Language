@@ -328,13 +328,20 @@ class TestTheDeclarationIsEnforced:
         would have dropped it. It is ported as `passage-to-the-styles-own-floor` -- the
         sibling `passage-to-its-band` widens to the room catalogue's 6 ft, a Georgian kit's
         own cascade asks for 10, and `passage-that-is-a-corridor` between them is FATAL.
+
+        22 -> 24 and 9 -> 8 on 19 Nov 2026, by ruling: the repair added
+        `size-the-upper-room-to-the-room-it-stacks-over` and `put-the-fire-on-the-flue-wall`,
+        and the first LIFTED the stated refusal `align-upper-walls-to-the-room-below`, whose
+        reason now stands quoted in the new move's note rather than in `refusals`.
         """
         reg = MV.registry()
-        assert len(reg["moves"]) == 22, [m["id"] for m in reg["moves"]]
-        assert len(reg["refusals"]) == 9
+        assert len(reg["moves"]) == 24, [m["id"] for m in reg["moves"]]
+        assert len(reg["refusals"]) == 8
         names = " ".join(json.dumps(r) for r in reg["refusals"])
-        for wanted in ("shorten-for-daylight", "align-upper-walls-to-the-room-below", "move-door-to-a-shared-wall"):
+        for wanted in ("shorten-for-daylight", "move-door-to-a-shared-wall"):
             assert wanted in names, wanted
+        assert "align-upper-walls-to-the-room-below" not in {r["id"] for r in reg["refusals"]}, (
+            "the refusal the 19 Nov 2026 ruling lifted is back beside the move that replaced it")
 
     def test_a_move_that_writes_outside_its_touches_is_refused_and_the_record_restored(self, monkeypatch):
         plan = minimal_plan([{"id": "cl", "type": "closet", "name": "Closet", "width_ft": 2.1, "length_ft": 6,
