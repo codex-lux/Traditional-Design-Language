@@ -564,7 +564,20 @@ const NOT_FRONT = OPPOSITE[FRONT] || 'N';
      contract forbids -- a 150 s death that looked exactly like a slow solve. The block at the
      foot of this file does the same thing correctly only because it arrives from another
      route. `reload()` is the honest spelling of what this wants. */
-  await page.reload({ waitUntil: 'networkidle' });
+  /* `load`, NOT `networkidle`, AND THE WAIT BELOW IS THE ONE THAT MEANS SOMETHING (19 Nov 2026).
+     A reload of the bench boots an evaluate, and that request is CP-SAT at the interactive
+     budget -- measured here at 28.1 s before the sheet arrives, more on a CI runner -- so
+     `networkidle` (no request for 500 ms, inside Playwright's default 30 s) raced the solve and
+     lost twice running on PR #45's runner, dying here and reading like a broken surface. The
+     page is loaded when the document is; the sheet is waited for by its own selector below,
+     with the budget the solve needs. */
+  await page.reload({ waitUntil: 'load' });
+  // AND THEN IDLE, WITH THE SOLVE'S BUDGET (19 Nov 2026, the second correction). `load` alone let
+  // the walk click on while the bench's follow-up requests (the critique beside the evaluate) were
+  // still in flight, so the panel and the sheet below counted findings from two evaluations
+  // (PR #45's runner: 78 against 74). What broke before was `networkidle`'s 30 s default, not
+  // the idle condition, so the idle condition stays, with the timeout the solve needs.
+  await page.waitForLoadState('networkidle', { timeout: 150000 }).catch(() => {});
 }
 // The sheet arrives AFTER the evaluate, and the evaluate runs CP-SAT at the interactive
 // budget (`BUDGET_INTERACTIVE_S`, 25 s) before it can fall back -- measured here at 28.1 s
@@ -594,6 +607,9 @@ await page.waitForSelector('svg[role="img"]', { timeout: 150000 });
      until something asks. Press the chip the reader would press. */
   await page.getByRole('button', { name: /re-solve/i }).first().click();
   await page.waitForSelector('[data-panel="revision"]', { timeout: 150000 }).catch(() => {});
+  // and for the bench to settle: the panel can land before the critique and the sheet it sits
+  // beside, and the counts below read all three (the second correction above, same reason).
+  await page.waitForLoadState('networkidle', { timeout: 150000 }).catch(() => {});
   const panel = await page.locator('[data-panel="revision"]').innerText().catch(() => '');
   check('re-solve runs the corrective rounds on a drawable record', !!panel);
   check('and on a record that draws, the panel claims the SHEET above it',
@@ -911,10 +927,35 @@ const sheetBox = () => page.evaluate(() => {
   const s = document.querySelector('main svg[role="img"]');
   return s ? s.getBoundingClientRect().width : 0;
 });
-const wFit = await sheetBox();
-await page.getByRole('button', { name: '+', exact: true }).first().click();
-await page.getByRole('button', { name: '+', exact: true }).first().click();
-await page.waitForTimeout(500);
+// THE LOUPE IS ON THE SHEET, SO WAIT FOR THE SHEET (19 Nov 2026). The re-solve above runs the
+// corrective rounds -- about 62 s on a quiet box -- and its panel can arrive before the sheet it
+// redraws, so on PR #45's runner the default 30 s click timed out on a `+` that had not been
+// drawn yet. The sheet's own wait uses the budget the solve needs, as the wait after the reload
+// above does.
+//
+// AND WHEN IT DOES NOT COME, SAY WHAT THE BENCH SHOWED INSTEAD OF DYING (19 Nov 2026). On PR #45's
+// runner this wait ran its full 150 s with no sheet, twice, on good-03 -- a record drawable on
+// every engine here, whose re-solve with the rounds takes 33 to 57 s on both trees measured -- and
+// an uncaught TimeoutError printed nothing about what was on the page. It is a FAIL, never a
+// pass, and it carries the bench's own state so the next run says why.
+const sheetCame = await page.waitForSelector('svg[role="img"]', { timeout: 150000 })
+  .then(() => true).catch(() => false);
+if (!sheetCame) {
+  const seen = await page.evaluate(() => ({
+    hash: location.hash,
+    refused: !!document.querySelector('[data-conflict-set]'),
+    busy: [...document.querySelectorAll('[aria-busy="true"], [data-placing]')].length,
+    main: ((document.querySelector('main') || {}).innerText || '').replace(/\s+/g, ' ').slice(0, 700),
+  })).catch((e) => ({ error: String(e) }));
+  check(`the bench draws its sheet after the re-solve -- none in 150 s; the bench showed ${JSON.stringify(seen)}`,
+    false);
+}
+const wFit = sheetCame ? await sheetBox() : 0;
+if (sheetCame) {
+  await page.getByRole('button', { name: '+', exact: true }).first().click();
+  await page.getByRole('button', { name: '+', exact: true }).first().click();
+  await page.waitForTimeout(500);
+}
 const wBig = await sheetBox();
 check(`the loupe magnifies the sheet (${Math.round(wFit)}px → ${Math.round(wBig)}px)`,
   wFit > 50 && wBig > wFit * 1.2);
@@ -3311,9 +3352,18 @@ await shot('drawing-elevation');
      vocabulary, carries the input digest, and -- where it names CP-SAT -- says which of the two
      CP states it is, because "CP-SAT" alone is exactly the claim that captioned a FEASIBLE
      truncation as a proof. */
+  /* AND A FOURTH STATE, RULED 30 OCT 2026 (R11): a placement CARRIED with the record from the
+     compose was not solved by this surface, and the plate says "the compose, carried with the
+     record and not solved here" in place of an engine. The closed vocabulary predated it, so the
+     walk read a correct caption as unnamed (PR #45's workbench job, 19 Nov 2026). The state is
+     in the vocabulary now, and a carried caption is held to the half of R11 that matters: it
+     never says proved. */
   const engineLine = (/placed by ([^\n]*)/.exec(cap) || [])[1] || '';
+  const carriedLine = /the compose, carried with the record and not solved here/.test(engineLine);
   check(`drawing set: the elevation names the engine that placed it (${engineLine.slice(0, 60)})`,
-    /(CP-SAT|hill-climb|an engine this plate does not name)/.test(engineLine));
+    carriedLine || /(CP-SAT|hill-climb|an engine this plate does not name)/.test(engineLine));
+  check('drawing set: and a carried placement is never captioned proved',
+    !carriedLine || !/proved/i.test(engineLine));
   check('drawing set: and a CP-SAT plate says whether it was proved at the optimum',
     !/CP-SAT/.test(engineLine) || /(proved at the optimum|NOT proved at the optimum)/.test(engineLine));
   check('drawing set: and it carries the input digest', /input [0-9a-f]{12}/.test(cap));
@@ -4147,7 +4197,10 @@ check('and the spine brings it back', await page.locator('nav[aria-label="surfac
        DRAWABLE record. Every assertion below then measures the wrong house and the first of
        them ("a refused placement draws NO plate") fails on a plate that is correctly there. */
     await page.goto(BASE + '#/workbench');
-    await page.reload({ waitUntil: 'networkidle' });
+    // `load`, not `networkidle`: the refused record's evaluate is the same 25 s solve the
+    // reload near the top of this file races (see the note there); its conflict set is the wait.
+    await page.reload({ waitUntil: 'load' });
+    await page.waitForLoadState('networkidle', { timeout: 150000 }).catch(() => {});
     await page.waitForSelector('[data-conflict-set]', { timeout: 90000 }).catch(() => {});
 
     const bench = await page.evaluate(() => {
@@ -4575,7 +4628,15 @@ async function journeyRead() {
 
   // (1) THE TRAIL. Styles, then the member_of chain root first, then the style, the section and
   // the slot; every name the server's, the last crumb the page and no link.
-  await page.goto(BASE + '/#/style/tidewater-georgian/kit/cornice', { waitUntil: 'networkidle' });
+  /* `load` AND THE CRUMBS, NOT `networkidle` (19 Nov 2026). This page is the walk's long-lived one,
+     and the journey block above visited #/drawings, whose sheet is a placement at the batch budget
+     (40 s) still in flight when this navigation starts. Measured on the Tidewater record after
+     37b9886: 41.4 s, where it had been 17.4 s, because its polish now runs to its budget. So
+     `networkidle` raced another surface's solve and died at 30 s with 601 checks green, on a page
+     that needs only its own crumbs. Waited for by their own selector. */
+  await page.goto(BASE + '/#/style/tidewater-georgian/kit/cornice', { waitUntil: 'load' });
+  await page.waitForLoadState('networkidle', { timeout: 150000 }).catch(() => {});
+  await page.waitForSelector('nav[aria-label="crumbs"] li', { timeout: 60000 }).catch(() => {});
   await page.waitForTimeout(1200);
   const dossier = await (await fetch(BASE + '/api/styles/tidewater-georgian/dossier')).json().catch(() => null);
   const crumbs = page.locator('nav[aria-label="crumbs"] li');
@@ -4686,7 +4747,10 @@ async function journeyRead() {
 
   // (5) FULL SCREEN TAKES THE TRAIL AND THE HEAD WITH IT. Asserted present first, so the two
   // zeroes cannot both be the shell failing to draw them.
-  await page.goto(BASE + '/#/phylogeny/tidewater-georgian?view=map', { waitUntil: 'networkidle' });
+  // `load` and the head, for the reason given at the crumbs block above: the same long-lived page.
+  await page.goto(BASE + '/#/phylogeny/tidewater-georgian?view=map', { waitUntil: 'load' });
+  await page.waitForLoadState('networkidle', { timeout: 150000 }).catch(() => {});
+  await page.waitForSelector('[data-page-head]', { timeout: 60000 }).catch(() => {});
   await page.waitForTimeout(1500);
   const trailAndHead = async () => [await page.locator('nav[aria-label="crumbs"]').count(),
     await page.locator('[data-page-head]').count()];

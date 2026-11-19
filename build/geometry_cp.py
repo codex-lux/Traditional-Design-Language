@@ -306,6 +306,15 @@ def _ceil_scaled(ceil, scale=None):
 # A kind NOT in this list never downgrades: sizes, doors, the entrance and capacity are what
 # infeasibility is FOR (the 25 Aug rulings). Adding a kind here is a decision about authority
 # and belongs in a report, not in a diff.
+# THE TWO WORDS A DOWNGRADE MAY SAY, SPELLED ONCE. Every released pin's note states which it is:
+# PROVEN only where the reinstatement pass restored THIS pin alone and found no placement, CARRIED
+# where the budget never re-proved it. `tests/test_solver.py` reads these constants rather than a
+# copy -- its copy of CARRIED went stale when WP-13.3 reworded the four sites below, and the test
+# was red on a vocabulary mismatch rather than on the property it holds (the 19 Nov 2026 CI fix).
+CARRIED_NOTE = ("carried — off a conflict core or an undecided round, not individually re-proven "
+                "in budget")
+PROVEN_NOTE = "proven — restored alone, no placement exists"
+
 _RANK = ("wall", "axis", "tiling", "stack", "bearing", "hearth", "shape")
 
 # The kinds WP-13.3 added, in `_RANK`'s own order -- the four the record's `facts` block and
@@ -1066,9 +1075,8 @@ def _build(plan, prep, fpd, ewalls, downgraded=frozenset(), objective=True,
                         # "proven" only after the reinstatement pass tested THIS
                         # pin alone at THIS footprint; a pin the budget never
                         # re-proved says it was carried, never that it was proven
-                        how = ("carried — off a conflict core or an undecided round, not individually "
-                               "re-proven in budget" if _dk("wall", key) in unproven else
-                               "proven — restored alone, no placement exists")
+                        how = (CARRIED_NOTE if _dk("wall", key) in unproven else
+                               PROVEN_NOTE)
                         reqs.notes.append(
                             f"{r.get('name') or r['id']}'s declared {wl} wall could not "
                             f"co-hold with the other declared facts ({how}) — read as "
@@ -1227,9 +1235,8 @@ def _build(plan, prep, fpd, ewalls, downgraded=frozenset(), objective=True,
                                 f"(plan_check's hearth layer reports it as off the stack wall)")
                     continue
                 if _dk("hearth", key) in downgraded:
-                    how = ("carried — off a conflict core or an undecided round, not individually re-proven in "
-                           "budget" if _dk("hearth", key) in unproven else
-                           "proven — restored alone, no placement exists")
+                    how = (CARRIED_NOTE if _dk("hearth", key) in unproven else
+                           PROVEN_NOTE)
                     reqs.notes.append(
                         f"{_nm}'s fire on its {wl} wall could not stand on the element's {wl} "
                         f"face together with the other declared facts ({how}) — downgraded, "
@@ -1417,9 +1424,9 @@ def _build(plan, prep, fpd, ewalls, downgraded=frozenset(), objective=True,
         # not free: the shapes-only state the ladder falls back to went from OPTIMAL in 9 s to
         # UNKNOWN at 10 s on the reference plan with five dangling products in the model.
         if _dk("stack", key) in downgraded:
-            how = ("carried — off a conflict core or an undecided round, not individually re-proven in budget"
+            how = (CARRIED_NOTE
                    if _dk("stack", key) in unproven else
-                   "proven — restored alone, no placement exists")
+                   PROVEN_NOTE)
             reqs.notes.append(
                 f"{_nm}'s declared stack over {_gname} could not land together with the other "
                 f"declared facts ({how}) — downgraded, charged at {GEO.STACK_W:g} points as the "
@@ -1757,9 +1764,8 @@ def _build(plan, prep, fpd, ewalls, downgraded=frozenset(), objective=True,
                             penalties.append((viol, _w(GEO.SPAN_W)))
 
                 if _dk("bearing", key) in downgraded:
-                    how = ("carried — off a conflict core or an undecided round, not individually re-proven in "
-                           "budget" if _dk("bearing", key) in unproven else
-                           "proven — restored alone, no placement exists")
+                    how = (CARRIED_NOTE if _dk("bearing", key) in unproven else
+                           PROVEN_NOTE)
                     reqs.notes.append(
                         f"element {ei} ({_e.get('id')}), {axis} axis: bearing continuity on the "
                         f"bay grid could not co-hold with the other declared facts ({how}) — "
@@ -2365,6 +2371,12 @@ def _solve_cp(plan, parti=None, seed=7, time_limit_s=20.0, candidates=250, worke
                             # cannot restore or refute alone in budget stays CARRIED on the
                             # record (WP-13.3)
     seed_core = None
+    # WHICH PINS A CONFLICT CORE ACTUALLY NAMED, per kind, over every round of the ladder (19 Nov
+    # 2026). A round releases the WHOLE of a kind (WP-11.7, measured: the narrow release needs
+    # eight rounds), so most pins it releases were never in any conflict. The reinstatement pass
+    # reads this to offer a kind back as "everything no core named" before it falls to one pin at
+    # a time -- see `_reinstate`'s whole phase.
+    cored = {}
     # WHAT THE REINSTATEMENT PASS REACHED, AS COUNTS (the second audit of Phase 17, 30 Oct 2026).
     # Its line on `downgrade_rounds` says the same in prose; `geometry._cp_undecided` reads THIS,
     # because a pin the pass never reached is released on the clock and not on a proof, and an
@@ -2466,6 +2478,27 @@ def _solve_cp(plan, parti=None, seed=7, time_limit_s=20.0, candidates=250, worke
             if isinstance(got, dict):
                 vals = got
                 downgraded.difference_update(keys_k)
+                continue
+            # THE KIND LESS THE PINS A CORE NAMED (19 Nov 2026). The whole kind did not come back,
+            # and the singles below are budget-bound: on `plans/tidewater-georgian-careful.json`
+            # the ladder released all 24 shape pins on a core naming 3, the whole restore was
+            # INFEASIBLE, and the window reached two singles, so 22 rooms were drawn free of
+            # their own proportion band -- the drawing room 45 x 10, the butler's pantry on the
+            # entrance front -- while the lower-ranked hearth, offered whole next, came back. A
+            # core is SUFFICIENT and not minimal, so this is a guess and not a proof: if the rest
+            # does not co-hold either, it costs one solve and the singles run as before. A pin
+            # restored this way is restored on its own evidence, at this footprint, like any other.
+            rest = [k for k in keys_k if k not in cored.get(kind, ())]
+            if 2 <= len(rest) < len(keys_k):
+                cap = min(RESTORE_KIND_S, whole_deadline - time.monotonic())
+                if cap < RESTORE_MIN_S:
+                    continue
+                got = _try(rest, f"restore {kind} x{len(rest)} outside the cores", cap)
+                if got is None:
+                    break
+                if isinstance(got, dict):
+                    vals = got
+                    downgraded.difference_update(rest)
         single = [k for k in kinds if any(p[0] == k and p in downgraded for p in pending)]
         for n_, kind in enumerate(single):
             keys_k = [k for k in pending if k[0] == kind and k in downgraded]
@@ -2863,6 +2896,9 @@ def _solve_cp(plan, parti=None, seed=7, time_limit_s=20.0, candidates=250, worke
         idx = set(solver.SufficientAssumptionsForInfeasibility())
         core = [(t, k, key) for lit, t, k, key in reqs.lits if lit.Index() in idx]
         seed_core = [t for t, _k, _key in core]
+        for _t, _k, _key in core:
+            if _key:
+                cored.setdefault(_k, set()).add(_dk(_k, _key))
         # THE LADDER IS RANKED (WP-11.7), and it was a single kind until this package.
         # It read `[key for _t, k, key in core if k == "wall" and key]` -- so a wall pin was
         # the only downgradable fact, and every requirement added since would either have been

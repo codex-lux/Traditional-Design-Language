@@ -248,9 +248,48 @@ class TestSolveIntegration:
             g = rooms[rid]["geometry"]
             return g["y_ft"] + g["depth_ft"] / 2 > depth / 2, g, depth
 
+        # RE-CUT 19 NOV 2026, BY RULING: THE REAR IS ASKED OF THE ROOMS THE CORPUS CLASSES AS
+        # SERVICE, AND THE PANTRY IS HELD TO ITS OWN HARD ASK. The clause named `("kitchen",
+        # "pantry")` by hand, and `rooms/pantry.json` carries `function_class: storage` -- neither
+        # engine's zoning term reads it, and its record never asks for the rear: it asks for a
+        # direct door to the kitchen (hard), to be off the west wall "if there is a choice", and to
+        # be "the coolest room off the kitchen". The row went red at Phase 17's first tranche
+        # (`01f11b2`) on the pantry alone (y 7..19 of 37, in a wing WP-17.4 made 23 ft deep where
+        # it was 26.68), which convicted the house of breaking a rule the corpus never states.
+        # Lucas ruled: re-cut it. So the population is DERIVED from `function_class` -- service and
+        # work, the classes `principal_and_service_score` and the prover's zoning term read -- and
+        # the pantry is checked against the one thing its record asks HARD, the kitchen door.
+        #
+        # AND THE DERIVED POPULATION CONVICTS A ROOM THE HAND LIST LEFT OUT. The butler's pantry is
+        # `service` and the proof draws it on the entrance half (y 0..14 on one run, 7..21 on the next, of 37) where
+        # `6fcc665` drew it at the rear (y 23..37); `rooms/butlers-pantry.json` says it "must not
+        # be on or visible from the entry sequence". That is a true conviction and it stays red
+        # here until the placement is fixed; it is not narrowed away.
         proved = geometry_module.solve(load_plan("tidewater-georgian-careful"), engine="cp")
         if ((proved["geometry_report"].get("solver") or {}).get("engine")) == "cp-sat":
-            for rid in ("kitchen", "pantry"):
+            ground = proved["levels"][0]["rooms"]
+            service = [r["id"] for r in ground if r.get("geometry")
+                       and (geometry_module.C["rooms"].get(r["type"], {}).get("function_class")
+                            in ("service", "work"))]
+            # THE PANTRY FIRST, because the loop below is red on the butler's pantry and a check
+            # standing behind a failing assertion is a check nobody has run.
+            EL = geometry_module._mod("elements", geometry_module.ROOT + "/build/elements.py")
+            pan = next(r for r in ground if r["id"] == "pantry")
+            assert pan.get("geometry"), "the proof placed no pantry"
+            kdoor = [d for d in pan.get("doors") or [] if d["to"] == "kitchen"]
+            assert kdoor and not any(d.get("unplaced") for d in kdoor), (
+                f"the pantry's hard direct door to the kitchen is not placed: {kdoor}")
+            # ITS WEST WALL IS NOT ASSERTED, AND THAT IS THE RECORD'S OWN STRENGTH. The record's
+            # `daylight.aspect` states `avoid: ["W"]` at `strength: preferred`, `judgment: true`,
+            # "if there is a choice" -- and this corpus does not enforce a preference its record
+            # declines to require (`rooms/butlers-pantry.json`'s own aspect note). Measured on the
+            # same tree, the proof draws the pantry at x -21 on one run and on the wing's W face at
+            # x -34 on the next, so a hard assertion here would convict the house on a preference,
+            # one run in some. Nothing else reports it either -- the aspect check reads WINDOWS and the
+            # pantry has none -- so this is a stated gap, not a covered one.
+            assert EL.element_of(proved, pan) is not None, "the pantry stands in no massing element"
+            assert "kitchen" in service, f"the population lost the kitchen: {service}"
+            for rid in service:
                 ok, g, depth = _rear(proved, rid)
                 assert ok, (
                     f"the PROVING engine draws {rid} on the entrance half ({g}) against a built "
