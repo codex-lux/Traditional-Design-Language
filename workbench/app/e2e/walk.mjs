@@ -4599,7 +4599,14 @@ async function journeyRead() {
 
   // (1) THE TRAIL. Styles, then the member_of chain root first, then the style, the section and
   // the slot; every name the server's, the last crumb the page and no link.
-  await page.goto(BASE + '/#/style/tidewater-georgian/kit/cornice', { waitUntil: 'networkidle' });
+  /* `load` AND THE CRUMBS, NOT `networkidle` (19 Nov 2026). This page is the walk's long-lived one,
+     and the journey block above visited #/drawings, whose sheet is a placement at the batch budget
+     (40 s) still in flight when this navigation starts. Measured on the Tidewater record after
+     37b9886: 41.4 s, where it had been 17.4 s, because its polish now runs to its budget. So
+     `networkidle` raced another surface's solve and died at 30 s with 601 checks green, on a page
+     that needs only its own crumbs. Waited for by their own selector. */
+  await page.goto(BASE + '/#/style/tidewater-georgian/kit/cornice', { waitUntil: 'load' });
+  await page.waitForSelector('nav[aria-label="crumbs"] li', { timeout: 60000 }).catch(() => {});
   await page.waitForTimeout(1200);
   const dossier = await (await fetch(BASE + '/api/styles/tidewater-georgian/dossier')).json().catch(() => null);
   const crumbs = page.locator('nav[aria-label="crumbs"] li');
@@ -4710,7 +4717,9 @@ async function journeyRead() {
 
   // (5) FULL SCREEN TAKES THE TRAIL AND THE HEAD WITH IT. Asserted present first, so the two
   // zeroes cannot both be the shell failing to draw them.
-  await page.goto(BASE + '/#/phylogeny/tidewater-georgian?view=map', { waitUntil: 'networkidle' });
+  // `load` and the head, for the reason given at the crumbs block above: the same long-lived page.
+  await page.goto(BASE + '/#/phylogeny/tidewater-georgian?view=map', { waitUntil: 'load' });
+  await page.waitForSelector('[data-page-head]', { timeout: 60000 }).catch(() => {});
   await page.waitForTimeout(1500);
   const trailAndHead = async () => [await page.locator('nav[aria-label="crumbs"]').count(),
     await page.locator('[data-page-head]').count()];
