@@ -3311,9 +3311,18 @@ await shot('drawing-elevation');
      vocabulary, carries the input digest, and -- where it names CP-SAT -- says which of the two
      CP states it is, because "CP-SAT" alone is exactly the claim that captioned a FEASIBLE
      truncation as a proof. */
+  /* AND A FOURTH STATE, RULED 30 OCT 2026 (R11): a placement CARRIED with the record from the
+     compose was not solved by this surface, and the plate says "the compose, carried with the
+     record and not solved here" in place of an engine. The closed vocabulary predated it, so the
+     walk read a correct caption as unnamed (PR #45's workbench job, 19 Nov 2026). The state is
+     in the vocabulary now, and a carried caption is held to the half of R11 that matters: it
+     never says proved. */
   const engineLine = (/placed by ([^\n]*)/.exec(cap) || [])[1] || '';
+  const carriedLine = /the compose, carried with the record and not solved here/.test(engineLine);
   check(`drawing set: the elevation names the engine that placed it (${engineLine.slice(0, 60)})`,
-    /(CP-SAT|hill-climb|an engine this plate does not name)/.test(engineLine));
+    carriedLine || /(CP-SAT|hill-climb|an engine this plate does not name)/.test(engineLine));
+  check('drawing set: and a carried placement is never captioned proved',
+    !carriedLine || !/proved/i.test(engineLine));
   check('drawing set: and a CP-SAT plate says whether it was proved at the optimum',
     !/CP-SAT/.test(engineLine) || /(proved at the optimum|NOT proved at the optimum)/.test(engineLine));
   check('drawing set: and it carries the input digest', /input [0-9a-f]{12}/.test(cap));
