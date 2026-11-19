@@ -220,6 +220,23 @@ facts account on each record (`carried`, never re-proven); the five-part's own s
 It is not evidence that the five-part can hold its facts on this brief, and not evidence that it
 cannot. The two questions are amended with this table.
 
+### One compose of his brief on this code
+
+Production defaults, the same quiet four-core container, **598 s**. A draw, not a figure.
+
+| order | diagram | nativity | tier | fatals (named) | refusal class | retry |
+|---|---|---|---|---|---|---|
+| 1 | centre-passage-double-pile | native | drawable where judged | 1: *The Front With No Centre: 1 against between 3 and 7* | — | — |
+| 2 | living-hall-picturesque | borrowed | placed, NOT DRAWABLE | 0 | — | — |
+| 3 | courtyard-and-portal (pool-fill) | borrowed | placed, NOT DRAWABLE | 1: *The cornice that is only a fascia* | — | — |
+| 4 | five-part-palladian | native | refused: bearing, stacks, tiling | 0 | UNDECIDED | retried at 120 s, refused again (UNDECIDED, 117.1 s) |
+| 5 | octagon-radial | borrowed | refused: bearing, stacks | 0 | PROVEN | not retried (borrowed) |
+
+The leader of §VI's draw, living-hall-picturesque, now stands below the one drawable house, which is
+the ruling. The single pile was refused on this draw and passed over by the pool-fill ("refused:
+bearing, stacks, tiling"), as the sweep's 0-of-8 below 2× and 2-of-4 at 2× would lead one to expect of
+a draw. The octagon is the one card whose refusal says the brief or the parti must change.
+
 ### Not done
 
 - **The reinstatement window is not fixed.** It moves placements corpus-wide and is its own package.
