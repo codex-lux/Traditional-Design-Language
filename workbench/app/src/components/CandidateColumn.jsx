@@ -159,7 +159,9 @@ function StandingBand({ c }) {
     h(MarkGlyph, { token: placed ? "--mark-passed" : "--mark-unjudged", size: 11 }),
     placed ? h(React.Fragment, null, h(Term, { id: "candidate-placed" }),
         c.retry && c.retry.outcome === 'placed'
-          ? h("span", { "data-retry": "placed" }, " · on a second, longer attempt") : null)
+          ? h("span", { "data-retry": "placed" }, " · on a second, longer attempt") : null,
+        c.repaired
+          ? h("span", { "data-repair": "placed" }, " · repaired, not as composed") : null)
       : h(React.Fragment, null, h(Term, { id: "judgment-unjudged" }), " · ",
         h("i", { style: { font: 'italic var(--fw-reg) 13px/1.3 var(--body)' } }, h(Term, { id: "candidate-may-be-refused" }))));
 }

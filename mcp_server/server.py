@@ -320,7 +320,11 @@ def tdl_compose(brief: dict, candidates: int = 4, include_plans: bool = False,
     Seeds from the canonical partis native to the style, sizes every room from the room catalogue,
     repairs against the validator until it stops improving, reclaims the area the repair spent, and
     returns candidates drawable first (drawable where judged, then placed but not shown drawable,
-    then not yet placed, then refused), then fatal-free, then by score.
+    then not yet placed, then refused), then fatal-free, then by score. A native candidate whose
+    placement is refused for its stacks or its hearth is REPAIRED first -- the refused facts' moves
+    are applied to its declared record and it is placed again -- and the repaired record is kept only
+    if it is not refused and judged no worse; `repair` on the card names the moves and says whether
+    the record is still the one composed (`as_composed`). Then an unproven refusal is retried.
 
     A brief that names a `parti` is guaranteed a candidate built on it: scored by the same arithmetic
     as the rest, and, if the composer's own ranking does not return it, appended after the set as one

@@ -397,6 +397,11 @@ def flue_walls(plan, massing):
     """Which boundary walls of the main block this massing puts its stacks on, or () for a
     central mass. Returns (rule, why) and refuses a massing it cannot read.
 
+    WHERE THE RECORD AND THE MASSING DISAGREE, THE MASSING GOVERNS.
+    The style's massing and kit govern the wall a fire stands on.
+    (Ruled 26 Sep 2026, docs/reports/wp-14.33-the-eight-rulings.md R1.) `moves/registry.json`'s `put-the-fire-on-the-flue-wall` quotes that sentence as its basis
+    and reads this function for the wall; it never reads the massing itself.
+
     THREE REASONS TO REFUSE, NOT ONE, AND THE FIRST DRAFT GAVE THE WRONG ONE TO FOURTEEN OF THE
     SIXTEEN PLAN RECORDS IN THIS TREE. It said *"a compound is a statement about a type that
     admits both arrangements"* about plans that state no massing at all — a true sentence about

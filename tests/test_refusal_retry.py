@@ -28,7 +28,12 @@ RV = modcache.load("revise", os.path.join(ROOT, "build", "revise.py"))
 
 
 def _ref(cls):
-    return {"kind": "type-fact-downgraded", "facts": ["stacks"], "conflicts": [], "lines": ["x"],
+    # `tiling`, not `stacks` (19 Nov 2026): a stacks refusal is REPAIRED before it is retried
+    # (`compose.repair_decision`), which places the candidate once more and would make every count
+    # of placements below a statement about the repair. The retry's gate reads the class and never
+    # the fact, so the fact is chosen to be one no move repairs; tests/test_refusal_repair.py holds
+    # the repair and its order.
+    return {"kind": "type-fact-downgraded", "facts": ["tiling"], "conflicts": [], "lines": ["x"],
             "engine": "heuristic", "status": None, "classes": {"stacks": cls}, "class": cls,
             "proven": cls == TF.PROVEN}
 

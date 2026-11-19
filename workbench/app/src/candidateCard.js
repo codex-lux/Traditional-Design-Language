@@ -172,6 +172,11 @@ export function adaptCandidate(c, i, nativePartis, axisWhat) {
     drawability_verdict: c.drawability && typeof c.drawability.verdict === 'string' ? c.drawability.verdict : null,
     // the composer's retry of an unproven refusal (ruled 30 Oct 2026): null where none was asked
     retry: c.retry && typeof c.retry === 'object' && !Array.isArray(c.retry) ? c.retry : null,
+    // the composer's repair of a refused record (ruled 19 Nov 2026): null where none was asked.
+    // `repaired` true ONLY where the server said the repaired record was kept, so a card whose
+    // repair refused or was judged worse is never read as a changed house.
+    repair: c.repair && typeof c.repair === 'object' && !Array.isArray(c.repair) ? c.repair : null,
+    repaired: !!(c.repair && typeof c.repair === 'object' && c.repair.repaired === true),
     // WP-9.2/9.3: what the placed revision loop bought on this candidate. `score_before` is
     // the same instrument as `score` (both on the stripped declared record); `rank_before`
     // is the SERVER's order before revision and is labelled as such, because `rank` on

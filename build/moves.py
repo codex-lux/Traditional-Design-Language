@@ -612,6 +612,94 @@ def _split_per_grouping(plan, f, C, ctx):
     return {"refused": "no grouping the plan names says to split this room type"}
 
 
+def _size_upper_to_the_room_below(plan, f, C, ctx):
+    """RULED 19 NOV 2026: a broken stack's upper room may take the declared size of the room it
+    declares it stacks over. It lifts the stated refusal `align-upper-walls-to-the-room-below`,
+    and it is a JUDGMENT, not a corpus rule: the basis is the record's own `stacks_over` claim
+    and the drawn layer's own fix text, never a sentence saying the two rooms must match.
+
+    It writes DECLARED dimensions only. The placement is re-solved, so whether the two now
+    land on one another is the placer's answer and the loop's acceptance rule judges it. It
+    refuses where the room below's size falls outside the upper room's own bands, because a
+    stack bought by a room out of its band trades one defect for another."""
+    r = _room(plan, f.get("room"))
+    below = _room(plan, f.get("over"))
+    if not r or not below:
+        return {"refused": "the finding names no room, or no room it stacks over"}
+    bw, bl = below.get("width_ft"), below.get("length_ft")
+    if not bw or not bl:
+        return {"refused": f"{_name(below)} states no declared width and length to match"}
+    bw, bl = sorted((float(bw), float(bl)))
+    w, l = sorted((float(r.get("width_ft") or 0), float(r.get("length_ft") or 0)))
+    if (w, l) == (round(bw, 1), round(bl, 1)):
+        return {"refused": f"{_name(r)} is already declared at {_name(below)}'s size; the placement "
+                           f"did not land it, and no record edit changes that"}
+    area_band, width_band, _len = _band(C, r.get("type"))
+    a = bw * bl
+    if not (area_band[0] <= a <= area_band[1]):
+        return {"refused": f"{_name(below)} is {a:.0f} sf, outside {_name(r)}'s own {area_band[0]}-"
+                           f"{area_band[1]} sf band"}
+    if width_band and not (width_band[0] <= bw <= width_band[1]):
+        return {"refused": f"{_name(below)} is {bw:g} ft wide, outside {_name(r)}'s own "
+                           f"{width_band[0]}-{width_band[1]} ft width band"}
+    prop = (((C or {}).get("rooms", {}).get(r.get("type")) or {}).get("dimensions") or {}).get("proportion")
+    if prop and bl / bw > prop[1]:
+        return {"refused": f"{_name(below)} is {bl / bw:.2f} : 1, past {_name(r)}'s own "
+                           f"{prop[1]} : 1 proportion ceiling"}
+    ch = _set_dims(r, bw, bl)
+    if not ch:
+        return {"refused": "no dimension changed"}
+    return {"changed": ch,
+            "log": f"Sized {_name(r)} from {w:g} x {l:g} to {bw:g} x {bl:g} ft, the declared size of "
+                   f"{_name(below)}, which it declares it stacks over (a judgment, ruled 19 Nov 2026)."}
+
+
+def _put_the_fire_on_the_flue_wall(plan, f, C, ctx):
+    """RULED 19 NOV 2026, on the 26 Sep 2026 ruling (WP-14.33, R1) that the style's massing and
+    kit govern the fire's wall: a declared fire on a wall the massing puts no stack on is moved
+    to the one flue wall the room declares as exterior.
+
+    `hearths.flue_walls` is the one reader of the massing; this move does not read the massing
+    itself. It refuses where that reader refuses, where the massing is a central stack (no wall
+    to name), and where the room declares none or several of the flue walls -- choosing between
+    two would be authoring on the record's behalf. A fire the PLACEMENT released from a correctly
+    declared wall has no declared disagreement, and this move has nothing to do there."""
+    HE = _mod("hearths", os.path.join(ROOT, "build", "hearths.py"))
+    r = _room(plan, f.get("room"))
+    if not r:
+        return {"refused": "no such room"}
+    fires = r.get("hearth") or []
+    if not fires:
+        return {"refused": f"{_name(r)} states no fire"}
+    massing = ((C or {}).get("massings") or {}).get(plan.get("massing") or "") or {}
+    rule, why = HE.flue_walls(plan, massing)
+    if rule is None:
+        return {"refused": why}
+    walls = [w.upper() for w in rule.get("walls") or []]
+    if not walls:
+        return {"refused": "the massing is a central stack, which names no wall to put a fire on"}
+    ext = {w.upper() for w in r.get("exterior_walls") or []}
+    cands = sorted(set(walls) & ext)
+    if len(cands) != 1:
+        return {"refused": (f"{_name(r)} declares none of the flue walls ({'/'.join(walls)}) as exterior"
+                            if not cands else
+                            f"{_name(r)} declares {len(cands)} flue walls ({'/'.join(cands)}); choosing "
+                            f"between them would be authoring")}
+    target = cands[0]
+    ch = []
+    for i, h in enumerate(fires):
+        was = (h.get("wall") or "").upper()
+        if was in walls:
+            continue
+        ch.append({"path": f"levels[].rooms[{r['id']}].hearth[{i}].wall", "from": h.get("wall"), "to": target})
+        h["wall"] = target
+    if not ch:
+        return {"refused": f"every fire in {_name(r)} already stands on a flue wall"}
+    return {"changed": ch,
+            "log": f"Put {_name(r)}'s fire on the {target} wall, where the massing puts its stack "
+                   f"(the style's massing governs the fire's wall, ruled 26 Sep 2026)."}
+
+
 def _search_harder(plan, f, C, ctx):
     cur = int((ctx or {}).get("candidates") or 250)
     nxt = 1000 if cur < 1000 else (2000 if cur < 2000 else None)
@@ -656,6 +744,8 @@ APPLY = {
     "add-the-grammar-door": _add_the_grammar_door,
     "drop-optional-room": _drop_optional_room,
     "split-per-grouping": _split_per_grouping,
+    "size-the-upper-room-to-the-room-it-stacks-over": _size_upper_to_the_room_below,
+    "put-the-fire-on-the-flue-wall": _put_the_fire_on_the_flue_wall,
     "search-harder": _search_harder,
     "prove-it": _prove_it,
 }

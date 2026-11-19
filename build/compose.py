@@ -2365,6 +2365,104 @@ def retry_decision(card, revise_engine, remaining_s, compose_budget_s=None):
             "why": f"retried on the prover at {want:.0f} s: the first refusal was not proven ({cls})"}
 
 
+# THE REPAIR (ruled 19 Nov 2026). Asked as four questions and answered as four:
+#   1. a broken stack's upper room may take the declared size of the room it declares it stacks
+#      over, as a JUDGMENT (`size-the-upper-room-to-the-room-it-stacks-over`);
+#   2. a fire on a wall the massing puts no stack on may move to the flue wall the massing names
+#      (`put-the-fire-on-the-flue-wall`, on the 26 Sep ruling that the massing and kit govern it);
+#   3. bearing continuity and tiling get NO move -- nothing states where a wall should go -- and
+#      stay with the placer and the retry;
+#   4. the order is repair, then retry: one corrective pass on the refused facts' moves, placed at
+#      the compose budget and adopted only where not refused and the judged key is no worse;
+#      otherwise the retry above runs on the record AS COMPOSED, unchanged.
+# The moves are read from the refusal's own evidence (`geometry_report.type_facts`), never from a
+# second critique: the refused placement already says which claims broke.
+REPAIR_MOVES = {"stacks": "size-the-upper-room-to-the-room-it-stacks-over",
+                "hearth": "put-the-fire-on-the-flue-wall"}
+
+
+def repair_findings(placed_plan):
+    """The findings a repair answers, read off a placed record's own type facts: one
+    `stack-broken` per broken `stacks_over` claim, one `hearth-off-the-stack-wall` per fire the
+    hearth fact downgraded. Each is shaped exactly as `plan_check` writes the kind, so the moves'
+    own `answers` match it and their own preconditions decide."""
+    tf = ((placed_plan or {}).get("geometry_report") or {}).get("type_facts") or {}
+    out = []
+    for c in ((tf.get("stacks") or {}).get("claims") or []):
+        if c.get("verdict") == "broken" and c.get("room") and c.get("over"):
+            out.append({"layer": "drawn", "kind": "stack-broken", "room": c["room"],
+                        "over": c["over"], "fact": "stacks",
+                        "id": f"repair:stacks:{c['room']}"})
+    seen = set()
+    for f in ((tf.get("hearth") or {}).get("fires") or []):
+        if f.get("verdict") == TF.DOWNGRADED and f.get("room") and f["room"] not in seen:
+            seen.add(f["room"])
+            out.append({"layer": "hearth", "kind": "hearth-off-the-stack-wall", "room": f["room"],
+                        "fact": "hearth", "id": f"repair:hearth:{f['room']}"})
+    return out
+
+
+def repair_decision(card, placed_plan, revise_engine, remaining_s, compose_budget_s=None):
+    """Whether a refused candidate's declared record is repaired before any retry. Pure, so the
+    gate can be held without a compose. Returns {"repair": bool, "why": str, "facts": [...],
+    "findings": [...]}. A PROVEN refusal IS eligible: more time cannot move a proof, and a changed
+    record is exactly what can."""
+    if compose_budget_s is None:
+        compose_budget_s = _mod("geometry", f"{ROOT}/build/geometry.py").BUDGET_COMPOSE_S
+    ref = card.get("refused") if isinstance(card, dict) else None
+    out = {"repair": False, "facts": [], "findings": []}
+    if not reads_as_refusal(ref):
+        return {**out, "why": "not refused"}
+    facts = [f for f in (ref.get("facts") or []) if f in REPAIR_MOVES]
+    out["facts"] = facts
+    if card.get("nativity") != "native":
+        return {**out, "why": (f"not repaired: the diagram is {card.get('nativity') or 'not native'} "
+                               f"to the style, and the repair is ruled for native diagrams alone")}
+    if not facts:
+        named = ", ".join(ref.get("facts") or []) or "no fact"
+        return {**out, "why": (f"not repaired: the refusal names {named}, and no move repairs "
+                               f"bearing continuity or tiling (ruled 19 Nov 2026)")}
+    if revise_engine == "heuristic":
+        return {**out, "why": "not repaired: the compose asked for the search by name, not the prover"}
+    findings = [f for f in repair_findings(placed_plan) if f["fact"] in facts]
+    if not findings:
+        return {**out, "why": ("not repaired: the refused facts carry no broken claim or downgraded "
+                               "fire a move could read")}
+    if remaining_s is not None and float(remaining_s) - 10.0 < compose_budget_s:
+        return {**out, "why": (f"REPAIR NOT BEGUN: the set's budget had "
+                               f"{max(float(remaining_s) - 10.0, 0):.0f} s left, under one placement "
+                               f"({compose_budget_s:g} s)")}
+    return {**out, "repair": True, "findings": findings,
+            "why": f"repaired for {', '.join(facts)}, then placed at {compose_budget_s:g} s"}
+
+
+def apply_repair(plan, findings, C):
+    """Apply each finding's repair move to `plan` IN PLACE, through `moves.apply`, so the
+    touches-and-diff guard holds. One move per room. Returns (applied, refused): what each move
+    did, and why each that could not did not."""
+    MV = _mod("moves", f"{ROOT}/build/moves.py")
+    applied, refused, done = [], [], set()
+    for f in findings:
+        if f["room"] in done:
+            continue
+        mid = REPAIR_MOVES[f["fact"]]
+        res = MV.apply(mid, plan, f, C)
+        if "refused" in res:
+            refused.append({"move": mid, "room": f["room"], "why": res["refused"]})
+            continue
+        done.add(f["room"])
+        applied.append({"move": mid, "room": f["room"], "log": res.get("log"),
+                        "changed": res.get("changed")})
+    return applied, refused
+
+
+def _key_no_worse(new, old):
+    """A judged key no worse than another, lexicographically. An unjudged key is never no worse."""
+    if not isinstance(new, (list, tuple)) or not isinstance(old, (list, tuple)):
+        return False
+    return tuple(new) <= tuple(old)
+
+
 def placement_time_limit_s(share, compose_budget_s=None):
     """The time limit a candidate's placement is asked under: the per-placement budget the compose
     route was given (ruling 1 of 29 Oct 2026, `BUDGET_COMPOSE_S`), bounded by the candidate's share
@@ -2754,13 +2852,60 @@ def compose(brief, candidates=4, on_candidate=None, revise=True, revise_rounds=4
         # the decision allows, and adopted only where it is NOT refused. Either way the card says
         # what was tried, so a refusal that survives a retry is never read as a first attempt.
         first_ref = (plan2.get("geometry_report") or {}).get("refused")
-        retry = retry_decision({"refused": first_ref, "nativity": c.get("nativity")},
-                               revise_engine,
-                               None if deadline is None else deadline - time.perf_counter(),
-                               _GEO.BUDGET_COMPOSE_S)
         retry_lines = []
+        # THE REPAIR (ruled 19 Nov 2026; `repair_decision`), BEFORE the retry. The refused facts'
+        # moves are applied to a copy of the record as composed and placed once at the compose
+        # budget. Adopted only where that placement is not refused and its judged key is no worse;
+        # otherwise it is discarded and the retry below runs on the record as composed.
+        repair = repair_decision({"refused": first_ref, "nativity": c.get("nativity")}, plan2,
+                                 revise_engine,
+                                 None if deadline is None else deadline - time.perf_counter(),
+                                 _GEO.BUDGET_COMPOSE_S)
+        repair.update(applied=[], refused_moves=[], outcome=None, seconds=None)
+        if repair["repair"]:
+            repaired = copy.deepcopy(retry_input)
+            applied, mv_refused = apply_repair(repaired, repair["findings"], C)
+            repair["applied"], repair["refused_moves"] = applied, mv_refused
+            if not applied:
+                repair["outcome"] = "no-move"
+                repair["why"] = ("not repaired: every move the refusal called for refused -- "
+                                 + "; ".join(f"{r['move']} on {r['room']}: {r['why']}" for r in mv_refused))
+            else:
+                t0 = time.perf_counter()
+                rv_r = RV.revise(repaired, rounds=revise_rounds, engine="auto",
+                                 budget_s=_GEO.BUDGET_COMPOSE_S + 10.0, brief=brief, parti=parti_rec,
+                                 place=True, C=C, time_limit_s=_GEO.BUDGET_COMPOSE_S,
+                                 reserve_round=True)
+                ref_r = (rv_r["plan"].get("geometry_report") or {}).get("refused")
+                repair["seconds"] = round(time.perf_counter() - t0, 1)
+                for a in applied:
+                    retry_lines.append(f"REPAIRED: {a['log']}")
+                if reads_as_refusal(ref_r):
+                    repair["outcome"] = "refused"
+                    retry_lines.append(f"REPAIR REFUSED ({(ref_r or {}).get('class') or 'class unstated'}) "
+                                       f"after {repair['seconds']:g} s; the record as composed is kept.")
+                elif not _key_no_worse(rv_r.get("key_after"), rv.get("key_after")):
+                    repair["outcome"] = "worse"
+                    retry_lines.append(f"REPAIR PLACED and judged worse ({rv_r.get('key_after')} against "
+                                       f"{rv.get('key_after')}); the record as composed is kept.")
+                else:
+                    repair["outcome"] = "placed"
+                    retry_lines.append(f"REPAIR PLACED in {repair['seconds']:g} s: the repaired record "
+                                       f"is not refused and replaces the record as composed.")
+                    rv, plan2 = rv_r, rv_r["plan"]
+        elif reads_as_refusal(first_ref):
+            retry_lines.append(repair["why"][:1].upper() + repair["why"][1:] + ".")
+        if repair["outcome"] == "placed":
+            retry = {"retry": False, "limit_s": None,
+                     "first_class": (first_ref or {}).get("class") if isinstance(first_ref, dict) else None,
+                     "why": "not retried: the repaired record placed"}
+        else:
+            retry = retry_decision({"refused": first_ref, "nativity": c.get("nativity")},
+                                   revise_engine,
+                                   None if deadline is None else deadline - time.perf_counter(),
+                                   _GEO.BUDGET_COMPOSE_S)
         if retry["first_class"] is not None or reads_as_refusal(first_ref):
-            retry_lines.append(f"PLACEMENT REFUSED ({retry['first_class'] or 'class unstated'}); "
+            retry_lines.insert(0, f"PLACEMENT REFUSED ({retry['first_class'] or 'class unstated'}); "
                                + retry["why"] + ".")
         if retry["retry"]:
             t0 = time.perf_counter()
@@ -2840,6 +2985,17 @@ def compose(brief, candidates=4, on_candidate=None, revise=True, revise_rounds=4
             "retry": (None if not reads_as_refusal(first_ref) else
                       {k: retry.get(k) for k in ("retry", "why", "limit_s", "first_class",
                                                  "second_class", "outcome", "seconds")}),
+            # the repair of a refused record (ruled 19 Nov 2026): None where the first placement
+            # was not refused; otherwise which moves were applied, what came back, and whether the
+            # card's record is still the one the composer wrote (`as_composed`)
+            "repair": (None if not reads_as_refusal(first_ref) else
+                       {"repaired": repair["outcome"] == "placed",
+                        "as_composed": repair["outcome"] != "placed",
+                        "facts": repair["facts"], "why": repair["why"],
+                        "outcome": repair["outcome"], "seconds": repair["seconds"],
+                        "moves": [{"id": a["move"], "room": a["room"], "log": a["log"],
+                                   "changed": a["changed"]} for a in repair["applied"]],
+                        "refused_moves": repair["refused_moves"]}),
             # WP-13.4, and THIS is the one that carries a value: the revision loop PLACES,
             # so `plan2` is a placed record and `geometry._disclose` has written the verdict
             # onto it. Read, never re-derived. (Note the neighbour above it inside
@@ -3002,6 +3158,7 @@ def compose(brief, candidates=4, on_candidate=None, revise=True, revise_rounds=4
               "A fatal finding DISQUALIFIES a candidate, and that is carried beside the score rather than inside it: `disqualified` is true and `disqualified_because` says so in words. A disqualified candidate never outranks a clean one of the same standing whatever it scores -- that is enforced by the ordering, not by the number -- and its score is not a case for building it. It is still scored because whole sets come back disqualified on styles the fault corpus cannot clear, and four plans that all carry a fatal still differ.",
               "Candidates are RETURNED in four tiers -- drawable where judged, then placed but not shown drawable (not refused, and the acceptance instrument reads it NOT DRAWABLE or could not judge it; `drawability` says which), then not yet placed, then refused -- and within a tier fatal-free first, then by score, so a plan carrying a fatal never displaces a clean one of the same standing even where its fidelity would outscore it. How the ones that came back are then ORDERED for reading is a separate choice -- by score, by nativity, or fatal-first -- and the reading order is named above them.",
               "The FIRST key is whether the house may be drawn (ruled 30 Oct 2026): a candidate whose placement the type's own hard facts ALLOW TO BE DRAWN is returned first, whatever its fatal count; one they refuse (`refused`) is returned after every drawable one, and one nobody has placed (`revision` is null, or the loop could not judge its first placement) stands between the two -- not a pass. The allowed houses are split in two (ruled 19 Nov 2026): one the acceptance instrument reads drawable where judged (`drawability.where_judged`) comes before one it reads NOT DRAWABLE or could not judge, whatever either's fatal count, and both before one nobody has placed. A fatal is a finding about a house that can be drawn; a refusal says nothing can be drawn from that placement at all. Within one standing, fewer fatal findings come first, then the one with FEWER FATAL FAULTS THE CORPUS COULD NOT JUDGE, and only then does the score decide. unjudged_fatal names them. An unjudged fatal is not a fatal -- it does not disqualify and is not in counts -- and it is not a pass either: nobody could say whether the fault is there.",
+              "A REFUSED native candidate is REPAIRED before it is retried (ruled 19 Nov 2026): where the refusal names its stacks or its hearth, the move that answers each broken claim or misplaced fire is applied to its DECLARED record and the house is placed once more. The repaired record replaces the one composed only if that placement is not refused and judged no worse; `repair` names each move, and `as_composed` false says the card is no longer the house the composer wrote. Bearing continuity and tiling have no repair. Otherwise an unproven refusal is retried on the record as composed (`retry`).",
               "demerits is the old lower-is-better total -- 100 a fatal, 8 a serious, 1 a minor, less 20 a point of fidelity. It is kept because it is a real quantity and because earlier reports quote it. It ranks nothing now.",
               "trades_away is the honest part. Every diagram gives something up, and the one that scores best is not always the one you want.",
               "decisions lists what the composer chose where the brief was silent. Read it — those are the assumptions, not facts.",

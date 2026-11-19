@@ -365,6 +365,19 @@ test('the card carries every judged fatal by its sentence, and drops a row with 
   assert.deepEqual(adaptCandidate({ parti: 'q', counts: { fatal: 0 } }, 0, null, null).fatal_findings, []);
 });
 
+test('the card carries the repair as served, and calls it repaired only where the server kept it', () => {
+  const kept = { repaired: true, as_composed: false, outcome: 'placed', moves: [{ id: 'm', room: 'r' }] };
+  const a = adaptCandidate({ parti: 'p', counts: {}, repair: kept }, 0, null, null);
+  assert.deepEqual(a.repair, kept);
+  assert.equal(a.repaired, true);
+  const refused = { repaired: false, as_composed: true, outcome: 'refused', moves: [] };
+  assert.equal(adaptCandidate({ parti: 'p', counts: {}, repair: refused }, 0, null, null).repaired, false);
+  assert.equal(adaptCandidate({ parti: 'p', counts: {}, repair: { repaired: 'yes' } }, 0, null, null).repaired, false);
+  const none = adaptCandidate({ parti: 'p', counts: {} }, 0, null, null);
+  assert.equal(none.repair, null);
+  assert.equal(none.repaired, false);
+});
+
 test('the card carries the retry as served, and nothing where none was asked', () => {
   const r = { retry: true, outcome: 'placed', first_class: 'UNDECIDED', why: 'retried' };
   assert.deepEqual(adaptCandidate({ parti: 'p', counts: {}, retry: r }, 0, null, null).retry, r);
