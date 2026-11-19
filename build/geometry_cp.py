@@ -306,6 +306,15 @@ def _ceil_scaled(ceil, scale=None):
 # A kind NOT in this list never downgrades: sizes, doors, the entrance and capacity are what
 # infeasibility is FOR (the 25 Aug rulings). Adding a kind here is a decision about authority
 # and belongs in a report, not in a diff.
+# THE TWO WORDS A DOWNGRADE MAY SAY, SPELLED ONCE. Every released pin's note states which it is:
+# PROVEN only where the reinstatement pass restored THIS pin alone and found no placement, CARRIED
+# where the budget never re-proved it. `tests/test_solver.py` reads these constants rather than a
+# copy -- its copy of CARRIED went stale when WP-13.3 reworded the four sites below, and the test
+# was red on a vocabulary mismatch rather than on the property it holds (the 19 Nov 2026 CI fix).
+CARRIED_NOTE = ("carried — off a conflict core or an undecided round, not individually re-proven "
+                "in budget")
+PROVEN_NOTE = "proven — restored alone, no placement exists"
+
 _RANK = ("wall", "axis", "tiling", "stack", "bearing", "hearth", "shape")
 
 # The kinds WP-13.3 added, in `_RANK`'s own order -- the four the record's `facts` block and
@@ -1066,9 +1075,8 @@ def _build(plan, prep, fpd, ewalls, downgraded=frozenset(), objective=True,
                         # "proven" only after the reinstatement pass tested THIS
                         # pin alone at THIS footprint; a pin the budget never
                         # re-proved says it was carried, never that it was proven
-                        how = ("carried — off a conflict core or an undecided round, not individually "
-                               "re-proven in budget" if _dk("wall", key) in unproven else
-                               "proven — restored alone, no placement exists")
+                        how = (CARRIED_NOTE if _dk("wall", key) in unproven else
+                               PROVEN_NOTE)
                         reqs.notes.append(
                             f"{r.get('name') or r['id']}'s declared {wl} wall could not "
                             f"co-hold with the other declared facts ({how}) — read as "
@@ -1227,9 +1235,8 @@ def _build(plan, prep, fpd, ewalls, downgraded=frozenset(), objective=True,
                                 f"(plan_check's hearth layer reports it as off the stack wall)")
                     continue
                 if _dk("hearth", key) in downgraded:
-                    how = ("carried — off a conflict core or an undecided round, not individually re-proven in "
-                           "budget" if _dk("hearth", key) in unproven else
-                           "proven — restored alone, no placement exists")
+                    how = (CARRIED_NOTE if _dk("hearth", key) in unproven else
+                           PROVEN_NOTE)
                     reqs.notes.append(
                         f"{_nm}'s fire on its {wl} wall could not stand on the element's {wl} "
                         f"face together with the other declared facts ({how}) — downgraded, "
@@ -1417,9 +1424,9 @@ def _build(plan, prep, fpd, ewalls, downgraded=frozenset(), objective=True,
         # not free: the shapes-only state the ladder falls back to went from OPTIMAL in 9 s to
         # UNKNOWN at 10 s on the reference plan with five dangling products in the model.
         if _dk("stack", key) in downgraded:
-            how = ("carried — off a conflict core or an undecided round, not individually re-proven in budget"
+            how = (CARRIED_NOTE
                    if _dk("stack", key) in unproven else
-                   "proven — restored alone, no placement exists")
+                   PROVEN_NOTE)
             reqs.notes.append(
                 f"{_nm}'s declared stack over {_gname} could not land together with the other "
                 f"declared facts ({how}) — downgraded, charged at {GEO.STACK_W:g} points as the "
@@ -1757,9 +1764,8 @@ def _build(plan, prep, fpd, ewalls, downgraded=frozenset(), objective=True,
                             penalties.append((viol, _w(GEO.SPAN_W)))
 
                 if _dk("bearing", key) in downgraded:
-                    how = ("carried — off a conflict core or an undecided round, not individually re-proven in "
-                           "budget" if _dk("bearing", key) in unproven else
-                           "proven — restored alone, no placement exists")
+                    how = (CARRIED_NOTE if _dk("bearing", key) in unproven else
+                           PROVEN_NOTE)
                     reqs.notes.append(
                         f"element {ei} ({_e.get('id')}), {axis} axis: bearing continuity on the "
                         f"bay grid could not co-hold with the other declared facts ({how}) — "

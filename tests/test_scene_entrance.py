@@ -246,8 +246,19 @@ def test_the_flights_treads_reconcile_and_the_top_riser_lands_on_the_platform(bo
     assert len(risers) == total, (
         f"{len(risers)} riser solids drawn against {total} the flights account for -- a riser "
         f"belongs to no flight, or one flight's ids do not carry its own room and index")
-    assert len(steps) == 2, (
-        "one stoop before the 17 Sep merge; re-derive and name the placement that moved")
+    # RE-DERIVED 19 NOV 2026, AND THE PLACEMENT THAT MOVED IS NAMED: ONE STOOP AGAIN. Phase 17's
+    # first tranche (`01f11b2`, WP-17.4) states every derived element on the whole-foot grid, so
+    # the west dependency is 23.0 ft deep where it was 26.68 and the hyphen 16 where it was 18.
+    # On this engine (the SEARCH, `engine="heuristic"`) the passage then no longer reaches the S
+    # front -- it is drawn 38 x 12 at y 13, behind the porch -- and its exterior door goes to the
+    # E wall, so the porch's door at 40.5 is the only S-front door and the only flight. The
+    # control: on this tree, with `geometry.flank_sizes` and `geometry.blocks_for` alone swapped
+    # back to `6fcc665`'s, the record places two flights again (porch 40.5, passage 18.0). This
+    # is a pin on the tree and not a property, as its first message said it was.
+    assert len(steps) == 1, (
+        f"{len(steps)} stoops: one since Phase 17's grid-stated dependency (WP-17.4) moved the "
+        f"search's passage off the S front, two before it -- re-derive and name the placement "
+        f"that moved")
 
 
 def test_the_flight_does_not_reach_the_floor_and_the_shortfall_is_reported(both):
@@ -359,12 +370,24 @@ def test_the_checker_and_the_plate_agree_about_WHICH_BAY_the_front_door_is_in(bo
         f"the door is in bay {db['bay']} of {bays} (middle {mid}) and the checker emits "
         f"{len(off)} off-centre finding(s) -- the conviction and the geometry disagree")
     assert db["verdict"] == ("in-the-centre-bay" if db["bay"] == mid else "off-the-centre-bay")
-    # AND THE STATE IS NAMED, so the day the placement moves back off centre this says which
-    # direction it went rather than only that something changed.
-    assert db["bay"] == mid and not off, (
-        "this placement convicted an off-centre door before the 17 Sep merge and does not now; "
-        "if it convicts again, re-derive which placement moved -- the agreement above holds "
-        "either way and only this line is a statement about the tree")
+    # AND THE STATE IS NAMED, so the day the placement moves this says which direction it went
+    # rather than only that something changed.
+    #
+    # IT MOVED BACK OFF CENTRE AT PHASE 17'S FIRST TRANCHE (`01f11b2`), RE-DERIVED 19 NOV 2026.
+    # WP-17.4 states the west dependency on the whole-foot grid (23.0 ft deep against 26.68, the
+    # hyphen 16 against 18), and on the search that takes the passage off the S front and its
+    # front door onto the E wall, so the entrance is the porch's door at 40.5 ft: bay 4 of 5,
+    # `off-the-centre-bay`, and the checker convicts it -- correctly, and the agreement above
+    # holds. Controlled on this tree by swapping `geometry.flank_sizes` and `geometry.blocks_for`
+    # alone back to `6fcc665`'s: the door returns to bay 2, room `passage`. The house the search
+    # draws got worse here, and this line now says so rather than asserting the repaired state;
+    # the proof is the engine the bench draws on, and this file pins the search.
+    assert db["bay"] == 4 and db["room"] == "porch" and off, (
+        f"the door is in bay {db['bay']} ({db.get('room')}) with {len(off)} off-centre "
+        "finding(s). Since Phase 17's grid-stated dependency (WP-17.4) the search draws the "
+        "porch's door in bay 4 and the checker convicts it; before it, the passage's door stood "
+        "in the centre bay. Re-derive which placement moved -- the agreement above holds either "
+        "way and only this line is a statement about the tree")
 
 
 # ------------------------------------------------------------------ one reader of R4
