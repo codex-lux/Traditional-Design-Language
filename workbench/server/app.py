@@ -264,6 +264,23 @@ def _build_sha(root=None):
 BUILD_SHA, BUILD_SHA_SOURCE = _build_sha()
 
 
+def _prover_state():
+    """The CP workers one solve may take on this box and whether the line grid is on, read
+    through the prover's own functions -- never a second reading of the cgroup or the
+    environment. `available` is False where OR-Tools is not installed, and then nothing else is
+    claimed."""
+    try:
+        from ortools.sat.python import cp_model  # noqa: F401 -- probe only
+    except ImportError:
+        return {"available": False}
+    try:
+        gc = core._mod("geometry_cp", os.path.join(core.ROOT, "build", "geometry_cp.py"))
+        return {"available": True, "workers": int(gc.portfolio_workers()),
+                "line_grid": bool(gc.line_grid_on())}
+    except Exception as exc:       # a health route must answer; an unreadable prover says so
+        return {"available": True, "error": f"{exc.__class__.__name__}: {str(exc)[:120]}"}
+
+
 @app.get("/api/health")
 def health(request: Request, response: Response):
     try:
@@ -283,6 +300,10 @@ def health(request: Request, response: Response):
             # the build, so a screenshot can be attributed to a commit; "unknown" is a state
             "sha": BUILD_SHA, "sha_source": BUILD_SHA_SOURCE,
             "rail": bool(rail.key()),
+            # WHAT THE PROVER RUNS ON HERE (26 Nov 2026). The deploy's CPU count was an open item
+            # of the infrastructure audit and nothing reported it, so a set that came back wholly
+            # refused could not be told from one placed on a single shared core.
+            "prover": _prover_state(),
             "auth": auth.state(), "limits": limits.state(),
             # WP-14.20: whether THIS request would pass the gate -- `auth.authorised`'s own answer,
             # the one the gate middleware asks, and not a second reading of the cookie. A signed-out

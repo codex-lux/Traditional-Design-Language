@@ -1,0 +1,12 @@
+{
+  "id": "refusal-proven-together",
+  "term": "proven refusal, of the facts together",
+  "family": "house",
+  "definition": "The prover showed this house, as composed, cannot hold all its type's facts and its rooms' proportion bands at once. The brief or the parti must change. No single fact named is proven impossible alone: which gave way was the prover's ruled order.",
+  "kind": "editorial",
+  "basis": "Editorial. build/typefacts.py, the joint proof, ruled 26 Nov 2026: \"no single fact was refuted\" and \"the facts cannot all hold TOGETHER as\"",
+  "see": [
+    "term:refusal-proven",
+    "term:judgment-refused"
+  ]
+}

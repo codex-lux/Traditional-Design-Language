@@ -4190,7 +4190,10 @@ def _solve_uncached(plan, parti, candidates, seed, engine, time_limit_s, leg=Non
     # tell an UNKNOWN on one worker from one on four.
     _rs = res.get("solver") or res.get("infeasible") or res
     cp_run = {"workers": _rs.get("workers"), "workers_available": _rs.get("workers_available"),
-              "mode": _rs.get("mode"), "status": _rs.get("status") or res.get("status")}
+              "mode": _rs.get("mode"), "status": _rs.get("status") or res.get("status"),
+              # what the prover's hard steps said of every type fact held together (26 Nov 2026):
+              # a fallback drawn after a PROOF that the facts cannot all hold says so here
+              "all_facts": _rs.get("all_facts")}
     if leg is not None:
         undecided = _cp_undecided(res)
         leg["cp"] = dict(cp_run, decided=not undecided, undecided=undecided)

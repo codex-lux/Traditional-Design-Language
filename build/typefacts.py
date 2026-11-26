@@ -962,6 +962,36 @@ def overall_class(classes, proven_infeasible=False):
     return UNDECIDED
 
 
+# WHAT THE PROVER'S HARD STEPS SAID OF "EVERY TYPE FACT HELD TOGETHER" (26 Nov 2026), spelled
+# once, here, because this leaf reads it and `geometry_cp.all_facts_account` writes it. The line
+# grid made those steps DECIDE, and on the stock Georgian brief six of fourteen composed diagrams
+# came back INFEASIBLE at every depth the prover tries, most in under four seconds -- the native
+# double pile in 0.3 s -- under a card reading "not proven: out of time" and a retry at twice the
+# time. RULED BY LUCAS, 26 NOV 2026, asked and answered as its own act: such a refusal READS AS
+# PROVEN and is NOT RETRIED. The per-fact classes are unchanged -- no single fact was refuted
+# alone -- and the refusal says which statement was proven: the facts cannot all hold TOGETHER as
+# composed, and which of them gave way on this placement was the prover's ruled order.
+ALL_FACTS_HELD, ALL_FACTS_PROVEN_IMPOSSIBLE, ALL_FACTS_UNDECIDED = (
+    "held", "proven-impossible", "undecided")
+ALL_FACTS_VERDICTS = (ALL_FACTS_HELD, ALL_FACTS_PROVEN_IMPOSSIBLE, ALL_FACTS_UNDECIDED)
+
+JOINT_PROOF_LINE = ("Proven together: with every type fact and every room's own proportion band "
+                    "held, the prover found that no placement exists at the derived depth or 2 or "
+                    "4 ft deeper. Which fact gave way on this placement was the prover's ruled "
+                    "order of release, not a proof about that one fact.")
+
+
+def all_facts_verdict(plan):
+    """The prover's verdict on every type fact held together, off the record's own structure:
+    `solver.all_facts` where the prover placed, `solver.cp_run.all_facts` where a fallback was
+    drawn after it. `None` where no hard step ran or the record predates the field -- never a
+    guess, and never read as a proof."""
+    sv = (plan.get("geometry_report") or {}).get("solver") or {}
+    af = sv.get("all_facts") or (sv.get("cp_run") or {}).get("all_facts") or {}
+    v = af.get("verdict") if isinstance(af, dict) else None
+    return v if v in ALL_FACTS_VERDICTS else None
+
+
 def refusal(plan):
     """`None`, or the typed refusal every surface reads. THE ONE VERDICT (WP-13.4).
 
@@ -973,7 +1003,9 @@ def refusal(plan):
          "status":    geometry_report.solver.status,
          "classes":   {fact: PROVEN | UNDECIDED | MISMATCH | SEARCH} per downgraded fact,
          "class":     the whole refusal's class (`overall_class`),
-         "proven":    whether the refusal is a statement about the house (class PROVEN)}
+         "proven":    whether the refusal is a statement about the house (class PROVEN),
+         "jointly_proven": whether the prover PROVED the type's facts cannot all hold together
+                      as composed (`all_facts_verdict`; ruled 26 Nov 2026 to read as PROVEN)}
 
     `kind` is `infeasible` wherever the record carries a PROVEN infeasibility, because that is
     the stronger statement -- the prover showed the declared facts cannot all hold, so the
@@ -1030,10 +1062,19 @@ def refusal(plan):
             lines.append(f"{FACT_TITLES.get(name, name)}: {detail}" if detail
                          else f"{FACT_TITLES.get(name, name)}: measured, and it does not hold.")
     classes = {name: refusal_class(name, plan) for name in down}
-    cls = overall_class(classes, proven)
+    # THE JOINT PROOF (ruled 26 Nov 2026). Where the prover's hard steps PROVED that every type
+    # fact held together is impossible at every depth they try, the refusal is a statement about
+    # the house as composed -- the class every surface reads is PROVEN, and the composer's retry,
+    # which gates on that class, is not spent on it. `classes` still says what is true of each
+    # fact alone, and the line added says which statement the proof is of.
+    jointly = (not proven) and all_facts_verdict(plan) == ALL_FACTS_PROVEN_IMPOSSIBLE
+    if jointly:
+        lines.append(JOINT_PROOF_LINE)
+    cls = overall_class(classes, proven or jointly)
     return {"kind": kind, "facts": down, "conflicts": conflicts, "lines": lines,
             "engine": solver.get("engine"), "status": solver.get("status"),
-            "classes": classes, "class": cls, "proven": cls == PROVEN}
+            "classes": classes, "class": cls, "proven": cls == PROVEN,
+            "jointly_proven": bool(jointly)}
 
 
 def judge(plan):

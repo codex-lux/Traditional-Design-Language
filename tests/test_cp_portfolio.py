@@ -131,16 +131,40 @@ def test_the_record_names_the_workers_the_mode_and_the_portfolio_ran(monkeypatch
         assert "every type fact posed HELD (" in rounds[0], rounds[0]
 
 
-def test_a_solve_on_one_worker_of_four_says_so(monkeypatch):
-    """A solve that found the portfolio lock held (a compose job on the same box) runs the ladder on
-    one worker, and the record says it had four available -- the trace finding 36's cache reads."""
-    pytest.importorskip("ortools", reason="COULD NOT EVALUATE: the CP-SAT engine needs OR-Tools")
+def _on_one_of_four(monkeypatch):
     monkeypatch.setattr(GC, "portfolio_workers", lambda *a, **k: 4)
     assert GC._PORTFOLIO_LOCK.acquire(blocking=False), "premise: no other solve holds the lock"
     try:
-        sv = _placed(GC.solve_cp(_two_storey(), None, time_limit_s=40, candidates=80), 1)
+        return _placed(GC.solve_cp(_two_storey(), None, time_limit_s=40, candidates=80), 1)
     finally:
         GC._PORTFOLIO_LOCK.release()
+
+
+def test_a_solve_on_one_worker_of_four_says_so(monkeypatch):
+    """A solve that found the portfolio lock held (a compose job on the same box) runs on one
+    worker, and the record says it had four available -- the trace finding 36's cache reads.
+
+    RE-CUT 26 NOV 2026. This pinned `mode == "ladder"` and "no hard attempt" beside the worker
+    counts, which was WP-17.5's path: on one worker the hard steps never ran. With the line grid
+    they do (`tests/test_line_grid.py`), so the subject is held apart from the path -- the record
+    says one worker of four whichever formulation placed -- and the old path is held below, where
+    it still runs."""
+    pytest.importorskip("ortools", reason="COULD NOT EVALUATE: the CP-SAT engine needs OR-Tools")
+    monkeypatch.setattr(GC, "LINE_GRID", True)
+    monkeypatch.delenv("TDL_CP_LINE_GRID", raising=False)
+    sv = _on_one_of_four(monkeypatch)
+    assert (sv["workers"], sv["workers_available"]) == (1, 4), sv
+    assert sv["mode"] in GC.MODES
+    assert any(t.startswith("H:") for _tag, t in sv["attempts"]), sv["attempts"]
+    assert sv["downgrade_rounds"][0].startswith("portfolio (1 workers): "), sv["downgrade_rounds"][:1]
+
+
+def test_with_the_line_grid_off_one_worker_runs_the_ladder_alone(monkeypatch):
+    """WP-17.5's one-worker path, which the line grid's switch keeps exactly: no hard step, no
+    portfolio line, the assumption ladder's placement."""
+    pytest.importorskip("ortools", reason="COULD NOT EVALUATE: the CP-SAT engine needs OR-Tools")
+    monkeypatch.setattr(GC, "LINE_GRID", False)
+    sv = _on_one_of_four(monkeypatch)
     assert (sv["workers"], sv["workers_available"], sv["mode"]) == (1, 4, "ladder"), sv
     assert not any(t.startswith("H:") for _tag, t in sv["attempts"]), sv["attempts"]
     assert not any(r.startswith("portfolio (") for r in sv["downgrade_rounds"])
@@ -183,10 +207,10 @@ def test_harden_poses_every_fact_as_a_hard_clause_and_the_solver_reads_it_so():
 
 # ------------------------------------------- the reinstatement pass and what it says it did
 def test_the_reinstatement_deadline_is_its_share_and_never_the_polishs():
-    """Held as a pure function and DELIBERATELY NOT RE-ANCHORED (R12 of 30 Oct 2026, as the audit-fix task records it:
-    the pass gets no share of its own). After an undecided portfolio, which runs to 0.75 of the
-    budget, the cap of 0.6 is already behind the pass and the deadline is in the past -- finding 9,
-    disclosed by the pass's own line rather than re-anchored."""
+    """Held as a pure function. WITH NO WINDOW HANDED TO IT the cap is the one R12 (30 Oct 2026)
+    left: after an undecided portfolio, which runs to 0.75 of the budget, the cap of 0.6 is already
+    behind the pass and the deadline is in the past -- finding 9. That is still what the function
+    returns where no portfolio ran; the ruling of 26 Nov 2026 is the test below."""
     T, t0 = 40.0, 1000.0
     share = GC.GEO.BUDGET_SHARE_REINSTATE * T
     cap = t0 + (1.0 - GC.GEO.BUDGET_SHARE_POLISH) * T
@@ -195,6 +219,42 @@ def test_the_reinstatement_deadline_is_its_share_and_never_the_polishs():
     after_portfolio = t0 + GC.BUDGET_SHARE_PORTFOLIO * T + 1.0
     assert GC._reinstate_deadline(after_portfolio, t0, T) < after_portfolio, (
         "the measured state finding 9 discloses: no time is left after an undecided portfolio")
+
+
+def test_after_an_undecided_portfolio_the_pass_has_a_window_carved_from_the_ladders():
+    """RULED 26 NOV 2026: the pass may take a share carved from the ladder's, total time unchanged.
+    `ladder_window` splits the 0.45 T the ladder had to itself since WP-17.5 into the ladder's part
+    and the pass's `BUDGET_SHARE_REINSTATE`; the pass's deadline is then AHEAD of it at any budget,
+    where it had been behind it at every one, and never past the end the ladder alone had."""
+    for T in (25.0, 40.0, 60.0, 120.0):
+        t0 = 1000.0
+        ladder_starts = t0 + GC.BUDGET_SHARE_PORTFOLIO * T
+        ladder_ends, window_end = GC.ladder_window(ladder_starts, T)
+        assert window_end == pytest.approx(ladder_starts + GC.GEO.BUDGET_SHARE_FEASIBILITY * T), (
+            "the two together are the share the ladder had: the solve is no longer")
+        assert window_end - ladder_ends == pytest.approx(GC.GEO.BUDGET_SHARE_REINSTATE * T)
+        assert ladder_ends > ladder_starts, "the ladder keeps a share of its own"
+        # the pass beginning the moment the ladder's part ends has its whole share ahead of it
+        d = GC._reinstate_deadline(ladder_ends, t0, T, window_end)
+        assert d == pytest.approx(window_end) and d > ladder_ends
+        # ...and one beginning early (the ladder decided fast) never runs past the window's end
+        early = ladder_starts + 0.05 * T
+        d2 = GC._reinstate_deadline(early, t0, T, window_end)
+        assert early < d2 <= window_end
+        assert d2 == pytest.approx(min(early + GC.GEO.BUDGET_SHARE_REINSTATE * T, window_end))
+        # the control: with no window the same instant is already past its cap (finding 9)
+        assert GC._reinstate_deadline(ladder_ends, t0, T) < ladder_ends
+        # WHERE THE HARD STEPS ANSWERED AT ONCE the window is never EARLIER than the cap the pass
+        # has always had: the first version ended it at `now + 0.45 T` and so shortened the pass
+        quick = t0 + 1.0
+        old_cap = t0 + (1.0 - GC.GEO.BUDGET_SHARE_POLISH) * T
+        l2, w2 = GC.ladder_window(quick, T, started=t0)
+        assert w2 == pytest.approx(max(quick + GC.GEO.BUDGET_SHARE_FEASIBILITY * T, old_cap))
+        assert w2 >= old_cap and w2 - l2 == pytest.approx(GC.GEO.BUDGET_SHARE_REINSTATE * T)
+        assert quick + (GC.GEO.BUDGET_SHARE_FEASIBILITY - GC.GEO.BUDGET_SHARE_REINSTATE) * T <= l2 \
+            <= quick + GC.GEO.BUDGET_SHARE_FEASIBILITY * T
+        # and after hard steps that ran their whole share, `started` changes nothing
+        assert GC.ladder_window(ladder_starts, T, started=t0) == pytest.approx((ladder_ends, window_end))
 
 
 def test_the_reinstatement_line_counts_what_it_reached_and_what_it_never_did():
@@ -211,13 +271,18 @@ def test_the_reinstatement_line_counts_what_it_reached_and_what_it_never_did():
 
 
 def test_a_pass_with_no_time_left_says_so_on_the_record(monkeypatch):
-    """The disclosure, end to end on one worker: with the pass's window already behind it (the
-    polish's guaranteed share set to the whole budget, so the cap is the start), nothing is offered
+    """The disclosure, end to end on one worker: with the pass given no window at all (the
+    polish's guaranteed share set to the whole budget, so the old cap is the start, and the pass's
+    own share set to nothing, so the window ruled on 26 Nov 2026 is empty too), nothing is offered
     back, the record's own line says every released pin was never reached, and the facts account
     files each downgraded fact CARRIED. The rank notes that used to assert the act do not."""
     pytest.importorskip("ortools", reason="COULD NOT EVALUATE: the CP-SAT engine needs OR-Tools")
     monkeypatch.setattr(GC, "portfolio_workers", lambda *a, **k: 1)
+    # the line grid off: with it on, the one-worker hard step holds every fact of this fixture and
+    # the ladder -- whose released facts are this test's subject -- is never reached (26 Nov 2026)
+    monkeypatch.setattr(GC, "LINE_GRID", False)
     monkeypatch.setattr(GC.GEO, "BUDGET_SHARE_POLISH", 1.0)
+    monkeypatch.setattr(GC.GEO, "BUDGET_SHARE_REINSTATE", 0.0)
     sv = _placed(GC.solve_cp(_two_storey(), None, time_limit_s=40, candidates=80), 1)
     assert not [a for a in sv["attempts"] if a[1].startswith("R:")], "the pass ran a restore"
     lines = [r for r in sv["downgrade_rounds"] if r.startswith(GC.REINSTATE_NOTE_PREFIX)]

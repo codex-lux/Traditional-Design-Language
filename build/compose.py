@@ -2560,7 +2560,23 @@ def passed_over_entry(c):
     full = getattr(_mod("geometry", f"{ROOT}/build/geometry.py"), "BUDGET_COMPOSE_S", None)
     if st != "placed" and isinstance(lim, (int, float)) and full and lim < full - 0.05:
         why += f" (placed under a {lim:g} s time limit, short of the compose budget's {full:g} s)"
-    return {"parti": c["parti"], "parti_name": c.get("parti_name"), "standing": st, "why": why}
+    # the prover PROVED the type's facts cannot all hold as composed (ruled 26 Nov 2026): said in
+    # the reason, and carried so the pool-fill does not count the placement against its cap
+    # `proven` is the refusal's own word (`typefacts.refusal`): its class is PROVEN, whether each
+    # fact was refuted alone, the record carries a proven infeasibility, or the facts were proven
+    # impossible together. The pool-fill reads THIS, because the ruling is of a diagram "proven
+    # impossible": keyed on the joint flag alone it missed the composed octagon, whose ladder goes
+    # on to prove its sizes and doors cannot co-hold at any footprint -- the stronger statement.
+    body = (ref.get("refused_placement") if isinstance(ref, dict)
+            and isinstance(ref.get("refused_placement"), dict) else ref) or {}
+    proven = bool(st == "refused" and body.get("proven") is True)
+    jointly = bool(proven and body.get("jointly_proven") is True)
+    if jointly:
+        why += " (proven: the type's facts cannot all hold together as composed)"
+    elif proven:
+        why += " (proven)"
+    return {"parti": c["parti"], "parti_name": c.get("parti_name"), "standing": st, "why": why,
+            "proven": proven, "jointly_proven": jointly}
 
 
 # WHICH BOUND STOPPED THE POOL-FILL (the Phase 17 audit, finding 26). The loop ends on one of four
@@ -2622,6 +2638,10 @@ def pool_fill_line(pool_fill, candidates):
     if named:
         tail += (f", and {len(named)} placed, not taken, and returned anyway as the diagram the brief "
                  f"named ({', '.join(p['parti'] for p in named)})")
+    n_free = int(pool_fill.get("proven_not_counted") or 0)
+    if n_free:
+        tail += (f"; {n_free} of the refused were PROVEN unable to hold the type's facts as composed "
+                 f"and did not count against the cap of {pool_fill.get('cap', POOL_FILL_PLACEMENTS)}")
     return (f"Fewer of the {candidates} candidates asked for could be drawn than were asked for, so "
             f"{pool_fill['placed_from_pool']} more diagram(s) were placed from further down the ranked "
             f"pool: {len(pool_fill['added'])} placed and not refused and added to the set "
@@ -2831,22 +2851,49 @@ def compose(brief, candidates=4, on_candidate=None, revise=True, revise_rounds=4
         if on_candidate:
             on_candidate({**{k: v for k, v in c.items() if k != "plan"}, "revised": True})
 
-    def _revise_one(c, rank, share):
+    # EVERY CANDIDATE IS PLACED ONCE BEFORE ANY IS PLACED TWICE (26 Nov 2026). `_revise_one` ran a
+    # candidate's first placement, its repair and its retry in one call, and the repair and the
+    # retry are bounded by the SET's time and not by the candidate's share -- so a native diagram
+    # the prover could not decide took a placement, a repair and a 120 s retry, about 300 s, and
+    # two of them took the whole set. Measured on the stock Georgian brief at one worker: 604 s,
+    # the five-part and the single pile retried and refused again, the living hall -- which holds
+    # every type fact in 4 s -- placed with what was left and handed to the search, and the
+    # pool-fill, which holds the one house drawable where judged, stopped on `budget` having placed
+    # NOTHING. So the first placements run first, for the whole set; then the pool-fill; and the
+    # repair and the retry (ruled 19 Nov and 30 Oct, their order and their gates unchanged) run
+    # last, in rank order, on what the set has left. `_first` keeps what a candidate's second acts
+    # need from its first placement, keyed by parti; it never reaches a card.
+    _first = {}
+
+    def _revise_one(c, rank, share, acts="all"):
         # one candidate through the placed loop, re-scored on its declared record. Lifted out of
         # the loop below unchanged (WP-14.19) so the diagram a brief names, appended after the
         # set, is revised by the same code with whatever budget the set left.
+        # `acts`: "all" is the first placement and then the repair and the retry (the named
+        # diagram, placed last, has nothing to wait for); "first" is the first placement alone,
+        # with the second acts DEFERRED and said so; "second" resumes a "first" from `_first`.
         RV = _mod("revise", f"{ROOT}/build/revise.py")
         OP = _mod("openings", f"{ROOT}/build/openings.py")
         parti_rec = PARTIS[c["parti"]]
-        declared_pass = c["plan"].pop("revision_report", None)
-        # R12: the first placement is asked under the candidate's share, and a round, a retry or
-        # the reclaim that cannot fit in what is left of it is refused and said (`reserve_round`)
-        limit_s = placement_time_limit_s(share, _GEO.BUDGET_COMPOSE_S)
-        retry_input = copy.deepcopy(c["plan"])
-        rv = RV.revise(c["plan"], rounds=revise_rounds, engine=revise_engine,
-                       budget_s=share, brief=brief, parti=parti_rec, place=True, C=C,
-                       time_limit_s=limit_s, reserve_round=share is not None)
+        if acts == "second":
+            st = _first.pop(c["parti"])
+            declared_pass, limit_s, retry_input, rv = (st["declared_pass"], st["limit_s"],
+                                                       st["retry_input"], st["rv"])
+            share, rank, before = st["share"], st["rank"], st["before"]
+        else:
+            declared_pass = c["plan"].pop("revision_report", None)
+            # R12: the first placement is asked under the candidate's share, and a round, a retry
+            # or the reclaim that cannot fit in what is left of it is refused and said
+            # (`reserve_round`)
+            limit_s = placement_time_limit_s(share, _GEO.BUDGET_COMPOSE_S)
+            retry_input = copy.deepcopy(c["plan"])
+            rv = RV.revise(c["plan"], rounds=revise_rounds, engine=revise_engine,
+                           budget_s=share, brief=brief, parti=parti_rec, place=True, C=C,
+                           time_limit_s=limit_s, reserve_round=share is not None)
+            before = {"score": c["score"], "counts": c["counts"],
+                      "unjudged_fatal": c.get("unjudged_fatal"), "decisions": c["decisions"]}
         plan2 = rv["plan"]
+        deferred = (acts == "first")
         # THE RETRY (ruled 30 Oct 2026; `retry_decision`). The first placement's refusal and its
         # class are read off the record the loop returned; a second placement is asked only where
         # the decision allows, and adopted only where it is NOT refused. Either way the card says
@@ -2861,6 +2908,11 @@ def compose(brief, candidates=4, on_candidate=None, revise=True, revise_rounds=4
                                  revise_engine,
                                  None if deadline is None else deadline - time.perf_counter(),
                                  _GEO.BUDGET_COMPOSE_S)
+        # DEFERRED, NOT DECIDED: on a first-only call the decision above says what WOULD be tried
+        # (so the card's reason is the real one), and nothing is placed until the second acts
+        _would_repair = bool(repair["repair"])
+        if deferred:
+            repair["repair"] = False
         repair.update(applied=[], refused_moves=[], outcome=None, seconds=None)
         if repair["repair"]:
             repaired = copy.deepcopy(retry_input)
@@ -2904,6 +2956,18 @@ def compose(brief, candidates=4, on_candidate=None, revise=True, revise_rounds=4
                                    revise_engine,
                                    None if deadline is None else deadline - time.perf_counter(),
                                    _GEO.BUDGET_COMPOSE_S)
+        _would_retry = bool(retry["retry"])
+        if deferred and (_would_repair or _would_retry):
+            # the second acts wait for the rest of the set and the pool-fill; the stash is what
+            # they resume from, and the card says they are pending rather than not attempted
+            _first[c["parti"]] = {"declared_pass": declared_pass, "limit_s": limit_s,
+                                  "retry_input": retry_input, "rv": rv, "share": share,
+                                  "rank": rank, "before": before}
+            retry = {**retry, "retry": False, "limit_s": None,
+                     "why": ("repair and retry deferred until every candidate has been placed once "
+                             "and the pool has been tried")}
+            repair["why"] = retry["why"]
+            retry_lines = []
         if retry["first_class"] is not None or reads_as_refusal(first_ref):
             retry_lines.insert(0, f"PLACEMENT REFUSED ({retry['first_class'] or 'class unstated'}); "
                                + retry["why"] + ".")
@@ -2947,16 +3011,16 @@ def compose(brief, candidates=4, on_candidate=None, revise=True, revise_rounds=4
                          f"(this candidate's share of the set's budget; R12).")
         lines += retry_lines
         c.update({
-            "score_before": c["score"], "counts_before": c["counts"], "rank_before": rank,
-            **card2, "counts": res2["counts"], "unjudged_fatal_before": c.get("unjudged_fatal"),
+            "score_before": before["score"], "counts_before": before["counts"], "rank_before": rank,
+            **card2, "counts": res2["counts"], "unjudged_fatal_before": before["unjudged_fatal"],
             "unjudged_fatal": unjudged_fatals(res2), "area_sf": round(area2),
             "area_miss_pct": round(miss2 * 100, 1), "footprint": fp2,
             "demerits": round(score(res2) + (60 if miss2 > tol else 0) - c["style_fit"] * NATIVITY_W, 1),
             "worst": [{"severity": f["severity"], "layer": f["layer"], "statement": f["statement"]}
                       for f in res2["findings"] if f["severity"] in ("fatal", "serious")][:8],
             "fatal_findings": fatal_findings(res2),
-            "decisions": c["decisions"] + lines,
-            "decisions_structured": structure_decisions(c["decisions"] + lines),
+            "decisions": before["decisions"] + lines,
+            "decisions_structured": structure_decisions(before["decisions"] + lines),
             "drawn_key_before": rv["key_before"], "drawn_key_after": rv["key_after"],
             "revision": {"summary": rep["summary"], "stop_reason": rep["stop_reason"],
                          "engine": rep["engine"],
@@ -3025,7 +3089,7 @@ def compose(brief, candidates=4, on_candidate=None, revise=True, revise_rounds=4
                                 f"{revise_budget_s:g} s was spent before this candidate; "
                                 f"it is returned as composed."))
                 continue
-            _revise_one(c, rank, share)
+            _revise_one(c, rank, share, acts="first")
         out[:candidates] = sorted(out[:candidates], key=_sort_key)
     # FILL FROM THE POOL (WP-17.6, ruling 3 of 29 Oct 2026). Until this, the four were chosen
     # before any was placed and nothing tried for a drawable house: measured on Lucas's brief, four
@@ -3050,7 +3114,15 @@ def compose(brief, candidates=4, on_candidate=None, revise=True, revise_rounds=4
             return placement_standing(c) == "placed"
         have = sum(1 for c in out[:candidates] if _drawable(c))
         placed, passed, i, out_of_time = 0, [], candidates, False
-        while have < candidates and i < len(out) and placed < POOL_FILL_PLACEMENTS:
+        # A POOL DIAGRAM PROVEN IMPOSSIBLE DOES NOT USE ONE OF THE CAP'S SLOTS (ruled by Lucas,
+        # 26 Nov 2026). The cap exists because a placement costs up to `BUDGET_COMPOSE_S` of the
+        # one worker; a diagram the prover refutes in seconds costs nearly nothing and told the
+        # reader something true. Measured on the stock Georgian brief: the side-hall town house,
+        # which holds every type fact, stood SEVENTH in the pool behind diagrams proven impossible
+        # in one to four seconds each, and the cap of four stopped the fill before it. Such a
+        # diagram is still named in `passed_over`, and the set's time still bounds the loop.
+        proven_free = 0
+        while have < candidates and i < len(out) and placed - proven_free < POOL_FILL_PLACEMENTS:
             remaining = None if deadline is None else deadline - time.perf_counter()
             if remaining is not None and remaining < 5.0:
                 out_of_time = True
@@ -3058,7 +3130,8 @@ def compose(brief, candidates=4, on_candidate=None, revise=True, revise_rounds=4
             c = out[i]
             i += 1
             placed += 1
-            _revise_one(c, i, None if remaining is None else min(remaining, _GEO.BUDGET_COMPOSE_S))
+            _revise_one(c, i, None if remaining is None else min(remaining, _GEO.BUDGET_COMPOSE_S),
+                        acts="first")
             if _drawable(c):
                 added.append(c)
                 have += 1
@@ -3066,11 +3139,15 @@ def compose(brief, candidates=4, on_candidate=None, revise=True, revise_rounds=4
                 # its standing and the reason in that standing's terms: refused, could not be
                 # evaluated, or a refusal nobody here wrote -- never one word for three
                 passed.append(passed_over_entry(c))
+                if passed[-1].get("proven"):
+                    proven_free += 1
         # `drawable_in_set` keeps its name (a reader of the shape) and means NOT REFUSED, the
         # standing the fill counts; `not_refused_in_set` says so in words beside it
         in_set = sum(1 for c in out[:candidates] if _drawable(c))
         pool_fill = {"asked": candidates, "drawable_in_set": in_set, "not_refused_in_set": in_set,
                      "placed_from_pool": placed, "added": [c["parti"] for c in added],
+                     # how many of those were PROVEN impossible and so used no slot of the cap
+                     "proven_not_counted": proven_free,
                      "passed_over": passed,
                      "not_reached": [c["parti"] for c in out[i:]] if have < candidates else [],
                      # which bound ended the loop, so `not_reached` is never given a cause it
@@ -3087,6 +3164,28 @@ def compose(brief, candidates=4, on_candidate=None, revise=True, revise_rounds=4
     # The appended candidate is revised after the set, on whatever the set's budget left, and says
     # so where the budget is spent. If the lot drops it there is nothing to append, and the result
     # says so rather than returning a set that silently lacks the diagram the brief asked for.
+    # THE SECOND ACTS, LAST AND IN RANK ORDER (26 Nov 2026; see `_first`). Each refused native
+    # candidate whose repair or retry was deferred takes them now, on what the set has left: the
+    # gates are `repair_decision`'s and `retry_decision`'s own, so one the budget cannot hold says
+    # NOT BEGUN in its own words rather than staying "deferred". A pool diagram a second act
+    # places joins the set as any pool diagram found drawable does, and leaves `passed_over`.
+    if revise and _first:
+        for c in [c for c in out if c["parti"] in _first]:
+            _revise_one(c, None, None, acts="second")
+        # (no sort here: `returned` below orders the asked set and the pool's additions together
+        # by the one key, which is the order every reader gets)
+        if pool_fill is not None:
+            late = [c for c in out[candidates:] if c not in added and c.get("revision") is not None
+                    and placement_standing(c) == "placed"]
+            if late:
+                added.extend(late)
+                gone = {c["parti"] for c in late}
+                pool_fill["passed_over"] = [p for p in pool_fill["passed_over"]
+                                            if p["parti"] not in gone]
+                pool_fill["added"] = [c["parti"] for c in added]
+                pool_fill["added_after_a_second_act"] = sorted(gone)
+            _n = sum(1 for c in out[:candidates] if placement_standing(c) == "placed")
+            pool_fill["drawable_in_set"] = pool_fill["not_refused_in_set"] = _n
     returned = sorted(out[:candidates] + added, key=_sort_key)
     # how many were ASKED for and how many the pool-fill added are two numbers (finding 6): the
     # named line used `len(returned) - 1`, which counts a pool-filled house as asked for

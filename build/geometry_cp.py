@@ -219,6 +219,143 @@ def _harden(model, reqs):
         model.AddBoolOr([lit])
 
 
+# ---------------------------------------------------------------- the line grid (26 Nov 2026)
+#
+# THE TILING WAS STATED IN THE ONE FORM THAT PROPAGATES NOTHING. `_build` says a level tiles its
+# element as `sum(w * h) >= box` over a `NoOverlap2D`: a sum of products, which tells the solver
+# nothing until nearly every room is fixed. Measured on the stock Georgian brief's composed
+# diagrams (26 Nov 2026, this box, 4 cores): the foursquare with every type fact hard was UNKNOWN
+# at 60 s on four workers under every parameter setting tried, and on ONE worker all five diagrams
+# came back refused for bearing, stacks and tiling -- the deployment's symptom exactly.
+#
+# The same fact, stated on the lines the walls stand on: the rooms of one (level, element) have at
+# most n + 1 distinct x-coordinates and n + 1 distinct y-coordinates between them, so there are K
+# ordered lines per axis, every room edge is one of them, and every CELL of that grid is covered by
+# at most one room -- by exactly one where the tiling literal holds. It is REDUNDANT with the ruled
+# model: at K = n + 1 (or one line a foot, where the box is narrower) every placement `_build`
+# admits is still admitted, so a FEASIBLE answer is the ruled model's and an INFEASIBLE one is a
+# proof about the ruled model. Nothing is loosened and nothing is restricted. Measured with it: the
+# foursquare's two storeys with tiling, bands, sizes and doors held are OPTIMAL in 17 s on ONE
+# worker where the bare model was UNKNOWN at 40 s, and with every fact held the same house is
+# PROVEN INFEASIBLE in 80 s on four where the bare model never answered at all.
+#
+# It is added AFTER `_build`, on the solve's own copy, exactly as `_harden` is -- so the serialised
+# model `tests/test_cp_elements.py` hashes does not move. `TDL_CP_LINE_GRID=0` solves the bare
+# model, which is the control every figure above was taken against.
+#
+# IT RIDES ON THE HARD STEPS ONLY, AND THAT IS MEASURED TOO. The grid is several thousand booleans
+# on a two-storey house, which is what a solve asked to DECIDE wants and what a two-second hinted
+# restore does not. Added at every solve site, the shipped `tidewater-georgian-careful.json` at the
+# 40 s batch budget came back refused for bearing, hearth, stacks and tiling with all 24 room bands
+# released -- `restore hearth x3`, `restore bearing x6` and `restore stack x4` each UNKNOWN at their
+# 4 s cap -- where the bare model on the same run restored the hearths and the stacks and was
+# refused for tiling alone. So the portfolio's hard steps carry it, AND THOSE ALONE: the ladder's
+# scouts and retries, the reinstatement pass, the polish and the conflict extraction solve the
+# model they were tuned on, unchanged. An undecided round's hard retry is bare as well and stays
+# on more than one worker: it wants ANY placement with the facts released, the bare model finds
+# one at once from its hint, and with the grid on it the shipped `spec-builder-colonial.json`
+# came back unsolved at 40 s where the bare retry placed it.
+LINE_GRID = True
+
+
+def line_grid_on():
+    """Whether a solve adds the line grid: the module switch, unless the environment turns it off."""
+    env = os.environ.get("TDL_CP_LINE_GRID")
+    if env is not None and env.strip() in ("0", "false", "no", "off"):
+        return False
+    return bool(LINE_GRID)
+
+
+def _level_elements(plan, prep, fpd):
+    """`{level: [element, ...]}` exactly as `_build` and `_boxes` lay them: `blocks_for` on the
+    ground, and the main block alone above it (the placer lays only level 0 into elements)."""
+    return {lvl: (GEO.blocks_for(plan, fpd, prep, lvl) if lvl == 0
+                  else [{"id": "main", "role": "main", "x": 0, "y": 0,
+                         "W": fpd["W"], "H": fpd["H"],
+                         "rooms": [r["id"] for r in prep.get(lvl) or []]}])
+            for lvl in (0, 1) if prep.get(lvl)}
+
+
+def _line_grid(model, rooms, reqs, plan, prep, fpd):
+    """Add the line grid to a built model (see the note above `LINE_GRID`). Returns
+    `{"groups", "lines", "cells"}`, the counts the record carries, or None where it is off.
+
+    One grid per (level, element) holding two rooms or more. The cover of a cell is AT MOST ONE
+    room always -- that is no-overlap, restated -- and AT LEAST ONE only under that group's own
+    tiling literal, so a solve that releases or does not assume the tiling is not held to it. An
+    upper storey over a court open to the sky tiles everything but the hole (OQ 55), so its cells
+    take the at-most-one half alone."""
+    if not line_grid_on():
+        return None
+    Wi, Hi = int(round(fpd["W"] * U)), int(round(fpd["H"] * U))
+    els = _level_elements(plan, prep, fpd)
+    ebox, _gx0, _gy0, _gx1, _gy1 = _element_boxes(els, Wi, Hi)
+    tiling = {key: lit for lit, _t, k, key in reqs.lits if k == "tiling" and key}
+    voids_below = [r for r in (prep.get(0) or [])
+                   if isinstance(r.get("_void"), dict) and not r["_void"].get("roofed")]
+    out = {"groups": 0, "lines": 0, "cells": 0}
+    for lvl in sorted(els):
+        for ei, e in enumerate(els[lvl]):
+            ids = [rid for rid in (e.get("rooms") or []) if (lvl, rid) in rooms]
+            if len(ids) < 2:
+                continue
+            gx, gy, gW, gH = ebox[(lvl, ids[0])]
+            if gW < 1 or gH < 1:
+                continue
+            eid = e.get("id") or e.get("role") or str(ei)
+            lit = tiling.get((lvl, ei))
+            if lvl == 1 and voids_below and eid == "main":
+                lit = None
+            axes = []
+            for name, lo, span in (("x", gx, gW), ("y", gy, gH)):
+                k = min(len(ids) + 1, span + 1)
+                lines = ([lo] + [model.NewIntVar(lo, lo + span, f"ln{name}{lvl}_{ei}_{i}")
+                                 for i in range(1, k - 1)] + [lo + span])
+                for a, b in zip(lines, lines[1:]):
+                    model.Add(b >= a + 1)
+                axes.append(lines)
+                out["lines"] += k
+            cover = {}
+            for rid in ids:
+                v = rooms[(lvl, rid)]
+                spans = []
+                for name, lines, lo_v, len_v in (("x", axes[0], v["x"], v["w"]),
+                                                 ("y", axes[1], v["y"], v["h"])):
+                    n = len(lines)
+                    i0 = model.NewIntVar(0, n - 2, f"g0{name}{lvl}_{rid}")
+                    i1 = model.NewIntVar(1, n - 1, f"g1{name}{lvl}_{rid}")
+                    model.Add(i1 >= i0 + 1)
+                    hi_v = model.NewIntVar(lines[0], lines[-1], f"ge{name}{lvl}_{rid}")
+                    model.Add(hi_v == lo_v + len_v)
+                    model.AddElement(i0, lines, lo_v)
+                    model.AddElement(i1, lines, hi_v)
+                    row = []
+                    for c in range(n - 1):
+                        ge, lt, b = (model.NewBoolVar(""), model.NewBoolVar(""),
+                                     model.NewBoolVar(""))
+                        model.Add(i0 <= c).OnlyEnforceIf(ge)
+                        model.Add(i0 > c).OnlyEnforceIf(ge.Not())
+                        model.Add(i1 > c).OnlyEnforceIf(lt)
+                        model.Add(i1 <= c).OnlyEnforceIf(lt.Not())
+                        model.AddBoolAnd([ge, lt]).OnlyEnforceIf(b)
+                        model.AddBoolOr([ge.Not(), lt.Not()]).OnlyEnforceIf(b.Not())
+                        row.append(b)
+                    spans.append(row)
+                for cx, bx in enumerate(spans[0]):
+                    for cy, by in enumerate(spans[1]):
+                        c = model.NewBoolVar("")
+                        model.AddBoolAnd([bx, by]).OnlyEnforceIf(c)
+                        model.AddBoolOr([bx.Not(), by.Not()]).OnlyEnforceIf(c.Not())
+                        cover.setdefault((cx, cy), []).append(c)
+            for cell in sorted(cover):
+                model.AddAtMostOne(cover[cell])
+                if lit is not None:
+                    model.AddBoolOr(cover[cell]).OnlyEnforceIf(lit)
+            out["groups"] += 1
+            out["cells"] += len(cover)
+    return out
+
+
 SCOUT_S = 6.0
 RESTORE_KIND_S = 4.0
 RESTORE_PIN_S = 2.0
@@ -320,6 +457,56 @@ _RANK = ("wall", "axis", "tiling", "stack", "bearing", "hearth", "shape")
 # The kinds WP-13.3 added, in `_RANK`'s own order -- the four the record's `facts` block and
 # `build/typefacts.py` account for as held / downgraded / unjudged.
 TYPE_FACTS = ("tiling", "stack", "bearing", "hearth")
+
+
+# The share of what is left of the portfolio's time that the walls-released step at the DERIVED
+# depth may spend, where the line grid is on (see `_solve_cp`'s `_steps`).
+PORTFOLIO_SHARE_DERIVED_DEPTH = 0.4
+
+# The three things the hard steps can say of "every type fact held together" (26 Nov 2026).
+# (the words are `typefacts`', the leaf that reads them onto the refusal; one spelling)
+ALL_FACTS_HELD = GEO.TF.ALL_FACTS_HELD
+ALL_FACTS_PROVEN_IMPOSSIBLE = GEO.TF.ALL_FACTS_PROVEN_IMPOSSIBLE
+ALL_FACTS_UNDECIDED = GEO.TF.ALL_FACTS_UNDECIDED
+ALL_FACTS_DEPTHS_FT = (0.0, 2.0, 4.0)
+
+
+def all_facts_account(joint, mode="ladder"):
+    """`solver.all_facts`: what the hard steps said of every type fact held together, read off
+    their own statuses and never off the clock. HELD where a hard step returned the placement
+    (`mode == "portfolio"`). PROVEN IMPOSSIBLE only where the walls-released step ran at EVERY
+    depth the prover tries (`ALL_FACTS_DEPTHS_FT`) and each came back INFEASIBLE: a proof, at the
+    derived depth and 2 and 4 ft deeper, that the house as composed cannot hold its tiling, its
+    stacks, its bearing lines, its hearths and its rooms' own bands together. Anything else --
+    a step that ran out of time, a step never reached -- is UNDECIDED. `None` where no hard step
+    ran (one worker with the line grid off), because nothing was asked."""
+    steps = [{"grown_ft": float(dh), "status": st} for dh, st in joint]
+    if mode == "portfolio":
+        return {"verdict": ALL_FACTS_HELD, "steps": steps}
+    if not steps:
+        return None
+    tried = {s["grown_ft"] for s in steps if s["status"] == "INFEASIBLE"}
+    proven = (all(s["status"] == "INFEASIBLE" for s in steps)
+              and tried >= set(ALL_FACTS_DEPTHS_FT))
+    return {"verdict": ALL_FACTS_PROVEN_IMPOSSIBLE if proven else ALL_FACTS_UNDECIDED,
+            "steps": steps}
+
+
+def all_facts_note(workers, joint):
+    """The hard steps' one line where none of them returned a placement. It says PROVEN only where
+    `all_facts_account` does, and names the steps that ran out of time where any did, so "undecided
+    or infeasible" is never one word for two different things."""
+    acct = all_facts_account(joint)
+    if acct and acct["verdict"] == ALL_FACTS_PROVEN_IMPOSSIBLE:
+        return (f"portfolio ({workers} workers): PROVEN -- with every type fact and every room's "
+                f"own band held, no placement exists at the derived depth or 2 or 4 ft deeper "
+                f"(the authored walls and the axis already released). The house as composed "
+                f"cannot hold them all; the assumption ladder takes over to release by its cores")
+    unk = [f"+{s['grown_ft']:g} ft" for s in (acct or {}).get("steps") or []
+           if s["status"] != "INFEASIBLE"]
+    return (f"portfolio ({workers} workers): undecided with every type fact hard"
+            + (f" (no answer in its time at {', '.join(unk)})" if unk else "")
+            + "; the assumption ladder takes over for its cores")
 
 
 def portfolio_held_note(workers, reqs, plan, released, grew_ft=0.0):
@@ -2263,16 +2450,43 @@ def _run(workers, available, mode):
     return {"workers": workers, "workers_available": available, "mode": mode}
 
 
-def _reinstate_deadline(now, started, time_limit_s):
+def _reinstate_deadline(now, started, time_limit_s, window_end=None):
     """WHEN THE REINSTATEMENT PASS MUST STOP: its own share from when it starts, and never into the
     polish's guaranteed share. Lifted out of `_reinstate` (the audit of Phase 17, finding 9) so the
-    arithmetic can be held, and DELIBERATELY NOT RE-ANCHORED: the pass gets no share of its own, so
-    after an undecided portfolio (which runs to `BUDGET_SHARE_PORTFOLIO` of the budget, past this
-    cap) the deadline is already behind it and nothing is offered back. That is disclosed on the
-    record by the pass's own line, and it is
-    `oq/the-reinstatement-pass-gets-no-time-after-an-undecided-portfolio`."""
-    return min(now + GEO.BUDGET_SHARE_REINSTATE * time_limit_s,
-               started + (1.0 - GEO.BUDGET_SHARE_POLISH) * time_limit_s)
+    arithmetic can be held.
+
+    `window_end` IS THE RULING OF 26 NOV 2026. Until it the pass was deliberately not re-anchored
+    (R12, 30 Oct): after an undecided portfolio, which runs to `BUDGET_SHARE_PORTFOLIO` of the
+    budget, `started + 0.60 T` was already behind the pass and nothing was offered back at ANY
+    budget -- so the composer's retry at twice the time could not win back one carried fact
+    (`oq/the-reinstatement-pass-gets-no-time-after-an-undecided-portfolio`). Lucas ruled that the
+    pass may take a share CARVED FROM THE LADDER'S, total time unchanged: the ladder after an
+    undecided portfolio runs to `ladder_window(...)[0]` and this pass to `[1]`, which is the end
+    the ladder alone had before. Where no portfolio ran (`window_end` None) nothing moves."""
+    cap = (started + (1.0 - GEO.BUDGET_SHARE_POLISH) * time_limit_s
+           if window_end is None else window_end)
+    return min(now + GEO.BUDGET_SHARE_REINSTATE * time_limit_s, cap)
+
+
+def ladder_window(now, time_limit_s, started=None):
+    """`(ladder_deadline, reinstate_window_end)` for a ladder that starts at `now` after the hard
+    steps placed nothing (ruled 26 Nov 2026). The window ends where the later of two caps does:
+    the `BUDGET_SHARE_FEASIBILITY` the ladder has had to itself since WP-17.5, measured from when
+    it starts, and the cap the pass has always had (`started + (1 - BUDGET_SHARE_POLISH) T`). So
+    the solve's total is unchanged, and the pass's `BUDGET_SHARE_REINSTATE` comes off the ladder's
+    end -- which is the whole carve where the hard steps ran long, and one second of it where they
+    answered at once.
+
+    THE SECOND CAP IS THERE BECAUSE THE FIRST VERSION SHORTENED THE PASS. It ended the window at
+    `now + 0.45 T` whatever the hard steps had cost, and where they refute the house in a second
+    (the shipped `tidewater-georgian-careful.json`: four INFEASIBLE steps in about one) that is
+    EARLIER than the old cap of `started + 0.60 T`, so the pass lost time the ruling was meant to
+    give it: `tests/test_reinstate_outside_the_cores.py` read 19 of 24 room bands left released
+    where the parent restores all but 6. Pure, so the split can be held."""
+    end = now + GEO.BUDGET_SHARE_FEASIBILITY * time_limit_s
+    if started is not None:
+        end = max(end, started + (1.0 - GEO.BUDGET_SHARE_POLISH) * time_limit_s)
+    return end - GEO.BUDGET_SHARE_REINSTATE * time_limit_s, end
 
 
 REINSTATE_NOTE_PREFIX = "reinstatement: "
@@ -2296,8 +2510,9 @@ def _reinstate_note(pending, offered, still_down, refuted, began_s, window_s, ti
             f"refuted alone, {n_off - restored - n_ref} still carried)")
     if never:
         head += (f"; {len(never)} never reached -- the pass had no time left in its window, so "
-                 f"they stay CARRIED, released on no proof (the pass gets no share of its own "
-                 f"after the steps before it: "
+                 f"they stay CARRIED, released on no proof (the window is the pass's share of "
+                 f"the budget -- after an undecided portfolio, a share carved from the ladder's, "
+                 f"ruled 26 Nov 2026: "
                  f"oq/the-reinstatement-pass-gets-no-time-after-an-undecided-portfolio)")
     return head
 
@@ -2382,6 +2597,28 @@ def _solve_cp(plan, parti=None, seed=7, time_limit_s=20.0, candidates=250, worke
     # because a pin the pass never reached is released on the clock and not on a proof, and an
     # answer resting on one must not be cached as decided. Prose is not read for a verdict.
     reinstatement = {}
+    # THE LINE GRID THIS SOLVE'S MODELS CARRIED, as counts (26 Nov 2026): empty where it is off,
+    # so a record says which formulation answered and a reader never has to infer it.
+    grid = {}
+    # the reinstatement pass's own window where the ladder ran after an undecided portfolio
+    # (`ladder_window`, ruled 26 Nov 2026); None where no portfolio ran and the old cap stands
+    window = {"end": None}
+    # THE HARD STEPS RUN ON ONE WORKER TOO, WHERE THE LINE GRID IS ON (26 Nov 2026). WP-17.5 kept
+    # them to a box with more than one core because hard mode on one worker was SLOWER than the
+    # assumption form on the bare model. So on a one-core server the only step that can return a
+    # house holding every type fact never ran, and every two-storey candidate came back refused for
+    # bearing, stacks and tiling: measured on this box at `TDL_CP_WORKERS=1`, five of five composed
+    # diagrams of the stock Georgian brief. With the line grid the hard model decides on one worker
+    # (the composed living hall, every fact held: OPTIMAL in 3.9 s; the side hall in 19.1 s), so the
+    # gate is the formulation and not the core count. With the grid off and one worker the path is
+    # exactly WP-17.5's. ONLY THOSE STEPS: an undecided round's hard retry, the restores and the
+    # polish keep WP-17.5's own gate (`workers > 1`), because on one worker the bare hard form is
+    # the slower one, which is what that package measured.
+    hard_steps = workers > 1 or line_grid_on()
+    # WHAT THE HARD STEPS SAID OF "EVERY TYPE FACT HELD TOGETHER" (26 Nov 2026): one entry per
+    # walls-released step, `(grown_ft, status)`. Where every depth tried came back INFEASIBLE the
+    # house as composed is PROVEN unable to hold them all, and that is not the clock's verdict.
+    joint = []
 
     def _feasibility(fpd, tag, budget, hard=False):
         """Phase A: hard constraints only. `hard=True` poses the live requirements as HARD
@@ -2419,7 +2656,7 @@ def _solve_cp(plan, parti=None, seed=7, time_limit_s=20.0, candidates=250, worke
         _rank_of = {k: i for i, k in enumerate(_RANK)}
         pending = sorted(downgraded, key=lambda k: (-_rank_of.get(k[0], -1), str(k)))
         began = time.monotonic()
-        deadline = _reinstate_deadline(began, started, time_limit_s)
+        deadline = _reinstate_deadline(began, started, time_limit_s, window["end"])
         offered = set()             # pins some restore solve was actually asked about
 
         def _try(keys, tag, cap):
@@ -2750,6 +2987,11 @@ def _solve_cp(plan, parti=None, seed=7, time_limit_s=20.0, candidates=250, worke
                            "downgrade_rounds": list(rank_notes),
                            # empty where nothing was down for the pass to offer back
                            "reinstatement": dict(reinstatement),
+                           # the line grid the models carried (redundant with the ruled model;
+                           # see `LINE_GRID`), or None where the bare model answered
+                           "line_grid": dict(grid) or None,
+                           # what the hard steps said of every type fact held together
+                           "all_facts": all_facts_account(joint, mode),
                            "refinements": sorted(set(reqs_notes.notes))}}
 
     # Round loop at the natural footprint: wall pins are hard until PROVEN
@@ -2789,13 +3031,18 @@ def _solve_cp(plan, parti=None, seed=7, time_limit_s=20.0, candidates=250, worke
     # OPTIMAL in 12.2 and 29.0 s. So the walls-released step is offered at the derived depth and
     # then 2 and 4 ft deeper -- even steps, so a wing centred on the main block stays exactly
     # centred (WP-17.4) -- and the record says which depth it took and why.
-    if workers > 1:
+    if hard_steps:
         _rel = set()
         # Slices of what is left at each step: the derived, zero-slack depth gets a short look
         # and the grown box most of the time (measured: H+2 decided in 11-29 s where H was
         # UNKNOWN at 30 s on three seeds).
+        # THE DERIVED DEPTH GETS A REAL SLICE WHERE THE LINE GRID IS ON (26 Nov 2026). The 0.25
+        # was set when the zero-slack box never decided; with the grid it does -- the composed
+        # side hall holds every fact at the derived depth in 10.3 s on four workers and 19.1 s on
+        # one -- and a quarter of what is left (about 11 s of a 60 s budget) cut that solve short.
+        _first = PORTFOLIO_SHARE_DERIVED_DEPTH if line_grid_on() else 0.25
         _steps = [(0, (), 0.0, 0.1)] + [(1, ("wall", "axis"), dh, sh) for dh, sh in
-                                         ((0.0, 0.25), (2.0, 0.6), (4.0, 1.0))]
+                                         ((0.0, _first), (2.0, 0.6), (4.0, 1.0))]
         for step, kinds, dh, share in _steps:
             left = p_deadline - time.monotonic()
             if left < 1.0:
@@ -2807,6 +3054,7 @@ def _solve_cp(plan, parti=None, seed=7, time_limit_s=20.0, candidates=250, worke
                 _rel = {_dk(k, key) for _l, _t, k, key in q_.lits if k in kinds and key}
                 downgraded.update(_rel)
             m_, r_, q_ = _build(plan, prep, fpd, ewalls, frozenset(downgraded), objective=False)
+            grid.update(_line_grid(m_, r_, q_, plan, prep, fpd) or {})
             _harden(m_, q_)
             _hint_heuristic(m_, r_, plan, parti, seed, candidates=40)
             sv_ = cp_model.CpSolver()
@@ -2816,12 +3064,13 @@ def _solve_cp(plan, parti=None, seed=7, time_limit_s=20.0, candidates=250, worke
             st_ = sv_.Solve(m_)
             attempts.append((f"{fpd0['bays']}b hard{step}{f' +{dh:g}ft' if dh else ''} {workers}w",
                              "H:" + sv_.StatusName(st_)))
+            if kinds:
+                joint.append((dh, sv_.StatusName(st_)))
             if st_ in (cp_model.OPTIMAL, cp_model.FEASIBLE):
                 rank_notes.append(portfolio_held_note(workers, q_, plan, _rel, dh))
                 return _finish_feasible(fpd, _values(sv_, r_), sv_.StatusName(st_), mode="portfolio")
         downgraded.difference_update(_rel)
-        rank_notes.append(f"portfolio ({workers} workers): undecided or infeasible with every "
-                          f"type fact hard; the assumption ladder takes over for its cores")
+        rank_notes.append(all_facts_note(workers, joint))
         # THE LADDER KEEPS ITS OWN SHARE, MEASURED FROM WHEN IT STARTS. This was
         # `max(started + FEASIBILITY * T, now + 0.1 * T)`, so a portfolio that spent its 0.75 share
         # undecided left the ladder a tenth of the budget -- where before the portfolio it had 0.45
@@ -2832,7 +3081,9 @@ def _solve_cp(plan, parti=None, seed=7, time_limit_s=20.0, candidates=250, worke
         # attributed by an agent, 29 Oct 2026). The cost is wall time on an undecided house -- the
         # budget is a target, not a wall (`geometry.solve`'s docstring) -- measured and stated in the
         # Phase 17 report.
-        a_deadline = time.monotonic() + GEO.BUDGET_SHARE_FEASIBILITY * time_limit_s
+        # ...AND THE REINSTATEMENT PASS'S SHARE COMES OFF ITS END (ruled 26 Nov 2026): the two
+        # together are the 0.45 T this line gave the ladder alone, so the solve is no longer.
+        a_deadline, window["end"] = ladder_window(time.monotonic(), time_limit_s, started)
 
     for rnd in range(len(_RANK) + 1):
         budget = min(SCOUT_S, max(2.0, (a_deadline - time.monotonic()) * 0.5))
@@ -2887,12 +3138,14 @@ def _solve_cp(plan, parti=None, seed=7, time_limit_s=20.0, candidates=250, worke
                                     solver.StatusName(status))
         if status == cp_model.UNKNOWN:
             return {"unsolved": True, "status": solver.StatusName(status),
-                    "attempts": attempts, **_run(workers, available, "ladder")}
+                    "attempts": attempts, **_run(workers, available, "ladder"),
+                    "all_facts": all_facts_account(joint)}
         if status != cp_model.INFEASIBLE:
             # MODEL_INVALID or anything else unexpected: an empty core from it
             # would masquerade as a proof — refuse, stated, instead
             return {"unsolved": True, "status": solver.StatusName(status),
-                    "attempts": attempts, **_run(workers, available, "ladder")}
+                    "attempts": attempts, **_run(workers, available, "ladder"),
+                    "all_facts": all_facts_account(joint)}
         idx = set(solver.SufficientAssumptionsForInfeasibility())
         core = [(t, k, key) for lit, t, k, key in reqs.lits if lit.Index() in idx]
         seed_core = [t for t, _k, _key in core]
@@ -2984,14 +3237,16 @@ def _solve_cp(plan, parti=None, seed=7, time_limit_s=20.0, candidates=250, worke
                                     solver.StatusName(status))
         if status == cp_model.UNKNOWN:
             return {"unsolved": True, "status": solver.StatusName(status),
-                    "attempts": attempts, **_run(workers, available, "ladder")}
+                    "attempts": attempts, **_run(workers, available, "ladder"),
+                    "all_facts": all_facts_account(joint)}
 
     conflicts, minimized = _extract_conflicts(plan, prep, fpd0, ewalls,
                                               seed_core=seed_core,
                                               downgraded=frozenset(downgraded))
     if conflicts is None:
         return {"unsolved": True, "status": "INFEASIBLE-but-core-extraction-failed",
-                "attempts": attempts, **_run(workers, available, "ladder")}
+                "attempts": attempts, **_run(workers, available, "ladder"),
+                    "all_facts": all_facts_account(joint)}
     note = (f"CP-SAT proved these requirements cannot all hold together at any "
             f"footprint this parti and lot allow ({fpd0['bays']}–"
             f"{fpd0['growth_ceiling']} bays tried"
@@ -3015,6 +3270,7 @@ def _solve_cp(plan, parti=None, seed=7, time_limit_s=20.0, candidates=250, worke
         "downgrade_rounds": list(rank_notes),
         "note": note,
         **_run(workers, available, "ladder"),
+        "all_facts": all_facts_account(joint),
         "attempts": attempts}}
 
 

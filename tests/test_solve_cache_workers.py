@@ -95,7 +95,10 @@ def test_a_cp_unknown_is_never_cached_and_the_fallback_says_what_it_ran_on(monke
     out = G.solve(_two_storey(), None, 80, engine="auto", time_limit_s=40)
     sv = out["geometry_report"]["solver"]
     assert sv["engine"] == "heuristic" and sv["fallback"] == "budget", sv
-    assert sv["cp_run"] == {"workers": 4, "workers_available": 4, "mode": "ladder", "status": "UNKNOWN"}
+    # `all_facts` since 26 Nov 2026: what the hard steps said of every type fact held together,
+    # None here because this stand-in prover states none
+    assert sv["cp_run"] == {"workers": 4, "workers_available": 4, "mode": "ladder", "status": "UNKNOWN",
+                            "all_facts": None}
     assert G._SOLVE_CACHE == {}, "an UNKNOWN's fallback was cached"
     err = G.solve(_two_storey(), None, 80, engine="cp", time_limit_s=40)
     assert err.get("unsolved") and "error" in err

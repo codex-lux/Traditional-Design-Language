@@ -521,21 +521,29 @@ def test_the_objective_ranks_the_candidates_and_the_search_score_is_disclosure(s
 
 @pytest.fixture(scope="module")
 def solved_on_one_worker():
-    """The same fixture on ONE worker (WP-17.5's override), which is the formulation that runs the
-    assumption ladder: on four workers the portfolio decides every fact HELD first and the ladder
-    never runs, so its rounds can only be read here."""
+    """The same fixture on ONE worker (WP-17.5's override) WITH THE LINE GRID OFF, which is the
+    formulation that runs the assumption ladder: on four workers the portfolio decides every fact
+    HELD first and the ladder never runs, so its rounds can only be read here.
+
+    THE GRID IS OFF BECAUSE THE HARD STEP NOW RUNS ON ONE WORKER TOO (26 Nov 2026) and holds every
+    fact of this fixture there, so with it on the ladder is not reached on any worker count. The
+    ladder is still what answers a house the hard steps cannot place (every composed diagram proven
+    impossible goes through it); this fixture only stopped being one. `tests/test_line_grid.py`
+    holds the one-worker hard step itself."""
     import os as _os
-    saved = _os.environ.get("TDL_CP_WORKERS")
+    saved = {k: _os.environ.get(k) for k in ("TDL_CP_WORKERS", "TDL_CP_LINE_GRID")}
     _os.environ["TDL_CP_WORKERS"] = "1"
+    _os.environ["TDL_CP_LINE_GRID"] = "0"
     try:
         GEO._SOLVE_CACHE.clear()
         out = GEO.solve(_two_storey_fixture(), None, 80, engine="cp", time_limit_s=40)
     finally:
         GEO._SOLVE_CACHE.clear()
-        if saved is None:
-            _os.environ.pop("TDL_CP_WORKERS", None)
-        else:
-            _os.environ["TDL_CP_WORKERS"] = saved
+        for k, v in saved.items():
+            if v is None:
+                _os.environ.pop(k, None)
+            else:
+                _os.environ[k] = v
     if "error" in out:
         pytest.skip(f"COULD NOT EVALUATE: the fixture did not prove on one worker: {out['error']}")
     return out
