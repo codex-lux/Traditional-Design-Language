@@ -116,7 +116,7 @@ function Licence({ licence }) {
           </p>
         )}
         {licence.statement && (
-          <p style={{ font: 'var(--fw-reg) 13.5px/1.55 var(--body)',
+          <p style={{ font: 'var(--fw-reg) var(--fs-body-l)/1.55 var(--body)',
             color: licence.state === 'granted' ? 'var(--text-body)' : 'var(--text-secondary)', margin: '7px 0 0' }}>
             {licence.statement}
           </p>
@@ -132,13 +132,13 @@ function FaultCard({ fault, styleInView, onSlot, style }) {
   const inUse = inUseOf(fault);
   const sections = {
     correct_practice: () => (
-      <section key="correct_practice" data-fault-section="correct_practice" style={{ marginTop: 16 }}>
+      <section key="correct_practice" data-fault-section="correct_practice" style={{ marginTop: 28 }}>
         <Head section="correct_practice" style={{ color: 'var(--fix-right)' }} />
         <p style={PROSE}>{fault.correct_practice}</p>
       </section>
     ),
     detection: () => (
-      <section key="detection" data-fault-section="detection" style={{ marginTop: 16 }}>
+      <section key="detection" data-fault-section="detection" style={{ marginTop: 28 }}>
         <Head section="detection" />
         <p style={{ ...PROSE, color: 'var(--text-secondary)' }}>{fault.detection}</p>
       </section>
@@ -146,32 +146,32 @@ function FaultCard({ fault, styleInView, onSlot, style }) {
     licence: () => <Licence key="licence" licence={licence} />,
     symptom: () => (
       <section key="symptom" data-fault-section="symptom"
-        style={{ marginTop: 18, borderTop: '1px solid var(--border-soft)', paddingTop: 14 }}>
+        style={{ marginTop: 30, borderTop: '1px solid var(--border-soft)', paddingTop: 22 }}>
         <Head section="symptom" />
         <p style={PROSE}>{fault.symptom}</p>
       </section>
     ),
     cause: () => (
-      <section key="cause" data-fault-section="cause" style={{ marginTop: 16 }}>
+      <section key="cause" data-fault-section="cause" style={{ marginTop: 28 }}>
         <div style={EYE}>
           <Term id={FAULT_SECTION_TERM.cause} /> — <Term id={FAULT_AXIS_TERM['cause.driver']} />: {fault.cause.driver}
         </div>
-        <p style={{ font: 'var(--fw-reg) 13.5px/1.6 var(--body)', color: 'var(--text-secondary)',
+        <p style={{ font: 'var(--fw-reg) var(--fs-body-l)/1.6 var(--body)', color: 'var(--text-secondary)',
           maxWidth: 'var(--measure-prose)', margin: '7px 0 0' }}>{fault.cause.explanation}</p>
         {fault.cause.cost_saved && (
-          <p style={{ font: 'var(--fw-med) 13.5px/1.55 var(--body)', color: 'var(--text-accent)', margin: '9px 0 0' }}>
+          <p style={{ font: 'var(--fw-med) var(--fs-body-l)/1.55 var(--body)', color: 'var(--text-accent)', margin: '9px 0 0' }}>
             <span style={{ ...EYE, marginRight: 8 }}><Term id={COST_SAVED_TERM} /></span>{fault.cause.cost_saved}
           </p>
         )}
       </section>
     ),
     rule_violated: () => (
-      <section key="rule_violated" data-fault-section="rule_violated" style={{ marginTop: 16 }}>
+      <section key="rule_violated" data-fault-section="rule_violated" style={{ marginTop: 28 }}>
         <Head section="rule_violated" />
         {fault.rule_violated.map((r, i) => (
           <div key={i} style={{ display: 'flex', gap: 10, alignItems: 'baseline', marginTop: 7 }}>
             <span style={{ ...META, width: 168, flex: 'none' }}>{r.kind} · {r.ref}</span>
-            <span style={{ font: 'var(--fw-reg) 13px/1.55 var(--body)', color: 'var(--text-secondary)',
+            <span style={{ font: 'var(--fw-reg) var(--fs-body)/1.55 var(--body)', color: 'var(--text-secondary)',
               maxWidth: 'var(--measure-note)' }}>{r.statement}</span>
           </div>
         ))}
@@ -179,7 +179,7 @@ function FaultCard({ fault, styleInView, onSlot, style }) {
     ),
     fixes: () => (
       <section key="fixes" data-fault-section="fixes"
-        style={{ marginTop: 18, borderTop: '1px solid var(--border-soft)', paddingTop: 14 }}>
+        style={{ marginTop: 30, borderTop: '1px solid var(--border-soft)', paddingTop: 22 }}>
         <Head section="fixes" />
         {FIX_TIERS.map((tier) => (fault.fix[tier] ? (
           <div key={tier} data-fix-tier={tier} style={{ display: 'flex', gap: 12, alignItems: 'baseline', marginTop: 9,
@@ -188,14 +188,14 @@ function FaultCard({ fault, styleInView, onSlot, style }) {
             ...(tier === 'cheap' ? { borderTop: '2px solid var(--gilt)', paddingTop: 8 } : null) }}>
             <span style={{ font: 'var(--type-data-s)', color: FIX[tier], border: '1px solid currentColor',
               padding: '1px 6px', width: 78, flex: 'none', textAlign: 'center' }}><Term id={FIX_TIER_TERM[tier]} /></span>
-            <span style={{ font: 'var(--fw-reg) 13.5px/1.6 var(--body)', color: 'var(--text-secondary)',
+            <span style={{ font: 'var(--fw-reg) var(--fs-body-l)/1.6 var(--body)', color: 'var(--text-secondary)',
               maxWidth: 'var(--measure-prose)' }}>{fault.fix[tier]}</span>
           </div>
         ) : null))}
       </section>
     ),
     test: () => (
-      <section key="test" data-fault-section="test" style={{ marginTop: 16 }}>
+      <section key="test" data-fault-section="test" style={{ marginTop: 28 }}>
         <Head section="test" />
         <pre style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)', background: 'var(--surface-well)',
           border: '1px solid var(--border-soft)', padding: '8px 10px', marginTop: 7,
@@ -205,20 +205,22 @@ function FaultCard({ fault, styleInView, onSlot, style }) {
   };
   return (
     // Phase 17: the fault is a vellum card on the dark instrument (board 9)
-    <article data-fault={fault.id} data-ground="vellum" className="tdl-vellum" style={{ border: '1px solid var(--border-hairline)',
-      borderLeft: '2px solid ' + (SEV[fault.severity] || 'var(--text-tertiary)'),
-      background: 'var(--surface-panel)', padding: '18px 20px 20px', ...style }}>
+    // A page of the library since 26 Nov 2026: the fault is set as an article, its severity the
+    // rule over its name, and no longer a boxed card (it was a vellum card on the dark instrument).
+    <article data-fault={fault.id} data-ground="vellum" className="tdl-vellum" style={{
+      borderTop: '4px solid ' + (SEV[fault.severity] || 'var(--text-tertiary)'),
+      background: 'transparent', padding: '20px 0 0', ...style }}>
       <header>
-        <h3 style={{ font: 'var(--fw-reg) var(--fs-d3)/1.15 var(--display)', fontVariationSettings: '"opsz" 40',
-          letterSpacing: 'var(--tr-display)', color: 'var(--text-body)', margin: 0 }}>{fault.name}</h3>
+        <h3 style={{ font: 'var(--fw-reg) clamp(32px, 3.4vw, var(--fs-d1))/1.08 var(--display)',
+          letterSpacing: '-.004em', color: 'var(--text-body)', margin: 0, textWrap: 'balance' }}>{fault.name}</h3>
         {fault.aka && fault.aka.length > 0 && (
-          <div style={{ font: 'var(--fw-reg) italic 13px/1.5 var(--body)', color: 'var(--text-accent)',
-            fontStyle: 'italic', marginTop: 4 }}>
+          <div style={{ font: 'var(--fw-reg) italic 17px/1.5 var(--body)', color: 'var(--text-accent)',
+            fontStyle: 'italic', marginTop: 8 }}>
             {fault.aka.map((a) => '“' + a + '”').join(', ')}
           </div>
         )}
-        <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap', margin: '14px 0 0', paddingBottom: 14,
-          borderBottom: '1px solid var(--border-soft)' }}>
+        <div style={{ display: 'flex', gap: '14px 28px', flexWrap: 'wrap', margin: '22px 0 0', padding: '14px 0',
+          borderTop: '1px solid var(--border-hairline)', borderBottom: '1px solid var(--border-hairline)' }}>
           <Axis field="severity" colour={SEV[fault.severity]}
             value={fault.severity ? <Term field="fault.severity" value={fault.severity} /> : null} />
           <Axis field="frequency" value={fault.frequency} />

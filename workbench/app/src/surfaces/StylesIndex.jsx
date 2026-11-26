@@ -6,6 +6,13 @@
    The Phylogeny indents by rank and sorts by date, which put 111 of 159 rows under a row that was
    not their parent; here each row's nearest shallower row IS its parent, by construction.
 
+   SET AS CHAPTERS SINCE 26 NOV 2026 (the two rooms). The outline was one indented column, a
+   hundred and sixty rows down a single margin, each trailed by its id, its rank and a year. It is
+   five chapters now, one a tradition, and under each its families set in columns the way an index
+   is set in a book: a family's name over the styles filed under it, a variant indented under its
+   style, the year a floruit begins at the row's end. The filing is unchanged and so is every
+   row's level; the page leads with its own record's line (`PageHero`).
+
    IT NEVER SHOWS A RECORD. It is what a bare `#/style` is, and a bare `#/style` must open the
    same page for everybody who follows the link. What this browser last read in full is OFFERED,
    as a link, from `state/prefs.js`'s `styleInHand`, and never applied: the store only offers.
@@ -20,13 +27,13 @@ import { useSurfaceFilters } from '../filters/useFilters.js';
 import { useGlossary } from '../api/useGlossary.js';
 import { termView } from '../glossary/termView.js';
 import { styleTree, traditionOrderOf } from '../styles/styleTree.js';
+import { chaptersOf } from '../styles/chapters.js';
 import { TRADITION_HUES, memberChain } from '../styles/taxa.js';
 import { matches } from '../search/match.js';
-import { Term } from '../components/Term.jsx';
 import { RecordLink } from '../components/RecordLink.jsx';
 import { Eyebrow } from '../components/Eyebrow.jsx';
 import { FilterInput } from '../components/FilterInput.jsx';
-import { FilterStrip } from '../Chrome.jsx';
+import { PageHero } from '../components/PageHead.jsx';
 
 const SPEC = { q: { type: 'text' } };
 
@@ -70,46 +77,72 @@ export function StylesIndex() {
   const rows = tree ? tree.rows.filter((r) => !keep || keep.has(r.id)) : [];
   const handed = inHand && byId.get(inHand);
 
-  return (
-    <div data-styles-index="" style={{ display: 'flex', flexDirection: 'column', minHeight: 0, flex: 1 }}>
-      <FilterStrip filters={filters} right={
-        <span data-index-shown={tree ? rows.length : undefined} data-index-total={tree ? tree.rows.length : undefined}
-          style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)' }}>
-          {tree ? `${rows.length} of ${tree.rows.length}` : '…'}
-        </span>
-      }>
-        <Eyebrow as="span"><Term id="surface-style" /></Eyebrow>
-        <FilterInput value={q} onChange={(v) => filters.set('q', v)} count={tree ? rows.length : undefined}
-          label="Filter the styles by name or id" placeholder="filter styles" width={200} />
-        {handed && (
-          <span data-style-in-hand={inHand} style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)', whiteSpace: 'nowrap' }}>
-            last read · <RecordLink cite={'style:' + inHand}>{handed.name || inHand}</RecordLink>
-          </span>
-        )}
-      </FilterStrip>
+  // the outline as chapters and blocks: `styles/chapters.js`, which returns every row exactly once
+  const chapters = chaptersOf(rows);
+  const year = (id) => { const t = byId.get(id); return t && t.floruit_start != null ? t.floruit_start : null; };
+  const Row = ({ r, className, level }) => (
+    <div role="treeitem" aria-level={r.depth + 1} data-style-row={r.id} data-depth={level != null ? level : r.depth}
+      data-rank={r.rank || undefined} className={className}>
+      <RecordLink cite={'style:' + r.id}>{(byId.get(r.id) || {}).name || r.id}</RecordLink>
+      {year(r.id) != null && <span className="tdl-year">{year(r.id)}</span>}
+    </div>
+  );
 
-      <div style={{ flex: 1, overflow: 'auto', minHeight: 0, padding: '16px 26px 40px' }}>
+  return (
+    <div data-styles-index="" className="tdl-scroll">
+      <div className="tdl-page tdl-page-wide">
+        <PageHero termId="surface-style" className="tdl-rise">
+          <div className="tdl-hero-acts">
+            <FilterInput value={q} onChange={(v) => filters.set('q', v)} count={tree ? rows.length : undefined}
+              label="Filter the styles by name or id" placeholder="filter styles" width={300} large />
+            <span data-index-shown={tree ? rows.length : undefined} data-index-total={tree ? tree.rows.length : undefined}
+              style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)' }}>
+              {tree ? `${rows.length} of ${tree.rows.length}` : '…'}
+            </span>
+            {filters.activeCount > 0 && (
+              <button type="button" onClick={filters.clear} className="tdl-link" style={{ font: 'var(--type-data-s)' }}>clear</button>
+            )}
+            <span style={{ flex: 1 }} />
+            {handed && (
+              <span data-style-in-hand={inHand} className="tdl-quiet-link" style={{ color: 'var(--text-secondary)' }}>
+                last read · <RecordLink cite={'style:' + inHand}>{handed.name || inHand}</RecordLink>
+              </span>
+            )}
+          </div>
+        </PageHero>
+
         {failed && <p style={{ font: 'var(--type-body)', color: 'var(--text-secondary)' }}>The styles could not be read.</p>}
         {!tree && !failed && <p style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)' }}>reading the styles…</p>}
         {tree && (
-          <div role="tree" aria-label="the styles, filed">
-            {rows.map((r) => {
-              const t = byId.get(r.id) || {};
-              const hue = r.depth === 0 ? TRADITION_HUES[r.id] : null;
+          <div role="tree" aria-label="the styles, filed" className="tdl-rise-2">
+            {chapters.map((ch) => {
+              const hue = ch.head ? TRADITION_HUES[ch.head.id] : null;
               return (
-                <div key={r.id} role="treeitem" aria-level={r.depth + 1} data-style-row={r.id} data-depth={r.depth}
-                  style={{ display: 'flex', alignItems: 'baseline', gap: 10, padding: r.depth === 0 ? '12px 0 4px' : '2px 0',
-                    paddingLeft: r.depth * 20,
-                    borderTop: r.depth === 0 ? '1px solid var(--border-hairline)' : 'none' }}>
-                  {hue && <span aria-hidden="true" style={{ width: 10, height: 10, background: hue, flex: 'none', alignSelf: 'center' }} />}
-                  <span style={{ font: r.depth === 0 ? 'var(--fw-reg) 17px/1.3 var(--display)' : 'var(--fw-reg) 14px/1.45 var(--serif)' }}>
-                    <RecordLink cite={'style:' + r.id}>{t.name || r.id}</RecordLink>
-                  </span>
-                  <span style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)' }}>
-                    {r.rank ? <RankWord rank={r.rank} /> : null}
-                    {t.floruit_start != null ? ` · ${t.floruit_start}` : ''}
-                  </span>
-                </div>
+                <section key={ch.head ? ch.head.id : ch.blocks[0].head.id} className="tdl-tradition"
+                  data-tradition-chapter={ch.head ? ch.head.id : ''}>
+                  {ch.head && (
+                    <div role="treeitem" aria-level={1} data-style-row={ch.head.id} data-depth={0} className="tdl-tradition-head">
+                      {hue && <span aria-hidden="true" className="tdl-tradition-swatch" style={{ background: hue }} />}
+                      <h2 className="tdl-tradition-name">
+                        <RecordLink cite={'style:' + ch.head.id}>{(byId.get(ch.head.id) || {}).name || ch.head.id}</RecordLink>
+                      </h2>
+                      <span className="tdl-year">
+                        {ch.head.rank ? <RankWord rank={ch.head.rank} /> : null}
+                        {year(ch.head.id) != null ? ` · ${year(ch.head.id)}` : ''}
+                      </span>
+                    </div>
+                  )}
+                  <div className="tdl-families">
+                    {ch.blocks.map((b) => (
+                      <div key={b.head.id} className="tdl-family">
+                        <Row r={b.head} className="tdl-family-name" />
+                        {b.rows.map((r) => (
+                          <Row key={r.id} r={r} className="tdl-style-row" level={r.depth} />
+                        ))}
+                      </div>
+                    ))}
+                  </div>
+                </section>
               );
             })}
             {tree.orphans.length > 0 && (

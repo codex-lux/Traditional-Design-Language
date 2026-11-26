@@ -791,15 +791,8 @@ html,body{height:100%}body{overflow:auto}#root{height:100%}input[type=range]{hei
 .tdl-record-link[data-unresolved] .tdl-record-name{color:var(--text-secondary)}
 .tdl-record-note{font:var(--type-data-s);color:var(--text-secondary);margin-left:.5em;white-space:nowrap}
 
-/* Where you are and how to read it (PageHead). */
-.tdl-page-head{padding:18px 22px 14px;border-bottom:1px solid var(--border-hairline)}
-.tdl-page-head-what{font:var(--fw-reg) var(--fs-d4)/1.35 var(--serif);color:var(--text-body);margin:6px 0 0;max-width:64ch}
-.tdl-page-head-toggle{font:var(--type-data-s);color:var(--link);margin-top:8px;
-  border-bottom:1px solid var(--link-underline)}
-.tdl-page-head-toggle:hover{color:var(--link-hover);border-bottom-color:var(--link-underline-hover)}
-.tdl-page-head-read{margin-top:8px;max-width:72ch}
-.tdl-page-head-read ul{margin:0;padding-left:1.2em;font:var(--fw-reg) var(--fs-body-s)/var(--lh-body) var(--serif)}
-.tdl-page-head-try{margin-top:6px;font:var(--fw-reg) var(--fs-body-s)/var(--lh-body) var(--serif)}
+/* Where you are and how to read it (PageHead): `theme/rooms.css`, since 26 Nov 2026. The head is
+   folded into the top bar, and its rules moved with it. */
 
 /* The Glossary: an index grouped by family, and one page per word. */
 .tdl-glossary-scroll{flex:1;min-height:0;overflow:auto}

@@ -12,14 +12,14 @@ import { useGlossary } from '../api/useGlossary.js';
 import { termView } from '../glossary/termView.js';
 import { sectionTermId } from './sections.js';
 
-export const prose = { font: 'var(--fw-reg) 14px/1.62 var(--body)', color: 'var(--text-body)', margin: '0 0 10px', maxWidth: '74ch' };
-export const quiet = { font: 'var(--fw-reg) 13px/1.55 var(--body)', color: 'var(--text-secondary)', margin: 0, maxWidth: '72ch' };
+export const prose = { font: 'var(--type-prose)', color: 'var(--text-body)', margin: '0 0 12px', maxWidth: '68ch' };
+export const quiet = { font: 'var(--fw-reg) var(--fs-body)/1.55 var(--body)', color: 'var(--text-secondary)', margin: 0, maxWidth: '68ch' };
 export const data = { font: 'var(--type-data-s)', color: 'var(--text-secondary)' };
 
 export function Section({ eyebrow, children, style, ...rest }) {
   return (
-    <section style={{ marginBottom: 26, ...style }} {...rest}>
-      {eyebrow != null && <Eyebrow style={{ marginBottom: 9 }}>{eyebrow}</Eyebrow>}
+    <section style={{ marginBottom: 38, ...style }} {...rest}>
+      {eyebrow != null && <Eyebrow className="tdl-section-head" style={{ display: 'block' }}>{eyebrow}</Eyebrow>}
       {children}
     </section>
   );

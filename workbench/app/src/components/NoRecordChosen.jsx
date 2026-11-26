@@ -17,11 +17,12 @@ export function NoRecordChosen({ surface }) {
   const glossary = useGlossary();
   const v = termView(glossary, { id: 'no-record-chosen' });
   return (
-    <div data-no-record={surface || ''} style={{ padding: '14px 2px', maxWidth: '60ch' }}>
+    <div data-no-record={surface || ''} style={{ padding: '14px 0 14px 16px', maxWidth: '60ch',
+      borderLeft: '2px solid var(--border-hairline)' }}>
       <Eyebrow style={{ marginBottom: 6 }}><Term id="no-record-chosen" /></Eyebrow>
       {v.state === 'ready' && (
         <p data-term-definition="no-record-chosen"
-          style={{ font: 'var(--fw-reg) 12.5px/1.6 var(--body)', color: 'var(--text-secondary)', margin: 0 }}>
+          style={{ font: 'var(--fw-reg) var(--fs-body)/1.6 var(--body)', color: 'var(--text-secondary)', margin: 0 }}>
           {v.definition}
         </p>
       )}
