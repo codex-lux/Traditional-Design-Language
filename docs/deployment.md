@@ -83,6 +83,12 @@ exactly like the change not working. The client had the same hole from the other
 `fresh: true` skipped the app's own map and then took the browser's cache, which is not
 what the flag promises its one caller.
 
+**`/api/health` says what the prover runs on** (26 November 2026). `prover.workers` is the number of
+CPU workers one placement may take on this server, read through the prover's own function, and
+`prover.line_grid` says whether the line grid is on. Set `TDL_CP_WORKERS` to override the count. A
+set that comes back wholly refused on a server reporting one worker is a different finding from the
+same set on four, and until this nothing on the server could tell them apart.
+
 **`/api/health` names the build that answered** (WP-13.2, 15 September 2026). Until then a
 screenshot of the bench could not be attributed to a commit — the WP-13.1 pass had to record
 "which build drew Lucas's sheet" as COULD NOT EVALUATE. The payload carries `sha` and

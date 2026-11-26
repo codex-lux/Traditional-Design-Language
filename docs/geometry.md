@@ -116,6 +116,35 @@ Solving is two-phase: a hard-only pass finds or refutes a placement fast, then t
 
 **The workbench runs the heuristic per edit gesture, deliberately** — a proof takes seconds and the bench re-scores on a 400 ms debounce — and carries a *prove placement (CP-SAT)* control for the explicit act, which surfaces the conflict panel. The CLI, MCP `tdl_place_plan` and everything non-interactive default to the real solver.
 
+## The line grid (26 November 2026)
+
+The prover states tiling as a sum of room areas over a no-overlap constraint. That form tells the
+solver nothing until nearly every room is fixed, so on a composed two-storey house it neither found
+a placement nor proved there was none.
+
+`geometry_cp._line_grid` restates the same fact on the lines the walls stand on. The rooms of one
+level of one massing element have at most n + 1 distinct coordinates an axis, so the model gets that
+many ordered lines an axis, puts every room edge on one, and says each cell of the grid is covered
+by at most one room, and by exactly one where that group's tiling fact holds.
+
+It adds no rule. Every placement the model admits without it is admitted with it, so a placement it
+finds is the ruled model's and an infeasibility it finds is a proof about the ruled model. It is
+added after the model is built, on the copy one solve uses.
+
+Three things to know before touching it:
+
+- **It rides on the portfolio's hard steps only.** Those are the solves asked to decide. On the
+  short hinted solves that win released facts back it cost more than it bought, measured on both
+  shipped plans.
+- **The hard steps run on one worker where it is on.** Before it they ran only on a box with more
+  than one core, and a one-core server could not return a two-storey house that held its facts.
+- **`solver.all_facts` records what those steps said**: `held`, `proven-impossible` (infeasible at
+  the derived depth and 2 and 4 ft deeper) or `undecided`. A refusal carrying the second reads as
+  proven.
+
+`TDL_CP_LINE_GRID=0` turns it off, which is the control its figures were taken against. Report:
+`docs/reports/the-prover-decides-2026-11-26.md`.
+
 ## What this does not yet do, stated plainly
 
 It produces **valid, dimensioned, drawable plans with every compromise reported**. It does not yet produce plans an architect would sign.

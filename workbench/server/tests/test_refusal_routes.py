@@ -104,8 +104,12 @@ def test_the_conflict_set_survives_the_frame_it_was_computed_in(client, refused_
     # `proven`, from `typefacts.refusal_class`, so a refusal says whose failure it is. This pin
     # was not judged in that package's run (the suite skipped without fastapi) and went red at the
     # next whole build, which is what it is for; it is widened here, not deleted.
+    # And one more on 26 Nov 2026 (docs/reports/the-prover-decides-2026-11-26.md):
+    # `jointly_proven`, true where the prover's hard steps refuted every type fact held
+    # together at every depth it tries. It was caught by this pin in that package's own server
+    # run, and it is admitted by name.
     assert set(ref) == {"kind", "facts", "conflicts", "lines", "engine", "status",
-                        "class", "classes", "proven"}, (
+                        "class", "classes", "proven", "jointly_proven"}, (
         f"the refusal's shape has moved: {sorted(ref)}. Both slices of WP-13.4 were built "
         f"against one written contract and neither may change it silently.")
     assert ref["conflicts"], "the evidence is gone and only the sentence survived"
