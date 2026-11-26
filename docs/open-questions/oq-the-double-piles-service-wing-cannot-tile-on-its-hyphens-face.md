@@ -1,6 +1,6 @@
 # oq/the-double-piles-service-wing-cannot-tile-on-its-hyphens-face — the native Georgian house is one wing from drawable
 
-*Status: OPEN · Raised in: the prover decides (26 November 2026)*
+*Status: IN PROGRESS · Raised in: the prover decides (26 November 2026)*
 
 **OPEN — on the stock brief `briefs/family-georgian.json`, the composed `centre-passage-double-pile`
 is proven unable to hold its type's facts, and the whole proof sits in its service wing. The main
@@ -69,3 +69,46 @@ Without the garage and with no change at all, the four-room wing tiles only wher
   no size works, so that ruling alone would not draw this house.
 
 Report: `docs/reports/the-prover-decides-2026-11-26.md`.
+
+## Ruled, 26 November 2026 — the garage is its own mass, and the wing is sized for its door set
+
+Two questions were put to Lucas the same day this was raised, before any record or code was
+changed. The questions and the answers are two acts, and both are recorded here as they were put.
+This file stays IN PROGRESS until the build lands.
+
+**Asked, 1:** *On a brief with a garage (family-georgian), where does the centre-passage double
+pile's 2-car garage stand? Today `compose.attach_garage` puts the garage and its mudroom inside the
+service wing, and that wing is proven untileable in all 36 boxes and every variant measured.* The
+options put:
+
+- *Own mass, mudroom link (recommended).* A carriage house beyond the kitchen wing on the same
+  flank: main block, back hall, wing, mudroom, garage. The Georgian kit permits
+  `linked-by-hyphen`, and `groupings/garage-and-hyphen.json` already says the garage is reached
+  only through its link, never from the kitchen. Not yet measured. The mudroom's 7 to 10 ft gap is
+  short of the 12 to 20 ft hyphen rule, as the back hall's already is.
+- *Own mass, detached.* No link and no door to the house, at the kit's 25 ft: the Georgian kit's
+  canonical `detached-in-the-dependency-position`. Not yet measured.
+- *Keep it in the wing.* Change only doors or the hyphen. Every variant measured with the garage
+  in the wing came back INFEASIBLE.
+- *Measure first, then ask.*
+
+**Answered, 1: own mass, mudroom link.**
+
+**Asked, 2:** *With the garage and mudroom out, the four-room wing (kitchen, pantry, breakfast
+room, powder room) still does not tile at its derived box: the powder room on the back hall's 16 ft
+band leaves a pocket nothing can fill. Which remedy for the wing?* The options put:
+
+- *Size the wing for its doors (recommended).* Build the unbuilt third part of ruling 4 of
+  29 October 2026 ("a wing is sized for its door set"). Measured to tile at 22 x 22 or 24 x 21 ft
+  for 348 sf of rooms, every room still inside its own band. No band, `TILING` or `COVERAGE` moves.
+- *Full-depth back hall.* Measured OPTIMAL in 18.7 s without the garage. It contradicts the hard
+  rule in `groupings/dependency-and-hyphen.json`.
+- *Move the powder room's door.* Off the kitchen, or into the main block. Each was measured
+  INFEASIBLE alone at the derived box.
+- *Decide after measuring.*
+
+**Answered, 2: size the wing for its doors.**
+
+What the answers do not say, because each is a way to over-read them: the hyphen's depth is not
+ruled and stays as `groupings/dependency-and-hyphen.json` states it; the powder room's door is not
+moved; and the "about 40% larger" above is a measurement of two boxes, not a factor anyone ruled.
