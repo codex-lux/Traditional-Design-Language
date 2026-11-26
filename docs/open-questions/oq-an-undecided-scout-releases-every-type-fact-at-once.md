@@ -46,3 +46,12 @@ tiling (once stacks and tiling); the single pile 0 of 8 at 60 and 90 s and 2 of 
 placement is the prover's. A longer budget scales every stage's share, so it does not move the
 reinstatement pass's window; on the five-part, more time bought nothing. Figures:
 `docs/reports/the-refusal-that-blamed-the-brief-2026-10-30.md` §X. **Still open.**
+
+## Amended 26 November 2026: the hard steps decide more often, and the scout is unchanged
+
+With the line grid (`geometry_cp.LINE_GRID`) the prover's hard steps now answer on houses they left
+undecided, on one worker as well as four, so fewer solves reach this scout at all. Measured over the
+14 diagrams composed for `briefs/family-georgian.json`, every fact hard, four workers, 25 s a step:
+2 placed, 6 proven impossible at every depth tried, 6 undecided. The six undecided still reach the
+scout, and it still releases every type fact at once. The alternative ladders were not swept.
+Report: `docs/reports/the-prover-decides-2026-11-26.md`. **Still open.**

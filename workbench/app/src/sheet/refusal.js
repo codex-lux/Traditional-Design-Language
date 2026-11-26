@@ -85,6 +85,10 @@ export function readRefusal(body) {
     // WHOSE FAILURE IT IS (ruled 30 Oct 2026): `typefacts.refusal_class`, one of four, or null
     // where the server did not say -- a refusal from before the class existed, read as NOT proven
     cls: REFUSAL_CLASSES.includes(str(raw.class)) ? str(raw.class) : null,
+    // THE JOINT PROOF (ruled 26 Nov 2026): the prover showed the type's facts cannot all hold
+    // TOGETHER as composed, where no single fact was refuted alone. Strictly `true`, so a
+    // refusal from before the field existed is never read as jointly proven.
+    jointly: raw.jointly_proven === true,
     // the one sentence the route puts beside the refusal; on the evaluate path it rides on the
     // 200 body rather than on the refusal, so a caller may pass either and get the same object
     error: str(body.error) || str(raw.error),
@@ -108,6 +112,8 @@ const CLASS_TERM = Object.freeze({
 });
 export function refusalClassTerm(r) {
   if (!r) return null;
+  // a proven refusal says WHICH statement was proven: of one fact alone, or of them together
+  if (r.cls === 'PROVEN' && r.jointly) return 'refusal-proven-together';
   return CLASS_TERM[r.cls] || 'refusal-class-unstated';
 }
 /* Whether the refusal is a statement about the HOUSE. Only a proven one is. */

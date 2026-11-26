@@ -394,12 +394,13 @@ test('each class names its own glossary record, and an unstated one is never the
 test('every record a class names exists in the glossary', () => {
   const here = dirname(fileURLToPath(import.meta.url));
   const ids = [...REFUSAL_CLASSES.map((c) => refusalClassTerm(readRefusal({ ...DOWNGRADED, class: c }))),
-    'refusal-class-unstated'];
+    'refusal-class-unstated',
+    refusalClassTerm(readRefusal({ ...DOWNGRADED, class: 'PROVEN', jointly_proven: true }))];
   for (const id of ids) {
     const rec = JSON.parse(readFileSync(resolve(here, '../../../glossary', `${id}.json`), 'utf8'));
     assert.equal(rec.id, id);
-    assert.equal(/brief or the parti must change/.test(rec.definition), id === 'refusal-proven',
-      `${id}: only the proven record says the brief or the parti must change`);
+    assert.equal(/brief or the parti must change/.test(rec.definition), id.startsWith('refusal-proven'),
+      `${id}: only a proven record says the brief or the parti must change`);
   }
 });
 
@@ -410,4 +411,25 @@ test('the conflict panel no longer says "the brief or the parti is what changes"
     assert.ok(!/brief or the parti is what changes/.test(src), `${f} still says it unconditionally`);
     assert.match(src, /refusalClassTerm\(/, `${f} does not read the class`);
   }
+});
+
+/* THE JOINT PROOF (ruled by Lucas, 26 Nov 2026). The prover can now PROVE that a composed house
+   cannot hold all its type facts together, where no single fact was refuted alone; such a refusal
+   reads as proven and says which statement was proven. `jointly_proven` is read strictly, so a
+   refusal from before the field existed -- or one whose class is not PROVEN -- never takes the
+   joint record. */
+test('a jointly proven refusal names its own record, and only where it is stated and proven', () => {
+  const joint = readRefusal({ ...DOWNGRADED, class: 'PROVEN', jointly_proven: true });
+  assert.equal(joint.jointly, true);
+  assert.equal(refusalClassTerm(joint), 'refusal-proven-together');
+  assert.equal(refusalIsProven(joint), true, 'a joint proof is a statement about the house');
+  assert.equal(refusalClassTerm(readRefusal({ ...DOWNGRADED, class: 'PROVEN' })), 'refusal-proven',
+    'a proof of one fact alone keeps its own record');
+  for (const v of [undefined, false, 'true', 1, null]) {
+    assert.equal(readRefusal({ ...DOWNGRADED, class: 'PROVEN', jointly_proven: v }).jointly, false, String(v));
+  }
+  assert.equal(refusalClassTerm(readRefusal({ ...DOWNGRADED, class: 'UNDECIDED', jointly_proven: true })),
+    'refusal-undecided', 'the flag never upgrades a class the server did not call proven');
+  assert.equal(readRefusal({ refused_placement: { ...DOWNGRADED, class: 'PROVEN', jointly_proven: true } }).jointly,
+    true, 'the 422 wrapper carries it through');
 });

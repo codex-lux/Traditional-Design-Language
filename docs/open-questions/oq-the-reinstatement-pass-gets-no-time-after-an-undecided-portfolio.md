@@ -1,6 +1,6 @@
 # oq/the-reinstatement-pass-gets-no-time-after-an-undecided-portfolio — four cores give back fewer facts than one
 
-*Status: OPEN · Raised in: the audit of Phase 17 (30 October 2026), finding 9*
+*Status: RULED 26 November 2026 · Raised in: the audit of Phase 17 (30 October 2026), finding 9*
 
 **OPEN — on a box with more than one core, a house the worker portfolio cannot decide reaches the
 reinstatement pass after that pass's deadline has already passed, so not one fact the ladder released
@@ -81,3 +81,24 @@ tiling (once stacks and tiling); the single pile 0 of 8 at 60 and 90 s and 2 of 
 placement is the prover's. A longer budget scales every stage's share, so it does not move the
 reinstatement pass's window; on the five-part, more time bought nothing. Figures:
 `docs/reports/the-refusal-that-blamed-the-brief-2026-10-30.md` §X. **Still open.**
+
+## Ruled and executed 26 November 2026
+
+Asked as a direct question and answered as its own act: the pass may take a share carved from the
+ladder's, total time unchanged. This re-rules the clause of R12 (30 October) that left it with none,
+and takes this entry's second option.
+
+`geometry_cp.ladder_window` splits the time: where the hard steps placed nothing, the ladder runs to
+the window's end less `BUDGET_SHARE_REINSTATE`, and the pass has that share. The window ends at the
+later of two caps, the ladder's `BUDGET_SHARE_FEASIBILITY` from when it starts and the cap the pass
+has always had, so the solve is no longer than it was. `_reinstate_deadline` takes the window's end.
+
+The first version ended the window at the ladder's start plus 0.45 T whatever the hard steps had
+cost. Where they refute the house in a second, that is earlier than the old cap, and the pass lost
+time: `tests/test_reinstate_outside_the_cores.py` read 19 of 24 room bands left released on the
+shipped Tidewater record, where the parent restores all but 6. The second cap is the fix, and
+`tests/test_cp_portfolio.py` holds both halves.
+
+Not measured: how many facts the window wins back on an undecided composed house. The caps on a
+single restore (`RESTORE_KIND_S`, `RESTORE_PIN_S`) are unchanged. Report:
+`docs/reports/the-prover-decides-2026-11-26.md`.

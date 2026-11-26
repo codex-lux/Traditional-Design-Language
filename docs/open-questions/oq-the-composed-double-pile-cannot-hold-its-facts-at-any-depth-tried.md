@@ -55,3 +55,12 @@ is whether the prover decides it inside the compose budget on the box it runs on
 once in nine. That is the class of `oq/the-reinstatement-pass-gets-no-time-after-an-undecided-portfolio`.
 The three choices above stand. A fourth is now open: a larger per-placement budget for the native
 diagram, which R12's ceiling forbids at four candidates.
+
+## Amended 26 November 2026: on the stock brief the proof is the service wing's
+
+On `briefs/family-georgian.json` the composed double pile is INFEASIBLE in 0.3 s at each of the
+three depths the prover tries, on one worker or four. Its main block holds every fact on both
+storeys in 7.4 s. The conflict is the service wing's door arrangement on the hyphen's face, with the
+brief's garage in the same wing, and it has its own entry:
+`oq/the-double-piles-service-wing-cannot-tile-on-its-hyphens-face`. This entry's "about once in
+nine" was measured on Lucas's Tidewater brief and is not re-measured here. **Still open.**

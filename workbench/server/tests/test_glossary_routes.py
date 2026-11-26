@@ -245,7 +245,11 @@ def test_health_counts_are_still_exactly_the_overviews(client):
 # package to name turns this red.
 HEALTH_KEYS_TRANCHE_1 = frozenset({"ok", "jsonschema", "counts", "sha", "sha_source", "rail",
                                    "auth", "limits", "mcp", "note"})
-HEALTH_KEYS_LIFTED = {"session": "WP-14.20"}
+HEALTH_KEYS_LIFTED = {"session": "WP-14.20",
+                      # 26 Nov 2026, `docs/reports/the-prover-decides-2026-11-26.md`: the CP worker
+                      # count and the line grid, so a wholly refused set on the deployed server can
+                      # be told from one placed on a single core. Held by `test_health_prover.py`.
+                      "prover": "the prover decides (26 Nov 2026)"}
 
 
 def test_health_keys_are_tranche_ones_plus_exactly_the_keys_lifted_by_name(client):

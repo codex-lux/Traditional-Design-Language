@@ -88,3 +88,11 @@ grid and centred exactly on the main block (an even depth difference), so the pr
 one box; and `_absorb` runs per single-storey element where a bearing or stack fact is held. **The third
 part -- a wing sized for its door set -- is not built**, and the centre passage's wing is where the spike
 found its door set could not be held. The question stays open on that part.
+
+## Amended 26 November 2026: one wing no size can tile
+
+Ruling 4's third part asks that a wing be sized for its door set. On the stock Georgian brief the
+composed double pile's service wing was posed in 36 boxes from 27 x 33 to 45 x 26 ft, and with its
+rooms free from 0.7 to 1.5 of their declared areas: INFEASIBLE every time, in 0.1 s. The cause is
+where its doors stand on the hyphen's face, so sizing the wing would not draw that house.
+`oq/the-double-piles-service-wing-cannot-tile-on-its-hyphens-face`. **Still open.**

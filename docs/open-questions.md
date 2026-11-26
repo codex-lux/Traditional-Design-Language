@@ -19,7 +19,7 @@ it, so the mechanism that collided five times is unavailable rather than discour
 Decisions deferred rather than made quietly. Two of these came from authoring the
 Georgian kit end to end, which was the point of doing it.
 
-**288 questions, of which 161 are open.** A question is OPEN while
+**289 questions, of which 161 are open.** A question is OPEN while
 it awaits a ruling; the two HALF CLOSED entries count as open, because a half-closed
 question is an open one. Status words in use, and no others —
 **open:** `OPEN`, `STILL OPEN`, `HALF CLOSED`, `PARTLY`, `IN PROGRESS`;
@@ -143,6 +143,7 @@ Awaiting a ruling. This is the list to read first.
 | **oq/the-composers-footprint-is-not-the-placed-one** | OPEN | [two derivations of one house's width, and the card publishes the one nobody builds](open-questions/oq-the-composers-footprint-is-not-the-placed-one.md) |
 | **oq/the-depth-a-roof-needs-is-known-and-cannot-be-enforced** | OPEN | [the floor is derived, and enforcing it would propagate a broken licence](open-questions/oq-the-depth-a-roof-needs-is-known-and-cannot-be-enforced.md) |
 | **oq/the-divergence-mark-is-in-neither-face-the-sheet-names** | OPEN | [one character, and the sheet cannot supply it](open-questions/oq-the-divergence-mark-is-in-neither-face-the-sheet-names.md) |
+| **oq/the-double-piles-service-wing-cannot-tile-on-its-hyphens-face** | OPEN | [the native Georgian house is one wing from drawable](open-questions/oq-the-double-piles-service-wing-cannot-tile-on-its-hyphens-face.md) |
 | **oq/the-elevation-draws-the-front-door-where-the-composition-wants-it** | OPEN | [and the placement puts it somewhere else](open-questions/oq-the-elevation-draws-the-front-door-where-the-composition-wants-it.md) |
 | **oq/the-elevation-draws-the-main-blocks-face-and-not-the-buildings** | OPEN | [the wing has no front](open-questions/oq-the-elevation-draws-the-main-blocks-face-and-not-the-buildings.md) |
 | **oq/the-elevation-reads-five-packs-whatever-the-style-binds** | OPEN | [every elevation is dimensioned from `opening-proportion`, `sash-light`, `facade-classical`, `brick-course` and `gibbs-ionic`, never from the style's bindings](open-questions/oq-the-elevation-reads-five-packs-whatever-the-style-binds.md) |
@@ -169,7 +170,6 @@ Awaiting a ruling. This is the list to read first.
 | **oq/the-raw-kit-read** | OPEN | [six places read a node's own kit file where the corpus's answer lives in its cascade](open-questions/oq-the-raw-kit-read.md) |
 | **oq/the-record-table-draws-an-untrusted-room-name** | OPEN | [and the sheet has no width for it](open-questions/oq-the-record-table-draws-an-untrusted-room-name.md) |
 | **oq/the-refusal-contract-silenced-three-guards-about-other-properties** | OPEN | [and each now fails before it asserts anything](open-questions/oq-the-refusal-contract-silenced-three-guards-about-other-properties.md) |
-| **oq/the-reinstatement-pass-gets-no-time-after-an-undecided-portfolio** | OPEN | [four cores give back fewer facts than one](open-questions/oq-the-reinstatement-pass-gets-no-time-after-an-undecided-portfolio.md) |
 | **oq/the-roof-layer-draws-no-complex-or-polygonal-roof** | OPEN | [Queen Anne's ridge, the octagon's eight hips, a cross-gable's wing and a gablet](open-questions/oq-the-roof-layer-draws-no-complex-or-polygonal-roof.md) |
 | **oq/the-roof-record-and-the-plan-record-do-not-share-an-origin** | OPEN | [and nothing drew both until now](open-questions/oq-the-roof-record-and-the-plan-record-do-not-share-an-origin.md) |
 | **oq/the-search-is-refused-on-type-facts-nothing-tells-it** | OPEN | [the gate reads four facts and the search scores one of them](open-questions/oq-the-search-is-refused-on-type-facts-nothing-tells-it.md) |
@@ -194,7 +194,7 @@ Awaiting a ruling. This is the list to read first.
 | **oq/which-packs-module-is-a-building-input** | HALF CLOSED — class A settled 26 Sep 2026 (WP-14.33): `room-harmonic` declared, the other two left undeclared by ruling; classes B, C and D unruled | [`trim-classical`'s module is the ceiling the reader sets; which other packs' modules are, and which only look as if they are](open-questions/oq-which-packs-module-is-a-building-input.md) |
 | **oq/which-rooms-take-the-hearth** | OPEN | [the corpus says the end rooms and never which rooms those are](open-questions/oq-which-rooms-take-the-hearth.md) |
 
-## Settled — 127
+## Settled — 128
 
 Ruled, closed or recorded as a standing disclosure. Kept in full: the ruling and the original question both, because what was asked stays legible beside what was decided.
 
@@ -319,6 +319,7 @@ Ruled, closed or recorded as a standing disclosure. Kept in full: the ruling and
 | **oq/the-proving-engine-cannot-place-a-second-massing-element** | CLOSED 7 September 2026 (WP-11.11) | [the tag that costs a plan its proof](open-questions/oq-the-proving-engine-cannot-place-a-second-massing-element.md) |
 | **oq/the-rake-is-drawn-as-an-edge-and-carries-no-member** | CLOSED 1 October 2026 (ruled 30 September 2026, B3, corrected by B5 and B6, with B10 and B25-B30 by 1 October; T1, T2, T6, T7, T8 and T11 taken as recommended under a standing instruction; executed by WP-16.9) | [the half of the gable end nobody ruled](open-questions/oq-the-rake-is-drawn-as-an-edge-and-carries-no-member.md) |
 | **oq/the-record-dimensions-a-transom-and-no-drawing-draws-one** | CLOSED 27 Sep 2026 (WP-14.3) — the rectangular transom is drawn at its judged height | [and two faults judge it](open-questions/oq-the-record-dimensions-a-transom-and-no-drawing-draws-one.md) |
+| **oq/the-reinstatement-pass-gets-no-time-after-an-undecided-portfolio** | RULED 26 November 2026 | [four cores give back fewer facts than one](open-questions/oq-the-reinstatement-pass-gets-no-time-after-an-undecided-portfolio.md) |
 | **oq/the-revision-loops-authority-over-topology** | RULED 1 Sep 2026 | [what the generator may change when the critic tells it to](open-questions/oq-the-revision-loops-authority-over-topology.md) |
 | **oq/the-roof-is-drawn-side-gabled-whatever-the-style-says** | CLOSED 1 October 2026 (ruled 30 September 2026, B1 and B2, with B7-B9 and B11-B24 by 1 October; T3-T5, T9 and T10 taken as recommended under a standing instruction; executed by WP-16.9) | [which roof a house gets when its record names none](open-questions/oq-the-roof-is-drawn-side-gabled-whatever-the-style-says.md) |
 | **oq/the-search-loses-the-entrance-front-on-a-multi-element-plan** | CLOSED | [the hill-climb draws the tagged Tidewater back to front](open-questions/oq-the-search-loses-the-entrance-front-on-a-multi-element-plan.md) |
