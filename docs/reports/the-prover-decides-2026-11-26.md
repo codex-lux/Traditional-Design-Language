@@ -214,4 +214,81 @@ was not changed.
   drives the ladder with the grid off, where it still runs.
 - `workbench/app/src/refusal.test.mjs`: the joint record.
 
-Verification status is in the commit message of the commit that carries this report.
+Verification status at the first commit is in that commit's message. The whole build is §IX.
+
+## IX. The whole build, and what it found
+
+`python3 build/check_all.py`, as four shards in four `git worktree`s of `26c453a`, run at once on
+the four-core container. `ezdxf` and `ifcopenshell` are not installed here.
+
+| shard | `tests/` | checks failed |
+|---|---|---|
+| 1 | 3 failed / 964 passed / 43 skipped | 1 of 14 (the suite) |
+| 2 | 1 failed / 987 passed / 15 skipped | 1 of 16 (the suite) |
+| 3 | 1 failed / 937 passed / 23 skipped | 1 of 17 (the suite) |
+| 4 | 14 failed / 1,226 passed / 67 skipped | 2 of 16 (`check_partis.py`, the suite) |
+
+19 failed / 4,114 passed / 148 skipped. That is 4,281 outcomes against 4,277 collected: four test
+files are skipped whole at import for want of a CAD library, and each reports one skip and collects
+nothing. The server suite and the app suite ran in shard 3 and are green. Three checks could not be
+evaluated: `check_frontend.py` (no `dist/`), and the DXF and IFC selftests (no library).
+
+Every red, by id:
+
+- **16 are on the known list.** The gate's 14 rows, `test_parti_composability` and `test_solver`'s
+  half bound. The gate file was then run alone on this tree and on a worktree of the parent commit
+  `323ad8a`: 14 failed / 37 passed / 33 skipped on each, the same 14 ids, and the same 14 as the
+  shard's. `CLAUDE.md` counts 18 known gate rows and I found them enumerated nowhere, so the
+  control is the parent commit's own run and not that list.
+- **One is older than this package and on no list.**
+  `tests/test_compose_budget.py::test_the_set_loop_and_the_named_diagram_read_the_one_share` reads
+  `compose.py`'s source for `time_limit_s=_GEO.BUDGET_COMPOSE_S`, which the repair of 19 November
+  wrote. It fails on the parent commit's worktree too. It is not changed here.
+- **One is the load's.** `tests/test_reinstate_outside_the_cores.py::test_most_room_bands_come_back`
+  read 22 of 24 room bands still released, against a bound of 12. Alone on a quiet box it passes 3
+  of 3 on this tree and 3 of 3 on the parent. Both trees run at once under two extra busy
+  processes: 3 of 3 pass on each. Under eight: 3 of 3 fail on each, at 23, 22 and 23 here and 24,
+  24 and 23 on the parent. Four shards at once is that load.
+- **One was this package's, and is fixed.**
+  `tests/test_shape_pins.py::test_a_released_pin_is_named_on_the_record_by_kind` reads every line
+  of `downgrade_rounds` and fails on a shape it does not know. The hard steps' new line, "PROVEN --
+  with every type fact and every room's own band held, no placement exists ...", was one. The
+  reader knows it now and holds it to the record: the line may appear only where `solver.all_facts`
+  says `proven-impossible`, and must appear where it does. The file is 20 passed after the change.
+
+A second pin had already been caught by the server suite before the build:
+`test_refusal_routes`' key set for a refusal, which gained `jointly_proven`. It is admitted by name.
+
+### What the build showed about the shipped Tidewater record
+
+The reader above met the PROVEN line on `plans/tidewater-georgian-careful.json`. Probed afterwards,
+`engine="auto"`, quiet box, two runs on each tree:
+
+| | this tree | parent commit |
+|---|---|---|
+| Tidewater: refused for | hearth, tiling | hearth, tiling |
+| Tidewater: bands and wall pins released | 6 and 21 | 6 and 21 |
+| Tidewater: every fact held together | INFEASIBLE at +0, +2 and +4 ft, both runs | not asked |
+| Tidewater: refusal's class | PROVEN (jointly) | UNDECIDED |
+| Tidewater: time and status | 23.6 s OPTIMAL, 41.4 s FEASIBLE | 42.0 and 41.1 s FEASIBLE |
+| spec Colonial: refused for | stacks, tiling | bearing, stacks, tiling |
+| spec Colonial: wall pins released | 3 | 13 |
+| spec Colonial: every fact held together | UNKNOWN at all three, both runs | not asked |
+
+So the shipped Tidewater record cannot hold its type's facts and its rooms' bands together at the
+derived depth or 2 or 4 ft deeper, with the authored walls and the axis already released. That is a
+proof about the record. Its placement and the facts it is refused for are the parent's. What changed
+is the class its refusal carries, under ruling 4. The bench will now say of that example that it is
+proven, where it said out of time.
+
+§III says the bare model refused that record "for tiling alone". That was one run on the working
+tree of the moment. On the final code both trees read hearth and tiling, twice each.
+
+### Mutations of the composer and the joint proof
+
+Eight more, each asserted landed and restored, each run against the tests named for it, and all
+eight red: the joint proof not reaching the class; the flag never set; an undecided verdict read as
+the proof; a proven pool diagram using a slot; the set loop repairing before the pool; the second
+acts never run; the hard steps' line saying PROVEN on an undecided run; and a proven run whose line
+does not say so, which is the reader `tests/test_shape_pins.py` gained in this section. The tree was
+clean of every mutation afterwards (`git status`).

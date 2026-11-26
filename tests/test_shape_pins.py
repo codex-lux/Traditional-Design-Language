@@ -224,6 +224,21 @@ def _releases_are_accounted(sv, rounds):
                 named["wall"] = named.get("wall", 0) + int(m.group(1))
                 named["axis"] = named.get("axis", 0) + int(m.group(2))
                 continue
+            # THE PROVER DECIDES (26 Nov 2026): the hard steps can now say a third thing. Where
+            # the walls-released step came back INFEASIBLE at every depth, the line says PROVEN
+            # and the ladder takes over to release by its cores, whose own round lines follow.
+            # The line releases nothing, so it adds nothing to `named`; it is held to the
+            # record's own `all_facts` verdict, so the word cannot be said on a run that timed
+            # out. This reader met the line unprepared in that package's whole build, on the
+            # shipped Tidewater record, which is what "an unknown line still fails" is for.
+            if "PROVEN -- with every type fact" in line:
+                assert "the assumption ladder takes over to release by its cores" in line, line
+                assert ((sv.get("all_facts") or {}).get("verdict")
+                        == G.TF.ALL_FACTS_PROVEN_IMPOSSIBLE), (line, sv.get("all_facts"))
+                continue
+            assert (sv.get("all_facts") or {}).get("verdict") != G.TF.ALL_FACTS_PROVEN_IMPOSSIBLE, (
+                "the record says the hard steps PROVED the facts cannot hold together and the "
+                "portfolio's line does not say so", line)
             assert (re.search(r"every type fact posed HELD \([a-z, ]+\)", line)
                     or "the assumption ladder takes over for its cores" in line), line
             continue
