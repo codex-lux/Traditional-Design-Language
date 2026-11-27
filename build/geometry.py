@@ -1971,6 +1971,58 @@ def _grid_y(h, main_h):
     return y if abs(y - round(y)) < 1e-6 else float(round(y))
 
 
+# WHERE A FLANKING RANGE STANDS ALONG THE MAIN BLOCK'S DEPTH (ruled by Lucas, 26 to 27 Nov 2026).
+# Every dependency was centred on the main block's axis, which is the five-part house's rule: two
+# dependencies that answer each other. `groupings/dependency-and-hyphen.json` states the other case
+# in the same hard sentence -- "Where dependencies are paired they are symmetrical about the main
+# block's axis; where there is one, it does not sit on the entrance elevation." So a house with
+# dependencies on ONE flank lays that range against its REAR wall, the face opposite the stated
+# entrance front, and a house with a range on each flank keeps the axis. Measured on the composed
+# centre-passage double pile before the ruling: with its one range centred, the main block could
+# not hold its type's facts at any depth tried to +6 ft; with the range against the rear wall the
+# whole house held every fact in 3 to 10 s. The record of the question and the answer is
+# `oq/the-double-piles-service-wing-cannot-tile-on-its-hyphens-face`.
+#
+# Where the entrance front is not stated, or is stated on the flank's own axis (E or W), there is
+# no rear to read and the range keeps the axis. That is a reading declined, not a default taken.
+#
+# AND THE RECORD STATES IT (`plan.flank_laying`, plan schema 0.14.0). The first build of the ruling
+# read it off the flank alone, which also moved the one SHIPPED record with a dependency,
+# `plans/tidewater-georgian-careful.json`. Measured on that record before anything was pinned: on
+# the prover its verdict is unchanged (refused PROVEN for bearing, hearth and tiling, 1 fatal and
+# 45 serious findings on both trees); on the search it is worse (fatal 6 to 9, serious 59 to 65,
+# the hearth fact held to downgraded), and 14 tests of the 361 in the seventeen element files went
+# red on it alone. Moving a shipped placement inside a package about something else is what this
+# project has declined each time it came up (WP-11.13 left the `block` tags to WP-11.16; Phase 17
+# left `oq/a-shipped-record-files-a-wet-stack-as-structural` at a ceiling of one). So the laying
+# is a statement the record carries, the composer writes it on what it composes, and the shipped
+# record does not carry it yet: `oq/the-shipped-range-is-still-laid-on-the-axis`.
+def flank_laying(plan, rows):
+    """`("rear", wall)` where the record states `flank_laying: rear`, the flanking elements stand
+    on one side of the main block, and the record states an entrance front on the depth axis; else
+    `("axis", None)`. `wall` is the main block's rear face, "N" or "S"."""
+    if (plan or {}).get("flank_laying") != "rear":
+        return "axis", None
+    sides = {el["side"] for el in rows}
+    front = entrance_walls(plan)
+    if len(sides) == 1 and len(front) == 1:
+        f = next(iter(front))
+        if f in ("S", "N"):
+            return "rear", ("N" if f == "S" else "S")
+    return "axis", None
+
+
+def _whole(v):
+    """`v` where it is on the whole-foot grid, else the nearest whole foot -- `_grid_y`'s own rule
+    for the search's unsnapped footprint, and the same stated cost: up to half a foot off."""
+    return v if abs(v - round(v)) < 1e-6 else float(round(v))
+
+
+def _rear_y(h, main_h, rear):
+    """The y of an element `h` deep standing against the main block's `rear` face."""
+    return 0.0 if rear == "S" else _whole(main_h - h)
+
+
 def _centred_depth(h, main_h):
     """The whole-foot depth at or above `h` that centres EXACTLY on a main block of depth `main_h`
     (WP-17.4): where the main block is integral, `(main_h - h)` must be even, or the centred element
@@ -1981,6 +2033,55 @@ def _centred_depth(h, main_h):
     if (int(round(main_h)) - int(round(h))) % 2:
         h += 1.0
     return h
+
+
+# WHICH ROOM MAY BE THE LINK OF AN ELEMENT (26 Nov 2026). It was a circulation room alone -- a back
+# hall, a breezeway, a gallery. Lucas ruled that day that the garage of a house with a service wing
+# is ITS OWN MASS, linked by the mudroom, and a mudroom is a `threshold` room: the place one passes
+# through on the way in, which is what a link is. So a threshold room carrying `hyphen: true` is a
+# link as well. No record in the corpus tagged one before the ruling, so nothing that was placed
+# moves. The ruling is recorded in
+# `oq/the-double-piles-service-wing-cannot-tile-on-its-hyphens-face`.
+LINK_CLASSES = ("circulation", "threshold")
+
+
+def flank_side(rooms):
+    """The flank a set of rooms declares, from their own `exterior_walls`: E where some room names
+    E and none names W, else W -- a tie or a silence goes west. ONE spelling, read by `flank_sizes`
+    and by `compose.attach_garage`, which must turn a garage's free walls to the side its wing is
+    on rather than to a side written into the composer."""
+    walls = {d for r in rooms for d in (r.get("exterior_walls") or [])}
+    return "E" if ("E" in walls and "W" not in walls) else "W"
+
+
+def _is_link(r):
+    return (bool(r.get("hyphen"))
+            and C["rooms"].get(r.get("type"), {}).get("function_class") in LINK_CLASSES)
+
+
+def _beyond(bid, hyph, rooms):
+    """The element this one is chained BEYOND, read off the door graph: the block of a room its
+    link room shares a door with, where that block is another element's. None where the link
+    doors only its own element and the main block, which is every element placed before
+    26 Nov 2026 -- those hang off the main block.
+
+    A door is read from either side, because a hand-authored record may state it once."""
+    if not hyph:
+        return None
+    link = hyph[0]
+    tag_of = {r["id"]: r["block"] for r in rooms if is_block_tag(r.get("block"))}
+
+    def _tos(r):
+        return [(d.get("to") if isinstance(d, dict) else d) for d in (r.get("doors") or [])]
+    for to in _tos(link):
+        t = tag_of.get(to)
+        if t and t != bid:
+            return t
+    for r in rooms:
+        t = tag_of.get(r["id"])
+        if t and t != bid and link["id"] in _tos(r):
+            return t
+    return None
 
 
 def flank_sizes(prep, bay, level=0):
@@ -1998,8 +2099,15 @@ def flank_sizes(prep, bay, level=0):
     width; neither reads `fp["W"]`. Only the x positions and the y centring do, and those stay in
     `blocks_for`.
 
-    Returns an ordered list of `{id, side, gap, W, H, hyph, body}` -- empty on every plan in this
-    corpus, all sixteen of which are one rectangle."""
+    Returns an ordered list of `{id, side, gap, W, H, hyph, body, beyond, one_room}` -- empty on
+    a plan that tags no room. (This line said "empty on every plan in this corpus, all sixteen of
+    which are one rectangle" until 26 Nov 2026; one shipped plan has been tagged since WP-11.16.)
+
+    A CHAINED ELEMENT COMES AFTER THE ONE IT STANDS BEYOND (26 Nov 2026). `beyond` is the element
+    this one's link room doors into (`_beyond`), None where it hangs off the main block. A chained
+    element takes its parent's side whatever its own rooms declare, and the list is ordered parent
+    first, each element followed at once by the elements beyond it, so `blocks_for`'s outward walk
+    lays a carriage house against the wing it serves and not past an unrelated element."""
     rooms = (prep or {}).get(level) or []
     by_id, order = {}, []
     for r in rooms:
@@ -2007,20 +2115,18 @@ def flank_sizes(prep, bay, level=0):
             continue
         by_id.setdefault(r["block"], []).append(r)
         if r["block"] not in order: order.append(r["block"])
-    out = []
+    rows = {}
     for bid in order:
         rs = by_id[bid]
         need = sum(r["_area"] for r in rs)
         # Side from the rooms' own exterior_walls; a tie or a silence goes west, and says so.
-        walls = {d for r in rs for d in (r.get("exterior_walls") or [])}
-        side = "E" if ("E" in walls and "W" not in walls) else "W"
+        side = flank_side(rs)
         # A hyphen room tagged into this element states the gap; otherwise the grouping's own
         # band midpoint stands in and says so. This is the whole reason the hyphen is a ROOM:
         # `hyphen_length_ft` is a machine-tested rule in both hyphen groupings and it had never
         # been evaluated on any plan, because the only hyphen this composer produced was a local
         # variable inside two f-strings.
-        hyph = [r for r in rs if C["rooms"].get(r["type"], {}).get("function_class") == "circulation"
-                and r.get("hyphen")]
+        hyph = [r for r in rs if _is_link(r)]
         gap = float(hyph[0].get("width_ft") or HYPHEN_DEFAULT_FT) if hyph else HYPHEN_DEFAULT_FT
         body = [r for r in rs if r not in hyph]
         need_body = sum(r["_area"] for r in body) or need
@@ -2053,8 +2159,44 @@ def flank_sizes(prep, bay, level=0):
         # sized to the grid: the placer states its own boxes.
         H = float(math.ceil(need_body / W - 1e-9)) if W else 0.0
         gap = float(math.ceil(gap - 1e-9))
-        out.append({"id": bid, "side": side, "gap": gap, "W": W, "H": H,
-                    "hyph": hyph, "body": body})
+        # AN ELEMENT OF ONE ROOM IS THAT ROOM (26 Nov 2026). The single-pile rule above is how a
+        # PROGRAMME of several rooms becomes a wing; applied to one room it re-cuts the room: a
+        # two-car garage declared 22 x 20 ft -- 11 ft a bay by the 20 ft `rooms/garage.json` says
+        # takes a 16 ft car -- came out 18 x 25, whose only wall long enough for two 9 ft doors and
+        # a pier is 18 ft from the wall the cars would stop against. So where the body is one room
+        # stating both its dimensions, the box is that rectangle on the whole-foot grid, `width_ft`
+        # along the flank and `length_ft` across it, which is the reading the gap and the link's
+        # depth already take of a link room's own two figures. It is not a bay multiple, and
+        # `one_room` says so on the row.
+        one = (len(body) == 1 and body[0].get("width_ft") and body[0].get("length_ft"))
+        if one:
+            W = float(math.ceil(float(body[0]["width_ft"]) - 1e-9))
+            H = float(math.ceil(float(body[0]["length_ft"]) - 1e-9))
+        rows[bid] = {"id": bid, "side": side, "gap": gap, "W": W, "H": H,
+                     "hyph": hyph, "body": body, "beyond": _beyond(bid, hyph, rooms),
+                     "one_room": bool(one)}
+    # Parent first, each element followed at once by the elements chained beyond it. A `beyond`
+    # that names no element here, or one that closes a loop, is dropped: the element hangs off the
+    # main block, which is what it did before the relation existed.
+    kids = {}
+    for bid in order:
+        par = rows[bid]["beyond"]
+        seen, p = {bid}, par
+        while p is not None and p in rows and p not in seen:
+            seen.add(p)
+            p = rows[p]["beyond"]
+        if par not in rows or p is not None:
+            rows[bid]["beyond"] = par = None
+        kids.setdefault(par, []).append(bid)
+    out = []
+
+    def _walk(par, side):
+        for bid in kids.get(par, []):
+            if side is not None:
+                rows[bid]["side"] = side
+            out.append(rows[bid])
+            _walk(bid, rows[bid]["side"])
+    _walk(None, None)
     return out
 
 
@@ -2105,9 +2247,33 @@ def blocks_for(plan, fp, prep, level=0):
     # The sizing moved to `flank_sizes` at WP-11.6 layer 4 so the lot cap could read it without a
     # second transcription. What is left here is what actually needs the main block: where each
     # element sits along x, and the y centring on the main block's axis.
-    for el in flank_sizes(prep, bay, level):
+    final_h = {}       # each dependency's depth as laid, for the link of an element beyond it
+    final_y = {"main": 0.0}
+    rows = flank_sizes(prep, bay, level)
+    laying, rear = flank_laying(plan, rows)
+    # A BOX THE PROVER FOUND FOR A WING'S DOOR SET (`geometry_cp.size_wings`, ruled 26 to 27 Nov
+    # 2026) arrives on the footprint as `flank_box`, beside `flank_grow_ft`. It replaces the derived
+    # box, and a wing so sized does not grow with the house: the box is the one its rooms were shown
+    # to tile, and four feet more of depth was measured to stop the composed wing tiling again.
+    sized = fp.get("flank_box") or {}
+    for el in rows:
         bid, side, gap, W, H = el["id"], el["side"], el["gap"], el["W"], el["H"]
         hyph = el["hyph"]
+        parent = el.get("beyond")
+        door_set = bid in sized
+        if door_set:
+            W, H = float(sized[bid][0]), float(sized[bid][1])
+        # THE DEPTH AS LAID, before the link, because a chained link is no deeper than either mass
+        # it joins. A ONE-ROOM ELEMENT DOES NOT GROW WITH THE HOUSE: its box is its room, and
+        # growing it would be the prover enlarging a garage to make a house fit.
+        grow = float(fp.get("flank_grow_ft") or 0.0)
+        H_laid = H
+        if grow and not el.get("one_room") and not door_set:
+            H_laid = min(H + grow, max(H, float(fp["H"])))
+        if laying == "axis":
+            # only an element centred on the axis needs its depth to share the main block's parity
+            H_laid = _centred_depth(H_laid, fp["H"])
+        y_el = _rear_y(H_laid, fp["H"], rear) if laying == "rear" else _grid_y(H_laid, fp["H"])
         if side == "W":
             # `west_edge`, not a hardcoded 0.0. The east branch three lines down reads
             # `east_edge` correctly, and the asymmetry was the tell: a SECOND west element put
@@ -2130,24 +2296,45 @@ def blocks_for(plan, fp, prep, level=0):
             # for 108.6 of. The WIDTH takes no allowance: that is the gap between two masses, a
             # real dimension of the house, and its origin is integral by construction.
             hh = float(math.ceil(min(H, float(hyph[0].get("length_ft") or H)) - 1e-9))
-            hh = _centred_depth(hh, fp["H"])
+            if parent:
+                # A link between two flanking masses is shallower than BOTH, as laid
+                # (dependency-and-hyphen.json: "lower and shallower than both elements it joins").
+                # The clause above reads this element's own depth before growth and is left as it
+                # was for an element on the main block, so nothing placed before the chain moves.
+                hh = float(math.ceil(min(H_laid, final_h.get(parent, H_laid),
+                                         float(hyph[0].get("length_ft") or H_laid)) - 1e-9))
+            if laying == "rear":
+                # THE LINK STANDS ON THE SMALLER OF THE TWO MASSES IT JOINS, CENTRED ON IT. Against
+                # the rear wall the two masses no longer share a centre line, so "centred" has to
+                # say on which; the shallower one is the only one whose whole face the link can
+                # stand inside. Offered to Lucas as "its link centred on the wing" and measured to
+                # work at three places; this is the one taken.
+                p_y = final_y.get(parent or "main", 0.0)
+                p_h = final_h.get(parent, float(fp["H"])) if parent else float(fp["H"])
+                c_y, c_h = (y_el, H_laid) if H_laid <= p_h else (p_y, p_h)
+                hh = min(_centred_depth(min(hh, c_h), c_h), c_h)
+                y_h = _whole(c_y + (c_h - hh) / 2.0)
+            else:
+                hh = _centred_depth(hh, fp["H"])
+                y_h = _grid_y(hh, fp["H"])
             out.append({"id": bid + "-hyphen", "role": "hyphen", "x": round(hx, 2),
-                        "y": round(_grid_y(hh, fp["H"]), 2), "W": round(gap, 2), "H": round(hh, 2),
-                        "rooms": [r["id"] for r in hyph], "attached_to": "main", "side": side})
+                        "y": round(y_h, 2), "W": round(gap, 2), "H": round(hh, 2),
+                        "rooms": [r["id"] for r in hyph], "attached_to": parent or "main",
+                        "side": side, "laid": laying})
         # THE WING GROWS WITH THE HOUSE (Phase 17, ruling 4's third part, and decision 11). A wing
         # is sized at the whole foot above its rooms' area -- no slack at all -- so its rooms could
         # not all stand inside their bands with their doors placed (the composed centre passage's
         # service wing: 18 x 17 ft for 306 sf of rooms). Where the prover grows the main block's
         # depth before compromising a room, it grows each dependency's by the same even step,
         # never past the main block's own depth, so the wing stays exactly centred.
-        grow = float(fp.get("flank_grow_ft") or 0.0)
-        if grow:
-            H = min(H + grow, max(H, float(fp["H"])))
-        H = _centred_depth(H, fp["H"])
+        H = H_laid
+        final_h[bid] = H
+        final_y[bid] = y_el
         out.append({"id": bid, "role": "dependency", "x": round(x, 2),
-                    "y": round(_grid_y(H, fp["H"]), 2),   # centred on the main block's axis
+                    "y": round(y_el, 2),   # on the main block's axis, or against its rear wall
                     "W": W, "H": H, "rooms": [r["id"] for r in el["body"]],
-                    "attached_to": "main", "side": side})
+                    "attached_to": parent or "main", "side": side, "laid": laying,
+                    **({"sized": "door-set"} if door_set else {})})
     return out
 
 
@@ -2906,8 +3093,25 @@ def blocks_record(plan, fp, prep):
                "width_ft": float(b["W"]), "depth_ft": float(b["H"]),
                "area_sf": round(b["W"] * b["H"])}
         if b.get("attached_to"): row["attached_to"] = b["attached_to"]
+        note = block_note(b)
+        if note: row["note"] = note
         out.append(row)
     return out
+
+
+def block_note(b):
+    """What a reader of the record needs to know about how a flanking element was laid and sized,
+    in the block's own `note`. None where there is nothing to say: an element on the axis at its
+    derived box, which is what every block was before 26 Nov 2026, so those records do not move."""
+    parts = []
+    if b.get("laid") == "rear":
+        parts.append("stands against the main block's rear wall: the one range on a flank does not "
+                     "sit on the entrance elevation (groupings/dependency-and-hyphen.json)")
+    if b.get("sized") == "door-set":
+        parts.append("its box is the smallest the prover found in which its own rooms tile inside "
+                     "their bands with their doors; it is off the bay module and does not grow "
+                     "with the house")
+    return "; ".join(parts) or None
 
 
 def write_record(plan, levels, ground, upper, fp, report):

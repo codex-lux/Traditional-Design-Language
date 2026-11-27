@@ -96,3 +96,17 @@ composed double pile's service wing was posed in 36 boxes from 27 x 33 to 45 x 2
 rooms free from 0.7 to 1.5 of their declared areas: INFEASIBLE every time, in 0.1 s. The cause is
 where its doors stand on the hyphen's face, so sizing the wing would not draw that house.
 `oq/the-double-piles-service-wing-cannot-tile-on-its-hyphens-face`. **Still open.**
+
+## Amended 26 to 27 November 2026: ruling 4's third part is built, by the prover
+
+The amendment above said sizing the wing would not draw that house. With the garage ruled out of
+the wing the same day, it does. `geometry_cp.size_wings` poses each wing of several rooms alone over
+whole-foot boxes, smallest first, with the wing's own tiling, bands and doors held, and takes the
+first box that holds. Lucas ruled that reading when asked how the box should be found. On the stock
+Georgian brief the double pile's wing is derived at 18 x 20 ft and sized at 21 x 22 ft, and the
+house then holds every type fact. `TILING` and `COVERAGE` are unchanged.
+
+What is still open here: the search engine has no prover and keeps the derived box; and on the
+shipped Tidewater record no box of the 50 in the step's window holds its wing on the axis, so that
+record's tiling is as it was. Report: `docs/reports/the-garage-is-its-own-mass-2026-11-26.md`.
+**Still open.**

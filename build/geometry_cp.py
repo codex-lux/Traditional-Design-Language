@@ -71,6 +71,7 @@ drawing, because the drawing is a render of the data.
 Loaded through geometry.solve()'s dispatcher; not a CLI of its own.
 """
 import copy
+import json
 import math
 import os
 import threading
@@ -2409,6 +2410,164 @@ def _extract_conflicts(plan, prep, fpd, ewalls, budget_s=20.0, seed_core=None,
     return conflicts, minimized
 
 
+# ---- THE WING SIZED FOR ITS DOOR SET (ruled by Lucas, 29 Oct and 26 to 27 Nov 2026) ----------
+#
+# Ruling 4 of 29 Oct 2026 has three parts: derived massing elements are stated on the whole-foot
+# grid; a wing is sized for its door set; `_absorb` runs per single-storey element. The second was
+# never built. What stood in for it was the depth growth (`flank_grow_ft`): a wing two or four
+# feet deeper when the house is. Measured on the composed centre-passage double pile, 26 Nov 2026,
+# with the garage its own mass: the four-room service wing tiles on its own in FOUR boxes of forty
+# (22 x 21, 22 x 23, 21 x 23 and 23 x 23 ft) and not at its derived 18 ft width at any depth. The
+# kitchen opens off a link on each of the wing's two opposite faces, so it spans the wing, and the
+# powder room, the pantry and the breakfast room stand in one row beside it.
+#
+# Asked how that box should be found, Lucas ruled: THE PROVER FINDS IT. Before the house is posed,
+# each wing of more than one room is posed ALONE -- its own tiling, its rooms' bands, its doors
+# and its links held; the main block's tiling, its rooms' bands, the stacks, bearing, the hearth,
+# the authored walls and the axis released -- over whole-foot boxes, smallest first, and the first
+# box that holds is the wing's. No factor is written down: the box comes from the records each
+# time. `TILING`, `COVERAGE` and every band are exactly what they were.
+#
+# THE WINDOW IS STATED AND IS A DECISION OF THIS PACKAGE: from the derived width to one bay wider,
+# and from the derived depth to four feet deeper (the prover's own largest depth step), never
+# deeper than the main block and never past the lot. A box outside it is not tried, and the record
+# says how many were.
+#
+# WHAT IT COSTS, AND WHAT IT DOES NOT CLAIM. An INFEASIBLE box answers in about 0.1 s and the one
+# that holds in 1 to 2 s on four workers, so the step is a few seconds of the budget, counted
+# inside it and capped at `WING_SIZING_SHARE`. A box that does not decide in `WING_BOX_S` is
+# skipped and COUNTED: a larger box taken past an undecided one is not shown to be the smallest.
+# Where nothing in the window holds, the derived box stands and the record says so. A wing whose
+# derived box already holds is left exactly as it was, growth included. And the SEARCH has no
+# prover: a house placed by `engine="heuristic"` keeps the derived box.
+WING_SIZING_SHARE = 0.2
+WING_BOX_S = 5.0
+WING_DEPTH_SPAN_FT = 4.0
+# A decided search is a fact about the record, so it is kept for the process: the composer places
+# one house several times (a first placement, a repair, a retry, each revision round).
+_WING_BOXES = {}
+
+
+def wing_box_candidates(W0, H0, bay, main_h):
+    """The whole-foot boxes a wing may be sized to, smallest first; the narrower on a tie, because
+    width is lot and depth is not."""
+    out = [(W, H)
+           for W in range(int(math.ceil(W0 - 1e-9)), int(math.floor(W0 + bay + 1e-9)) + 1)
+           for H in range(int(math.ceil(H0 - 1e-9)),
+                          int(math.floor(min(H0 + WING_DEPTH_SPAN_FT, max(H0, main_h)) + 1e-9)) + 1)]
+    return sorted(out, key=lambda b: (b[0] * b[1], b[0], b[1]))
+
+
+def _wing_key(plan, prep, fpd, ewalls):
+    rows = [(lvl, r["id"], r.get("type"), round(float(r.get("_area") or 0), 2), r.get("width_ft"),
+             r.get("length_ft"), r.get("block"), bool(r.get("hyphen")),
+             sorted(str(d.get("to")) for d in (r.get("doors") or []) if isinstance(d, dict)))
+            for lvl in sorted(prep) for r in prep[lvl]]
+    return json.dumps([rows, fpd["W"], fpd["H"], fpd["bay"], fpd.get("lot_usable"),
+                       sorted(ewalls), line_grid_on(), TILING, COVERAGE,
+                       (plan.get("context") or {}).get("entrance_faces")], sort_keys=True, default=str)
+
+
+def size_wings(plan, prep, fpd, ewalls, budget_s, workers=1, seed=7):
+    """`(boxes, report)`: the box found for each multi-room dependency whose derived box does not
+    hold its own rooms and doors, and what was tried. `boxes` is `{element id: (W, H)}` and goes
+    onto the footprint as `flank_box`; `report` is `{element id: {...}}`, empty where the house has
+    no such wing. See the block above."""
+    from ortools.sat.python import cp_model
+    els = GEO.blocks_for(plan, fpd, prep, 0)
+    wings = [(i, e) for i, e in enumerate(els)
+             if e.get("role") == "dependency" and len(e.get("rooms") or []) > 1]
+    if not wings:
+        return {}, {}
+    ck = _wing_key(plan, prep, fpd, ewalls)
+    if ck in _WING_BOXES:
+        boxes, report = _WING_BOXES[ck]
+        return dict(boxes), {k: dict(v, cached=True) for k, v in report.items()}
+    began = time.monotonic()
+    _m, _r, q0 = _build(plan, prep, fpd, ewalls, frozenset(), objective=False)
+    keys = [(k, key) for _l, _t, k, key in q0.lits if key]
+    flank_rooms = {rid for e in els[1:] for rid in (e.get("rooms") or [])}
+    base = set()
+    for k, key in keys:
+        if k in ("wall", "axis", "stack", "bearing", "hearth"):
+            base.add(_dk(k, key))
+        elif k == "tiling" and (key[0] != 0 or key[1] == 0):
+            base.add(_dk(k, key))            # the main block on every level, and every upper level
+        elif k == "shape" and not (key[0] == 0 and key[1] in flank_rooms):
+            base.add(_dk(k, key))
+    boxes, report, decided = {}, {}, True
+    pending = [i for i, _e in wings]
+    for i, e in wings:
+        pending.remove(i)
+        # a wing not yet sized is set aside for this one's solve, as the main block is
+        rel = set(base)
+        for j in pending:
+            rel.add(_dk("tiling", (0, j)))
+            rel.update(_dk("shape", (0, rid)) for rid in (els[j].get("rooms") or []))
+        W0, H0 = float(e["W"]), float(e["H"])
+        cands = wing_box_candidates(W0, H0, fpd["bay"], float(fpd["H"]))
+        tried, undecided, over_lot, taken = 0, 0, 0, None
+        for (W, H) in cands:
+            left = budget_s - (time.monotonic() - began)
+            if left < 0.5:
+                decided = False
+                break
+            if fpd.get("lot_usable") is not None and \
+                    fpd["W"] + float(fpd.get("flank") or 0.0) + (W - W0) > fpd["lot_usable"] + 1e-6:
+                over_lot += 1
+                continue
+            f = dict(fpd, flank_box={**boxes, e["id"]: (W, H)})
+            m, r, q = _build(plan, prep, f, ewalls, frozenset(rel), objective=False)
+            _line_grid(m, r, q, plan, prep, f)
+            _harden(m, q)
+            sv = cp_model.CpSolver()
+            sv.parameters.max_time_in_seconds = min(WING_BOX_S, left)
+            sv.parameters.num_search_workers = workers
+            sv.parameters.random_seed = seed
+            st = sv.Solve(m)
+            tried += 1
+            if st in (cp_model.OPTIMAL, cp_model.FEASIBLE):
+                taken = (W, H)
+                break
+            if st != cp_model.INFEASIBLE:
+                undecided += 1
+                decided = False
+        derived = (int(round(W0)), int(round(H0))) if abs(W0 - round(W0)) < 1e-6 and \
+            abs(H0 - round(H0)) < 1e-6 else (W0, H0)
+        if taken is not None and tuple(taken) != tuple(derived):
+            boxes[e["id"]] = taken
+        report[e["id"]] = {"derived_ft": list(derived),
+                           "taken_ft": list(taken) if taken is not None else None,
+                           "boxes_in_window": len(cands), "tried": tried,
+                           "undecided": undecided, "past_the_lot": over_lot,
+                           "seconds": round(time.monotonic() - began, 2)}
+    if decided:
+        _WING_BOXES[ck] = (dict(boxes), {k: dict(v) for k, v in report.items()})
+    return boxes, report
+
+
+def wing_sizing_note(report):
+    """The step's own sentence (`solver.wing_sizing_note`): what was asked of each wing and what
+    answered."""
+    out = []
+    for eid, r in sorted(report.items()):
+        d, t = r["derived_ft"], r["taken_ft"]
+        if t is None:
+            what = (f"no box of the {r['boxes_in_window']} in the window held its rooms and doors "
+                    f"({r['tried']} posed, {r['undecided']} undecided, {r['past_the_lot']} past the "
+                    f"lot): the derived {d[0]:g} x {d[1]:g} ft box stands")
+        elif list(t) == list(d):
+            what = f"its derived {d[0]:g} x {d[1]:g} ft box holds its rooms and doors, and stands"
+        else:
+            what = (f"sized for its door set at {t[0]:g} x {t[1]:g} ft, the smallest box posed that "
+                    f"held ({r['tried']} posed from the derived {d[0]:g} x {d[1]:g} ft, "
+                    f"{r['undecided']} undecided" + (" and so not shown smaller boxes fail" if
+                                                     r["undecided"] else "") + ")")
+        out.append(f"wing {eid}: {what}" + (" [kept from an earlier solve]" if r.get("cached")
+                                            else f" [{r['seconds']:g} s]"))
+    return "WING SIZING — " + "; ".join(out)
+
+
 def _snap_fpd(fpd):
     """Snap the footprint depth to the integer model grid, so the record's
     footprint and the solved coordinates are the same fact — without this a
@@ -2619,6 +2778,20 @@ def _solve_cp(plan, parti=None, seed=7, time_limit_s=20.0, candidates=250, worke
     # walls-released step, `(grown_ft, status)`. Where every depth tried came back INFEASIBLE the
     # house as composed is PROVEN unable to hold them all, and that is not the clock's verdict.
     joint = []
+    # THE WING SIZED FOR ITS DOOR SET, before anything is posed (see `size_wings`). The box rides on
+    # the footprint, so the ladder, the portfolio, the polish and the written record all lay the
+    # same wing; the lot's own account moves with it.
+    wing_boxes, wing_report = size_wings(plan, prep, fpd0, ewalls,
+                                         WING_SIZING_SHARE * time_limit_s, workers, seed)
+    # ITS LINE IS NOT A ROUND LINE. `downgrade_rounds` says what each round GAVE UP, and its readers
+    # hold every line to a known shape (`tests/test_shape_pins.py`); this step gives nothing up, so
+    # it has its own two keys on the solver block, `wing_sizing` and `wing_sizing_note`.
+    if wing_boxes:
+        _wider = sum(wing_boxes[k][0] - wing_report[k]["derived_ft"][0] for k in wing_boxes)
+        fpd0 = dict(fpd0, flank_box=dict(wing_boxes))
+        if fpd0.get("flank") is not None:
+            fpd0["flank"] = round(fpd0["flank"] + _wider, 2)
+            fpd0["built_extent"] = round(fpd0["W"] + fpd0["flank"], 2)
 
     def _feasibility(fpd, tag, budget, hard=False):
         """Phase A: hard constraints only. `hard=True` poses the live requirements as HARD
@@ -2990,6 +3163,10 @@ def _solve_cp(plan, parti=None, seed=7, time_limit_s=20.0, candidates=250, worke
                            # the line grid the models carried (redundant with the ruled model;
                            # see `LINE_GRID`), or None where the bare model answered
                            "line_grid": dict(grid) or None,
+                           # what `size_wings` asked of each multi-room wing, or None
+                           "wing_sizing": dict(wing_report) or None,
+                           "wing_sizing_note": (wing_sizing_note(wing_report)
+                                                if wing_report else None),
                            # what the hard steps said of every type fact held together
                            "all_facts": all_facts_account(joint, mode),
                            "refinements": sorted(set(reqs_notes.notes))}}
