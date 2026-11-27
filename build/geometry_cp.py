@@ -268,6 +268,72 @@ def line_grid_on():
     return bool(LINE_GRID)
 
 
+# ---------------------------------------------------------- the one-worker search (27 Nov 2026)
+#
+# ON ONE WORKER THE HARD STEPS RAN THE WRONG ONE OF THE THREE SEARCHES FOUR WORKERS RUN TOGETHER.
+# With several workers CP-SAT runs a portfolio of full-problem searches side by side -- on this
+# model `default_lp`, `max_lp` and `no_lp` -- and takes whichever answers. With one worker it runs
+# `default_lp` alone. Measured on the stock Georgian brief's composed double pile, the record the
+# composer's declared loop hands on, walls and axis released, the line grid on, one worker:
+#
+#     search                 +0 ft            +2 ft
+#     default (seed 7)       OPTIMAL 88.9 s   OPTIMAL 46.9 s    (seeds 1, 2: UNKNOWN at 100 s)
+#     max LP                 UNKNOWN at 45 s, 6 of 6
+#     no LP                  OPTIMAL 8.0-9.2 s, 3 seeds          OPTIMAL 8.2-8.6 s, 3 seeds
+#     four workers           OPTIMAL 5.0 s    OPTIMAL 14.3 s
+#
+# The composer gives those steps about 16 and 15 s, so on one core the native house came back
+# refused UNDECIDED on 3 runs of 3 where four cores drew it first on 3 of 3. The record was not
+# the cause: undoing any one group of the declared loop's thirteen resizes moved the one-worker
+# time unpredictably, 9 s to over 100 s. Over all fourteen diagrams composed for the brief and
+# both shipped plans, one worker, 25 s a step, no LP against the default: the double pile is
+# gained, the side hall is 7.5 s for 11.2 and the living hall 2.3 for 3.7, three more depths are
+# proven impossible (gable front +4, cape +2 and +4) and one is lost at the cap (tower villa +4);
+# the shipped Tidewater steps stay INFEASIBLE at all three depths under both.
+#
+# RULED 27 Nov 2026 ("No-LP on one worker"): where a walls-released hard step has ONE worker it
+# runs the no-LP search. It is a search parameter: the model posed is the same model, so a
+# placement found is the ruled model's and a refutation is a proof about it. IT RIDES ON THE
+# WALLS-RELEASED HARD STEPS AND THE DECIDING PASS ONLY, the two sites that were measured -- the
+# everything-held step, the wing sizing, the ladder, the restores, the polish and the undecided
+# round's retry run the search they were tuned on. Several workers are unchanged: they already
+# run it. `TDL_CP_ONE_WORKER_SEARCH=default` is the control the table above was taken against.
+ONE_WORKER_SEARCH = "no-lp"
+# what a walls-released hard step is recorded as having searched with
+HARD_STEP_SEARCHES = ("portfolio", "no-lp", "default")
+
+
+def hard_step_search(workers):
+    """The search a walls-released hard step runs on this many workers, one of
+    `HARD_STEP_SEARCHES`: CP-SAT's own portfolio above one worker; on one, the module's
+    `ONE_WORKER_SEARCH` unless the environment asks for the solver's default."""
+    if int(workers) > 1:
+        return "portfolio"
+    env = os.environ.get("TDL_CP_ONE_WORKER_SEARCH")
+    if env is not None and env.strip().lower() in ("default", "lp", "0", "off"):
+        return "default"
+    return ONE_WORKER_SEARCH
+
+
+def hard_step_solver(cp_model, cap_s, workers, seed):
+    """The solver for ONE walls-released hard step. ONE SPELLING, TWO CALLERS: the portfolio's
+    step in `_solve_cp` and the deciding pass (`probe_all_facts`), so the probe's kept answer is
+    an answer by the search the placement would have run."""
+    sv = cp_model.CpSolver()
+    sv.parameters.max_time_in_seconds = cap_s
+    sv.parameters.num_search_workers = workers
+    sv.parameters.random_seed = seed
+    if hard_step_search(workers) == "no-lp":
+        sv.parameters.linearization_level = 0
+    return sv
+
+
+def hard_step_tag(workers):
+    """How an attempt names its workers and, on one worker, its search: `4w`, `1w no-lp`, `1w`."""
+    search = hard_step_search(workers)
+    return f"{workers}w" + (" no-lp" if search == "no-lp" else "")
+
+
 def _level_elements(plan, prep, fpd):
     """`{level: [element, ...]}` exactly as `_build` and `_boxes` lay them: `blocks_for` on the
     ground, and the main block alone above it (the placer lays only level 0 into elements)."""
@@ -2756,10 +2822,7 @@ def probe_all_facts(plan, parti=None, seed=7, time_limit_s=PROBE_CAP_S, remember
                            "placement will pose is not known"}
         rel = _released_first(plan, prep, fpd, ewalls, ())
         m_, r_, _q, g_ = _hard_model(plan, prep, fpd, ewalls, rel, parti, seed)
-        sv_ = cp_model.CpSolver()
-        sv_.parameters.max_time_in_seconds = max(1.0, float(time_limit_s))
-        sv_.parameters.num_search_workers = workers
-        sv_.parameters.random_seed = seed
+        sv_ = hard_step_solver(cp_model, max(1.0, float(time_limit_s)), workers, seed)
         t0 = time.monotonic()
         st_ = sv_.Solve(m_)
         secs = round(time.monotonic() - t0, 1)
@@ -2773,6 +2836,7 @@ def probe_all_facts(plan, parti=None, seed=7, time_limit_s=PROBE_CAP_S, remember
                 "workers": workers, "cap_s": float(time_limit_s)}
         return {"verdict": verdict, "status": name, "seconds": secs, "workers": workers,
                 "cap_s": float(time_limit_s), "line_grid": bool(g_),
+                "search": hard_step_search(workers),
                 "wing_sizing": dict(wings) or None}
     finally:
         if took:
@@ -3421,16 +3485,21 @@ def _solve_cp(plan, parti=None, seed=7, time_limit_s=20.0, candidates=250, worke
             tag = f"{fpd0['bays']}b hard{step}{f' +{dh:g}ft' if dh else ''} "
             if hit is not None:
                 name, vals = hit["status"], hit["values"]
-                tag += f"probed {hit['seconds']:g}s {hit['workers']}w"
+                tag += f"probed {hit['seconds']:g}s {hard_step_tag(hit['workers'])}"
             else:
-                sv_ = cp_model.CpSolver()
-                sv_.parameters.max_time_in_seconds = allow
-                sv_.parameters.num_search_workers = workers
-                sv_.parameters.random_seed = seed
+                # the walls-released steps take the one-worker search (`hard_step_solver`); the
+                # everything-held step keeps the solver's default, which is what was measured
+                if kinds:
+                    sv_ = hard_step_solver(cp_model, allow, workers, seed)
+                else:
+                    sv_ = cp_model.CpSolver()
+                    sv_.parameters.max_time_in_seconds = allow
+                    sv_.parameters.num_search_workers = workers
+                    sv_.parameters.random_seed = seed
                 st_ = sv_.Solve(m_)
                 name = sv_.StatusName(st_)
                 vals = (_values(sv_, r_) if st_ in (cp_model.OPTIMAL, cp_model.FEASIBLE) else None)
-                tag += f"{workers}w"
+                tag += hard_step_tag(workers) if kinds else f"{workers}w"
             attempts.append((tag, "H:" + name))
             if kinds:
                 joint.append((dh, name))

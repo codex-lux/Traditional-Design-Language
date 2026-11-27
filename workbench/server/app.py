@@ -265,7 +265,8 @@ BUILD_SHA, BUILD_SHA_SOURCE = _build_sha()
 
 
 def _prover_state():
-    """The CP workers one solve may take on this box and whether the line grid is on, read
+    """The CP workers one solve may take on this box, whether the line grid is on, and the search
+    a walls-released hard step runs on that many workers, read
     through the prover's own functions -- never a second reading of the cgroup or the
     environment. `available` is False where OR-Tools is not installed, and then nothing else is
     claimed."""
@@ -275,8 +276,11 @@ def _prover_state():
         return {"available": False}
     try:
         gc = core._mod("geometry_cp", os.path.join(core.ROOT, "build", "geometry_cp.py"))
-        return {"available": True, "workers": int(gc.portfolio_workers()),
-                "line_grid": bool(gc.line_grid_on())}
+        workers = int(gc.portfolio_workers())
+        # `hard_step_search` (27 Nov 2026): which search a walls-released hard step runs on that
+        # many workers -- on one worker the no-LP search, unless the control switch is set
+        return {"available": True, "workers": workers, "line_grid": bool(gc.line_grid_on()),
+                "hard_step_search": gc.hard_step_search(workers)}
     except Exception as exc:       # a health route must answer; an unreadable prover says so
         return {"available": True, "error": f"{exc.__class__.__name__}: {str(exc)[:120]}"}
 

@@ -211,11 +211,15 @@ def test_the_placement_takes_the_probes_answer_and_the_record_says_so():
     assert ("2b hard0 1w", "H:INFEASIBLE") in [tuple(a) for a in sv["attempts"]], (
         "the premise: with the walls held the fixture is refuted, so the next step answers")
     assert sv["mode"] == "portfolio" and sv["all_facts"]["verdict"] == GEO.TF.ALL_FACTS_HELD
-    # and with nothing kept the same step is SOLVED, and says the workers it ran on
+    # and with nothing kept the same step is SOLVED, and says the workers it ran on -- and, since
+    # 27 Nov 2026, the search: on one worker a walls-released step runs the no-LP search and its
+    # tag names it (`geometry_cp.hard_step_tag`, held by `tests/test_one_worker_search.py`)
     GC.forget_probes()
     sv0 = _solver_record(GC.solve_cp(_walls_cannot_hold(), None, time_limit_s=40, candidates=80))
     hard1 = [a for a in sv0["attempts"] if " hard1 " in str(a[0])]
-    assert hard1 and "probed" not in hard1[0][0] and hard1[0][0].endswith("1w"), sv0["attempts"]
+    assert hard1 and "probed" not in hard1[0][0], sv0["attempts"]
+    assert sv0["workers"] == 1 and hard1[0][0].endswith(" " + GC.hard_step_tag(1)), sv0["attempts"]
+    assert GC.hard_step_tag(1).startswith("1w"), "the tag still opens with the workers"
     assert sv0["mode"] == sv["mode"] and sv0["all_facts"]["verdict"] == sv["all_facts"]["verdict"]
 
 

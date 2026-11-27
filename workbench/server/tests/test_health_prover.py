@@ -22,11 +22,28 @@ def test_health_reports_the_provers_workers_and_the_line_grid(monkeypatch):
     monkeypatch.setenv("TDL_CP_WORKERS", "3")
     monkeypatch.delenv("TDL_CP_LINE_GRID", raising=False)
     p = _health()["prover"]
-    assert p == {"available": True, "workers": 3, "line_grid": True}, p
+    monkeypatch.delenv("TDL_CP_ONE_WORKER_SEARCH", raising=False)
+    assert p == {"available": True, "workers": 3, "line_grid": True,
+                 "hard_step_search": "portfolio"}, p
     monkeypatch.setenv("TDL_CP_WORKERS", "1")
     monkeypatch.setenv("TDL_CP_LINE_GRID", "0")
     p = _health()["prover"]
-    assert p == {"available": True, "workers": 1, "line_grid": False}, p
+    assert p == {"available": True, "workers": 1, "line_grid": False,
+                 "hard_step_search": "no-lp"}, p
+
+
+def test_health_says_which_search_one_worker_runs(monkeypatch):
+    """27 Nov 2026: on one worker a walls-released hard step runs the no-LP search, and the
+    control switch puts the solver's default back. Health reads the prover's own function."""
+    pytest.importorskip("ortools", reason="COULD NOT EVALUATE: the CP-SAT engine needs OR-Tools")
+    monkeypatch.setenv("TDL_CP_WORKERS", "1")
+    monkeypatch.delenv("TDL_CP_ONE_WORKER_SEARCH", raising=False)
+    assert _health()["prover"]["hard_step_search"] == "no-lp"
+    monkeypatch.setenv("TDL_CP_ONE_WORKER_SEARCH", "default")
+    assert _health()["prover"]["hard_step_search"] == "default"
+    gc = server.core._mod("geometry_cp", server.os.path.join(server.core.ROOT, "build", "geometry_cp.py"))
+    monkeypatch.setattr(gc, "hard_step_search", lambda w: "stated-there")
+    assert _health()["prover"]["hard_step_search"] == "stated-there"
 
 
 def test_it_is_the_provers_own_reading_and_not_a_second_one(monkeypatch):
