@@ -339,6 +339,19 @@ BUILD_SHA, BUILD_SHA_SOURCE = _build_sha()
 _HOST_LISTS = ("allowed_hosts", "allowed_origins")
 
 
+def _finite(**numbers):
+    """422 for a number that is not finite, naming the argument (review of 27 Nov 2026, DR-14).
+
+    FastAPI parses `inf` and `nan` as floats and nothing below expects them:
+    `/api/proportions/gibbs-ionic?column_diameter=inf&members=true` was a 500 with
+    `ValueError: cannot convert float NaN to integer` in the log."""
+    import math
+    bad = [k for k, v in numbers.items() if isinstance(v, float) and not math.isfinite(v)]
+    if bad:
+        raise HTTPException(status_code=422, detail={
+            "error": f"not a finite number: {', '.join(sorted(bad))}"})
+
+
 def _prover_state():
     """The CP workers one solve may take on this box and whether the line grid is on, read
     through the prover's own functions -- never a second reading of the cgroup or the
@@ -508,6 +521,7 @@ def kit_slot(style_id: str, slot_id: str):
 @app.get("/api/kit/{style_id}")
 def kit(style_id: str, group: str = None, slot: str = None,
         ceiling_height: float = 108.0, only_specified: bool = True):
+    _finite(ceiling_height=ceiling_height)
     return _ok(core.resolve_kit(style_id, group=group, slot=slot,
                                 ceiling_height=ceiling_height,
                                 only_specified=only_specified))
@@ -533,6 +547,7 @@ def proportions(pack_id: str, column_diameter: float = None, module: float = Non
     # bindable, for the packs whose module is a storey or a room's breadth.
     kw = dict(column_diameter=column_diameter, module=module, ceiling_height=ceiling_height,
               opening_width=opening_width, storey_height=storey_height, room_width=room_width)
+    _finite(**kw)
     if members:
         got = corpus.proportions_with_members(pack_id, **kw)
     else:
@@ -546,6 +561,7 @@ def proportions(pack_id: str, column_diameter: float = None, module: float = Non
 
 @app.get("/api/authorities/{order}")
 def authorities(order: str, column_diameter: float = 12.0):
+    _finite(column_diameter=column_diameter)
     return _ok(core.compare_authorities(order, column_diameter=column_diameter))
 
 
