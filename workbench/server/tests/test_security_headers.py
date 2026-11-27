@@ -74,3 +74,15 @@ def test_the_shell_itself_is_served_with_the_policy(client):
         pytest.skip("COULD NOT EVALUATE: no built app at workbench/app/dist, so no shell is served")
     r = client.get("/")
     assert "frame-ancestors 'none'" in r.headers["content-security-policy"]
+
+
+def test_the_policy_names_no_outside_host():
+    """DR-10: the shell's faces are bundled (app/src/theme/faces.css), so a page may load from
+    this origin and from nowhere else. A scheme-bearing source in the policy is an outside host
+    somebody added, and it is added here deliberately or not at all."""
+    from workbench.server.app import SecurityHeaders
+    outside = [w for w in SecurityHeaders.CSP.replace(";", " ").split() if "//" in w]
+    assert outside == [], outside
+    directives = dict(d.strip().split(" ", 1) for d in SecurityHeaders.CSP.split(";"))
+    assert directives["font-src"] == "'self' data:"
+    assert directives["style-src"] == "'self' 'unsafe-inline'"

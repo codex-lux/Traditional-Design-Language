@@ -1,0 +1,20 @@
+/* The shell's two faces, served by this app.
+
+   Until 27 Nov 2026 `index.html` asked fonts.googleapis.com for them (deployment-readiness
+   review, DR-10): every visitor's address went to Google before the sign-in page had drawn, and
+   a machine with no route to Google drew the shell in a fallback face whose line box differs.
+
+   These are the weights and styles that link named, no more: EB Garamond 400, 500, 600 and
+   italic 400, 500; Courier Prime 400, 700 and italic 400. Each file declares every subset the
+   package carries under a `unicode-range`, so a browser fetches the Latin file and takes
+   another only when a page sets a character outside it, which is what Google's stylesheet did.
+   Vite copies the font files into `dist/assets` under hashed names. Both faces are under the
+   SIL Open Font License; the packages carry it. */
+@import '@fontsource/eb-garamond/400.css';
+@import '@fontsource/eb-garamond/500.css';
+@import '@fontsource/eb-garamond/600.css';
+@import '@fontsource/eb-garamond/400-italic.css';
+@import '@fontsource/eb-garamond/500-italic.css';
+@import '@fontsource/courier-prime/400.css';
+@import '@fontsource/courier-prime/700.css';
+@import '@fontsource/courier-prime/400-italic.css';

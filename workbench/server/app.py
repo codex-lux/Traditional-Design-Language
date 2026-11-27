@@ -211,15 +211,17 @@ class SecurityHeaders:
         XSS was found through one of them in September, and with this a script that got past
         the escaping still does not run. Styles need 'unsafe-inline' because the app is set in
         inline styles and the plates carry their own `<style>`; fonts need `data:` because the
-        sheets embed their face. The two Google hosts are the shell's webfaces
-        (workbench/app/index.html) and leave with them if those are ever self-hosted.
+        sheets embed their face. NO OUTSIDE HOST IS NAMED: the shell's two webfaces were
+        Google's until DR-10 bundled them (workbench/app/src/theme/faces.css), and the two
+        hosts left the policy with them. A new outside host the app loads from is added here
+        on purpose, and `test_the_policy_names_no_outside_host` is what asks.
     """
 
     CSP = "; ".join((
         "default-src 'self'",
         "script-src 'self'",
-        "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-        "font-src 'self' data: https://fonts.gstatic.com",
+        "style-src 'self' 'unsafe-inline'",
+        "font-src 'self' data:",
         "img-src 'self' data: blob:",
         "connect-src 'self'",
         "worker-src 'self' blob:",
