@@ -275,13 +275,19 @@ jobs:
         run: bash workbench/scripts/image_boot.sh tdl-workbench ${{ github.sha }}
 
   # THE WALK WAS A STEP OF THE WORKBENCH JOB UNTIL 27 NOV 2026, AND IS ITS OWN JOB NOW
-  # (deployment-readiness review, DR-03). It ends in exit 3 on every run: six checks it cannot
-  # judge, and Lucas ruled on 16 Oct 2026 that it stays red rather than be given an allowlist.
-  # That ruling stands and this job is still red for it. What changed is what the red is ON:
-  # inside the workbench job it also turned the server suite's job red on every run, so a real
-  # regression in the server looked like the known red. Nothing here tolerates a failure, and
-  # `tests/test_deploy_gate.py` holds that the walk runs in exactly one job and is skippable in
-  # none.
+  # (deployment-readiness review, DR-03). It is red on `main`. Two causes, both recorded in CLAUDE.md: since 16 Oct 2026
+  # the six checks it cannot judge (exit 3; Lucas ruled it stays red rather than be given an
+  # allowlist), and since Phase 18 a handful of checks on the plan sheet that FAIL (exit 1),
+  # whose placement differs from draw to draw. On `cc887ea`, the commit this branch was merged
+  # with, it failed four. Neither ruling nor record is changed here and this job is still red.
+  #
+  # What changed is what the red is ON: inside the workbench job it also turned the server
+  # suite's job red on every run, so a real regression in the server looked like the known
+  # red. Nothing here tolerates a failure, and `tests/test_deploy_gate.py` holds that the walk
+  # runs in exactly one job and is skippable in none.
+  #
+  # THIS SENTENCE SAID "exit 3 on every run" FOR ONE COMMIT, and the job's first run then
+  # exited 1. It had been written from the ruling and not from a run. Read a run.
   walk:
     name: workbench — the browser walk
     runs-on: ubuntu-latest

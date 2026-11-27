@@ -110,7 +110,7 @@ touching `workbench/server/accesslog.py`, `bind.py`, `rail.cached_prefix`,
     is what makes any `tdl.*` INFO line reach a log; `__main__` calls it.
   - **A `deploy gate` check, and the walk is its own job** (DR-03).
 - **The deploy gate was this session's decision and was not put to Lucas as a question.** The walk
-  still runs on every push, is still red for its six, and nothing tolerates a failure. The 16 Oct
+  still runs on every push, is still red, and nothing tolerates a failure. The 16 Oct
   ruling (no allowlist) stands. It is one commit to reverse.
 - **What the work found:**
   - **Railway's "Wait for CI" reads a workflow run's conclusion, not a job's**, and skips the deploy
@@ -121,6 +121,14 @@ touching `workbench/server/accesslog.py`, `bind.py`, `rail.cached_prefix`,
   - **The usage line DR-09 added would have been written and never seen.** uvicorn's `log_level`
     sets uvicorn's loggers only, and the root logger drops INFO.
   - Two of DR-16's red tests left a thread blocked for good. That was the defect.
+  - **The walk's red is not only the six unjudged checks, and this entry's first draft said it
+    was.** On `main`'s `cc887ea` it failed four checks and exited 1. The job's first run here
+    failed more: the bench's re-solve came back refused, which the walk's own note records from
+    another runner on 19 Nov, and every sheet check after it read nothing. The next run, of the
+    same code, failed the four engine-caption checks instead. Run here it failed six, all on
+    this file's record for the plan sheet or on `main`'s four. One check is red in all four
+    runs: *a newcomer word finds the fault corpus*.
+    **Attribute the walk by its FAILED list against a run of the base, never by its exit code.**
 - **Verified by running it:**
   - the faces and the tightened policy, in a browser, six routes: no outside request, no violation;
   - the abandoned turn through the real app under uvicorn with a stand-in model: 9 requests read
@@ -132,7 +140,10 @@ touching `workbench/server/accesslog.py`, `bind.py`, `rail.cached_prefix`,
 - **Still the owner's:** a spend limit on the key, how Railway decides to deploy, an error tracker,
   the login throttle on the deployed host (DR-08), and a privacy note, terms and a licence.
 - **The server suite, Python 3.11 with the locked versions: 608 passed, 6 skipped** (560 and 6
-  before). **The app suite is 926 of 926.** The whole corpus suite and the walk were not run here.
+  before). **The app suite is 926 of 926.** The whole corpus suite was not run here.
+- **In CI on `ba8fae1`: `deploy gate`, the workbench job and `docker build` are green.** That is
+  the workbench job's first green since the walk became red inside it. Corpus shards 3, 4 and 6
+  are red, the same three as on `main`'s `cc887ea`; this branch changes no file they test.
 
 **A DEPLOYMENT-READINESS REVIEW WAS RUN ON `5f5a2a7` AND ITS VERDICT IS GO-WITH-CONDITIONS (27 Nov
 2026).** Read `docs/deployment-readiness/2026-11-27-review.md` before deploying, or before

@@ -2,7 +2,8 @@
 
 Deployment-readiness review, 27 Nov 2026 (DR-03). CI was red on `main` on each of the last five
 completed runs, by standing rulings: the Phase 13 gate's rows in the corpus shards, and the
-browser walk's exit 3 for six checks it cannot judge. Both reds are deliberate. The cost was
+browser walk, which cannot judge six checks (exit 3, ruled 16 Oct) and since Phase 18 also fails
+a handful on the plan sheet (exit 1; four on `cc887ea`). Both reds are recorded in CLAUDE.md. The cost was
 that a NEW regression in the server, the app or the image looked exactly like them, and the
 workbench job, which holds the server suite, was red on every run because the walk was a step
 inside it.
