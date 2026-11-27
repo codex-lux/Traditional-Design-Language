@@ -2547,7 +2547,8 @@ def size_wings(plan, prep, fpd, ewalls, budget_s, workers=1, seed=7):
 
 
 def wing_sizing_note(report):
-    """The step's own line on `downgrade_rounds`: what was asked of each wing and what answered."""
+    """The step's own sentence (`solver.wing_sizing_note`): what was asked of each wing and what
+    answered."""
     out = []
     for eid, r in sorted(report.items()):
         d, t = r["derived_ft"], r["taken_ft"]
@@ -2782,8 +2783,9 @@ def _solve_cp(plan, parti=None, seed=7, time_limit_s=20.0, candidates=250, worke
     # same wing; the lot's own account moves with it.
     wing_boxes, wing_report = size_wings(plan, prep, fpd0, ewalls,
                                          WING_SIZING_SHARE * time_limit_s, workers, seed)
-    if wing_report:
-        rank_notes.append(wing_sizing_note(wing_report))
+    # ITS LINE IS NOT A ROUND LINE. `downgrade_rounds` says what each round GAVE UP, and its readers
+    # hold every line to a known shape (`tests/test_shape_pins.py`); this step gives nothing up, so
+    # it has its own two keys on the solver block, `wing_sizing` and `wing_sizing_note`.
     if wing_boxes:
         _wider = sum(wing_boxes[k][0] - wing_report[k]["derived_ft"][0] for k in wing_boxes)
         fpd0 = dict(fpd0, flank_box=dict(wing_boxes))
@@ -3163,6 +3165,8 @@ def _solve_cp(plan, parti=None, seed=7, time_limit_s=20.0, candidates=250, worke
                            "line_grid": dict(grid) or None,
                            # what `size_wings` asked of each multi-room wing, or None
                            "wing_sizing": dict(wing_report) or None,
+                           "wing_sizing_note": (wing_sizing_note(wing_report)
+                                                if wing_report else None),
                            # what the hard steps said of every type fact held together
                            "all_facts": all_facts_account(joint, mode),
                            "refinements": sorted(set(reqs_notes.notes))}}
