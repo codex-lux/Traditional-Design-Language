@@ -272,5 +272,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Build the image
-        # Proves the two-stage build still works before Railway attempts it.
-        run: docker build -t tdl-workbench .
+        # Proves the two-stage build still works before Railway attempts it. The commit is
+        # stamped in, as the platform's build does, so the boot below can hold the running
+        # container to it.
+        run: docker build --build-arg GIT_SHA=${{ github.sha }} -t tdl-workbench .
+      - name: Start the image and prove it serves
+        # UNTIL 27 NOV 2026 THIS JOB BUILT THE IMAGE AND NEVER STARTED IT (deployment-readiness
+        # review, DR-11), so a container that could not boot passed. Two runs: with no password
+        # the image must REFUSE to start (DR-01: it binds 0.0.0.0), and with one it must come up
+        # at this commit, refuse a signed-out caller, serve the built app and sign a caller in.
+        # The script and boot_check.py use docker and the standard library only; this job
+        # installs nothing. tests/test_boot_check.py holds this step to the build above.
+        run: bash workbench/scripts/image_boot.sh tdl-workbench ${{ github.sha }}
