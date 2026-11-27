@@ -484,6 +484,25 @@ the family tree, the proportion packs and a comparison are each a chunk of their
   least step that reads 4.5 : 1 on every paper, and the word duties are bound to them at `:root`
   and under vellum. A drawing still names the pigment. `rooms.test.mjs` recomputes each ink.
 
+### The drafting room's interiors (27 Nov 2026)
+
+`docs/reports/wp-18.5-the-drafting-rooms-interiors.md`. What a person editing these needs to know:
+
+- **A candidate column runs: name, standing, the score, why, trades away, how it scores, the
+  counts, the facts.** The score's working is never folded and the trade stays next to the score.
+  The names of the fatal faults nobody judged fold under their mark and count, which stay in view.
+  `rooms.test.mjs` holds the order.
+- **A finding row gives the statement the width.** The severity is the row's eyebrow. The layer,
+  the two tags and the room are one quiet line under the statement (`data-finding-meta`).
+- **The export cards are one grid** (`GRID` in `ExportDetails.jsx`); a card has no width of its own.
+- **The family tree's name column is `surfaces/phylo/labelWidth.js`**: a share of the measured
+  chart, between 150 and 260 px.
+- **On paper the affinity ladder's words are bound to the paper inks**, beside the text duties.
+  The variant and binding ladders are a pigment swatch beside a word in a text duty and are not.
+- **To read contrast, read the rendered page.** The token table reads the text duties. A word
+  whose colour comes off a map (the affinity ladder) was read by nothing on paper until a script
+  walked the pages.
+
 ## Navigation and addressing (WP-5.6)
 
 **A place is a URL, and a URL is a citation.** The hash serializes `(surface, selection,
