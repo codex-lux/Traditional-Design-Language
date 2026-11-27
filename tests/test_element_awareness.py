@@ -1116,7 +1116,14 @@ class TestTheLotCapIsOnTheBuiltExtent:
         **THE TWO LITERALS MOVED AT ITEM 4 AND THE IDENTITY DID NOT**, which is the difference
         between a measurement and a guard. The main block was 63 ft while `derive_footprint`
         counted the wings' programme into it as well as beside it; sized from its own rooms it is
-        45, so the building is 100 ft rather than 118. `flanking_ft` is unmoved at 55."""
+        45, so the building is 100 ft rather than 118. `flanking_ft` is unmoved at 55.
+
+        AND THEY MOVED AGAIN ON 26 NOV 2026, BY THREE FEET, WITH THE IDENTITY STILL HOLDING. The
+        east element here is ONE room, a breakfast room declared 12 x 14 ft. It was laid as one bay
+        of a single pile, 9 x 19 ft, so a 12 ft room stood in a 9 ft box; since the garage ruling
+        an element whose body is one room is that room's own declared rectangle, 12 x 14. Measured
+        against a worktree of the parent `cc98832`: the west element is 18 x 21 ft on both trees
+        and the east one is 9 x 19 there and 12 x 14 here, so 100 and 55 are 103 and 58."""
         p = _shipped_untagged()
         for r in p["levels"][0]["rooms"]:
             if r["type"] in ("kitchen", "pantry"):
@@ -1130,8 +1137,10 @@ class TestTheLotCapIsOnTheBuiltExtent:
         lo = min(b["x_ft"] for b in bl)
         hi = max(b["x_ft"] + b["width_ft"] for b in bl)
         L = p["geometry_report"]["lot"]
-        assert round(hi - lo, 2) == L["built_extent_ft"] == 100.0, (hi - lo, L)
-        assert round(L["built_extent_ft"] - L["main_block_ft"], 2) == L["flanking_ft"] == 55.0, L
+        assert round(hi - lo, 2) == L["built_extent_ft"] == 103.0, (hi - lo, L)
+        assert round(L["built_extent_ft"] - L["main_block_ft"], 2) == L["flanking_ft"] == 58.0, L
+        east = next(b for b in bl if b["id"] == "east-dependency")
+        assert (east["width_ft"], east["depth_ft"]) == (12.0, 14.0), "the one room's own rectangle"
 
 
 EI = modcache.load("export_ifc", os.path.join(ROOT, "build", "export_ifc.py"))

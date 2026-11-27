@@ -984,6 +984,17 @@ def instantiate(parti_id, brief):
                             if any(a["a"] == x["id"] for x in rooms) and any(a["b"] == x["id"] for x in rooms)],
             "note": f"Composed from the {p['name']} parti. {p['trades_away']}"}
     attach_garage(plan, brief, log)
+    # THE RANGE AGAINST THE REAR WALL IS A STATEMENT OF THE RECORD (ruled by Lucas, 26 to 27 Nov
+    # 2026; `plan.flank_laying`, plan schema 0.14.0). A composed house with a dependency says so,
+    # and `geometry.flank_laying` then applies it only where the range is on one flank and the
+    # entrance front is stated. A one-rectangle house states nothing, so its record does not move.
+    _geo = _mod("geometry", f"{ROOT}/build/geometry.py")
+    if any(_geo.is_block_tag(r.get("block")) for lv in plan["levels"] for r in lv["rooms"]):
+        plan["flank_laying"] = "rear"
+        log.append("RULED (26 to 27 Nov 2026): the service range stands against the rear wall of "
+                   "the main block, where it is on one flank. groupings/dependency-and-hyphen.json, "
+                   "hard: \"Where dependencies are paired they are symmetrical about the main "
+                   "block's axis; where there is one, it does not sit on the entrance elevation.\"")
     symmetrise_doors(plan)
     # WP-6.2 — after symmetrise, so a door is dimensioned ONCE and both of its records
     # agree. Before this, every composed door was `{"to": id}` and the renderers guessed.
