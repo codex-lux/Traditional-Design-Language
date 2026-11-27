@@ -255,17 +255,6 @@ jobs:
       - name: Smoke — HTTP results match the CLI's own
         run: bash workbench/scripts/smoke.sh
 
-      # The walk is the only thing that measures the DRAWINGS: that no room label leaves
-      # the room it names, that the order stands as one stack drawn to its stated height
-      # at the right datum, that the loupe magnifies and that a wall handle still keeps
-      # its own drag. It ran nowhere until 26 Aug 2026, while CLAUDE.md described it as a
-      # guard — a guarantee nobody enforced. It runs here now.
-      - name: Install Playwright's chromium
-        run: npx playwright install --with-deps chromium
-        working-directory: workbench/app
-      - name: Walk every surface and measure the plates
-        run: bash workbench/scripts/walk.sh
-
   image:
     name: docker build
     runs-on: ubuntu-latest
@@ -284,3 +273,77 @@ jobs:
         # The script and boot_check.py use docker and the standard library only; this job
         # installs nothing. tests/test_boot_check.py holds this step to the build above.
         run: bash workbench/scripts/image_boot.sh tdl-workbench ${{ github.sha }}
+
+  # THE WALK WAS A STEP OF THE WORKBENCH JOB UNTIL 27 NOV 2026, AND IS ITS OWN JOB NOW
+  # (deployment-readiness review, DR-03). It ends in exit 3 on every run: six checks it cannot
+  # judge, and Lucas ruled on 16 Oct 2026 that it stays red rather than be given an allowlist.
+  # That ruling stands and this job is still red for it. What changed is what the red is ON:
+  # inside the workbench job it also turned the server suite's job red on every run, so a real
+  # regression in the server looked like the known red. Nothing here tolerates a failure, and
+  # `tests/test_deploy_gate.py` holds that the walk runs in exactly one job and is skippable in
+  # none.
+  walk:
+    name: workbench — the browser walk
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: workbench/app/package-lock.json
+      - name: Install app deps
+        run: npm ci
+        working-directory: workbench/app
+      - name: Build app
+        run: npm run build
+        working-directory: workbench/app
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Precompress assets
+        run: python3 workbench/scripts/precompress.py workbench/app/dist
+      - name: Install server deps
+        run: pip install --require-hashes -r workbench/requirements-dev.lock
+      # The walk is the only thing that measures the DRAWINGS: that no room label leaves
+      # the room it names, that the order stands as one stack drawn to its stated height
+      # at the right datum, that the loupe magnifies and that a wall handle still keeps
+      # its own drag. It ran nowhere until 26 Aug 2026, while CLAUDE.md described it as a
+      # guard — a guarantee nobody enforced. It runs here now.
+      - name: Install Playwright's chromium
+        run: npx playwright install --with-deps chromium
+        working-directory: workbench/app
+      - name: Walk every surface and measure the plates
+        run: bash workbench/scripts/walk.sh
+
+  # ONE NAMED CHECK FOR "CAN THIS BE DEPLOYED" (deployment-readiness review, DR-03).
+  #
+  # This workflow is red on `main` by standing rulings: the Phase 13 gate's rows in the corpus
+  # shards, and the walk above. Those reds are deliberate, and they made the whole run's colour
+  # useless as a deploy signal. This job is green exactly when the things a deploy can break
+  # are green: the server suite, the app's build and suite and the HTTP smoke (the workbench
+  # job), and the image, built and STARTED (the image job).
+  #
+  # WHAT IT IS NOT. It is not the corpus's verdict and it does not replace it: `corpus —
+  # check_all.py` and the walk still run, and still fail this workflow when they fail.
+  #
+  # WHAT RAILWAY SEES. Its "Wait for CI" reads the conclusion of each WORKFLOW RUN and not of
+  # a job (docs.railway.com, "Controlling GitHub Autodeploys", read 27 Nov 2026). So while any
+  # job here is red, "Wait for CI" skips every deploy, this job's colour notwithstanding. This
+  # check is what a person, or a branch-protection rule, reads. Making Railway itself act on it
+  # means moving the research jobs off pushes to main, which is a decision and is not taken
+  # here; docs/deployment.md sets out the choice.
+  #
+  # `if: always()` and the explicit tests, for the reason the corpus aggregate above gives: a
+  # needed job that fails would otherwise SKIP this one, and a skipped check is not a failed one.
+  deploy-gate:
+    name: deploy gate
+    runs-on: ubuntu-latest
+    needs: [workbench, image]
+    if: always()
+    steps:
+      - name: the server, the app and the image are green
+        run: |
+          echo "workbench: ${{ needs.workbench.result }} · image: ${{ needs.image.result }}"
+          test "${{ needs.workbench.result }}" = "success"
+          test "${{ needs.image.result }}" = "success"
