@@ -190,6 +190,7 @@ The walk's subject is `good-03`, placed on the prover under a wall clock.
   such line. The check is re-cut onto its property: every declared door pair is drawn or named. It
   passes in both states and fails a sheet that does neither. **The walk was not run here** after
   the re-cut; its arithmetic was checked against the record (11 pairs) and both logs.
+  *(Corrected 27 Nov 2026: it has been run twice since. See §VIII.)*
 - **The two porch-label failures are one placement's.** They are on the PR's head and not on the
   merge commit, which is the same tree. The porch was drawn 8 by 35 ft in that draw and its label
   did not fit. A label that cannot fit a slot room is a real defect of the sheet and an old class;
@@ -243,11 +244,65 @@ answer standing in whatever the step's time; a one-depth refutation answering th
 kept placement that is not the model's; the answers outliving the fill; the search probed; the
 fill ignoring the probed order; the pass taking all of what the set has left.
 
-The walk's re-cut check has no mutation run behind it, because the walk was not run.
+The walk's re-cut check has no mutation run behind it.
+
+**The walk, run twice on 27 Nov 2026** on this tree, the app built, one four-core box, the
+fallback face (no route to the webfonts here).
+
+| run | ok | failed | the re-cut door check |
+|---|---|---|---|
+| 1 | 696 | 26 | failed: 0 drawn + 0 named of 11 pairs |
+| 2 | 722 | 2 | passed: 5 drawn + 6 named of 11 pairs |
+
+- **Run 1 drew no sheet.** After the re-solve the bench showed a refused placement for the full
+  150 s wait, so 24 checks that read the sheet failed together, the re-cut one among them. That
+  is the check doing its job on a sheet that draws nothing. The same wait ran out twice on
+  PR #45's runner (the walk's own comment of 19 Nov records it). It is one placement's draw.
+- **Run 2 drew the sheet and the re-cut check passed** in the state where six pairs are named and
+  five drawn. The other state, every pair drawn, was not met in either run.
+- **The two failures of run 2** are "the class counts sum to the findings the sheet shows" and
+  "every classified finding row carries its class tag". Both fail on main's CI walk of `323ad8a`,
+  and the second on main's `ea25d12` too. They are older than this branch.
 
 **What was run.** `tests/test_pool_probe.py` and `tests/test_compose_budget.py`: 37 passed. The
 neighbouring files (`test_compose_passes`, `test_joint_proof`, `test_refusal_repair`,
 `test_refusal_retry`, `test_line_grid`, `test_cp_portfolio`, `test_cp_elements`,
 `test_determinism`, `test_modcache`): 121 passed. `everyPick.test.mjs`: 22 passed.
-`check_glossary`, `check_counts`, `check_citations` and `check_ids` are green. **The whole
-`check_all.py` was not run on this tree**; CI on the pushed branch is the first whole run.
+`check_glossary`, `check_counts`, `check_citations` and `check_ids` are green. ~~The whole
+`check_all.py` was not run on this tree; CI on the pushed branch is the first whole run.~~
+*(Corrected 27 Nov 2026: CI runs on a pull request only, and these commits have none. The whole
+build was run here the same night; see below.)*
+
+**The whole build, 27 Nov 2026.** `build/check_all.py` in four `git worktree` shards of `3ed01a5`,
+run together on one four-core box. Each shard reads `1 of N checks failed`.
+
+- `tests/`: 18 failed, 4,138 passed, 147 skipped. The server suite: 506 passed, 19 skipped. The
+  app suite: 902 of 902.
+- Three checks could not be evaluated: `check_frontend.py` (no built `dist/`), and the DXF and IFC
+  selftests (neither library is installed here).
+
+Every red, by id:
+
+| red | whose |
+|---|---|
+| 15 rows of `tests/test_sheet_coherence.py` | the gate's, red by design. The same 15 ids as PR #47's CI run, compared by id |
+| `tests/test_parti_composability.py` and `check_partis.py` (2 errors) | the known pair: one finding, two readers |
+| `tests/test_solver.py`'s half bound | known, not loosened |
+| `tests/test_axis.py::TestTheCriticReadsIt::test_the_shipped_passage_is_on_centre_after_wp_11_2` | the prover's draw under a wall clock; older than this branch |
+
+`tests/test_compose_budget.py` is green, as fixed in §VI.
+
+**The axis row was attributed by running it.** It pins the proved Tidewater spine at
+`could-not-evaluate` and read `on-centre` in the shard. Run alone on a quiet box, alternating this
+tree and a worktree of main's `ea25d12`, three rounds:
+
+| round | this tree | main |
+|---|---|---|
+| 1 | passed | **failed, `on-centre`** |
+| 2 | passed | passed |
+| 3 | passed | passed |
+
+Main's own tree gives the second reading one time in three with nothing else running. So the two
+readings are two draws of one wall-clock solve, and the red is not this branch's. The test is not
+re-pinned and its open question is not closed: its message asks for that only where `on-centre`
+is the house's reading, and here it is one draw of several.

@@ -199,7 +199,10 @@ order of the pool-fill. It is the second package of the day on the stock brief.
     `placement_time_limit_s` now, the same 60 s. The test is unchanged.
   - **The walk's door check demanded an undrawable door**, and with the line grid `good-03`
     places all of its doors. It is re-cut: every declared door pair is drawn or named. **The walk
-    was not run here after the re-cut.**
+    was not run here after the re-cut.** *(Corrected 27 Nov 2026: run twice since. One run drew
+    no sheet after the re-solve, a refused placement, and 24 sheet checks failed together. The
+    other drew it and the re-cut check passed at 5 drawn and 6 named of 11 pairs. Its two
+    remaining failures, both about class tags on finding rows, are on main's CI walks.)*
   - The walk's two porch-label failures were on the PR's head and not on the merge commit, the
     same tree: one placement's draw.
 - **A spy-based composing test on `auto` must state that no probe can run**
@@ -209,7 +212,17 @@ order of the pool-fill. It is the second package of the day on the stock brief.
   double pile is still refused on this brief, and the acceptance bar is still not met.**
 - **Twenty-four mutations, all red on the first run**, each asserted landed and restored. **The
   whole `check_all.py` was not run on this tree**: the new file, its neighbours (121 passed) and
-  four checkers were.
+  four checkers were. *(Corrected 27 Nov 2026: run the same night, below.)*
+- **Its whole build, four shards in worktrees of `3ed01a5`, is 18 failed / 4,138 passed / 147
+  skipped**, with the server suite 506 passed / 19 skipped and the app suite 902 of 902. Three
+  checks could not be evaluated: no `dist/`, and the DXF and IFC selftests.
+  - 17 reds are known: the gate's 15 rows (the same 15 ids as PR #47's CI run),
+    `test_parti_composability` with `check_partis.py`, and `test_solver`'s half bound.
+  - The 18th is `tests/test_axis.py`'s proved-passage test, which read the Tidewater spine
+    `on-centre` in the shard. Alone on a quiet box, three rounds alternating trees: this tree
+    passed 3 of 3 and main's `ea25d12` failed 1 of 3 with the same reading. It is the prover's
+    draw under a wall clock, not this branch's, and it is not re-pinned.
+  - `test_compose_budget` is green.
 - **The second brief, one run each.** `bungalow-small` on one worker: 5 not refused and 5
   drawable where judged in 437 s, against 5 and 4 in 502 s. On four workers the set is unchanged,
   4 and 4.
