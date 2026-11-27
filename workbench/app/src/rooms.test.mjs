@@ -197,3 +197,122 @@ test('the dossier hands its period bar the period the dossier route serves', () 
   assert.match(bar, /floruit: 'var\(--text-body\)'/);
   assert.doesNotMatch(bar, /fill: [^}]*var\(--paper\)/, 'paper is no ink on paper');
 });
+
+/* ── 7. THE REST OF THE ROOMS (WP-18.1 to 18.4, 27 Nov 2026) ─────────────────────────────── */
+import { kitSections } from './dossier/kitSections.js';
+import { contrast } from './grounds.js';
+
+const TOKENS_CSS = read('theme/tokens.css');
+const hexOf = (name) => {
+  const m = new RegExp(`${name}:(#[0-9A-Fa-f]{6})`).exec(TOKENS_CSS);
+  return m ? m[1].toUpperCase() : null;
+};
+
+test('a kit\'s rows stand under their groups: every row once, the ontology\'s order, a stray group kept', () => {
+  const groups = [{ id: 'roof', name: 'Massing & Roof' }, { id: 'wall', name: 'Envelope & Wall' }, { id: 'empty', name: 'Nothing' }];
+  const rows = [{ id: 'a', group: 'wall' }, { id: 'b', group: 'roof' }, { id: 'c', group: 'nobody-named-this' }, { id: 'd', group: 'wall' }];
+  const secs = kitSections(groups, rows);
+  assert.deepEqual(secs.map((s) => s.id), ['roof', 'wall', 'nobody-named-this'], 'the ontology\'s order, then the stray');
+  assert.deepEqual(secs.map((s) => s.name), ['Massing & Roof', 'Envelope & Wall', 'nobody-named-this']);
+  assert.deepEqual(secs.flatMap((s) => s.rows.map((r) => r.id)).sort(), ['a', 'b', 'c', 'd'], 'every row exactly once');
+  assert.deepEqual(secs.find((s) => s.id === 'wall').rows.map((r) => r.id), ['a', 'd'], 'a group keeps its rows\' order');
+  assert.ok(!secs.some((s) => s.id === 'empty'), 'a group with no row draws no heading');
+  assert.deepEqual(kitSections(null, rows).flatMap((s) => s.rows).length, 4, 'no groups served: nothing is dropped');
+  assert.deepEqual(kitSections(groups, null), []);
+  // the join: the surface draws the leaf's sections and keeps no grouping of its own
+  const kit = code('surfaces/KitSurface.jsx');
+  assert.match(kit, /const sections = kitSections\(groups, rows\);/);
+  assert.match(kit, /sections\.map\(\(sec\) =>/);
+  assert.doesNotMatch(kit, /(?<!sec\.)rows\.map\(\(s\) => \(\s*<SlotRow/, 'the rows are drawn outside their groups again');
+});
+
+test('the kit row leads with the slot\'s name, and each id it prints is a margin note', () => {
+  const row = code('components/SlotRow.jsx');
+  assert.match(row, /\{slot\.name \|\| slot\.id\}<span className="tdl-record-note">\{slot\.id\}<\/span>/);
+  assert.match(row, /\{slot\.sourceName \|\| src\.id\}/, 'the source is a style\'s name, and its id where no name is held');
+  const kit = code('surfaces/KitSurface.jsx');
+  assert.match(kit, /name: nameOf\('slot:' \+ row\.slot\)/, 'the name is the names index\'s, not typed here');
+  const trace = code('components/ProvenanceTrace.jsx');
+  assert.match(trace, /\{nameOf\(l\.id\)\}<span className="tdl-record-note">\{l\.id\}<\/span>/);
+  assert.match(trace, /<details data-cascade-bans=\{l\.id\}/, 'a level\'s bans fold under their count');
+});
+
+/* The six paper inks are COMPUTED: each is its pigment mixed toward --coal by the least hundredth
+   that reads 4.5 : 1 on all four papers. Recomputed here, so an ink typed by eye, or a paper that
+   moved under one, fails. */
+const mixHex = (a, b, t) => '#' + [1, 3, 5].map((i) => Math.round(parseInt(a.slice(i, i + 2), 16) * (1 - t)
+  + parseInt(b.slice(i, i + 2), 16) * t).toString(16).padStart(2, '0')).join('').toUpperCase();
+const PAPERS = ['--paper', '--paper-deep', '--paper-mat', '--paper-lit'];
+const PAPER_INKS = { '--gilt-ink': '--gilt-deep', '--brick-ink': '--brick', '--salmon-ink': '--salmon-deep',
+  '--green-ink': '--green-deep', '--ink-3-ink': '--ink-3', '--ink-2-ink': '--ink-2' };
+function leastStep(pigment) {
+  const coal = hexOf('--coal');
+  const worst = (c) => Math.min(...PAPERS.map((p) => contrast(c, hexOf(p))));
+  for (let i = 0; i <= 100; i += 1) { const c = mixHex(pigment, coal, i / 100); if (worst(c) >= 4.5) return c; }
+  return null;
+}
+
+test('each paper ink is its pigment at the least step toward coal that reads on every paper', () => {
+  for (const p of PAPERS) assert.ok(hexOf(p), `the premise: ${p} is a hex in tokens.css`);
+  for (const [ink, pigment] of Object.entries(PAPER_INKS)) {
+    assert.ok(hexOf(pigment), `the premise: ${pigment} is a hex`);
+    assert.equal(hexOf(ink), leastStep(hexOf(pigment)), `${ink} is not ${pigment} at its least reading step`);
+    for (const p of PAPERS) assert.ok(contrast(hexOf(ink), hexOf(p)) >= 4.5, `${ink} on ${p}`);
+  }
+  // the pigments did not move: a fill, a stroke and a swatch keep their colour
+  assert.equal(hexOf('--gilt-deep'), '#8A6D33'); assert.equal(hexOf('--brick'), '#AF6B50');
+  assert.equal(hexOf('--salmon-deep'), '#C08066'); assert.equal(hexOf('--green-deep'), '#6B7C5C');
+});
+
+test('on paper a word\'s duty is bound to a paper ink, at :root and under vellum alike', () => {
+  const want = { '--text-accent': '--gilt-ink', '--sev-minor': '--gilt-ink', '--sev-fatal': '--brick-ink',
+    '--refusal-text': '--brick-ink', '--sev-serious': '--salmon-ink', '--sev-cleared': '--green-ink',
+    '--text-tertiary': '--ink-3-ink', '--sev-info': '--ink-3-ink', '--text-secondary': '--ink-2-ink',
+    '--sev-advisory': '--ink-2-ink' };
+  for (const [duty, ink] of Object.entries(want)) {
+    const n = (TOKENS_CSS.match(new RegExp(`${duty}:var\\(${ink}\\);`, 'g')) || []).length;
+    assert.equal(n, 2, `${duty} is bound to ${ink} ${n} time(s): once at :root and once under vellum`);
+  }
+  assert.match(TOKENS_CSS, /--fix-right:var\(--green-ink\); --fix-cheap:var\(--gilt-ink\); --fix-dishonest:var\(--salmon-ink\);/);
+});
+
+test('the plan page draws its sheet before the panels that disclose what the placement gave up', () => {
+  const src = code('surfaces/PlanWorkbench.jsx');
+  const sheet = src.indexOf('<PlateViewer label="the sheet"');
+  const gaveUp = src.indexOf('{gaveUp.length > 0 && (');
+  const critique = src.indexOf('data-panel="critique"');
+  const revision = src.indexOf('<RevisionPanel');
+  const caption = src.indexOf('<p data-engine-claim=');
+  for (const [n, at] of Object.entries({ sheet, gaveUp, critique, revision, caption })) assert.ok(at > 0, `the premise: ${n} is found`);
+  assert.ok(sheet < gaveUp && sheet < critique && sheet < revision, 'a disclosure panel stands above the sheet again');
+  assert.ok(gaveUp < caption && critique < caption, 'the caption says "above" of the panels, so it follows them');
+  assert.equal(src.split('{gaveUp.length > 0 && (').length - 1, 1, 'the panel is drawn once: moved, not copied');
+});
+
+test('an empty station of the journey says what it waits for and offers a way on', () => {
+  for (const [f, name] of [['surfaces/CandidateSet.jsx', 'candidates'], ['surfaces/PlanWorkbench.jsx', 'workbench'],
+    ['surfaces/DrawingSet.jsx', 'drawings'], ['surfaces/Transcription.jsx', 'transcription']]) {
+    assert.match(code(f), new RegExp(`className="tdl-waiting tdl-rise" data-waiting="${name}"`), f);
+  }
+  assert.match(ROOMS_CSS, /\.tdl-waiting\{/);
+  // the brief's one act is the page's primary act, and is still a button that composes
+  const brief = code('surfaces/BriefIntake.jsx');
+  assert.match(brief, /<button type="button" data-compose="" onClick=\{compose\} disabled=\{composing \|\| !ready\}\s+aria-busy=\{composing \|\| undefined\} className="tdl-act tdl-act-primary">/);
+});
+
+test('a heading the walk holds to a glossary word carries that word and nothing else', () => {
+  const src = code('surfaces/Proportions.jsx');
+  assert.match(src, /<span data-kind-heading=\{g\.kind\}><Term field="pack\.kind" value=\{g\.kind\} \/><\/span>/);
+  assert.doesNotMatch(src, /data-kind-heading=\{g\.kind\}[^>]*>\s*<Term[^>]*\/>\s*<span className="tdl-section-count"/,
+    'a count inside the heading is read as part of the word');
+});
+
+test('the small controls answer the pointer through a class, and a filter strip is one row of 40 px', () => {
+  const chrome = code('Chrome.jsx');
+  assert.match(chrome, /\{\.\.\.aria\} className="tdl-chip"/);
+  assert.match(chrome, /disabled=\{disabled\} className="tdl-action"/);
+  for (const sel of ['.tdl-chip:hover', '.tdl-action:not(:disabled):hover', '.tdl-field:hover']) {
+    assert.ok(ROOMS_CSS.includes(sel + '{'), `${sel} has no rule`);
+  }
+  assert.match(TOKENS_CSS, /--substrip-h:40px;/, 'the walk holds a one-row strip to 40 px');
+});

@@ -12,7 +12,7 @@ import React from 'react';
 import { useStyles } from '../api/useStyles.js';
 import { search } from '../search/match.js';
 
-export function StylePicker({ value, onChange, label = 'Style', allowNone, noneLabel = 'no style in view', width = 200 }) {
+export function StylePicker({ value, onChange, label = 'Style', allowNone, noneLabel = 'no style in view', width = 200, fill }) {
   const { styles, failed } = useStyles();
   const [open, setOpen] = React.useState(false);
   const [q, setQ] = React.useState('');
@@ -56,7 +56,10 @@ export function StylePicker({ value, onChange, label = 'Style', allowNone, noneL
   };
 
   return (
-    <span ref={boxRef} style={{ position: 'relative', display: 'inline-flex', alignItems: 'center', flex: 'none' }}>
+    <span ref={boxRef} style={fill
+      // `fill`: the picker takes its column's width, as the fields beside it do (the brief's form)
+      ? { position: 'relative', display: 'flex', alignItems: 'center', width: '100%' }
+      : { position: 'relative', display: 'inline-flex', alignItems: 'center', flex: 'none' }}>
       {failed && (
         <span title={String(failed)}
           style={{ font: 'var(--type-data-s)', color: 'var(--sev-fatal)' }}>
@@ -71,7 +74,7 @@ export function StylePicker({ value, onChange, label = 'Style', allowNone, noneL
         onChange={(e) => { setQ(e.target.value); setOpen(true); }}
         onKeyDown={onKeyDown}
         className="tdl-field"
-        style={{ width, font: 'var(--fw-reg) 15px/1.4 var(--serif)', color: 'var(--text-body)', padding: '5px 10px',
+        style={{ width: fill ? '100%' : width, minWidth: 0, font: 'var(--fw-reg) ' + (fill ? '16px' : '15px') + '/1.4 var(--serif)', color: 'var(--text-body)', padding: fill ? '8px 11px' : '5px 10px',
           background: 'var(--surface-well)', border: '1px solid ' + (open ? 'var(--gilt-deep)' : 'var(--border-hairline)') }} />
 
       {open && (

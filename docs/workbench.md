@@ -460,6 +460,30 @@ plate settles a moment after. A row, a card and an act answer the pointer. Every
 at 690 KB of `check_frontend`'s 700 KB ceiling. The reading room stays in it; the house's pages,
 the family tree, the proportion packs and a comparison are each a chunk of their own.
 
+### The rest of the rooms (27 Nov 2026)
+
+`docs/reports/wp-18.1-the-rest-of-the-rooms.md`. What a person editing a surface needs to know:
+
+- **An index page** is `PageHero` (its own record's line), a large `FilterInput`, and its rows in
+  columns (`.tdl-columns`, `.tdl-index-row`). Elements, the four record kinds, the glossary and the
+  proportion packs are all this shape.
+- **A record's page** is `record/parts.jsx::RecordHead` (the kind in the letter, the name at display
+  size, the id printed once), a double rule, the record's prose as a lede (`<Prose lede>`), then
+  `Section`s. A list of records with reasons is `.tdl-reason-row`; figures are a `.tdl-table`.
+- **A style's kit** stands under its slot groups (`dossier/kitSections.js`, which returns every row
+  exactly once). A row leads with the slot's name, read from the names index because the kit route
+  serves ids. The cascade is to the right.
+- **The plan page draws its sheet first.** The panels that disclose what a placement gave up stand
+  under it, open. `rooms.test.mjs` holds the order.
+- **An empty station of the journey** is `.tdl-waiting`: what it waits for, and the way to it.
+- **A small control** (`Chip`, `ActionChip`, `FilterGroup`, `FilterInput`, `StylePicker`) is set in
+  the reading face and takes its hover state from a class. A filter strip is 40 px, which is the
+  height the walk holds a one-row strip to.
+- **On paper a word is set in a paper ink.** `--gilt-ink`, `--brick-ink`, `--salmon-ink`,
+  `--green-ink`, `--ink-3-ink` and `--ink-2-ink` are each a pigment mixed toward `--coal` by the
+  least step that reads 4.5 : 1 on every paper, and the word duties are bound to them at `:root`
+  and under vellum. A drawing still names the pigment. `rooms.test.mjs` recomputes each ink.
+
 ## Navigation and addressing (WP-5.6)
 
 **A place is a URL, and a URL is a citation.** The hash serializes `(surface, selection,

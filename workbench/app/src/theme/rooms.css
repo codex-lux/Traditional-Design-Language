@@ -399,7 +399,9 @@ a.tdl-library-card:hover svg{transform:translateY(-2px) scale(1.06)}
 .tdl-field::placeholder{color:var(--text-secondary);font-style:italic;opacity:.85}
 
 /* ── A STYLE'S KIT (WP-18.1): the slots under their groups, the cascade beside them ── */
-.tdl-kit{min-width:680px;padding:6px clamp(16px,2.4vw,34px) 0}
+/* The floor is what a 1280 px window leaves the table beside the cascade (652 px): under it the
+   table scrolls sideways before a slot's name is given up. */
+.tdl-kit{min-width:600px;padding:6px clamp(14px,1.6vw,34px) 0}
 .tdl-kit-group{margin:0 0 26px}
 .tdl-kit-group-name{display:flex;align-items:baseline;gap:12px;margin:22px 0 0;padding:0 0 8px;
   font:var(--fw-reg) var(--fs-d4)/1.2 var(--display);color:var(--text-body);border-bottom:2px solid var(--text-body)}
@@ -408,8 +410,8 @@ a.tdl-library-card:hover svg{transform:translateY(-2px) scale(1.06)}
 .tdl-slot:hover{background:var(--surface-raised)}
 .tdl-slot[data-open]{background:var(--surface-card);box-shadow:inset 3px 0 0 var(--border-focus)}
 .tdl-slot{scroll-margin-top:46px}
-.tdl-slot-row{display:grid;grid-template-columns:minmax(11rem,1.05fr) minmax(9rem,1.6fr) 5.4rem minmax(9rem,1.1fr) 4rem;
-  gap:0 18px;align-items:baseline;width:100%;text-align:left;padding:10px 10px}
+.tdl-slot-row{display:grid;grid-template-columns:minmax(9.5rem,1.05fr) minmax(6.5rem,1.6fr) 5.3rem minmax(7.5rem,1.1fr) 3.8rem;
+  gap:0 14px;align-items:baseline;width:100%;text-align:left;padding:10px 10px}
 .tdl-slot-head{position:sticky;top:0;z-index:2;padding:12px 10px 9px;background:var(--surface-app);
   border-bottom:1px solid var(--border-hairline)}
 .tdl-slot-name{font:var(--fw-reg) 17.5px/1.3 var(--serif);color:var(--text-body);min-width:0}
@@ -462,3 +464,6 @@ a.tdl-library-card:hover svg{transform:translateY(-2px) scale(1.06)}
 .tdl-waiting-title{font:var(--fw-reg) clamp(32px,3.8vw,50px)/1.08 var(--display);letter-spacing:-.004em;color:var(--text-body);margin:12px 0 0;text-wrap:balance}
 .tdl-waiting-text{font:var(--fw-reg) 19px/1.55 var(--serif);color:var(--text-secondary);margin:16px 0 0;max-width:36em;text-wrap:pretty}
 .tdl-waiting .tdl-hero-acts{margin-top:28px}
+/* A long variant id is one unbroken word in the data face: in a narrow column it wraps anywhere
+   before it pushes the spread wider than its page (the walk's 700 px reading, assistant open). */
+.tdl-compare-row>*{min-width:0;overflow-wrap:anywhere}

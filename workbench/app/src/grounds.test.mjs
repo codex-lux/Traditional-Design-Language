@@ -369,7 +369,7 @@ const COLOR_EXCEPT = {
   '--text-disabled': 'an inactive control: WCAG 1.4.3 does not apply to one',
   '--text-on-gilt': 'the primary act (`.tdl-act-primary`, theme/rooms.css), on its own gilt fill: 5.26 : 1 on either ground',
   '--surface-panel': 'Gate.jsx sets it on its own inverted fill, the body text duty',
-  '--fix-right': 'FaultCard.jsx, on the fault card, which is vellum: oq/two-inks-set-as-small-text-read-below-aa',
+  '--fix-right': 'FaultCard.jsx, on the fault card, which is vellum, where it is --green-ink and reads 4.5 : 1 (Phase 18)',
 };
 /* The tokens a stylesheet's rules set a WORD in: each `color:` declaration, read to its own `;`
    (a rule there carries several declarations to a line, and a `background:` after a `color:` is

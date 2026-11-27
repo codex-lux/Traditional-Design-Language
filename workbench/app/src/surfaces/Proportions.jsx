@@ -233,8 +233,10 @@ function PackList({ groups, selection, params, packId, compact }) {
     <div data-pack-list="">
       {groups.map((g) => (
         <section key={g.kind} className="tdl-glossary-family" style={{ marginTop: 40 }}>
-          <h3 data-kind-heading={g.kind} className="tdl-glossary-family-name">
-            <Term field="pack.kind" value={g.kind} />
+          {/* the heading's own element carries the kind's word and nothing else: the walk holds its
+              text to the glossary's word, and a count inside it is not that word */}
+          <h3 className="tdl-glossary-family-name">
+            <span data-kind-heading={g.kind}><Term field="pack.kind" value={g.kind} /></span>
             <span className="tdl-section-count">{g.packs.length}</span>
           </h3>
           <div className="tdl-grid" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(19rem, 1fr))', marginTop: 18 }}>

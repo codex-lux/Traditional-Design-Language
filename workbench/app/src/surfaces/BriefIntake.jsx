@@ -326,14 +326,16 @@ export function BriefIntake({ go }) {
               </p>
             )}
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
-              <div>
+              {/* The name and the style each take the row: a house's name is a line of words, and at
+                  half the panel's width a typed name ran past its own field at 1280 px. */}
+              <div style={{ gridColumn: '1 / -1' }}>
                 <span style={label}>name</span>
                 <input style={input} value={brief.name}
                   onChange={(e) => { set('name', e.target.value); set('id', e.target.value.toLowerCase().replace(/[^a-z0-9]+/g, '-') || 'new-brief'); }} />
               </div>
-              <div>
+              <div style={{ gridColumn: '1 / -1' }}>
                 <span style={label}>style · required</span>
-                <StylePicker value={brief.style} onChange={pickStyle} label="style" width={232} />
+                <StylePicker value={brief.style} onChange={pickStyle} label="style" width={232} fill />
               </div>
               <div>
                 <span style={label}>target area, sf · required</span>

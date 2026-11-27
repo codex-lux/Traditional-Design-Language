@@ -196,7 +196,7 @@
      either; a stylesheet that also has an opinion about the rail width is the layout bug
      this file would ship next. */
   --topbar-h:48px;
-  --substrip-h:42px;             /* vocabulary filter strip under the topbar */
+  --substrip-h:40px;             /* vocabulary filter strip under the topbar */
   --panel-pad:16px;
   --gutter:20px;
 
@@ -500,7 +500,7 @@
   --conf-high:var(--ink); --conf-medium:var(--ink-2); --conf-low:var(--ink-3);
 
   /* Fix tiers — right · cheap · dishonest */
-  --fix-right:var(--green-deep); --fix-cheap:var(--gilt-deep); --fix-dishonest:var(--salmon-deep);
+  --fix-right:var(--green-ink); --fix-cheap:var(--gilt-ink); --fix-dishonest:var(--salmon-ink);
 
   /* States that are not verdicts */
   --forthcoming:var(--ink-4);

@@ -34,6 +34,7 @@ import { matches } from '../search/match.js';
 import { cascadeRows as ladderRows } from '../dossier/relations.js';
 import { PullPane } from '../components/PullPane.jsx';
 import { useNames } from '../names/useNames.js';
+import { kitSections } from '../dossier/kitSections.js';
 
 /* resolve_kit rows → SlotRow props. Source strings become {distance, id}; the
    "a + b (extends)" composite renders as the base ancestor plus a marker. */
@@ -143,14 +144,9 @@ export function KitSurface({ styleId, onCite, selection, setSelection }) {
     });
   /* THE ROWS STAND UNDER THEIR GROUP (WP-18.1). The table was one alphabetical run of slot ids
      with the group's id repeated down a column; it is the ontology's groups in the ontology's
-     order now, each a heading over its slots. A row whose group the overview does not name is
-     kept, under its own id, after the named ones: nothing is dropped for want of a heading. */
-  const known = new Set(groups.map((g) => g.id));
-  const sections = [
-    ...groups.map((g) => ({ id: g.id, name: g.name || g.id, rows: rows.filter((r) => r.group === g.id) })),
-    ...[...new Set(rows.map((r) => r.group).filter((g) => !known.has(g)))]
-      .map((g) => ({ id: g, name: g, rows: rows.filter((r) => r.group === g) })),
-  ].filter((sec) => sec.rows.length > 0);
+     order now, each a heading over its slots (`dossier/kitSections.js`, which returns every row
+     exactly once). */
+  const sections = kitSections(groups, rows);
 
   /* THE OPEN SLOT IS BROUGHT INTO VIEW. A link names a slot (`#/style/<id>/kit/<slot>`), and under
      its group the slot may stand well below the fold: the first time this kit shows it, the row is
