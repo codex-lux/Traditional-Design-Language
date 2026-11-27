@@ -145,6 +145,32 @@ Three things to know before touching it:
 `TDL_CP_LINE_GRID=0` turns it off, which is the control its figures were taken against. Report:
 `docs/reports/the-prover-decides-2026-11-26.md`.
 
+## The deciding pass (26 November 2026)
+
+`geometry_cp.probe_all_facts(plan, parti)` asks one question of a composed record: does it hold
+every type fact posed at its derived depth. It is the portfolio's own first walls-released hard
+step and not a second model. `_hard_model` builds that step for the prover and for the probe.
+
+- **Four answers.** `held`, `refuted-at-the-derived-depth`, `undecided`, or `could-not-evaluate`
+  with its reason. A refutation at one depth is never called proven: that word needs the step
+  infeasible at the derived depth and 2 and 4 ft deeper (`solver.all_facts`).
+- **Its cap is `PROBE_CAP_S`, 25 s, and that is measured.** On one worker the side-hall town house
+  holds in 10 to 16 s and six of the stock brief's pool are undecided at 25 s. A 5 s cap finds the
+  living hall alone.
+- **The composer's pool-fill is its one caller** (`compose.probe_the_pool`). Before it places any
+  pool diagram it probes the pool in score order, inside half of what the set has left, and stops
+  once it has found as many holders as the set is short. The fill then places the holders first,
+  the diagrams nobody could call next, and the ones refuted at that depth last
+  (`compose.pool_probe_order`). The cap of four placements and the set's deadline are unchanged.
+- **The answer carries into the placement.** Where the composer asks, the answer is kept under the
+  hash of the exact model, and `_solve_cp` does not solve that model again: the attempt reads
+  `probed`, with the probe's seconds and workers. An undecided answer stands in only where the
+  probe had at least the step's time and workers, and it stays `H:UNKNOWN`, so the solve cache
+  still reads it as undecided. The answers are forgotten when the fill ends.
+- **The search is not probed**, and neither is a full set.
+
+Report: `docs/reports/the-deciding-pass-over-the-pool-2026-11-26.md`.
+
 ## What this does not yet do, stated plainly
 
 It produces **valid, dimensioned, drawable plans with every compromise reported**. It does not yet produce plans an architect would sign.
