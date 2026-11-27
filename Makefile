@@ -35,3 +35,12 @@ workbench-e2e:
 	cd workbench/app && node e2e/walk.mjs
 
 .PHONY: workbench workbench-dev workbench-test workbench-e2e
+
+# The pinned closure the image and CI install (deployment-readiness review, 27 Nov 2026).
+# Compiled for the image's Python and platform, never for the machine it is run on. Needs uv.
+LOCK_FLAGS = --python-version 3.11 --python-platform x86_64-manylinux_2_31 --generate-hashes --no-header -q
+lock:
+	uv pip compile workbench/requirements.txt $(LOCK_FLAGS) -o workbench/requirements.lock
+	uv pip compile workbench/requirements-dev.txt $(LOCK_FLAGS) -o workbench/requirements-dev.lock
+
+.PHONY: lock

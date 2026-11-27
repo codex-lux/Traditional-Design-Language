@@ -36,8 +36,13 @@ ENV TDL_GIT_SHA=$GIT_SHA
 
 WORKDIR /app
 
-COPY workbench/requirements.txt workbench/requirements.txt
-RUN pip install --no-cache-dir -r workbench/requirements.txt
+# THE LOCK, NOT THE FLOORS (deployment-readiness review, 27 Nov 2026, DR-02). This line installed
+# workbench/requirements.txt, whose `>=` floors resolve to whatever is newest on the day the image
+# is built -- so the image could ship versions no CI job had run, and rebuilding an old commit did
+# not rebuild the old image. requirements.lock is the whole closure, pinned with hashes, compiled
+# for this base image's Python (`make lock`); CI's workbench job installs the same pins.
+COPY workbench/requirements.lock workbench/requirements.lock
+RUN pip install --no-cache-dir --require-hashes -r workbench/requirements.lock
 
 # The corpus, the toolchain, mcp_server/core.py — everything the server reads.
 # .dockerignore keeps .git, Plan Examples/ and dist/ out; none is read at runtime.

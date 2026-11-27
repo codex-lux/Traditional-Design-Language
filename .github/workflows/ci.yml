@@ -243,7 +243,12 @@ jobs:
         # adds pytest and httpx, which used to be in the runtime file and so were being
         # built into production. If the suite ever fails here for a missing package that
         # the image does not need, it belongs in the dev file rather than back in the other.
-        run: pip install -r workbench/requirements.txt -r workbench/requirements-dev.txt
+        #
+        # THE LOCKS, since 27 Nov 2026 (deployment-readiness review, DR-02): the image installs
+        # workbench/requirements.lock, and requirements-dev.lock is the same pins plus the two
+        # test packages, so this job tests the versions the image ships. tests/test_lockfiles.py
+        # holds the two files and the Dockerfile to each other. Regenerate both with `make lock`.
+        run: pip install --require-hashes -r workbench/requirements-dev.lock
       - name: Server tests
         run: python3 -m pytest workbench/server/tests -q
 
