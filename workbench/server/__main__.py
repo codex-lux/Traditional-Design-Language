@@ -92,6 +92,11 @@ def main():
         print("note: WORKBENCH_PASSWORD is not set — the server is OPEN to anyone who "
               "can reach it.")
 
+    # The server's own loggers (`tdl.access`, `tdl.jobs`, `tdl.rail`) get a handler and a level
+    # here. uvicorn's `log_level` below is uvicorn's chatter only, and stays at warning.
+    from . import accesslog
+    accesslog.configure()
+
     shown = "127.0.0.1" if HOST in ("0.0.0.0", "::") else HOST
     print(f"The Workbench · http://{shown}:{PORT}")
     # proxy_headers/forwarded_allow_ips: behind a platform proxy the peer address is the

@@ -39,7 +39,7 @@ from fastapi.responses import FileResponse, JSONResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from starlette.middleware.body_limit import RequestBodyLimitMiddleware
 
-from . import auth, bind, corpus, evaluate, jobs, limits, mcp_mount
+from . import accesslog, auth, bind, corpus, evaluate, jobs, limits, mcp_mount
 
 core = corpus.core
 
@@ -260,6 +260,10 @@ class SecurityHeaders:
 
 
 app.add_middleware(SecurityHeaders)
+
+# Outermost, so it is added last: it must see the status every layer inside it set, the gate's
+# 401 and the limiter's 413 included, and its id goes on those answers too (DR-07).
+app.add_middleware(accesslog.AccessLog)
 
 
 @app.post("/api/login")
