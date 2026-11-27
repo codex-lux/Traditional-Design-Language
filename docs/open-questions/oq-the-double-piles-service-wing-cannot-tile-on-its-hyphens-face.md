@@ -112,3 +112,71 @@ band leaves a pocket nothing can fill. Which remedy for the wing?* The options p
 What the answers do not say, because each is a way to over-read them: the hyphen's depth is not
 ruled and stays as `groupings/dependency-and-hyphen.json` states it; the powder room's door is not
 moved; and the "about 40% larger" above is a measurement of two boxes, not a factor anyone ruled.
+
+## Measured after the garage moved, 26 November 2026 — the main block is a second cause
+
+With the garage its own mass (commit `2263ab0`), the house was posed again on the prover's hard
+step: four workers, line grid on, authored walls and the axis released. The harness is in the
+session's scratchpad and not in the tree.
+
+| what was posed | result |
+|---|---|
+| the whole house, range centred, wing boxes 16 to 24 ft wide by 17 to 27 ft deep | INFEASIBLE, all 30 |
+| the wing chain alone (the main block's tiling, bands, stacks and bearing released), 40 boxes from 18 x 17 to 26 x 25 ft | tiles at 22 x 21, 22 x 23, 21 x 23 and 23 x 23 ft only |
+| the main block alone (the wing's tiling and its rooms' bands released), range centred, +0, +2, +4, +6 ft | INFEASIBLE in 1.9, 1.9, 4.4 and 7.8 s |
+| the same at +0 on the parent commit `cc98832` | INFEASIBLE in 1.7 s |
+| the main block alone, centred, +4 ft, one more fact released | holds with the butler's pantry's band released (11.3 s), with `primary` over `drawing` released (6.3 s), with `upperpassage` over `passage` released (37.8 s); INFEASIBLE with the dining room's, the library's or the passage's band released, or bearing |
+| the main block alone, +4 ft, the link's band 6, 9 and 12 ft up the flank from centred (the last is flush with the rear wall) | OPTIMAL in 3.0, 18.3 and 14.0 s; 3 ft up is INFEASIBLE |
+| **the whole house, every fact held, +4 ft, wing 22 x 21 ft with its rear wall on the main block's rear wall, the link at each of those three positions** | **OPTIMAL in 3.0, 10.0 and 6.5 s** |
+
+**"The main block holds every fact in 7.4 s" above is not reproduced**, on this tree or on the
+parent. How that run was posed is not recorded here; the session that made it was asked and had
+not answered when this was written. The figure is left standing above as what was published.
+
+The wing's derived box is 18 x 21 ft (two 9 ft bays). It does not tile at 18, 19 or 20 ft wide at
+any depth tried, nor at 24 or 26. The depth growth the prover applies to a wing (`flank_grow_ft`)
+takes a 22 x 21 ft wing to 22 x 25 ft at +4 ft, which does not tile either.
+
+## Ruled, 26 to 27 November 2026 — the range stands against the rear wall, and the prover finds the wing's box
+
+Asked on 26 November 2026 as two direct questions, with the table above in front of Lucas. The
+answers came back in the same dialog as the session's clock passed midnight UTC.
+
+**Asked, 3:** *With the garage its own mass, the double pile is still proven impossible, and the
+cause is now the main block: with the service range centred on its axis (as `geometry.blocks_for`
+lays every dependency), the main block cannot hold its facts at +0, +2, +4 or +6 ft, on this tree
+and on the parent commit. With the range against the rear wall the whole house holds every fact in
+3 to 10 s at +4 ft. Where does a single service range stand along the main block's flank?* The
+options put:
+
+- *Against the rear wall (recommended).* The wing's rear wall lines up with the main block's rear
+  wall, its link centred on the wing. Basis: `groupings/dependency-and-hyphen.json`, hard: "Where
+  dependencies are paired they are symmetrical about the main block's axis; where there is one, it
+  does not sit on the entrance elevation." Paired dependencies stay centred. Measured: whole house
+  OPTIMAL in 3.0, 10.0 and 6.5 s, every fact held.
+- *Centred; drop a stack claim.* Withdraw the parti's `primary stacks_over drawing`. Measured on
+  the main block alone at +4 ft: holds in 6.3 s. The whole house was not measured this way.
+- *Centred; stop here.* The double pile stays refused, with the main block stated as the reason.
+
+**Answered, 3: against the rear wall.**
+
+**Asked, 4:** *The four-room service wing tiles on its own only in a small island of boxes:
+22 x 21, 22 x 23, 21 x 23 and 23 x 23 ft. It does not tile at its derived 18 ft width at any
+depth, nor at 20, 24 or 26 ft. You ruled the wing is sized for its door set. How should that box
+be found?* The options put:
+
+- *The prover finds it (recommended).* Before the house is posed, the prover asks of each
+  whole-foot box, smallest first, whether the wing's own rooms tile it inside their bands with
+  their doors, and takes the first that does. No factor is written down. The wing is then off the
+  9 ft bay module, on the whole-foot grid ruling 4 of 29 October already states for derived
+  elements. The search engine, which has no prover, keeps the derived box and says so.
+- *A stated rule: the kitchen spans.* The wing is as wide as the longest length the kitchen's own
+  band admits, 22 ft. One rule fitted to one house.
+- *Keep the 9 ft module.* 18 ft is measured not to tile; the double pile stays refused.
+
+**Answered, 4: the prover finds it.**
+
+What these answers do not say: the rear-wall reading is ruled for a house with dependencies on ONE
+flank; a house with a range on each flank keeps the axis. The link's exact place on the wing was
+offered as "centred on the wing" and three places were measured to work. No stack claim is
+withdrawn, and no band moves.
