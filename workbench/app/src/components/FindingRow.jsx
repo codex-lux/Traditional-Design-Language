@@ -88,55 +88,73 @@ function FindingRow({
       width: '100%',
       textAlign: 'left',
       minHeight: dense ? 'var(--row-h)' : 'var(--row-h-l)',
-      padding: dense ? '4px 8px' : '7px 10px'
+      padding: dense ? '6px 10px' : '9px 12px'
     }
-  }, /*#__PURE__*/React.createElement("span", {
+  },
+  /* THE STATEMENT HAS THE ROW (WP-18.5, 27 Nov 2026). A row was four columns, two of them fixed
+     Courier: the severity, then the layer at 76 px under a group heading that had just said the
+     layer, then the statement in what was left of a 430 px pane, then a room's id. The severity is
+     the row's eyebrow now, the statement takes the width, and the layer, the two tags and the
+     room stand under it as one quiet line. Nothing a row said is gone. */
+  /*#__PURE__*/React.createElement("span", {
+    "data-finding-severity": sev,
     style: {
-      font: 'var(--type-data-s)',
+      font: 'var(--type-eyebrow)',
+      letterSpacing: 'var(--tr-eyebrow)',
+      textTransform: 'uppercase',
       color: colour,
-      width: 52,
+      width: '4.5rem',
       flex: 'none'
     }
   }, sev), /*#__PURE__*/React.createElement("span", {
     style: {
-      font: 'var(--type-data-s)',
-      color: 'var(--text-secondary)',
-      width: 76,
-      flex: 'none'
+      flex: 1,
+      minWidth: 0
     }
-  }, finding.layer), engineTag && /*#__PURE__*/React.createElement("span", {
+  }, /*#__PURE__*/React.createElement("span", {
+    "data-finding-statement": "",
+    style: {
+      display: 'block',
+      font: 'var(--fw-reg) 15.5px/1.45 var(--body)',
+      color: 'var(--text-body)',
+      textWrap: 'pretty'
+    }
+  }, finding.statement), /*#__PURE__*/React.createElement("span", {
+    "data-finding-meta": "",
+    style: {
+      display: 'flex',
+      flexWrap: 'wrap',
+      alignItems: 'baseline',
+      gap: '0 10px',
+      marginTop: 2,
+      font: 'italic var(--fw-reg) 13.5px/1.45 var(--body)',
+      color: 'var(--text-secondary)'
+    }
+  }, /*#__PURE__*/React.createElement("span", null, finding.layer), engineTag && /*#__PURE__*/React.createElement("span", {
     "data-engine-tag": "",
     title: describeTerm(glossary, 'finding-engine').title,
     style: {
       font: 'var(--type-data-s)',
-      color: 'var(--text-secondary)',
-      flex: 'none'
+      color: 'var(--text-secondary)'
     }
   }, engineTag), classTag && /*#__PURE__*/React.createElement("span", {
     "data-class-tag": "",
     title: describeTerm(glossary, 'finding-class').title,
     style: {
       font: 'var(--type-data-s)',
-      color: 'var(--text-accent)',
-      flex: 'none'
+      color: 'var(--text-accent)'
     }
-  }, classTag), /*#__PURE__*/React.createElement("span", {
-    style: {
-      font: 'var(--fw-reg) 14.5px/1.45 var(--body)',
-      color: 'var(--text-body)',
-      flex: 1,
-      textWrap: 'pretty'
-    }
-  }, finding.statement), finding.at && /*#__PURE__*/React.createElement("span", {
+  }, classTag), finding.at && /*#__PURE__*/React.createElement("span", {
+    "data-finding-at": "",
     style: {
       font: 'var(--type-data-s)',
       color: 'var(--text-secondary)',
-      flex: 'none'
+      marginLeft: 'auto'
     }
-  }, finding.at)), open && /*#__PURE__*/React.createElement("div", {
+  }, finding.at)))), open && /*#__PURE__*/React.createElement("div", {
     style: {
-      padding: '2px 10px 12px 150px',
-      maxWidth: 'calc(var(--measure-prose) + 150px)'
+      padding: '2px 12px 14px calc(4.5rem + 22px)',
+      maxWidth: 'calc(var(--measure-prose) + 5rem)'
     }
   }, finding.why && /*#__PURE__*/React.createElement("p", {
     style: {
@@ -178,9 +196,9 @@ function FindingRow({
     onClick: function () {
       onLocate(finding);
     },
+    className: "tdl-link",
     style: {
-      font: 'var(--type-data-s)',
-      color: 'var(--text-accent)'
+      font: 'var(--fw-reg) 14.5px/1.4 var(--body)'
     }
   }, "show on drawing"), onAssert && finding.assertable && /*#__PURE__*/React.createElement("button", {
     type: "button",

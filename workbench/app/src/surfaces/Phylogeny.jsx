@@ -12,6 +12,7 @@
    and listed under "claims only". Each edge's `inherits_kit` (and `slots`) from `/api/phylogeny`
    decides now, through `lineage/carry.js`; the tradition hues are `styles/taxa.js`'s. */
 import React from 'react';
+import { labelWidth } from './phylo/labelWidth.js';
 import { api } from '../api/client.js';
 import { Eyebrow } from '../components/Eyebrow.jsx';
 import { EdgeGlyph } from '../components/EdgeGlyph.jsx';
@@ -43,7 +44,7 @@ function tScale(y) {
 const RANK_INDENT = { tradition: 0, family: 12, style: 24, variant: 36 };
 /* The name column. It was 210 px of 12 px type, which cut "Continental Baroque & Neoclassical"
    and ran a tradition's name into its own lane rule; a name is read before its bar is. */
-const LABEL_W = 260;
+// the name column's width is `phylo/labelWidth.js`'s: a share of the chart, between a floor and 260 px
 const yr = (v) => (v == null ? '?' : v < 0 ? Math.abs(v) + ' BC' : String(v));
 
 const PHYLO_SPEC = { view: { widens: true }, rank: {}, q: { type: 'text' }, claims: { type: 'bool' } };
@@ -97,6 +98,16 @@ export function Phylogeny({ onCite, selection, setSelection, full, onFull, onExi
      different question. */
   const panel = React.useSyncExternalStore(layout.subscribe, () => layout.width('phylo'));
   const panelOpen = React.useSyncExternalStore(layout.subscribe, () => layout.isOpen('phylo'));
+  // the chart's own width, measured, so the name column can be a share of it
+  const [chartW, setChartW] = React.useState(null);
+  const chartObs = React.useRef(null);
+  const chartRef = React.useCallback((el) => {
+    if (chartObs.current) { chartObs.current.disconnect(); chartObs.current = null; }
+    if (!el || typeof ResizeObserver === 'undefined') return;
+    chartObs.current = new ResizeObserver((es) => { for (const e of es) setChartW(Math.round(e.contentRect.width)); });
+    chartObs.current.observe(el);
+  }, []);
+  const LABEL_W = labelWidth(chartW);
   const isMap = filters.values.view === 'map';
   const rankFilter = filters.values.rank;
   const q = filters.values.q;
@@ -268,7 +279,7 @@ export function Phylogeny({ onCite, selection, setSelection, full, onFull, onExi
             full={!!full} onExitFull={onExitFull}
             onFull={onFull ? () => onFull('phylogeny') : undefined} />
         ) : (
-        <div style={{ flex: 1, overflow: 'auto', minHeight: 0, padding: '14px 18px 26px' }}>
+        <div ref={chartRef} data-chart-pane="" data-label-w={LABEL_W} style={{ flex: 1, overflow: 'auto', minHeight: 0, padding: '14px 18px 26px' }}>
           <div style={{ position: 'relative', height: 26, marginLeft: LABEL_W, marginBottom: 4 }}>
             {[-700, 1600, 1700, 1800, 1900, 2000].map((y) => (
               <span key={y} style={{ position: 'absolute', left: tScale(y) * 100 + '%', top: 0,
@@ -283,8 +294,8 @@ export function Phylogeny({ onCite, selection, setSelection, full, onFull, onExi
           </div>
           <div style={{ marginLeft: LABEL_W, display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap',
             gap: '2px 16px', marginBottom: 10 }}>
-            <Eyebrow as="span" style={{ whiteSpace: 'nowrap' }}>compressed · 700 BC–1600</Eyebrow>
-            <Eyebrow as="span" style={{ whiteSpace: 'nowrap' }}>expanded · 1600–2026</Eyebrow>
+            <Eyebrow as="span">compressed · 700 BC–1600</Eyebrow>
+            <Eyebrow as="span">expanded · 1600–2026</Eyebrow>
           </div>
 
           <div style={{ position: 'relative', height: H }}>

@@ -229,11 +229,13 @@ test('a column is selected from the keyboard by a real button, and the pick is a
   // grid moved 27 px (at 1100) and 47 px (at 1680) between a refused pick and an open one
   assert.match(set, /\} below=\{/, 'the row is the strip\'s own `below`, after `right` in the document too');
   assert.match(set, /data-selection-row="" style=\{\{ flex: '1 1 100%', minHeight: '2\.9em'/);
-  // and that floor is two lines of the row's own type: 2 x the line height `--type-data-s` states
-  const tokens = readFileSync(new URL('./theme/tokens.css', import.meta.url), 'utf8');
-  const lh = tokens.match(/--type-data-s:[^;]*\/([0-9.]+)\s+var\(--mono\)/);
-  assert.ok(lh, 'the token states a unitless line height');
-  assert.equal(Number((2 * Number(lh[1])).toFixed(2)), 2.9, 'the floor in em is two lines of --type-data-s');
+  // and that floor is two lines of the row's own type: 2 x the line height the row itself states.
+  // (27 Nov 2026: the row is set in the reading face. It read the line height off `--type-data-s`,
+  // the Courier it was set in; it reads the font the row declares now, so a row re-set at another
+  // line height fails here and not on a reader's screen.)
+  const lh = set.match(/data-selection-row="" style=\{\{ flex: '1 1 100%', minHeight: '2\.9em', font: 'var\(--fw-reg\) [0-9.]+px\/([0-9.]+) var\(--body\)'/);
+  assert.ok(lh, 'the row states its own type, with a unitless line height');
+  assert.equal(Number((2 * Number(lh[1])).toFixed(2)), 2.9, 'the floor in em is two lines of the row\'s own type');
   assert.doesNotMatch(set, /minHeight: '2lh'/, 'the newer `lh` unit is not used');
   const chrome = readFileSync(new URL('./Chrome.jsx', import.meta.url), 'utf8');
   assert.match(chrome, /export function FilterStrip\(\{ children, right, filters, wrap, below \}\)/);

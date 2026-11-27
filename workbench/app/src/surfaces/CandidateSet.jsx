@@ -192,7 +192,7 @@ export function CandidateSet({ onCite, go, selection, setSelection }) {
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: 0, flex: 1 }}>
       <FilterStrip wrap right={
         <span data-set-size={size.own} data-set-asked={size.asked}
-          style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)' }}>
+          style={{ font: 'var(--fw-reg) 15px/1.45 var(--body)', fontVariantNumeric: 'lining-nums', color: 'var(--text-secondary)' }}>
           returned {size.own} of {size.asked} asked for
           {/* the one the brief named and the ranking passed over, appended after the set rather
               than counted in it (WP-14.19), named by the record that says so */}
@@ -253,7 +253,7 @@ export function CandidateSet({ onCite, go, selection, setSelection }) {
         its own rule (`oq/the-journey-bars-next-jumps-rows-when-the-strip-wraps`). The floor is two
         lines of the row's own type in `em` (2 x the 1.45 line height of `--type-data-s`: a test holds
         the two together), not the newer `lh` unit. */
-    <div data-selection-row="" style={{ flex: '1 1 100%', minHeight: '2.9em', font: 'var(--type-data-s)',
+    <div data-selection-row="" style={{ flex: '1 1 100%', minHeight: '2.9em', font: 'var(--fw-reg) 15px/1.45 var(--body)',
       display: 'flex', flexWrap: 'wrap', alignItems: 'baseline', columnGap: 14 }}>
       {/* A POLITE LIVE REGION, so that picking a column by keyboard (or any way) is answered
           aloud: the strip is where the pick's consequence is said and nothing else announced
@@ -262,17 +262,17 @@ export function CandidateSet({ onCite, go, selection, setSelection }) {
         {view.tag === 'button'
           ? <button type="button" data-selection-action={view.state} aria-disabled={opening ? 'true' : undefined}
               onClick={() => openInWorkbench(picked)}
-              className="tdl-link" style={{ font: 'var(--type-data-s)' }}>
+              className="tdl-link" style={{ font: 'inherit' }}>
               {opening ? JOURNEY_WORDS.selection.opening : view.words} <span aria-hidden="true">→</span>
             </button>
           : <span data-selection-action={view.state}
-              style={{ font: 'var(--type-data-s)',
+              style={{ font: 'inherit',
                 color: view.tone === 'refusal' ? 'var(--refusal-text)' : 'var(--text-secondary)' }}>
               {view.words}
             </span>}
       </span>
       {openError && (
-        <span role="alert" data-selection-error="" style={{ font: 'var(--type-data-s)', color: 'var(--text-body)' }}>
+        <span role="alert" data-selection-error="" style={{ font: 'inherit', color: 'var(--text-body)' }}>
           {openError}
         </span>
       )}
@@ -291,9 +291,9 @@ export function CandidateSet({ onCite, go, selection, setSelection }) {
             ink with a gilt underline: WP-14.33 R1) */}
       </FilterStrip>
 
-      <div style={{ flex: 1, overflow: 'auto', minHeight: 0, padding: '18px 22px 30px' }}>
+      <div data-candidates-page="" style={{ flex: 1, overflow: 'auto', minHeight: 0, padding: '26px clamp(18px,2.2vw,40px) 40px' }}>
         <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between',
-          gap: 24, marginBottom: 16 }}>
+          gap: 24, marginBottom: 22 }}>
           <div>
             {/* The brief by NAME where the brief the job was accepted with is the one this result
                 names; the id otherwise, in the corpus's mono, because the result carries nothing
@@ -310,8 +310,8 @@ export function CandidateSet({ onCite, go, selection, setSelection }) {
                 result's own `score_model` (WP-14.31): this paragraph typed "out of 100" and
                 "eight axes" beside a definition written here, three facts nothing checked. */}
             <p data-score-model={result.score_model ? result.score_model.of : undefined}
-              style={{ font: 'var(--fw-reg) 15px/1.55 var(--body)', color: 'var(--text-secondary)',
-                margin: '8px 0 0', maxWidth: '62ch' }}>
+              style={{ font: 'var(--fw-reg) 17px/1.55 var(--body)', color: 'var(--text-secondary)',
+                margin: '10px 0 0', maxWidth: '62ch', textWrap: 'pretty' }}>
               {chosen.says}
               {result.score_model && Array.isArray(result.score_model.axes) && (
                 <> <Term id="candidate-score" />: out of {result.score_model.of}, over{' '}
@@ -327,7 +327,7 @@ export function CandidateSet({ onCite, go, selection, setSelection }) {
           )}
         </div>
 
-        <div style={{ display: 'flex', gap: 12, alignItems: 'stretch' }}>
+        <div data-candidate-columns={list.length} style={{ display: 'flex', gap: 16, alignItems: 'stretch' }}>
           {list.map((c, i) => (
             <CandidateColumn key={c.id} candidate={c} rank={i + 1} selected={sel === c.id}
               onSelect={() => setSelection && setSelection({ candidate: c.n })} style={{ minWidth: 0 }}>
@@ -339,16 +339,19 @@ export function CandidateSet({ onCite, go, selection, setSelection }) {
               )}
               {c.refused
                 ? <span data-candidate-refused={c.refused.kind}
-                    style={{ display: 'block', font: 'var(--type-data-s)', color: 'var(--refusal-text)',
-                      marginTop: 14 }}
+                    style={{ display: 'block', font: 'var(--fw-reg) 15px/1.45 var(--body)', color: 'var(--refusal-text)',
+                      marginTop: 16, paddingTop: 13, borderTop: '1px solid var(--border-soft)' }}
                     title={refusalHeadline(c.refused)}>
                     refused{c.refused.facts.length ? ` — ${c.refused.facts.join(', ')}` : ''}; not
                     loadable, the conflict set is below
                   </span>
-                : <button type="button" onClick={() => openInWorkbench(c)} aria-disabled={opening ? 'true' : undefined} className="tdl-link"
-                    style={{ font: 'var(--type-data-s)', marginTop: 14 }}>
-                    open in the workbench
-                  </button>}
+                : <div style={{ marginTop: 16, paddingTop: 13, borderTop: '1px solid var(--border-soft)' }}>
+                    <button type="button" data-open-candidate={c.n} onClick={(e) => { e.stopPropagation(); openInWorkbench(c); }}
+                      aria-disabled={opening ? 'true' : undefined} className="tdl-link"
+                      style={{ font: 'var(--fw-reg) 16px/1.4 var(--body)' }}>
+                      open in the workbench <span aria-hidden="true">→</span>
+                    </button>
+                  </div>}
             </CandidateColumn>
           ))}
         </div>
@@ -381,7 +384,7 @@ export function CandidateSet({ onCite, go, selection, setSelection }) {
               <p key={p.parti} data-pool-tone={p.tone}
                 style={{ margin: '4px 0 0', paddingLeft: 12,
                   borderLeft: `2px solid ${p.tone === 'refusal' ? 'var(--refusal)' : 'var(--judge-unjudged)'}` }}>
-                <span style={{ fontFamily: 'var(--mono)', fontSize: 12 }}>{p.name}</span>
+                <i>{p.name}</i>
                 {JOURNEY_WORDS.separator}{p.why}
               </p>
             ))}
@@ -421,7 +424,7 @@ export function CandidateSet({ onCite, go, selection, setSelection }) {
             {dropped.map((d) => (
               <p key={d.parti} style={{ font: 'var(--fw-reg) 15px/1.55 var(--body)', color: 'var(--text-secondary)',
                 margin: '7px 0 0', background: 'var(--surface-panel)', padding: '2px 7px', display: 'inline-block' }}>
-                <span style={{ fontFamily: 'var(--mono)', fontSize: 12 }}>{d.parti_name}</span> — {d.why}
+                <i>{d.parti_name}</i> — {d.why}
               </p>
             ))}
           </div>

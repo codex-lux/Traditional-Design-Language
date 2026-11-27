@@ -279,12 +279,15 @@ export function DrawingSet({ go, lastEval }) {
           the same reason the clear-all control in `Chrome.jsx` is sticky. */}
       <FilterStrip right={
         <span style={{ display: 'flex', gap: 10, alignItems: 'center', flex: 'none' }}>
-          <span style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)', whiteSpace: 'nowrap' }}>
+          {/* WP-18.5: the plan's id and its style's id are the record's, the sidebar prints the
+              house by name, and this strip printed both ids again in Courier until it ran out of
+              pane. They are a record's note here: shown when ids are asked for. */}
+          <span data-drawing-of={plan.id} className="tdl-record-note" style={{ whiteSpace: 'nowrap' }}>
             {plan.id} · {plan.style}
           </span>
           {downloadable
             ? <ActionChip affix="↓" onClick={download}>download SVG</ActionChip>
-            : <span style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)', whiteSpace: 'nowrap' }}>
+            : <span style={{ font: 'italic var(--fw-reg) 15px/1.3 var(--body)', color: 'var(--text-secondary)', whiteSpace: 'nowrap' }}>
                 {refusal ? 'nothing to download — refused' : 'nothing to download yet'}
               </span>}
         </span>
@@ -448,13 +451,13 @@ export function DrawingSet({ go, lastEval }) {
             </div>
             </PlateViewer>
             {result.relaxations && (
-              <p style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)', margin: '10px 0 0' }}>
+              <p style={{ font: 'var(--fw-reg) 15px/1.5 var(--body)', fontVariantNumeric: 'lining-nums', color: 'var(--text-secondary)', margin: '10px 0 0' }}>
                 {result.relaxations.count} cut(s) off the bay line
                 {result.relaxations.count ? ` · worst ${result.relaxations.max_off_grid_ft} ft` : ''}
               </p>
             )}
             {kind === 'elevation' && result.date_of_representation && (
-              <p style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)', margin: '10px 0 0' }}>
+              <p style={{ font: 'var(--fw-reg) 15px/1.5 var(--body)', fontVariantNumeric: 'lining-nums', color: 'var(--text-secondary)', margin: '10px 0 0' }}>
                 {(face || result.entrance_face)} elevation
                 {(face || result.entrance_face) === result.entrance_face
                   ? JOURNEY_WORDS.separator + word(ENTRANCE_FRONT_TERM)
@@ -469,7 +472,7 @@ export function DrawingSet({ go, lastEval }) {
                 elevation and roof plates could not, because they were built on a placement
                 of their own. */}
             {result.solver && (
-              <p style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)', margin: '4px 0 0' }}>
+              <p style={{ font: 'var(--fw-reg) 15px/1.5 var(--body)', fontVariantNumeric: 'lining-nums', color: 'var(--text-secondary)', margin: '4px 0 0' }}>
                 {/* Three states, not two. A ternary here would have made an ABSENT engine
                     read as "searched", which is a definite claim about a placement nobody
                     can name — the one collapse this corpus refuses first. */}

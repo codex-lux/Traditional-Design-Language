@@ -26,10 +26,10 @@ import { backdropBox, canvasSize, gridSteps, roomRect } from '../traceCanvas.js'
 const SNAP = 0.5;
 const snap = (v) => Math.round(v / SNAP) * SNAP;
 
-const label = { display: 'block', font: 'var(--type-data-s)', color: 'var(--text-secondary)', margin: '8px 0 2px' };
-const input = { width: '100%', font: 'var(--fw-reg) 12.5px/1.4 var(--mono, monospace)',
+const label = { display: 'block', font: 'var(--fw-reg) 15px/1.5 var(--body)', color: 'var(--text-secondary)', margin: '8px 0 2px' };
+const input = { width: '100%', font: 'var(--fw-reg) 15px/1.4 var(--body)',
   color: 'var(--text-body)', background: 'var(--surface-raised)', border: '1px solid var(--border-hairline)',
-  padding: '4px 6px' };
+  padding: '5px 8px' };
 const row = { display: 'flex', gap: 8 };
 
 function Field({ name, value, onChange, list, type, placeholder, w }) {
@@ -236,7 +236,7 @@ function RoomEditor({ draft, room, roomTypes }) {
         <Field name="level" value={room.level} type="number" w="0 0 70px"
           onChange={(v) => up((r) => { r.level = Number(v) || 0; })} />
       </div>
-      <p style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)', margin: '6px 0 0' }}>
+      <p style={{ font: 'var(--fw-reg) 15px/1.5 var(--body)', color: 'var(--text-secondary)', margin: '6px 0 0' }}>
         {room.w}×{room.h} ft · exterior: {ext.join(' ') || 'none'} ·
         shares a wall with: {near.join(', ') || 'nothing yet'}
       </p>
@@ -436,7 +436,7 @@ export function Transcription({ go }) {
             padding: '6px 10px' }}>
             <label style={{ ...label, margin: 0 }}>
               backdrop
-              <input type="file" accept="image/*" style={{ display: 'block', font: 'var(--type-data-s)' }}
+              <input type="file" accept="image/*" style={{ display: 'block', font: 'var(--fw-reg) 15px/1.5 var(--body)' }}
                 onChange={(e) => e.target.files[0] && loadBackdrop(e.target.files[0])} />
             </label>
             {backdrop && (
@@ -454,7 +454,7 @@ export function Transcription({ go }) {
                 </label>
               </>
             )}
-            <span style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)' }}>
+            <span style={{ font: 'var(--fw-reg) 15px/1.5 var(--body)', color: 'var(--text-secondary)' }}>
               stays in this browser — never uploaded
             </span>
           </div>
@@ -510,24 +510,24 @@ export function Transcription({ go }) {
             onChange={(e) => prov('style_reasoning', e.target.value)} />
 
           <Eyebrow style={{ margin: '16px 0 2px' }}>from a drafter's DXF</Eyebrow>
-          <input type="file" accept=".dxf" style={{ font: 'var(--type-data-s)' }}
+          <input type="file" accept=".dxf" style={{ font: 'var(--fw-reg) 15px/1.5 var(--body)' }}
             onChange={(e) => e.target.files[0] && loadDxf(e.target.files[0])} />
-          {busy && <p style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)' }}>working…</p>}
+          {busy && <p style={{ font: 'var(--fw-reg) 15px/1.5 var(--body)', color: 'var(--text-secondary)' }}>working…</p>}
           {ingest && ingest.error && (
             /* a refused ingest is a refusal, in the ink Export gives one, and not the faint
                NOT-BUILT ink it was painted before WP-14.31's sweep */
-            <p style={{ font: 'var(--type-data-s)', color: 'var(--refusal-text)', margin: '6px 0 0' }}>
+            <p style={{ font: 'var(--fw-reg) 15px/1.5 var(--body)', color: 'var(--refusal-text)', margin: '6px 0 0' }}>
               refused — {ingest.error}
               {ingest.units?.scores && ` (heuristic: ${JSON.stringify(ingest.units.scores)})`}
             </p>
           )}
           {ingest && !ingest.error && ingest.complete && (
-            <p style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)', margin: '6px 0 0' }}>
+            <p style={{ font: 'var(--fw-reg) 15px/1.5 var(--body)', color: 'var(--text-secondary)', margin: '6px 0 0' }}>
               a TDL-emitted sheet — the complete record went straight to the bench
             </p>
           )}
           {ingest && !ingest.error && !ingest.complete && (
-            <div style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)', margin: '6px 0 0' }}>
+            <div style={{ font: 'var(--fw-reg) 15px/1.5 var(--body)', color: 'var(--text-secondary)', margin: '6px 0 0' }}>
               {ingest.counts.kept} candidate room(s), units {ingest.units.units} ({ingest.units.basis},
               plausibility {ingest.units.plausibility} of 1, higher is better){ingest.units.note ? ` — ${ingest.units.note}` : ''}
               <div style={{ color: 'var(--text-secondary)', marginTop: 4 }}>
@@ -539,7 +539,7 @@ export function Transcription({ go }) {
 
           {selRoom
             ? <RoomEditor draft={draft} room={selRoom} roomTypes={roomTypes} />
-            : <p style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)', margin: '14px 0 0' }}>
+            : <p style={{ font: 'var(--fw-reg) 15px/1.5 var(--body)', color: 'var(--text-secondary)', margin: '14px 0 0' }}>
                 drag on the canvas to trace a room; click one to edit it
               </p>}
 
@@ -552,7 +552,7 @@ export function Transcription({ go }) {
             </p>
           )}
           {gaps.map((g, i) => (
-            <div key={i} style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)' }}>
+            <div key={i} style={{ font: 'var(--fw-reg) 15px/1.5 var(--body)', color: 'var(--text-secondary)' }}>
               · {g}
             </div>
           ))}
@@ -568,7 +568,7 @@ export function Transcription({ go }) {
             <Chip onClick={() => save(`${draft.meta.id || 'draft'}.draft.json`, draft)}>download draft</Chip>
           </div>
           {checked && (
-            <p style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)', margin: '10px 0 0' }}>
+            <p style={{ font: 'var(--fw-reg) 15px/1.5 var(--body)', color: 'var(--text-secondary)', margin: '10px 0 0' }}>
               {checked.check?.error
                 ? `could not check — ${checked.check.error}`
                 : `checked: ${(checked.check?.findings || []).length} finding(s) · ` +

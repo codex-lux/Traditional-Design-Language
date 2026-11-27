@@ -38,20 +38,27 @@ const h = React.createElement;
    carries one row per axis: its weight out of 100, the share of its own denominator that
    came back clean, and what that denominator was. The bar behind each row is the share, so
    the shape of a candidate is readable before any of the numbers are. */
+/* THE NUMBER, THEN WHAT IT MEANS, THEN ITS WORKING (WP-18.5, 27 Nov 2026). The column ran name,
+   number, eight rows of the number's arithmetic, three counts and a list of fault names before
+   it said in a sentence why this diagram is here and what it trades away, which is the part a
+   person can argue with. The number still leads and still shows its working: the working stands
+   under the two sentences now, and the trade is still next to the score (rule 1). */
 function ScoreBlock({ candidate: c }) {
-  const axes = c.score_axes || [];
   const unscored = typeof c.score !== 'number' || !isFinite(c.score);
   const dq = !!c.disqualified;
   return h(React.Fragment, null,
-    h("div", { style: { display: 'flex', alignItems: 'baseline', gap: 9, marginTop: 12 } },
-      h("span", { style: { font: 'var(--fw-reg) 26px/1 var(--mono)', color: 'var(--text-body)' } },
+    h("div", { "data-candidate-score": unscored ? '' : c.score.toFixed(1),
+      style: { display: 'flex', alignItems: 'baseline', gap: 10, marginTop: 14 } },
+      h("span", { style: { font: 'var(--fw-reg) 46px/0.95 var(--display)', fontVariantNumeric: 'lining-nums',
+        letterSpacing: '-.01em', color: 'var(--text-body)' } },
         unscored ? '—' : c.score.toFixed(1)),
       h("span", { style: { ...EYE } }, unscored ? "not scored" : "score")),
     /* PHASE 17: the score says its own denominator and how much of it was judged, in mono, from
        the payload: `scoreOf` is the result's `score_model.of` and the two weights are the
        candidate's own. Nothing here types the 100. */
     !unscored && c.scoreOf != null && h("div", { "data-score-of": c.scoreOf,
-      style: { font: 'var(--type-data-s)', color: 'var(--text-secondary)', marginTop: 4 } },
+      style: { font: 'var(--fw-reg) 14.5px/1.4 var(--body)', fontVariantNumeric: 'lining-nums',
+        color: 'var(--text-secondary)', marginTop: 5, textWrap: 'balance' } },
       `${c.score.toFixed(1)} of ${c.scoreOf}`,
       c.score_weight_evaluated != null && c.score_weight_unevaluated != null
         ? ` · ${c.score_weight_evaluated} of ${c.score_weight_evaluated + c.score_weight_unevaluated} weight judged`
@@ -61,7 +68,7 @@ function ScoreBlock({ candidate: c }) {
        same X. `rank_before` is the server's order before revision, said in words. */
     c.revisedLine && h("div", {
       "data-revised": "",
-      style: { ...EYE, color: 'var(--text-secondary)', marginTop: 4, textTransform: 'none', letterSpacing: 0 }
+      style: { font: 'italic var(--fw-reg) 14.5px/1.4 var(--body)', color: 'var(--text-secondary)', marginTop: 3 }
     }, c.revisedLine + (typeof c.rank_before === 'number' ? ` · the server ranked it ${c.rank_before} before revision` : '')),
     /* A disqualified candidate is still scored and its number can be the highest on the
        screen — every ordering puts it last, and this band is why. It is a rule, not a
@@ -82,8 +89,14 @@ function ScoreBlock({ candidate: c }) {
     c.score_unscored_because && h("p", {
       style: { font: 'var(--fw-reg) 14.5px/1.5 var(--body)', color: 'var(--text-secondary)',
                margin: '6px 0 0' }
-    }, c.score_unscored_because),
-    axes.length > 0 && h("div", { style: { marginTop: 10 } },
+    }, c.score_unscored_because));
+}
+
+function ScoreWorking({ candidate: c }) {
+  const axes = c.score_axes || [];
+  return h(React.Fragment, null,
+    axes.length > 0 && h("div", { "data-score-working": axes.length,
+      style: { marginTop: 16, paddingTop: 13, borderTop: '1px solid var(--border-soft)' } },
       h("div", { style: EYE }, "how it scores"),
       axes.map(function (a) {
         /* Number() then isFinite: `share` is server data, and a NaN or a string would be
@@ -99,13 +112,13 @@ function ScoreBlock({ candidate: c }) {
           key: a.axis, title,
           style: { position: 'relative', display: 'grid',
                    gridTemplateColumns: '1fr auto auto', columnGap: 8, alignItems: 'baseline',
-                   padding: '2px 4px', marginTop: 1,
+                   padding: '3px 5px', marginTop: 2,
                    /* the share, drawn behind the row rather than beside it — four columns
                       of these have no width to spare for a separate bar */
                    backgroundImage: pct == null ? 'none'
                      : `linear-gradient(to right, var(--surface-raised) ${pct}%, transparent ${pct}%)` }
         },
-          h("span", { style: { font: 'var(--type-data-s)', color: 'var(--text-secondary)',
+          h("span", { style: { font: 'var(--fw-reg) 15px/1.3 var(--body)', color: 'var(--text-body)',
                                whiteSpace: 'nowrap', overflow: 'hidden',
                                textOverflow: 'ellipsis' } },
             a.axis,
@@ -141,8 +154,8 @@ function ScoreBlock({ candidate: c }) {
 function StandingBand({ c }) {
   if (c.standing === 'refused' && c.refused) {
     return h("div", { "data-candidate-standing": "refused",
-      style: { margin: '10px -15px 0', padding: '7px 15px', borderLeft: '5px solid var(--refusal)',
-        background: 'var(--sev-fatal-field)', font: 'var(--type-data-s)', color: 'var(--text-body)' } },
+      style: { margin: '12px -20px 0', padding: '8px 20px 8px 15px', borderLeft: '5px solid var(--refusal)',
+        background: 'var(--sev-fatal-field)', font: 'var(--fw-reg) 15px/1.45 var(--body)', color: 'var(--text-body)' } },
       h(MarkGlyph, { token: "--mark-refused", size: 11, style: { display: 'inline-block', verticalAlign: 'middle', marginRight: 7 } }),
       h(Term, { id: "judgment-refused" }),
       c.refused.facts && c.refused.facts.length ? ` · ${c.refused.facts.join(', ')}` : null,
@@ -154,8 +167,8 @@ function StandingBand({ c }) {
   }
   const placed = c.standing === 'placed';
   return h("div", { "data-candidate-standing": placed ? "placed" : "unjudged",
-    style: { display: 'flex', alignItems: 'center', gap: 7, marginTop: 10, font: 'var(--type-data-s)',
-      color: 'var(--text-secondary)' } },
+    style: { display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '0 7px', marginTop: 10,
+      font: 'var(--fw-reg) 15px/1.45 var(--body)', color: 'var(--text-secondary)' } },
     h(MarkGlyph, { token: placed ? "--mark-passed" : "--mark-unjudged", size: 11 }),
     placed ? h(React.Fragment, null, h(Term, { id: "candidate-placed" }),
         c.retry && c.retry.outcome === 'placed'
@@ -163,7 +176,7 @@ function StandingBand({ c }) {
         c.repaired
           ? h("span", { "data-repair": "placed" }, " · repaired, not as composed") : null)
       : h(React.Fragment, null, h(Term, { id: "judgment-unjudged" }), " · ",
-        h("i", { style: { font: 'italic var(--fw-reg) 15px/1.3 var(--body)' } }, h(Term, { id: "candidate-may-be-refused" }))));
+        h("i", null, h(Term, { id: "candidate-may-be-refused" }))));
 }
 
 function CandidateColumn({
@@ -195,7 +208,7 @@ function CandidateColumn({
       border: selected ? '1px solid var(--gilt)' : '1px solid var(--surface-panel)',
       outline: selected ? '2px solid var(--gilt)' : 'none',
       background: 'var(--surface-panel)',
-      padding: '14px 15px 16px',
+      padding: '20px 20px 22px',
       cursor: onSelect ? 'pointer' : 'default',
       transition: 'var(--t-hover)',
       ...style
@@ -203,13 +216,15 @@ function CandidateColumn({
   }, /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'flex',
-      alignItems: 'baseline',
-      gap: 9
+      alignItems: 'flex-start',
+      gap: 10
     }
   }, /*#__PURE__*/React.createElement("span", {
+    "data-candidate-rank": rank,
     style: {
-      font: 'var(--type-data-s)',
-      color: 'var(--text-secondary)'
+      font: 'italic var(--fw-reg) var(--fs-d4)/1.16 var(--display)',
+      fontVariantNumeric: 'lining-nums',
+      color: 'var(--text-accent)'
     }
   }, rank), /*#__PURE__*/React.createElement("h3", {
     style: {
@@ -250,61 +265,18 @@ function CandidateColumn({
     }, c.parti_name) : c.parti_name)), /*#__PURE__*/React.createElement(StandingBand, { c: c }), /*#__PURE__*/React.createElement(ScoreBlock, {
     candidate: c
   }), /*#__PURE__*/React.createElement("div", {
+    "data-candidate-why": "",
     style: {
-      display: 'flex',
-      gap: 12,
-      marginTop: 10,
-      flexWrap: 'wrap'
-    }
-  }, ['fatal', 'serious', 'minor'].map(function (s) {
-    const n = c.counts && c.counts[s] != null ? c.counts[s] : 0;
-    return /*#__PURE__*/React.createElement("span", {
-      key: s,
-      style: {
-        font: 'var(--type-data-s)',
-        color: n === 0 ? 'var(--text-secondary)' : SEV[s]
-      }
-    }, s, " ", n);
-  }),
-  /* A refusal is a different measure from the three counts beside it and is not among them: a
-     column can read `fatal 0` and be one the type's own facts turned down, which is the reading
-     that sent a reader to a screen that would not draw their pick. Said on the counts' own line,
-     in the refusal's ink, by the glossary's word for it. */
-  c.refused && /*#__PURE__*/React.createElement("span", {
-    "data-candidate-refused-mark": c.refused.kind,
-    style: {
-      font: 'var(--type-data-s)',
-      color: 'var(--refusal-text)'
-    }
-  }, /*#__PURE__*/React.createElement(Term, {
-    id: "judgment-refused"
-  }))), c.unjudged_fatal_n > 0 && /*#__PURE__*/React.createElement("div", {
-    /* R13 (29 Sep 2026): the fatal faults the corpus could not judge on this candidate, in the
-       unjudged mark and its glossary word, never in the fatal ink -- they break a tie against
-       the candidate and do not disqualify it. The names are the payload's. */
-    "data-unjudged-fatal": c.unjudged_fatal_n,
-    style: {
-      marginTop: 6
-    }
-  }, /*#__PURE__*/React.createElement(JudgmentMark, {
-    state: "unjudged",
-    label: "fatal " + c.unjudged_fatal_n,
-    reason: (c.unjudged_fatal || []).map(function (x) {
-      return x.name || x.fault;
-    }).join('; ')
-  })), /*#__PURE__*/React.createElement("div", {
-    style: {
-      marginTop: 13,
-      paddingTop: 12,
-      borderTop: '1px solid var(--border-soft)'
+      marginTop: 14
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: EYE
   }, "why"), /*#__PURE__*/React.createElement("p", {
     "data-nativity": line.nativity || "",
     style: {
-      font: 'var(--fw-reg) 15px/1.55 var(--body)',
-      margin: '5px 0 0',
+      font: 'var(--fw-reg) 16px/1.5 var(--body)',
+      margin: '4px 0 0',
+      textWrap: 'pretty',
       color: native ? 'var(--sev-cleared)' : 'var(--text-secondary)'
     }
   }, line.term ? /*#__PURE__*/React.createElement("span", {
@@ -324,17 +296,92 @@ function CandidateColumn({
     }
   }, "trades away"), /*#__PURE__*/React.createElement("p", {
     style: {
-      font: 'var(--fw-reg) 15px/1.6 var(--body)',
+      font: 'var(--fw-reg) 16px/1.55 var(--body)',
       color: 'var(--text-body)',
-      margin: '5px 0 0',
+      margin: '4px 0 0',
       textWrap: 'pretty'
     }
-  }, c.trades_away)), /*#__PURE__*/React.createElement("dl", {
+  }, c.trades_away)), /*#__PURE__*/React.createElement(ScoreWorking, {
+    candidate: c
+  }), /*#__PURE__*/React.createElement("div", {
     style: {
-      margin: '14px 0 0',
+      display: 'flex',
+      gap: '2px 14px',
+      marginTop: 14,
+      flexWrap: 'wrap',
+      alignItems: 'baseline'
+    }
+  }, ['fatal', 'serious', 'minor'].map(function (s) {
+    const n = c.counts && c.counts[s] != null ? c.counts[s] : 0;
+    return /*#__PURE__*/React.createElement("span", {
+      key: s,
+      "data-count": s,
+      style: {
+        font: 'var(--fw-reg) 15.5px/1.4 var(--body)',
+        fontVariantNumeric: 'lining-nums',
+        color: n === 0 ? 'var(--text-secondary)' : SEV[s]
+      }
+    }, s, " ", n);
+  }),
+  /* A refusal is a different measure from the three counts beside it and is not among them: a
+     column can read `fatal 0` and be one the type's own facts turned down, which is the reading
+     that sent a reader to a screen that would not draw their pick. Said on the counts' own line,
+     in the refusal's ink, by the glossary's word for it. */
+  c.refused && /*#__PURE__*/React.createElement("span", {
+    "data-candidate-refused-mark": c.refused.kind,
+    style: {
+      font: 'var(--fw-reg) 15.5px/1.4 var(--body)',
+      color: 'var(--refusal-text)'
+    }
+  }, /*#__PURE__*/React.createElement(Term, {
+    id: "judgment-refused"
+  }))), c.unjudged_fatal_n > 0 && /*#__PURE__*/React.createElement("div", {
+    /* R13 (29 Sep 2026): the fatal faults the corpus could not judge on this candidate, in the
+       unjudged mark and its glossary word, never in the fatal ink -- they break a tie against
+       the candidate and do not disqualify it. The names are the payload's. */
+    "data-unjudged-fatal": c.unjudged_fatal_n,
+    style: {
+      marginTop: 8
+    }
+  }, /*#__PURE__*/React.createElement(JudgmentMark, {
+    state: "unjudged",
+    label: "fatal " + c.unjudged_fatal_n
+  }),
+  /* WHICH ONES, ON DEMAND (WP-18.5). The names ran on under the mark, a dozen lines of them in
+     every column. The mark, its word and the count are what must not be missed and they stay in
+     view; the names are one click under them and each on its own line. */
+  (c.unjudged_fatal || []).length > 0 && /*#__PURE__*/React.createElement("details", {
+    "data-unjudged-fatal-names": c.unjudged_fatal.length,
+    onClick: function (e) { e.stopPropagation(); },
+    style: {
+      margin: '3px 0 0 21px'
+    }
+  }, /*#__PURE__*/React.createElement("summary", {
+    className: "tdl-link",
+    style: {
+      font: 'var(--fw-reg) 14.5px/1.4 var(--body)',
+      cursor: 'pointer',
+      display: 'inline-block'
+    }
+  }, "which ones"), /*#__PURE__*/React.createElement("ul", {
+    style: {
+      font: 'var(--fw-reg) 14.5px/1.45 var(--body)',
+      color: 'var(--text-secondary)',
+      margin: '5px 0 0',
+      paddingLeft: 16
+    }
+  }, c.unjudged_fatal.map(function (x, i) {
+    return /*#__PURE__*/React.createElement("li", { key: i }, x.name || x.fault);
+  })))), /*#__PURE__*/React.createElement("dl", {
+    "data-candidate-facts": "",
+    style: {
+      margin: '16px 0 0',
+      paddingTop: 13,
+      borderTop: '1px solid var(--border-soft)',
       display: 'grid',
       gridTemplateColumns: 'auto 1fr',
-      columnGap: 12,
+      alignItems: 'baseline',
+      columnGap: 14,
       rowGap: 4
     }
   }, [['area', c.area], ['footprint', c.footprint], ['bays', c.bays], ['massing', c.massing]].filter(function (r) {
@@ -348,8 +395,9 @@ function CandidateColumn({
       }
     }, r[0]), /*#__PURE__*/React.createElement("dd", {
       style: {
-        font: 'var(--type-data-s)',
-        color: 'var(--text-secondary)',
+        font: 'var(--fw-reg) 15px/1.4 var(--body)',
+        fontVariantNumeric: 'lining-nums',
+        color: 'var(--text-body)',
         margin: 0
       }
     }, r[1]));

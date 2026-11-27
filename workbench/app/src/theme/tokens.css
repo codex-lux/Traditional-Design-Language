@@ -478,8 +478,12 @@
   --var-forbidden:var(--brick);
 
   /* ── Massing affinity ───────────────────────────────────────────────────── */
-  --aff-canonical:var(--gilt-deep); --aff-common:var(--green-deep); --aff-possible:var(--ink-2);
-  --aff-atypical:var(--ink-3); --aff-forbidden:var(--brick);
+  /* ON PAPER THE AFFINITY RUNGS ARE WORDS AND NOTHING ELSE (27 Nov 2026). `VariantPill`'s affinity
+     map is their one reader and it sets each as a `color:`. A rendered read of the paper pages
+     found canonical at 4.09, common at 3.78 and forbidden at 3.15 on its own field: the paper
+     contrast table reads the text duties and had never read a ladder. Bound to the paper inks. */
+  --aff-canonical:var(--gilt-ink); --aff-common:var(--green-ink); --aff-possible:var(--ink-2-ink);
+  --aff-atypical:var(--ink-3-ink); --aff-forbidden:var(--brick-ink);
 
   /* ── Parameter kind. invented (25 of 1,556) is the only one that shouts. ── */
   --kind-measured:var(--ink);
@@ -635,11 +639,11 @@
   --var-permitted:var(--ink-2);
   --var-atypical:var(--ink-3);
   --var-forbidden:var(--brick);
-  --aff-canonical:var(--gilt-deep);
-  --aff-common:var(--green-deep);
-  --aff-possible:var(--ink-2);
-  --aff-atypical:var(--ink-3);
-  --aff-forbidden:var(--brick);
+  --aff-canonical:var(--gilt-ink);
+  --aff-common:var(--green-ink);
+  --aff-possible:var(--ink-2-ink);
+  --aff-atypical:var(--ink-3-ink);
+  --aff-forbidden:var(--brick-ink);
   --kind-measured:var(--ink);
   --kind-editorial:var(--gilt-deep);
   --kind-derived:var(--ink-2);

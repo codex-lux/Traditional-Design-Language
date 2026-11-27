@@ -316,3 +316,100 @@ test('the small controls answer the pointer through a class, and a filter strip 
   }
   assert.match(TOKENS_CSS, /--substrip-h:40px;/, 'the walk holds a one-row strip to 40 px');
 });
+
+
+/* ---- §8: the drafting room's interiors (WP-18.5, 27 Nov 2026) --------------------------------- */
+import { labelWidth, LABEL_MAX, LABEL_MIN } from './surfaces/phylo/labelWidth.js';
+
+test('a candidate column says its number, then why and what it trades away, then the working', () => {
+  const col = code('components/CandidateColumn.jsx');
+  const at = (needle) => { const i = col.lastIndexOf(needle); assert.ok(i > 0, `missing: ${needle}`); return i; };
+  const order = [at('React.createElement(StandingBand, { c: c })'), at('React.createElement(ScoreBlock, {'),
+    at('"data-candidate-why": ""'), at('}, "trades away")'), at('React.createElement(ScoreWorking, {'),
+    at("['fatal', 'serious', 'minor'].map("), at('"data-unjudged-fatal": c.unjudged_fatal_n'),
+    at('"data-candidate-facts": ""')];
+  assert.deepEqual(order, [...order].sort((a, b) => a - b), 'the column\'s order');
+  // rule 1 of the column: the trade stands next to the score, with one block (the why) between
+  assert.doesNotMatch(col.slice(order[1], order[3]), /ScoreWorking|"how it scores"/, 'the working is not between them');
+  // the working is still drawn, and is not behind a disclosure
+  const working = col.slice(col.indexOf('function ScoreWorking('), col.indexOf('function StandingBand('));
+  assert.match(working, /"how it scores"/);
+  assert.doesNotMatch(working, /"details"/, 'the score\'s working is never folded');
+});
+
+test('the fatal faults nobody judged keep their mark and count in view, and only their names fold', () => {
+  const col = code('components/CandidateColumn.jsx');
+  const a = col.indexOf('"data-unjudged-fatal": c.unjudged_fatal_n');
+  const d = col.indexOf('React.createElement("details", {', a);
+  const mark = col.indexOf('label: "fatal " + c.unjudged_fatal_n', a);
+  assert.ok(a > 0 && mark > a && d > mark, 'the mark and its count come before the disclosure, outside it');
+  assert.match(col.slice(d, d + 1400), /"data-unjudged-fatal-names": c\.unjudged_fatal\.length[\s\S]*x\.name \|\| x\.fault/);
+  assert.doesNotMatch(col.slice(a, d), /x\.name \|\| x\.fault/, 'the names are inside the disclosure only');
+});
+
+test('a finding row gives its statement the width, and says its layer on a quiet line under it', () => {
+  const row = code('components/FindingRow.jsx');
+  const st = row.indexOf('"data-finding-statement": ""');
+  const meta = row.indexOf('"data-finding-meta": ""');
+  assert.ok(st > 0 && meta > st, 'the statement, then the line under it');
+  const metaBlock = row.slice(meta, row.indexOf('open && /*#__PURE__*/React.createElement("div"', meta));
+  for (const part of ['finding.layer', '"data-engine-tag": ""', '"data-class-tag": ""', 'finding.at']) {
+    assert.ok(metaBlock.includes(part), `the line under the statement carries ${part}`);
+  }
+  assert.doesNotMatch(row, /width: 76/, 'the layer is not a fixed column beside the statement');
+  assert.match(row, /"data-finding-severity": sev,\s*style: \{\s*font: 'var\(--type-eyebrow\)'/);
+});
+
+test('the family tree\'s name column is a share of its chart, between a floor and 260 px', () => {
+  assert.equal(labelWidth(null), LABEL_MAX);
+  assert.equal(labelWidth(NaN), LABEL_MAX);
+  assert.equal(labelWidth(0), LABEL_MAX, 'unmeasured is the wide chart');
+  assert.equal(labelWidth(336), LABEL_MIN, 'the pane the walk measured');
+  assert.equal(labelWidth(500), 180);
+  assert.equal(labelWidth(1100), LABEL_MAX);
+  for (let w = 1; w < 1400; w += 7) {
+    const l = labelWidth(w);
+    assert.ok(l >= LABEL_MIN && l <= LABEL_MAX);
+    assert.ok(labelWidth(w + 7) >= l, 'never narrower in a wider pane');
+  }
+  const src = code('surfaces/Phylogeny.jsx');
+  assert.match(src, /const LABEL_W = labelWidth\(chartW\);/);
+  assert.doesNotMatch(src, /const LABEL_W = \d/, 'no fixed width beside the measured one');
+});
+
+test('the export page leads with its record\'s line, and its cards are one even grid', () => {
+  const src = code('surfaces/ExportDetails.jsx');
+  assert.match(src, /<PageHero termId="surface-export"/);
+  assert.match(src, /<div data-export-cards="" style=\{GRID\}>/);
+  assert.match(src, /const GRID = \{ display: 'grid', gridTemplateColumns: 'repeat\(auto-fit, minmax\(min\(100%, 400px\), 1fr\)\)'/);
+  assert.doesNotMatch(src, /maxWidth: 420/, 'a card has no width of its own');
+});
+
+test('the Drawing Set and the tracing panel set no prose in the data face', () => {
+  const ds = code('surfaces/DrawingSet.jsx');
+  assert.match(ds, /<span data-drawing-of=\{plan\.id\} className="tdl-record-note"/, 'the two ids are an on-demand note');
+  assert.doesNotMatch(ds, /font: 'var\(--type-data-s\)'[^>]*>\s*\{plan\.id\} · \{plan\.style\}/);
+  const tr = code('surfaces/Transcription.jsx');
+  assert.doesNotMatch(tr, /font: 'var\(--type-data-s\)'/, 'a label, a note and a gap are read, not parsed');
+  assert.doesNotMatch(tr, /const input = \{[^}]*var\(--mono/, 'a field is typed in the reading face');
+});
+
+import { groundValue } from './grounds.js';
+
+test('the affinity ladder\'s words read 4.5 : 1 on every paper, at :root and under vellum', () => {
+  /* A rendered read of twenty-eight paper pages found what the token table never read: the ladder
+     duties are held on the instrument (grounds.test §10) and were held on paper by nothing. The
+     affinity rungs have one reader, `VariantPill`'s map, and it sets each as a word. */
+  const pill = code('components/VariantPill.jsx');
+  const rungs = ['--aff-canonical', '--aff-common', '--aff-possible', '--aff-forbidden'];
+  for (const n of rungs) assert.ok(pill.includes(`'var(${n})'`), `the premise: ${n} is a word's colour in the pill`);
+  for (const n of [...rungs, '--aff-atypical']) {
+    for (const g of [null, 'vellum']) {
+      const ink = groundValue(TOKENS_CSS, g, n);
+      assert.match(ink || '', /^#[0-9a-f]{6}$/i, `${n} resolves to an ink on ${g || ':root'}`);
+      for (const p of PAPERS) {
+        assert.ok(contrast(ink, hexOf(p)) >= 4.5, `${n} on ${g || ':root'} reads ${contrast(ink, hexOf(p)).toFixed(2)} on ${p}`);
+      }
+    }
+  }
+});

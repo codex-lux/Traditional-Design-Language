@@ -15,6 +15,7 @@ import { planDoc } from '../state/planDoc.js';
 import { session } from '../state/session.js';
 import { Eyebrow } from '../components/Eyebrow.jsx';
 import { Vellum } from '../components/Vellum.jsx';
+import { PageHero } from '../components/PageHead.jsx';
 import { ConventionsPlate } from '../export/ConventionsPlate.jsx';
 import { FilterStrip, Chip, ChipGroup, ActionChip } from '../Chrome.jsx';
 import { Term } from '../components/Term.jsx';
@@ -39,10 +40,17 @@ function save(name, content, type = 'application/json') {
   URL.revokeObjectURL(a.href);
 }
 
-const card = { border: '1px solid var(--border-hairline)', padding: '14px 16px', flex: '1 1 300px',
-  minWidth: 280, maxWidth: 420 };
-const cardTitle = { font: 'var(--fw-reg) 17px/1.2 var(--display)', color: 'var(--text-body)', margin: '0 0 7px' };
-const cardBody = { font: 'var(--fw-reg) 15px/1.55 var(--body)', color: 'var(--text-secondary)', margin: '0 0 12px' };
+/* WP-18.5 (27 Nov 2026): the cards are one grid of equal columns, each a sheet of paper with its
+   title at display size, where they were a wrapping row whose fourth card stood alone at another
+   width. `flex: 1` on the body keeps every card's downloads on one line across the row. */
+const card = { border: '1px solid var(--border-hairline)', padding: '22px 24px 22px', minWidth: 0,
+  display: 'flex', flexDirection: 'column' };
+const cardTitle = { font: 'var(--fw-reg) 24px/1.15 var(--display)', letterSpacing: 'var(--tr-display)',
+  color: 'var(--text-body)', margin: '0 0 9px' };
+const cardBody = { font: 'var(--fw-reg) 16px/1.55 var(--body)', color: 'var(--text-secondary)', margin: '0 0 16px',
+  flex: 1, textWrap: 'pretty' };
+const GRID = { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 400px), 1fr))', gap: 18,
+  alignItems: 'stretch' };
 
 /* WHICH FACE AN ELEVATION LEAVES AS (WP-14.27, PRD §C.12). Export drew only the face the record
    calls the entrance front, so the other three elevations the generator draws could be looked at
@@ -139,8 +147,6 @@ export function ExportDetails({ lastEval }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: 0, flex: 1 }}>
       <FilterStrip>
-        <Eyebrow as="span">details &amp; export</Eyebrow>
-        <span style={{ width: 1, height: 18, background: 'var(--border-hairline)' }} />
         <Eyebrow as="span"><Term id={FACE_TERM} /></Eyebrow>
         <ChipGroup label={word(FACE_TERM)}>
           <Chip radio on={!face} title={describeTerm(glossary, ENTRANCE_FRONT_TERM).title}
@@ -152,7 +158,9 @@ export function ExportDetails({ lastEval }) {
         </ChipGroup>
       </FilterStrip>
 
-      <div style={{ flex: 1, overflow: 'auto', minHeight: 0, padding: '22px 26px 36px' }}>
+      <div data-export-page="" className="tdl-scroll">
+       <div className="tdl-page tdl-page-wide" style={{ paddingTop: 38 }}>
+        <PageHero termId="surface-export" className="tdl-rise" />
         {/* WHAT MAY NOT LEAVE, AND WHY, BEFORE THE BUTTONS THAT WOULD HAVE SENT IT (WP-13.4).
             The conflict set is the same component the bench draws where the plate would be, so
             a reader who came here from a refused sheet meets the same words rather than a
@@ -172,7 +180,7 @@ export function ExportDetails({ lastEval }) {
           </p>
         )}
         <Eyebrow style={{ marginBottom: 12 }}>leaves the system today</Eyebrow>
-        <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', alignItems: 'stretch' }}>
+        <div data-export-cards="" style={GRID}>
           <Vellum style={card}>
             <h3 style={cardTitle}>The plan record</h3>
             <p style={cardBody}>
@@ -245,14 +253,14 @@ export function ExportDetails({ lastEval }) {
           </Vellum>
         </div>
 
-        <div style={{ marginTop: 28 }}><ConventionsPlate /></div>
-        <Eyebrow style={{ margin: '28px 0 12px' }}><Term id="mark-not-built" /></Eyebrow>
-        <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', alignItems: 'stretch' }}>
+        <div style={{ marginTop: 34 }}><ConventionsPlate /></div>
+        <Eyebrow style={{ margin: '34px 0 12px' }}><Term id="mark-not-built" /></Eyebrow>
+        <div style={GRID}>
           {NOT_BUILT.map((id) => (
-            <div key={id} data-not-built={id} style={{ ...card, border: '1px dashed var(--border-paper)',
+            <div key={id} data-not-built={id} style={{ ...card, padding: 10, border: '1px dashed var(--border-paper)',
               backgroundImage: 'var(--mark-not-built)' }}>
-              <div style={{ background: 'var(--surface-panel)', padding: '8px 10px' }}>
-                <h3 style={{ ...cardTitle, color: 'var(--text-secondary)' }}>{word(id)}</h3>
+              <div style={{ background: 'var(--surface-panel)', padding: '12px 14px', flex: 1 }}>
+                <h3 style={{ ...cardTitle, fontSize: 20, color: 'var(--text-secondary)' }}>{word(id)}</h3>
                 <p data-not-built-definition="" style={{ ...cardBody, color: 'var(--text-secondary)', marginBottom: 8 }}>
                   {describeTerm(glossary, id).text}
                 </p>
@@ -267,16 +275,17 @@ export function ExportDetails({ lastEval }) {
           ))}
         </div>
 
-        <p data-transcription-pointer="" style={{ font: 'var(--fw-reg) 14.5px/1.6 var(--body)',
-          color: 'var(--text-secondary)', margin: '16px 0 0', maxWidth: '76ch' }}>
+        <p data-transcription-pointer="" style={{ font: 'var(--fw-reg) 16px/1.6 var(--body)',
+          color: 'var(--text-secondary)', margin: '22px 0 0', maxWidth: '76ch' }}>
           <a href={formatHash('transcription')}>{word('surface-transcription')}</a>
           {' — '}{describeTerm(glossary, 'surface-transcription').text}
         </p>
 
-        <p data-no-costing="" style={{ font: 'var(--fw-reg) 14.5px/1.6 var(--body)', color: 'var(--text-secondary)',
-          margin: '24px 0 0', maxWidth: '76ch' }}>
+        <p data-no-costing="" style={{ font: 'var(--fw-reg) 16px/1.6 var(--body)', color: 'var(--text-secondary)',
+          margin: '18px 0 0', maxWidth: '76ch' }}>
           <Term id="no-costing-engine" />{' — '}{describeTerm(glossary, 'no-costing-engine').text}
         </p>
+       </div>
       </div>
     </div>
   );
