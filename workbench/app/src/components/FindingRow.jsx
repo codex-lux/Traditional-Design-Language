@@ -83,77 +83,84 @@ function FindingRow({
     "aria-expanded": open,
     style: {
       display: 'flex',
-      alignItems: 'baseline',
+      alignItems: 'flex-start',
       gap: 10,
       width: '100%',
       textAlign: 'left',
       minHeight: dense ? 'var(--row-h)' : 'var(--row-h-l)',
-      padding: dense ? '6px 10px' : '9px 12px'
+      padding: dense ? '5px 10px' : '8px 12px'
     }
   },
   /* THE STATEMENT HAS THE ROW (WP-18.5, 27 Nov 2026). A row was four columns, two of them fixed
      Courier: the severity, then the layer at 76 px under a group heading that had just said the
-     layer, then the statement in what was left of a 430 px pane, then a room's id. The severity is
-     the row's eyebrow now, the statement takes the width, and the layer, the two tags and the
-     room stand under it as one quiet line. Nothing a row said is gone. */
+     layer, then the statement in what was left of a 430 px pane, then a room's id. The severity,
+     the layer and the room are one narrow side column now, stacked, and the statement takes the
+     rest with its two tags run on after it. Nothing a row said is gone.
+     A FIRST CUT PUT THE LAYER, THE TAGS AND THE ROOM ON A LINE UNDER THE STATEMENT, and measured
+     it: the statement went 212 to 325 px wide and a row went 66 to 86 px tall, so a screen held
+     a quarter fewer findings. This file's first sentence is that the findings must fit. */
   /*#__PURE__*/React.createElement("span", {
+    "data-finding-side": "",
+    style: {
+      display: 'flex',
+      flexDirection: 'column',
+      width: '5.4rem',
+      flex: 'none',
+      minWidth: 0
+    }
+  }, /*#__PURE__*/React.createElement("span", {
     "data-finding-severity": sev,
     style: {
       font: 'var(--type-eyebrow)',
       letterSpacing: 'var(--tr-eyebrow)',
       textTransform: 'uppercase',
-      color: colour,
-      width: '4.5rem',
-      flex: 'none'
+      color: colour
     }
   }, sev), /*#__PURE__*/React.createElement("span", {
+    "data-finding-layer": "",
     style: {
-      flex: 1,
-      minWidth: 0
+      font: 'italic var(--fw-reg) 13.5px/1.35 var(--body)',
+      color: 'var(--text-secondary)'
     }
-  }, /*#__PURE__*/React.createElement("span", {
+  }, finding.layer), finding.at && /*#__PURE__*/React.createElement("span", {
+    "data-finding-at": "",
+    style: {
+      font: 'var(--type-data-s)',
+      color: 'var(--text-secondary)',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis'
+    },
+    title: finding.at
+  }, finding.at)), /*#__PURE__*/React.createElement("span", {
     "data-finding-statement": "",
     style: {
-      display: 'block',
+      flex: 1,
+      minWidth: 0,
       font: 'var(--fw-reg) 15.5px/1.45 var(--body)',
       color: 'var(--text-body)',
       textWrap: 'pretty'
     }
-  }, finding.statement), /*#__PURE__*/React.createElement("span", {
-    "data-finding-meta": "",
-    style: {
-      display: 'flex',
-      flexWrap: 'wrap',
-      alignItems: 'baseline',
-      gap: '0 10px',
-      marginTop: 2,
-      font: 'italic var(--fw-reg) 13.5px/1.45 var(--body)',
-      color: 'var(--text-secondary)'
-    }
-  }, /*#__PURE__*/React.createElement("span", null, finding.layer), engineTag && /*#__PURE__*/React.createElement("span", {
+  }, finding.statement, engineTag && /*#__PURE__*/React.createElement("span", {
     "data-engine-tag": "",
     title: describeTerm(glossary, 'finding-engine').title,
     style: {
       font: 'var(--type-data-s)',
-      color: 'var(--text-secondary)'
+      color: 'var(--text-secondary)',
+      marginLeft: 9,
+      whiteSpace: 'nowrap'
     }
   }, engineTag), classTag && /*#__PURE__*/React.createElement("span", {
     "data-class-tag": "",
     title: describeTerm(glossary, 'finding-class').title,
     style: {
       font: 'var(--type-data-s)',
-      color: 'var(--text-accent)'
+      color: 'var(--text-accent)',
+      marginLeft: 9,
+      whiteSpace: 'nowrap'
     }
-  }, classTag), finding.at && /*#__PURE__*/React.createElement("span", {
-    "data-finding-at": "",
+  }, classTag))), open && /*#__PURE__*/React.createElement("div", {
     style: {
-      font: 'var(--type-data-s)',
-      color: 'var(--text-secondary)',
-      marginLeft: 'auto'
-    }
-  }, finding.at)))), open && /*#__PURE__*/React.createElement("div", {
-    style: {
-      padding: '2px 12px 14px calc(4.5rem + 22px)',
+      padding: '2px 12px 14px calc(5.4rem + 22px)',
       maxWidth: 'calc(var(--measure-prose) + 5rem)'
     }
   }, finding.why && /*#__PURE__*/React.createElement("p", {

@@ -110,6 +110,11 @@ REGISTRY = [
      "reason": "the Brief's lot to scale and its compass: a site schematic, not a drawing of a building"},
     {"id": "period-bar", "file": "workbench/app/src/dossier/PeriodBar.jsx", "role": "out-of-scope",
      "reason": "a style's period as a bar of dates: a chart, not a building"},
+    # Phase 18 (registered 27 Nov 2026: WP-18.0 drew the mark and ran no test under tests/, so the
+    # census refused the file on PR #48's CI and nowhere before it)
+    {"id": "product-mark", "file": "workbench/app/src/Chrome.jsx", "role": "out-of-scope",
+     "reason": "the product's mark in the sidebar: a doorcase as a 30 px emblem, dimensioned by no "
+               "record and claiming none, not a drawing of a building anyone reads a figure from"},
     {"id": "conventions-plate", "file": "workbench/app/src/export/ConventionsPlate.jsx", "role": "out-of-scope",
      "reason": "an illustration of the dimensioning convention, clear against structural, drawn to no record"},
     {"id": "front-door", "file": "workbench/app/src/surfaces/Overview.jsx", "role": "out-of-scope",

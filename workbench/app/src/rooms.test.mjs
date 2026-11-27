@@ -347,16 +347,23 @@ test('the fatal faults nobody judged keep their mark and count in view, and only
   assert.doesNotMatch(col.slice(a, d), /x\.name \|\| x\.fault/, 'the names are inside the disclosure only');
 });
 
-test('a finding row gives its statement the width, and says its layer on a quiet line under it', () => {
+test('a finding row gives its statement the width: the severity, the layer and the room are one side column', () => {
   const row = code('components/FindingRow.jsx');
+  const side = row.indexOf('"data-finding-side": ""');
   const st = row.indexOf('"data-finding-statement": ""');
-  const meta = row.indexOf('"data-finding-meta": ""');
-  assert.ok(st > 0 && meta > st, 'the statement, then the line under it');
-  const metaBlock = row.slice(meta, row.indexOf('open && /*#__PURE__*/React.createElement("div"', meta));
-  for (const part of ['finding.layer', '"data-engine-tag": ""', '"data-class-tag": ""', 'finding.at']) {
-    assert.ok(metaBlock.includes(part), `the line under the statement carries ${part}`);
+  // (`code()` strips comments, the compiled `/*#__PURE__*/` among them)
+  const body = st + row.slice(st).search(/\bopen &&\s*React\.createElement\("div"/);
+  assert.ok(side > 0 && st > side && body > st + 100, 'the side column, then the statement, then the opened body');
+  const sideBlock = row.slice(side, st);
+  for (const part of ['"data-finding-severity": sev', 'finding.layer', 'finding.at']) {
+    assert.ok(sideBlock.includes(part), `the side column carries ${part}`);
   }
-  assert.doesNotMatch(row, /width: 76/, 'the layer is not a fixed column beside the statement');
+  assert.match(sideBlock, /flexDirection: 'column'/, 'stacked, so the three cost one column and not three');
+  const stBlock = row.slice(st, body);
+  for (const part of ['finding.statement', '"data-engine-tag": ""', '"data-class-tag": ""']) {
+    assert.ok(stBlock.includes(part), `the statement carries ${part}`);
+  }
+  assert.doesNotMatch(stBlock, /finding\.layer|finding\.at\b/, 'nothing but the statement and its tags takes its width');
   assert.match(row, /"data-finding-severity": sev,\s*style: \{\s*font: 'var\(--type-eyebrow\)'/);
 });
 

@@ -3633,6 +3633,16 @@ await palette.waitFor({ state: 'visible', timeout: 5000 });
 check('⌘K opens the palette', await palette.count() > 0);
 await page.keyboard.type('mistakes');
 await page.waitForTimeout(500);
+// THE FIRST OPTION IS WAITED FOR, NOT SLEPT FOR (27 Nov 2026). The index is fetched when the
+// palette opens, and 500 ms was the whole allowance: the check failed on PR #48's CI and in a
+// local walk that shared its machine, and passed in every walk run alone. What is asserted is
+// unchanged -- the FIRST option is the fault corpus -- and a wrong first option still fails,
+// five seconds later.
+await page.waitForFunction((name) => {
+  const d = [...document.querySelectorAll('[role="dialog"]')].find((x) => x.getAttribute('aria-label') === name);
+  const o = d && d.querySelector('[role="option"]');
+  return !!o && o.getAttribute('data-id') === 'faults';
+}, paletteName || 'Search the corpus', { timeout: 5000 }).catch(() => {});
 // By the option's own id (WP-14.13): the place's words are its glossary record's and may be
 // reworded there; the id is the site map's and does not move.
 check('a newcomer word finds the fault corpus',

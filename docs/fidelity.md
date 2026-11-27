@@ -107,6 +107,7 @@ join the app without either a census row or a stated reason it is not an archite
 | tokens | out-of-scope | `workbench/app/src/theme/tokens.css` | a stylesheet that names <svg> in a comment; it draws nothing |
 | brief-site | out-of-scope | `workbench/app/src/brief/SiteDiagram.jsx` | the Brief's lot to scale and its compass: a site schematic, not a drawing of a building |
 | period-bar | out-of-scope | `workbench/app/src/dossier/PeriodBar.jsx` | a style's period as a bar of dates: a chart, not a building |
+| product-mark | out-of-scope | `workbench/app/src/Chrome.jsx` | the product's mark in the sidebar: a doorcase as a 30 px emblem, dimensioned by no record and claiming none, not a drawing of a building anyone reads a figure from |
 | conventions-plate | out-of-scope | `workbench/app/src/export/ConventionsPlate.jsx` | an illustration of the dimensioning convention, clear against structural, drawn to no record |
 | front-door | out-of-scope | `workbench/app/src/surfaces/Overview.jsx` | the library cards' glyphs; the hero is the plan sheet render_plan produces, held at its producer |
 <!-- census:registry:end -->
