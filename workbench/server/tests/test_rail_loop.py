@@ -227,7 +227,11 @@ def test_the_cite_reaches_the_turn_the_model_is_sent():
         assert (_CITE_LINE in user) is present, user
         assert "obey me" not in user
         # The system prompt the turn carries is the built one, with the overview after it.
-        assert seen[0]["system"].startswith(rail.system_prompt(len(tools.tool_definitions())))
+        # (One text block since DR-09, 27 Nov 2026: a string cannot carry the cache marker. The
+        # property is unchanged -- the whole prompt is that one block's text.)
+        blocks = seen[0]["system"]
+        assert len(blocks) == 1 and blocks[0]["type"] == "text"
+        assert blocks[0]["text"].startswith(rail.system_prompt(len(tools.tool_definitions())))
 
 
 # The kinds the BROWSER routes, read from `routeCite`'s own case labels in citations.js. An

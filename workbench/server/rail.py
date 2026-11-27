@@ -437,6 +437,68 @@ def _emit_text(buf, ctx):
     return events
 
 
+# ----------------------------------------------------------------- the cached prefix
+# EVERY REQUEST OF A TURN RE-SENT THE WHOLE FIXED PREFIX AT FULL PRICE (deployment-readiness
+# review, 27 Nov 2026, DR-09). The system prompt and the tool definitions were measured at 42,338
+# characters, a turn makes up to ten requests (nine tool rounds and the answer), and nothing
+# carried a `cache_control`. A cache read is billed at about a tenth of the input price.
+#
+# Two breakpoints, and the API takes four:
+#   * one EXPLICIT marker on the system block. The API renders tools, then system, then
+#     messages, so this one marker caches the tool definitions and the system prompt together,
+#     and it survives whatever the conversation after it does.
+#   * the top-level field, which places a second breakpoint on the last block of the request and
+#     moves it forward as the tool loop appends. Round two then reads round one's history and
+#     tool results instead of paying for them again; a tool result is up to 20 KB.
+#
+# The default five-minute life is used for both. It is refreshed on every read, a turn's
+# requests are seconds apart, and one reader's turns are usually minutes apart.
+#
+# WHAT KEEPS THIS A SAVING: the prefix must be the same BYTES on every request. Nothing in
+# `system_prompt`, the overview or `tools.tool_definitions()` reads a clock or a random value,
+# and `test_rail_prompt_cache.py` holds the prefix identical across requests and turns. A date,
+# a request id or an unordered set added to any of the three turns the write premium (about a
+# quarter more than plain input) into a surcharge on every request, with no error.
+#
+# WHAT IT DOES NOT REACH: the conversation ACROSS turns. `stream_turn` appends the page's
+# context to the last user message, and whether a later turn replays that message with the same
+# suffix is the client's doing. Where it does not, the history after that message is written
+# again on the next turn. The fixed prefix, which is the large part, is read either way.
+CACHE = {"type": "ephemeral"}
+
+
+def cached_prefix(system_text):
+    """The system prompt as the one content block that carries the explicit breakpoint."""
+    return [{"type": "text", "text": system_text, "cache_control": dict(CACHE)}]
+
+
+class TurnUsage:
+    """What one turn's requests were billed for, summed, for one log line.
+
+    It is logged because nothing in this repository can PROVE a cache read: that takes a live,
+    billed request. An operator reads it instead: `cache_read` above zero from the second
+    request of a turn is the cache working, and `cache_write` on every request with `cache_read`
+    at zero is a prefix that moves. A field a response does not carry counts as zero."""
+
+    FIELDS = (("input", "input_tokens"), ("cache_write", "cache_creation_input_tokens"),
+              ("cache_read", "cache_read_input_tokens"), ("output", "output_tokens"))
+
+    def __init__(self):
+        self.requests = 0
+        self.totals = {name: 0 for name, _ in self.FIELDS}
+
+    def add(self, resp):
+        self.requests += 1
+        usage = getattr(resp, "usage", None)
+        for name, field in self.FIELDS:
+            value = getattr(usage, field, None)
+            if isinstance(value, int) and not isinstance(value, bool):
+                self.totals[name] += value
+
+    def __str__(self):
+        return " ".join([f"requests={self.requests}"] + [f"{k}={v}" for k, v in self.totals.items()])
+
+
 def stream_turn(body, identity=None):
     """Generator of SSE lines for one rail turn. The client owns conversation state
     and replays prior turns; we run the tool loop to completion server-side.
@@ -471,17 +533,21 @@ def stream_turn(body, identity=None):
                             "content": last["content"] + "\n\n[context]\n" + ctx_block}
 
     tool_defs = tools.tool_definitions()
-    system = system_prompt(len(tool_defs)) + json.dumps(corpus.core.overview(), ensure_ascii=False)
+    system = cached_prefix(
+        system_prompt(len(tool_defs)) + json.dumps(corpus.core.overview(), ensure_ascii=False))
     client = _client()
     yield _sse("turn_start", {"model": model()})
 
+    spent = TurnUsage()
     try:
         rounds = max_tool_rounds()
         for _round in range(rounds + 1):
             resp = client.messages.create(
                 model=model(), max_tokens=max_tokens(), system=system,
+                cache_control=CACHE,
                 output_config={"effort": effort()},
                 messages=messages, tools=tool_defs)
+            spent.add(resp)
             text_parts, tool_uses = [], []
             for block in resp.content:
                 if block.type == "text":
@@ -514,4 +580,5 @@ def stream_turn(body, identity=None):
     except Exception as e:
         log.exception("assistant turn failed (model %s)", model())
         yield _sse("error", {"error": f"{type(e).__name__}: {str(e)[:300]}"})
+    log.info("assistant turn usage (model %s): %s", model(), spent)
     yield _sse("turn_end", {})
