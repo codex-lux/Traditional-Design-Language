@@ -87,6 +87,13 @@ depth and 2 and 4 ft deeper at 60 s and again at 120 s, so a longer budget is no
 record as first composed holds every fact on one worker in 61 s. Which of the thirteen resizes
 makes the difference was not measured.
 
+**And at the 40 s batch budget on four workers it does not decide either.** The gate
+(`tests/test_sheet_coherence.py`) places the composer's candidate with `engine="cp"` at that budget.
+Run alone three times: twice the prover returned no placement (UNKNOWN), once a placement with
+facts released. At the composer's 60 s it held on four runs of four. The 2 ft deeper step is
+infeasible and slow to prove, and it runs before the 4 ft step that holds.
+
 This entry was raised on Lucas's own Tidewater brief, which is not a file in the tree. It was not
 re-measured, so the "about once in nine" above stands as the last measurement of that brief.
-**Still open: on one worker for the stock brief, and for Lucas's brief at any worker count.**
+**Still open: for the stock brief on one worker and at 40 s, and for Lucas's brief at any worker
+count.**

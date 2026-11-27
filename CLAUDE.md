@@ -142,6 +142,18 @@ named dimension. Eight were found this way in WP-4.6; that is OQ 48. Useful whil
   against the grouping's 12 to 20 ft.
 - **18 mutations of the new guards, all landed and all red.** Test ids against the parent, by
   name: 20 added and 1 re-cut away.
+- **Its whole build, four shards in worktrees of `1456830`, is 19 failed / 4,255 passed / 43
+  skipped**, with the server suite (511 passed, 14 skipped) and the app suite (901) green.
+  - 18 reds are red on a worktree of the parent `cc98832` by id: 13 gate rows, the parti check's
+    test, `test_solver`'s half bound, `test_compose_budget`'s one-share test, and two IFC tests
+    that fail inside `ifcopenshell`, which this container has and CI does not.
+  - **ONE IS THIS WORK'S: `test_the_sheet_is_drawn_at_all[candidate-cp]`.** The gate places the
+    composer's candidate on the prover at the 40 s batch budget. On the parent that house was
+    proven impossible at once and the ladder returned a fact-released placement (four
+    `candidate-cp` rows red). Now the house can hold, and at 40 s the hard steps do not finish:
+    alone, two runs of three returned no placement at all. At the composer's 60 s it held four
+    times of four. The +2 ft step is infeasible, slow to prove, and runs before the +4 ft step
+    that holds. Not tuned: that loop is being rewritten on another branch.
 
 **THE PROVER DECIDES, AND THE STOCK BRIEF'S OWN DIAGRAMS ARE MOSTLY IMPOSSIBLE AS COMPOSED (26 Nov
 2026).** Read `docs/reports/the-prover-decides-2026-11-26.md` before touching `geometry_cp._line_grid`,

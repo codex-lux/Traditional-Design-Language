@@ -212,3 +212,72 @@ pass without `-x`).
 openings digests (`tests/test_elements.py`, `tests/test_appendages.py`) and the four CP model
 hashes (`tests/test_cp_elements.py`) are unmoved.
 
+**The whole build.** `python3 build/check_all.py --shard i/4` in four `git worktree`s of `1456830`,
+two shards at a time, on a container with `ortools`, `fastapi`, `ezdxf` and `ifcopenshell`
+installed and no `workbench/app/dist/`. The three later commits are documents only; the document
+checkers were run again on the final tree.
+
+| | failed | passed | skipped |
+|---|---|---|---|
+| `pytest tests/`, four shards | 1 + 16 + 2 + 0 = 19 | 4,255 | 43 |
+| `pytest workbench/server/tests` | 0 | 511 | 14 |
+| `node --test workbench/app` | 0 | 901 | 0 |
+
+Two checks fail, `check_partis.py` and the suite, which are one finding through two readers plus
+the reds below. Three are could-not-evaluate: `check_frontend.py` (no `dist/`), and the DXF and IFC
+selftests (both shipped plans refused). 19 + 4,255 + 43 is the 4,317 this container collects.
+
+Every red by id, against the same ids run on a worktree of the parent `cc98832`:
+
+| red on this tree | on the parent |
+|---|---|
+| `test_parti_composability`'s one test, with `check_partis.py` | red |
+| `test_compose_budget`'s one-share test | red |
+| `test_solver`'s half bound | red |
+| `test_roof_form`'s `test_the_ifc_says_no_roof_is_drawn` and `test_audit_of_wp_16_8`'s `test_the_ifc_says_t3_and_why_it_places_no_planes` | red, both: `RuntimeError: Instance #... not found` from `ifcopenshell`, which CI does not install |
+| 13 rows of `tests/test_sheet_coherence.py` that are not the composer's candidate on the prover | red, all 13. Run alone, both trees add a 14th, the shipped record's bearing line on the prover, which passed in the shard: a prover-band row |
+| **`test_the_sheet_is_drawn_at_all[candidate-cp]`** | **green. This one is this work's.** |
+
+**The gate's candidate on the prover is the one row that moved, and it is a cost.** The gate
+places the composer's own top candidate with `engine="cp"` at the 40 s batch budget. On the parent
+that house is proven impossible in under a second, the ladder has the whole budget, and it returns
+a placement with facts released: four `candidate-cp` rows are red there. On this tree the house
+can hold its facts, and at 40 s the hard steps do not finish deciding it. Run alone three times:
+twice the prover returned no placement at all (UNKNOWN), so the one row that owns that fact is red
+and the candidate's other prover rows are could-not-evaluate; once it returned a placement with
+facts released and five rows were red. At the composer's 60 s the same house held every fact on
+four runs of four. So between 40 and 60 s on four workers this house goes from undecided to held,
+and at 40 s it can come back with nothing, where before it came back refused. The 2 ft deeper step
+is where the time goes: it is infeasible and slow to prove (24.7 s for the main block alone on four
+workers), and it runs before the 4 ft step that holds. The step order and shares are the previous
+package's and are being rewritten on another branch, so they were not touched here.
+
+## VII. What should happen next
+
+1. **The hard steps' order for a house that holds only at +4 ft.** It decides the 40 s case above
+   and the one-worker case in §V. It belongs with the work on that loop.
+2. **The shipped Tidewater record's laying**, as its own package or a ruling that it keeps the axis.
+3. **The linen press**, one of the three readings in its question.
+4. **Which of the declared loop's thirteen resizes costs the one-worker proof.** The butler's pantry
+   grows from 53 to 101 sf there; §III found that room's band and door to be what the centred main
+   block could not hold.
+
+**When the branches meet.** `claude/gallant-heisenberg-lez956` has since rewritten the prover's
+hard-step loop and the composer's pool-fill (its own account, not read here). `size_wings` is
+called just above that loop in `_solve_cp` and adds two keys to the solver block, so expect a
+textual conflict there and none in `attach_garage`, `flank_sizes` or `blocks_for`.
+
+## VIII. How to reproduce
+
+The harnesses were in the session's scratchpad and are not in the tree. Each was a few lines:
+
+- first placement: `compose.instantiate("centre-passage-double-pile", brief)` then
+  `geometry.solve(plan, None, 250, engine="cp", time_limit_s=60)`, reading
+  `geometry_report.solver.all_facts`, `wing_sizing_note` and `drawability.assess`;
+- the product: `compose.compose(brief, 4)` with `TDL_CP_WORKERS` set, reading
+  `result["drawability"]` and each card's `placement_standing`;
+- the probes of §III: `geometry_cp._build` with the wall and axis keys released, `_line_grid`,
+  `_harden`, and `geometry.flank_sizes` or `blocks_for` patched to state a wing box or a `y`;
+- the record the declared loop hands on: `compose.compose(brief, 4, revise=False)`, the double
+  pile's `plan` with `openings.strip_placement` applied.
+
