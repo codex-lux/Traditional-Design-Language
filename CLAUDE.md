@@ -200,7 +200,7 @@ order of the pool-fill. It is the second package of the day on the stock brief.
   - **The walk's door check demanded an undrawable door**, and with the line grid `good-03`
     places all of its doors. It is re-cut: every declared door pair is drawn or named. **The walk
     was not run here after the re-cut.** *(Corrected 27 Nov 2026: run twice since. One run drew
-    no sheet after the re-solve, a refused placement, and 24 sheet checks failed together. The
+    no sheet after the re-solve, a refused placement, and 25 of its 27 failures follow from that. The
     other drew it and the re-cut check passed at 5 drawn and 6 named of 11 pairs. Its two
     remaining failures, both about class tags on finding rows, are on main's CI walks.)*
   - The walk's two porch-label failures were on the PR's head and not on the merge commit, the

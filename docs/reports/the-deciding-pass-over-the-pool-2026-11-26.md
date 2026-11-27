@@ -251,11 +251,12 @@ fallback face (no route to the webfonts here).
 
 | run | ok | failed | the re-cut door check |
 |---|---|---|---|
-| 1 | 696 | 26 | failed: 0 drawn + 0 named of 11 pairs |
+| 1 | 696 | 27 | failed: 0 drawn + 0 named of 11 pairs |
 | 2 | 722 | 2 | passed: 5 drawn + 6 named of 11 pairs |
 
 - **Run 1 drew no sheet.** After the re-solve the bench showed a refused placement for the full
-  150 s wait, so 24 checks that read the sheet failed together, the re-cut one among them. That
+  150 s wait. The wait failed and so did the 24 checks that read the sheet, the re-cut one
+  among them: 25 of the 27. The other two are the pair named under run 2. That
   is the check doing its job on a sheet that draws nothing. The same wait ran out twice on
   PR #45's runner (the walk's own comment of 19 Nov records it). It is one placement's draw.
 - **Run 2 drew the sheet and the re-cut check passed** in the state where six pairs are named and
