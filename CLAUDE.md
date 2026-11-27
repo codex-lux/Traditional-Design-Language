@@ -128,6 +128,15 @@ named dimension. Eight were found this way in WP-4.6; that is OQ 48. Useful whil
 - **Still refused and not proven on both worker counts:** the five-part and the single pile.
 - **Twelve mutations of the new guards, all landed, all red, all restored.** One pin of the
   deciding pass's own (`test_pool_probe`, a tag ending `1w`) was re-cut onto `hard_step_tag`.
+- **Its whole build, four shards in worktrees of `3ccc78f`, is 17 failed / 4,176 passed / 148
+  skipped**, with the server suite 507 passed / 19 skipped and the app suite 902 of 902. Three
+  checks could not be evaluated: no `dist/`, and the DXF and IFC selftests.
+  - Every red is on the last whole build's list by id and none is new: 14 gate rows (the wing
+    package's `test_the_sheet_is_drawn_at_all[candidate-cp]` among them), `test_parti_composability`
+    with `check_partis.py`, `test_solver`'s half bound, and `tests/test_axis.py`'s proved-passage
+    test.
+  - That axis row read `on-centre` in the loaded shard and passed 3 of 3 alone straight after.
+    It is the prover's draw and is not re-pinned.
 
 **THE GARAGE IS ITS OWN MASS, THE ONE RANGE STANDS AT THE REAR, AND THE PROVER SIZES THE WING (26 to
 27 Nov 2026).** Read `docs/reports/the-garage-is-its-own-mass-2026-11-26.md` before touching

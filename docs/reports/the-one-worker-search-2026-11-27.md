@@ -220,6 +220,28 @@ them and not the search's.
   ends in `1w`. It is re-cut onto `hard_step_tag`.
 - Twelve mutations of the new guards. All landed, all red, all restored.
 
+**The whole build**, four shards in `git worktree`s of `3ccc78f`, run together on four cores:
+
+| | |
+|---|---|
+| `tests/` | 17 failed / 4,176 passed / 148 skipped |
+| server suite | 507 passed / 19 skipped |
+| app suite | 902 of 902 |
+| could not be evaluated | no `dist/`; the DXF and IFC selftests (no `ezdxf`, no `ifcopenshell` here) |
+
+Every red is on the last whole build's list by id (`3ed01a5`, 18 reds), and none is new:
+
+- 14 rows of the gate, `tests/test_sheet_coherence.py`. One gate row that was red there passed
+  here, `test_every_upper_bearing_line_stands_on_a_ground_bearing_line[careful-cp]`, a prover row.
+  The wing package's own `test_the_sheet_is_drawn_at_all[candidate-cp]` is among the 14.
+- `test_parti_composability`, with `check_partis.py` (2 errors): one finding through two readers.
+- `tests/test_solver.py`'s half bound.
+- `tests/test_axis.py`'s proved-passage test, which read the Tidewater spine `on-centre` in the
+  shard. Run alone on a quiet box straight after, it passed 3 of 3. It is the prover's draw under
+  load, as it was in the last build, and it is not re-pinned.
+
+The collection is 4,337 in this container (no `ezdxf`) against 4,322 at the merge: the 15 added.
+
 ## VIII. What was not done
 
 - **The five-part, the single pile, the courtyard, the foursquare and the ranch** are undecided
