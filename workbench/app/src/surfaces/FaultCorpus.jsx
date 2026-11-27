@@ -14,6 +14,7 @@ import { matches } from '../search/match.js';
 import { PullPane } from '../components/PullPane.jsx';
 import { Term } from '../components/Term.jsx';
 import { NoRecordChosen } from '../components/NoRecordChosen.jsx';
+import { PageHero } from '../components/PageHead.jsx';
 import { faultGroups, groupRows, styleFaultIds } from '../faults/groups.js';
 
 /* The limit the style's fault list and the dossier's partition are both taken at
@@ -134,18 +135,16 @@ export function FaultCorpus({ onCite, selection, setSelection }) {
       /* Selecting writes the URL, so a fault you are reading is a link you can
          send — and the citation the rail would use for it is the same string. */
       <button key={f.id} type="button" data-fault-row={f.id} aria-current={on ? 'true' : undefined}
-        onClick={() => { setId(f.id); setSelection && setSelection({ fault: f.id }); }}
-        style={{ display: 'block', width: '100%', textAlign: 'left', padding: '9px 12px 11px',
-          borderBottom: '1px solid var(--border-soft)',
-          borderLeft: '2px solid ' + (on ? 'var(--gilt-deep)' : 'transparent'),
-          background: on ? 'var(--surface-raised)' : 'transparent', transition: 'var(--t-hover)' }}>
-        <div style={{ font: 'var(--fw-reg) 15px/1.25 var(--display)', fontVariationSettings: '"opsz" 24',
-          color: on ? 'var(--text-body)' : 'var(--text-secondary)' }}>{f.name}</div>
-        <div style={{ display: 'flex', gap: 10, marginTop: 5 }}>
-          <span style={{ font: 'var(--type-data-s)', color: SEV_C[f.severity] }}>{f.severity}</span>
-          <span style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)' }}>{f.frequency}</span>
-          <span style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)' }}>{f.slots && f.slots[0]}</span>
-        </div>
+        className="tdl-fault-row"
+        onClick={() => { setId(f.id); setSelection && setSelection({ fault: f.id }); }}>
+        <span className="tdl-fault-row-name">{f.name}</span>
+        <span className="tdl-fault-row-meta">
+          {/* the severity's ink is the dot; its word stands beside it, never the colour alone */}
+          <span aria-hidden="true" className="tdl-sev-dot" style={{ color: SEV_C[f.severity] }} />
+          <span>{f.severity}</span>
+          {f.frequency && <span aria-hidden="true">·</span>}
+          <span>{f.frequency}</span>
+        </span>
       </button>
     );
   };
@@ -188,23 +187,17 @@ export function FaultCorpus({ onCite, selection, setSelection }) {
 
       <div style={{ flex: 1, display: 'flex', minHeight: 0 }}>
         <PullPane pane="faults" side="left"
-          style={{ borderRight: '1px solid var(--border-hairline)', overflow: 'auto' }}>
-          <div style={{ padding: '11px 12px', borderBottom: '1px solid var(--border-hairline)' }}>
+          style={{ borderRight: '1px solid var(--border-hairline)', overflow: 'auto', background: 'var(--surface-app)' }}>
+          <div style={{ padding: '13px 16px 11px', borderBottom: '1px solid var(--border-hairline)',
+            position: 'sticky', top: 0, background: 'var(--surface-app)', zIndex: 1 }}>
             <Eyebrow>
               {all.length} solecisms · {list.length} shown here
               {list.length !== all.length && filters.activeCount > 0 ? ' · filtered' : ''}
             </Eyebrow>
-            <p style={{ font: 'var(--fw-reg) 12.5px/1.55 var(--body)', color: 'var(--text-secondary)', margin: '7px 0 0' }}>
-              {/* `all` is the FAULT list, and it is capped at the query's own limit — the
-                   denominator was labelled "cause drivers" and would silently truncate. */}
-              Of the {all.length} solecisms listed, exactly {driverCounts.ignorance || 0} name{driverCounts.ignorance === 1 ? 's' : ''}{' '}
-              <span style={{ color: 'var(--text-secondary)' }}>ignorance</span>.
-              This is a system explaining an economy, not scolding a builder.
-            </p>
           </div>
           {list.length === 0 && all.length > 0 && (
-            <p style={{ font: 'var(--fw-reg) 12.5px/1.55 var(--body)', color: 'var(--text-secondary)',
-              margin: 0, padding: '14px 12px' }}>
+            <p style={{ font: 'var(--fw-reg) 14.5px/1.55 var(--body)', color: 'var(--text-secondary)',
+              margin: 0, padding: '14px 16px' }}>
               No fault matches. The corpus holds {all.length}; the filters above are hiding
               all of them.
             </p>
@@ -218,7 +211,7 @@ export function FaultCorpus({ onCite, selection, setSelection }) {
           {grouped
             ? grouped.map((g) => (
                 <div key={g.id} data-fault-group={g.id} data-fault-group-count={g.rows.length}>
-                  <div style={{ padding: '10px 12px 6px', borderBottom: '1px solid var(--border-soft)',
+                  <div style={{ padding: '10px 16px 6px', borderBottom: '1px solid var(--border-soft)',
                     background: 'var(--surface-raised)' }}>
                     <Eyebrow><Term id={g.term} /> · {g.rows.length}</Eyebrow>
                   </div>
@@ -228,11 +221,42 @@ export function FaultCorpus({ onCite, selection, setSelection }) {
             : list.map(row)}
         </PullPane>
 
-        <div style={{ flex: 1, overflow: 'auto', minHeight: 0, padding: '18px 22px 34px' }}>
-          {!id && <NoRecordChosen surface="faults" />}
+        <div className="tdl-scroll" key={id || ''}>
+          {/* NO FAULT CHOSEN: the page opens on what it is, at display size, and how much of each
+              severity it holds; a figure narrows the list to its severity. The sentence about
+              ignorance stood in the list's head until 26 Nov 2026, in small type over the rows. */}
+          {!id && (
+            <div className="tdl-page tdl-rise" style={{ paddingTop: 52 }}>
+              <PageHero termId="surface-faults" />
+              <div className="tdl-rule-double" />
+              <div className="tdl-invite-figures" style={{ justifyContent: 'flex-start', margin: '26px 0 0' }}>
+                {['fatal', 'serious', 'minor'].map((sv) => (
+                  <button key={sv} type="button" data-severity-figure={sv} aria-pressed={sev === sv}
+                    className="tdl-card" data-lifts="" onClick={() => filters.toggle('sev', sv)}
+                    style={{ minWidth: 132, textAlign: 'left', background: 'var(--surface-lit)',
+                      borderTop: '3px solid ' + SEV_C[sv] }}>
+                    <span className="tdl-card-figure">{all.length ? (sevCounts[sv] || 0) : '…'}</span>
+                    <span style={{ font: 'var(--fw-reg) 17px/1.2 var(--serif)', color: 'var(--text-body)' }}>
+                      <Term field="fault.severity" value={sv} />
+                    </span>
+                  </button>
+                ))}
+              </div>
+              {all.length > 0 && (
+                <p className="tdl-hero-lede" style={{ fontSize: 18 }}>
+                  {/* `all` is the FAULT list, and it is capped at the query's own limit — the
+                       denominator was labelled "cause drivers" and would silently truncate. */}
+                  Of the {all.length} solecisms listed, exactly {driverCounts.ignorance || 0} name{driverCounts.ignorance === 1 ? 's' : ''}{' '}
+                  ignorance. This is a system explaining an economy, not scolding a builder.
+                </p>
+              )}
+              <div style={{ marginTop: 30 }}><NoRecordChosen surface="faults" /></div>
+            </div>
+          )}
           {id && fault && (
-            <div style={{ display: 'flex', gap: 22, alignItems: 'flex-start', flexWrap: 'wrap' }}>
-              <div style={{ flex: '1 1 520px', minWidth: 460, maxWidth: 760 }}>
+            <div className="tdl-rise" style={{ display: 'flex', gap: 'clamp(24px, 3vw, 48px)', alignItems: 'flex-start', flexWrap: 'wrap',
+              padding: '38px var(--page-gutter) 72px', maxWidth: 'var(--page-measure-wide)' }}>
+              <div className="tdl-fault-page" style={{ flex: '1 1 520px', minWidth: 0 }}>
                 <FaultCard fault={fault} styleInView={styleInView || undefined}
                   onSlot={(s) => onCite && onCite('slot:' + s)} />
               </div>
@@ -244,11 +268,11 @@ export function FaultCorpus({ onCite, selection, setSelection }) {
                     files later they were still saying it. Neither states a corpus-wide number
                     now; the eyebrow describes THESE records and the empty state describes this
                     fault. */}
-                <Eyebrow style={{ marginBottom: 9 }}>
+                <Eyebrow className="tdl-section-head" style={{ display: 'block' }}>
                   {assets.some((a) => a.file) ? 'evidence' : 'evidence · specified, not yet sourced'}
                 </Eyebrow>
                 {assets.length === 0 && (
-                  <p style={{ font: 'var(--fw-reg) 12.5px/1.55 var(--body)', color: 'var(--text-secondary)', margin: 0 }}>
+                  <p style={{ font: 'var(--fw-reg) 14.5px/1.55 var(--body)', color: 'var(--text-secondary)', margin: 0 }}>
                     No image records are filed against this fault yet — the record is the
                     object until one is.
                   </p>

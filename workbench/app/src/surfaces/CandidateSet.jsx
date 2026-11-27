@@ -92,25 +92,25 @@ export function CandidateSet({ onCite, go, selection, setSelection }) {
 
   if (!result) {
     return (
-      <div style={{ padding: '26px 30px', maxWidth: 700 }}>
+      <div className="tdl-scroll"><div className="tdl-waiting tdl-rise" data-waiting="candidates">
         <Eyebrow>no candidates yet</Eyebrow>
-        <h2 style={{ font: 'var(--fw-reg) var(--fs-d2)/1.1 var(--display)', margin: '8px 0 10px' }}>
+        <h2 className="tdl-waiting-title">
           Compose from a brief
         </h2>
-        <p style={{ font: 'var(--fw-reg) 14px/1.6 var(--body)', color: 'var(--text-secondary)', margin: '0 0 14px' }}>
+        <p className="tdl-waiting-text" style={{ marginBottom: 18 }}>
           The composer returns several contrasting candidates, drawable first, then fatal-free,
           then by score, and never calls one good. Start at Brief Intake.
         </p>
         {s.jobError && (
           <p data-job-error={s.jobError.state}
-            style={{ font: 'var(--fw-reg) 14px/1.6 var(--body)', color: 'var(--text-body)', margin: '0 0 14px' }}>
+            style={{ font: 'var(--fw-reg) 17px/1.6 var(--serif)', color: 'var(--text-body)', margin: '0 0 14px' }}>
             {JOURNEY_WORDS.candidates[s.jobError.state]}
             {s.jobError.reason && <span style={{ color: 'var(--text-secondary)' }}>{JOURNEY_WORDS.separator}{s.jobError.reason}</span>}
           </p>
         )}
         {s.progress.length > 0 && (
-          <div style={{ border: '1px solid var(--border-hairline)', padding: '10px 12px', marginBottom: 14 }}>
-            <Eyebrow style={{ marginBottom: 6 }}>composing…</Eyebrow>
+          <div className="tdl-panel" style={{ padding: '16px 18px', marginBottom: 18 }}>
+            <Eyebrow style={{ marginBottom: 8 }}>composing…</Eyebrow>
             {s.progress.map((p, i) => (
               <div key={i} style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)', padding: '1px 0' }}>
                 {p.stage ? `${p.stage} — ${p.note || ''}`
@@ -124,8 +124,8 @@ export function CandidateSet({ onCite, go, selection, setSelection }) {
             ))}
           </div>
         )}
-        <ActionChip onClick={() => go('brief')}>go to Brief Intake</ActionChip>
-      </div>
+        <div className="tdl-hero-acts"><ActionChip onClick={() => go('brief')}>go to Brief Intake</ActionChip></div>
+      </div></div>
     );
   }
 
@@ -310,7 +310,7 @@ export function CandidateSet({ onCite, go, selection, setSelection }) {
                 result's own `score_model` (WP-14.31): this paragraph typed "out of 100" and
                 "eight axes" beside a definition written here, three facts nothing checked. */}
             <p data-score-model={result.score_model ? result.score_model.of : undefined}
-              style={{ font: 'var(--fw-reg) 13px/1.55 var(--body)', color: 'var(--text-secondary)',
+              style={{ font: 'var(--fw-reg) 15px/1.55 var(--body)', color: 'var(--text-secondary)',
                 margin: '8px 0 0', maxWidth: '62ch' }}>
               {chosen.says}
               {result.score_model && Array.isArray(result.score_model.axes) && (
@@ -374,7 +374,7 @@ export function CandidateSet({ onCite, go, selection, setSelection }) {
         {(pool.passed.length > 0 || pool.notReached.length > 0) && (
           <div data-pool-passed-over={pool.passed.map((p) => p.parti).join(' ')}
             data-pool-not-reached={pool.notReached.join(' ')}
-            style={{ font: 'var(--fw-reg) 13px/1.55 var(--body)', color: 'var(--text-secondary)', margin: '16px 0 0',
+            style={{ font: 'var(--fw-reg) 15px/1.55 var(--body)', color: 'var(--text-secondary)', margin: '16px 0 0',
               maxWidth: '74ch' }}>
             <Term id="filled-from-the-pool" />
             {pool.passed.map((p) => (
@@ -402,7 +402,7 @@ export function CandidateSet({ onCite, go, selection, setSelection }) {
             the diagram the brief asked for would otherwise read as the guarantee kept. */}
         {result.named_parti && result.named_parti.returned === false && (
           <p data-named-parti-missing={result.named_parti.parti} role="note"
-            style={{ font: 'var(--fw-reg) 13px/1.55 var(--body)', color: 'var(--text-secondary)', margin: '16px 0 0',
+            style={{ font: 'var(--fw-reg) 15px/1.55 var(--body)', color: 'var(--text-secondary)', margin: '16px 0 0',
               borderLeft: '2px solid var(--refusal)', paddingLeft: 12, maxWidth: '74ch' }}>
             <Term id="named-by-the-brief" />{JOURNEY_WORDS.separator}
             <span style={{ fontFamily: 'var(--mono)', fontSize: 12 }}>{result.named_parti.parti}</span>
@@ -419,7 +419,7 @@ export function CandidateSet({ onCite, go, selection, setSelection }) {
               </Eyebrow>
             </span>
             {dropped.map((d) => (
-              <p key={d.parti} style={{ font: 'var(--fw-reg) 13px/1.55 var(--body)', color: 'var(--text-secondary)',
+              <p key={d.parti} style={{ font: 'var(--fw-reg) 15px/1.55 var(--body)', color: 'var(--text-secondary)',
                 margin: '7px 0 0', background: 'var(--surface-panel)', padding: '2px 7px', display: 'inline-block' }}>
                 <span style={{ fontFamily: 'var(--mono)', fontSize: 12 }}>{d.parti_name}</span> — {d.why}
               </p>
@@ -443,7 +443,7 @@ export function CandidateSet({ onCite, go, selection, setSelection }) {
                  do, so clicking the column marked 2 could open a log headed "candidate 3".
                  A parti name cannot disagree with itself. */}
             <Eyebrow>decision log · {(sel ? cands.find((x) => x.id === sel) : cands[0])?.parti_name || '—'}</Eyebrow>
-            <p style={{ font: 'var(--fw-reg) 13px/1.55 var(--body)', color: 'var(--text-secondary)', margin: '7px 0 10px',
+            <p style={{ font: 'var(--fw-reg) 15px/1.55 var(--body)', color: 'var(--text-secondary)', margin: '7px 0 10px',
               maxWidth: '64ch' }}>
               What the composer chose where the brief was silent. Read it — those are the assumptions,
               not facts.
@@ -474,7 +474,7 @@ export function CandidateSet({ onCite, go, selection, setSelection }) {
                       {d.field}{d.chose ? ` · ${d.chose}` : ''}
                     </span>
                   )}
-                  <p style={{ font: 'var(--fw-reg) 13px/1.55 var(--body)', color: 'var(--text-secondary)',
+                  <p style={{ font: 'var(--fw-reg) 15px/1.55 var(--body)', color: 'var(--text-secondary)',
                     margin: '2px 0 0' }}>{d.statement}</p>
                 </div>
               ));
@@ -483,7 +483,7 @@ export function CandidateSet({ onCite, go, selection, setSelection }) {
           <div style={{ flex: '0 1 420px', minWidth: 380 }}>
             <Eyebrow style={{ marginBottom: 9 }}>how to read this</Eyebrow>
             {(result.how_to_read_this || []).map((h, i) => (
-              <p key={i} style={{ font: 'var(--fw-reg) 12.5px/1.55 var(--body)', color: 'var(--text-secondary)',
+              <p key={i} style={{ font: 'var(--fw-reg) 14.5px/1.55 var(--body)', color: 'var(--text-secondary)',
                 margin: '0 0 8px' }}>{h}</p>
             ))}
           </div>

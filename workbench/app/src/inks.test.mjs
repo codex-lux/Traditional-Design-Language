@@ -219,10 +219,12 @@ if (process.env.INK_RATCHET_PRINT) console.log(JSON.stringify(current(), null, 1
 
 test('the faint inks are the stylesheet’s own answer, aliases included, and the line ink is among them', () => {
   const faint = faintTokens(readFileSync(TOKENS, 'utf8'));
-  for (const t of ['--ink-3', '--ink-4', '--hair', '--forthcoming', '--unsourced', '--sev-info', DISABLED]) {
+  for (const t of ['--ink-3', '--ink-4', '--hair', '--forthcoming', '--unsourced', DISABLED]) {
     assert.ok(faint.has(t), `${t} resolves to a faint ink`);
   }
-  for (const t of ['--ink', '--ink-2', '--gilt-deep', '--brick']) assert.ok(!faint.has(t), `${t} is not faint`);
+  // --sev-info and --text-tertiary were --ink-3 on paper, and faint, until the paper inks of
+  // 27 Nov 2026 (Phase 18): each is --ink-3-ink there now, which reads 4.5 : 1, and is not faint
+  for (const t of ['--ink', '--ink-2', '--gilt-deep', '--brick', '--sev-info', '--text-tertiary']) assert.ok(!faint.has(t), `${t} is not faint`);
 });
 
 test('the scanner owns each faint ink by its property, and reads text, a table and a fallback as rows', () => {
@@ -571,27 +573,12 @@ const NAVIGATES = /\bonCite\s*\(|\bonFault\s*\(|\bonSlot\s*\(|\bgo\s*\(|\bhref\b
    is the same pigment on vellum -- so the row, and the 4.09 : 1 it records there, is unchanged and
    still `oq/two-inks-set-as-small-text-read-below-aa`'s -- and the lit pigment on the instrument,
    where the pigment read 2.93 and 3.17. */
+/* EMPTIED ON 27 NOV 2026 (Phase 18, the paper inks). The eleven rows were every control whose
+   own text was set in gilt or green and read under 4.5 : 1 on paper: the chips, an act, a fold,
+   a revoke. `--text-accent` is --gilt-ink on paper now and `--sev-cleared` --green-ink, each the
+   least step toward coal that reads, so no control's own text is under the line and the
+   remainder is nothing. A row added here is a new control set in an ink that does not read. */
 const CLICKABLE = [
-  ["Chrome.jsx", "button", "--text-accent",
-    "{onClick} title={title} {...aria} style={{ font: 'var(--type", "chip"],
-  ["Chrome.jsx", "button", "--text-accent",
-    "{onClick} title={title} disabled={disabled} style={{ font: '", "chip"],
-  ["Chrome.jsx", "button", "--text-accent",
-    "{() => setOpen(!open)} aria-expanded={open} title={open ? `F", "action"],
-  ["components/FindingRow.jsx", "button", "--text-accent",
-    "function () { onLocate(finding); }, style: { font: 'var(--ty", "action"],
-  ["components/FindingRow.jsx", "button", "--sev-cleared",
-    "function () { onAssert(finding); }, style: { font: 'var(--ty", "action"],
-  ["components/SlotRow.jsx", "button", "--text-accent",
-    "function () { onSource(slot.source.id); }, style: { ...EYE, ", "action"],
-  ["components/UnsourcedImageRecord.jsx", "button", "--text-accent",
-    "function () { onRequest(record); }, style: { font: 'var(--ty", "action"],
-  ["dossier/ProportionsSection.jsx", "button", "--text-accent",
-    "{() => prefs.setFold('delivered', !open)} style={{ font: 'va", "action"],
-  ["surfaces/BriefIntake.jsx", "button", "--text-accent",
-    "{compose} disabled={composing || !ready} aria-busy={composin", "action"],
-  ["surfaces/PlanWorkbench.jsx", "button", "--text-accent",
-    "{() => planDoc.update(mutations.revokeRelation(i))} style={{", "action"],
 ];
 // CLICKABLE-END
 

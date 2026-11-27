@@ -22,29 +22,32 @@ export function RoomBody({ rec }) {
   const adj = rec.adjacency || {};
   const groupings = Array.isArray(rec.appears_in_groupings) ? rec.appears_in_groupings : [];
   return (
-    <div data-record-body="room" style={{ maxWidth: 820 }}>
-      <RecordHead name={rec.name} id={rec.id} aka={rec.aka} meta={rec.function_class} />
-      <Prose text={rec.description} />
+    <div data-record-body="room">
+      <RecordHead name={rec.name} id={rec.id} aka={rec.aka} meta={rec.function_class} kicker={<Term id="room" />} />
+      <Prose text={rec.description} lede />
 
       {furniture.length > 0 && (
         <Section eyebrow={<><Term id="furniture" /> · {furniture.length}</>} data-room-furniture={furniture.length}>
-          <div role="table" style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) auto auto', gap: '4px 22px',
-            alignItems: 'baseline' }}>
-            <div role="row" style={{ display: 'contents' }}>
-              <span role="columnheader" />
-              <span role="columnheader" style={data}><Term id="furniture-footprint" /></span>
-              <span role="columnheader" style={data}><Term id="clearance" /></span>
-            </div>
-            {furniture.map((it, i) => (
-              <div role="row" key={`${it.item}-${i}`} data-furniture-item={it.item} style={{ display: 'contents' }}>
-                <span role="cell" style={{ font: 'var(--fw-reg) 14px/1.45 var(--serif)' }}>{it.item}</span>
-                <span role="cell" style={data}>
-                  {Array.isArray(it.footprint_in) ? `${it.footprint_in.join(' × ')} in` : null}
-                </span>
-                <span role="cell" style={data}>{inches(it.clearance_in)}</span>
-              </div>
-            ))}
-          </div>
+          <table className="tdl-table" style={{ maxWidth: '46rem' }}>
+            <thead>
+              <tr>
+                <th scope="col"><Term id="furniture" /></th>
+                <th scope="col"><Term id="furniture-footprint" /></th>
+                <th scope="col"><Term id="clearance" /></th>
+              </tr>
+            </thead>
+            <tbody>
+              {furniture.map((it, i) => (
+                <tr key={`${it.item}-${i}`} data-furniture-item={it.item}>
+                  <td>{it.item}</td>
+                  <td className="tdl-num">
+                    {Array.isArray(it.footprint_in) ? `${it.footprint_in.join(' × ')} in` : null}
+                  </td>
+                  <td className="tdl-num">{inches(it.clearance_in)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </Section>
       )}
 

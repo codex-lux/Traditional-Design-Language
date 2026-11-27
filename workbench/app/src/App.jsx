@@ -23,7 +23,7 @@ import { nav } from './state/nav.js';
 import { useGlobalKeys, requestFilterFocus } from './keys.js';
 import { CommandPalette } from './palette/CommandPalette.jsx';
 import { ShortcutCard } from './palette/ShortcutCard.jsx';
-import { TopBar, LeftRail, PaneStub } from './Chrome.jsx';
+import { TopBar, LeftRail, PaneStub, IDS_PREF } from './Chrome.jsx';
 import { Splitter } from './components/Splitter.jsx';
 import { JourneySpine } from './components/JourneySpine.jsx';
 import { sidebarView } from './nav/sidebar.js';
@@ -42,19 +42,22 @@ import { session } from './state/session.js';
 import { journeyState, evalIsOf, originKeyOf, pickedCandidate } from './journey/journey.js';
 import { navModel, headTermFor, inHandFrom, normalizePlace, stylePlaceKind } from './nav/navModel.js';
 import { crumbsFor, titleFor } from './nav/crumbs.js';
-import { PlanWorkbench } from './surfaces/PlanWorkbench.jsx';
-import { CandidateSet } from './surfaces/CandidateSet.jsx';
 import { FaultCorpus } from './surfaces/FaultCorpus.jsx';
-import { Phylogeny } from './surfaces/Phylogeny.jsx';
-import { BriefIntake } from './surfaces/BriefIntake.jsx';
 import { StyleDossier } from './surfaces/StyleDossier.jsx';
-import { Proportions } from './surfaces/Proportions.jsx';
-import { DrawingSet } from './surfaces/DrawingSet.jsx';
-// THREE SURFACES ARE LOADED WHEN FIRST VISITED (Phase 17): the entry chunk crossed
-// check_frontend's 700 KB ceiling on the shell's own growth, with every heavy tier still a chunk
-// of its own. These are the three least on the journey's path, so a reader who never opens them
-// never downloads them. Each module keeps its named export; `lazyNamed` adapts it.
+// THE DRAFTING ROOM IS LOADED WHEN IT IS ENTERED (26 Nov 2026; three surfaces since Phase 17).
+// The entry chunk stood at 690 KB of check_frontend's 700 KB ceiling, so the shell could not be
+// redrawn inside it. The reading room is what a reader arrives in -- the front door, the styles,
+// the faults, the record pages -- and stays in the entry chunk; the house's five steps, the
+// tracing, the family tree with its atlas, the proportion plates and a comparison are each a
+// chunk of their own, fetched the first time they are opened, so a reader who never opens one
+// never downloads it. Each module keeps its named export; `lazyNamed` adapts it.
 const lazyNamed = (load, name) => React.lazy(() => load().then((m) => ({ default: m[name] })));
+const PlanWorkbench = lazyNamed(() => import('./surfaces/PlanWorkbench.jsx'), 'PlanWorkbench');
+const CandidateSet = lazyNamed(() => import('./surfaces/CandidateSet.jsx'), 'CandidateSet');
+const BriefIntake = lazyNamed(() => import('./surfaces/BriefIntake.jsx'), 'BriefIntake');
+const DrawingSet = lazyNamed(() => import('./surfaces/DrawingSet.jsx'), 'DrawingSet');
+const Phylogeny = lazyNamed(() => import('./surfaces/Phylogeny.jsx'), 'Phylogeny');
+const Proportions = lazyNamed(() => import('./surfaces/Proportions.jsx'), 'Proportions');
 const ExportDetails = lazyNamed(() => import('./surfaces/ExportDetails.jsx'), 'ExportDetails');
 const Transcription = lazyNamed(() => import('./surfaces/Transcription.jsx'), 'Transcription');
 import { Overview } from './surfaces/Overview.jsx';
@@ -62,7 +65,7 @@ import { Glossary } from './surfaces/Glossary.jsx';
 import { Elements } from './surfaces/Elements.jsx';
 import { RoomPage, MassingPage, GroupingPage, PartiPage } from './surfaces/RecordPage.jsx';
 const Compare = lazyNamed(() => import('./surfaces/Compare.jsx'), 'Compare');
-import { SHELL_GROUND, groundOf } from './grounds.js';
+import { SHELL_GROUND, groundOf, roomOf } from './grounds.js';
 
 const SURFACES = {
   overview: Overview,
@@ -305,7 +308,20 @@ export default function App() {
     root.style.setProperty('--main-floor', `${MAIN_FLOOR_PX}px`);
     // the shell's ground (Phase 17): the chrome stands on it, and each `<main>` on its own row
     root.setAttribute('data-ground', SHELL_GROUND);
+    // Which of the two rooms the page is in (26 Nov 2026), for a rule that must know. THE ATTRIBUTE
+    // IS `data-in-room`, NEVER `data-room`: that name is the plan sheet's hook for a PLACED ROOM, and
+    // the first version set it here and on <main>, so every reader of `[data-room]` met two more
+    // "rooms" called house, each as large as the page. The walk's relaxation-mark check measured its
+    // marks against them and reported six adrift.
+    root.setAttribute('data-in-room', roomOf(SURFACES[surface] ? surface : 'workbench'));
   }, [surface]);
+
+  /* Machine ids beside every name, where this browser asked for them (26 Nov 2026). */
+  const showIds = memory.folds[IDS_PREF] === true;
+  React.useLayoutEffect(() => {
+    const root = typeof document !== 'undefined' ? document.getElementById('root') : null;
+    if (root) root.toggleAttribute('data-ids', showIds);
+  }, [showIds]);
 
   /* The first place this page loaded, and whether it was a cold deep link. Visiting the front
      door is having seen it. */
@@ -346,7 +362,7 @@ export default function App() {
           rather than a mode of the surface, so every surface can ask for it and none of
           them has to reimplement getting out. */}
       {!full && (
-        <TopBar crumbs={crumbs} address={typeof window !== 'undefined' ? window.location.hash || '#/' : null}
+        <TopBar crumbs={crumbs} help={<PageHead termId={headTermFor(place)} />}
           navOpen={layout.isOpen('nav')}
           plan={plan} planStep={journey.steps.find((s) => s.id === 'plan')}
           spine={layout.isOpen('nav') ? null : spineEl}
@@ -355,7 +371,7 @@ export default function App() {
           onKeys={() => { setPalette(false); setHelpCard(true); }} />
       )}
       {!full && coldLink && (
-        <ColdLinkBanner crumbs={crumbs} onDismiss={() => prefs.markSeen('front-door')} />
+        <ColdLinkBanner onDismiss={() => prefs.markSeen('front-door')} />
       )}
       <div style={{ flex: 1, display: 'flex', minHeight: 0 }}>
         {!full && (
@@ -367,12 +383,13 @@ export default function App() {
         )}
         {!full && layout.isOpen('nav') && <Splitter pane="nav" grows="left" />}
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0, minHeight: 0 }}>
-          {!full && <PageHead termId={headTermFor(place)} />}
-          <main data-ground={groundOf(SURFACES[surface] ? surface : 'workbench')}
+          {/* Keyed by the surface, so opening a page plays its entrance once (`main.tdl-room`). */}
+          <main data-ground={groundOf(SURFACES[surface] ? surface : 'workbench')} key={surface}
+            className="tdl-room" data-in-room={roomOf(SURFACES[surface] ? surface : 'workbench')}
             style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0, minHeight: 0 }}>
             <SurfaceBoundary key={surface}>
             <React.Suspense fallback={<p role="status" aria-busy="true" data-surface-loading=""
-              style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)', padding: '18px 22px' }}>…</p>}>
+              style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)', padding: '44px var(--page-gutter)' }}>…</p>}>
               <Active {...shared} lastEval={lastEvalHere} />
             </React.Suspense>
             </SurfaceBoundary>

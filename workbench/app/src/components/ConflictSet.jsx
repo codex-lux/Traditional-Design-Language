@@ -45,8 +45,8 @@ const PANEL = {
   maxWidth: 1000,
   margin: '0 0 14px',
 };
-const LEAD = { font: 'var(--fw-reg) 13.5px/1.6 var(--body)', color: 'var(--text-body)', margin: '7px 0 0' };
-const LIST = { font: 'var(--fw-reg) 12.5px/1.6 var(--body)', color: 'var(--text-secondary)',
+const LEAD = { font: 'var(--fw-reg) 15.5px/1.6 var(--body)', color: 'var(--text-body)', margin: '7px 0 0' };
+const LIST = { font: 'var(--fw-reg) 14.5px/1.6 var(--body)', color: 'var(--text-secondary)',
   margin: '8px 0 0', paddingLeft: 18 };
 const FINE = { font: 'var(--type-data-s)', color: 'var(--text-secondary)', margin: '9px 0 0' };
 

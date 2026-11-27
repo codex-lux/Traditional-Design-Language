@@ -21,67 +21,76 @@ const citeOfNeighbour = (node) => {
   return n.startsWith('massing:') ? n : 'style:' + n;
 };
 
-export function Identify({ rec, styleId, cards }) {
+/* `period` is the DOSSIER's (`GET /api/styles/{id}/dossier`), the record's own block. Until
+   26 Nov 2026 this read `rec.period`, a key `GET /api/styles/{id}` has never served, so the bar
+   below was drawn for no style at all. */
+export function Identify({ rec, period, styleId, cards }) {
   const desc = rec.description || {};
   const tells = rec.diagnostic_tells || [];
   const others = rec.distinguished_from || [];
   const chars = rec.defining_characteristics || [];
   return (
     <div data-dossier-section="identify">
-      {cards.length > 0 && (
-        <nav aria-label="the other sections" style={{ display: 'flex', flexWrap: 'wrap', gap: 10, margin: '0 0 20px' }}>
-          {cards.map((s) => (
-            <a key={s.id} href={sectionAddress(styleId, s.id)} data-summary-card={s.id} data-count={s.count}
-              style={{ display: 'flex', flexDirection: 'column', gap: 3, minWidth: 128, padding: '9px 12px',
-                border: '1px solid var(--border-hairline)', background: 'var(--surface-raised)', textDecoration: 'none' }}>
-              <span style={{ font: 'var(--fw-reg) 14px/1.2 var(--display)', color: 'var(--text-body)' }}><SectionWord id={s.id} /></span>
-              <span style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)' }}>{s.count}</span>
-            </a>
-          ))}
-        </nav>
-      )}
-
-      {/* PHASE 17: the period, drawn; then the tells and the neighbours, which are the job, BEFORE the
-          description (board 7). */}
-      <PeriodBar period={rec.period} />
-
+      {/* The period, drawn; then the tells and the neighbours, which are the job, BEFORE the
+          description (Phase 17, board 7). */}
+      <PeriodBar period={period} />
 
       {tells.length > 0 && (
-        <Section eyebrow={<><Term id="diagnostic-tell" /> · {tells.length}</>} style={{ marginTop: 24 }}>
-          {tells.map((t, i) => (
-            <p key={i} data-tell="" style={{ ...prose, paddingLeft: 14, borderLeft: '2px solid var(--gilt-deep)',
-              marginBottom: 9 }}>{typeof t === 'string' ? t : t.tell || t.statement}</p>
-          ))}
+        <Section eyebrow={<><Term id="diagnostic-tell" /> · {tells.length}</>} style={{ marginTop: 34 }}>
+          <ol className="tdl-numbered">
+            {tells.map((t, i) => (
+              <li key={i} data-tell="">{typeof t === 'string' ? t : t.tell || t.statement}</li>
+            ))}
+          </ol>
         </Section>
       )}
 
       {others.length > 0 && (
         <Section eyebrow="distinguished from · the nearest neighbours">
-          {others.map((d, i) => (
-            <div key={i} data-distinguished-from={d.node} style={{ border: '1px solid var(--border-hairline)',
-              background: 'var(--surface-raised)', padding: '11px 13px', marginBottom: 11 }}>
-              <div style={{ font: 'var(--fw-reg) 15px/1.2 var(--display)', marginBottom: 6 }}>
-                <RecordLink cite={citeOfNeighbour(d.node)} />
+          <div className="tdl-grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(19rem, 1fr))' }}>
+            {others.map((d, i) => (
+              <div key={i} data-distinguished-from={d.node} className="tdl-neighbour">
+                <div style={{ font: 'var(--fw-med) 18px/1.2 var(--display)', marginBottom: 8 }}>
+                  <RecordLink cite={citeOfNeighbour(d.node)} />
+                </div>
+                <p style={quiet}>{d.difference}</p>
               </div>
-              <p style={quiet}>{d.difference}</p>
-            </div>
-          ))}
+            ))}
+          </div>
         </Section>
       )}
 
-      {(desc.short || desc.long) && (
-        <div data-description="" style={{ marginTop: 24 }}>
-          {desc.short && <p style={{ ...prose, fontStyle: 'italic', color: 'var(--text-secondary)', marginTop: 4 }}>{desc.short}</p>}
-          {desc.long && String(desc.long).split(/\n\n+/).map((p, i) => <p key={i} style={prose}>{p}</p>)}
+      {/* The short description is the page's lede, in the dossier's head; the long one is here. */}
+      {desc.long && (
+        <div data-description="" style={{ margin: '0 0 38px' }}>
+          {String(desc.long).split(/\n\n+/).map((p, i) => <p key={i} style={prose}>{p}</p>)}
         </div>
       )}
 
       {chars.length > 0 && (
         <Section eyebrow={<>defining characteristics · {chars.length}</>}>
-          {chars.map((c, i) => (
-            <p key={i} style={{ ...quiet, marginBottom: 7 }}>· {c}</p>
-          ))}
+          <ul style={{ listStyle: 'none', margin: 0, padding: 0, columns: '2 22rem', columnGap: 36 }}>
+            {chars.map((c, i) => (
+              <li key={i} style={{ ...quiet, padding: '5px 0 5px 16px', position: 'relative', breakInside: 'avoid' }}>
+                <span aria-hidden="true" style={{ position: 'absolute', left: 0 }}>·</span>{c}
+              </li>
+            ))}
+          </ul>
         </Section>
+      )}
+
+      {/* ONWARD: one card per other section the dossier lists, with the payload's count. They led
+          the page until 26 Nov 2026, above the tells, saying what the section strip already said;
+          they close it now, as the way on from here. */}
+      {cards.length > 0 && (
+        <nav aria-label="the other sections" className="tdl-onward" style={{ marginTop: 8 }}>
+          {cards.map((s) => (
+            <a key={s.id} href={sectionAddress(styleId, s.id)} data-summary-card={s.id} data-count={s.count}>
+              <span style={{ font: 'var(--fw-reg) 17px/1.2 var(--display)', color: 'var(--text-body)' }}><SectionWord id={s.id} /></span>
+              <span style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)' }}>{s.count}</span>
+            </a>
+          ))}
+        </nav>
       )}
     </div>
   );

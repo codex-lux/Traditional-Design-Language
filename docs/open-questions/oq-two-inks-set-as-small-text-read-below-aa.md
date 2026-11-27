@@ -56,3 +56,25 @@ on vellum. Every figure below is older than Phase 17, and Phase 17 moved none of
   `--gilt-lit`, `--green-lit`, and `--salmon` for a fatal). There every one reads 4.5 : 1 or better, on
   every dark surface and on its own severity field. The paper ground is not changed, because that is
   this question's ruling to make.
+
+**Amended 27 Nov 2026 (Phase 18, the paper inks).** The library was set on vellum on 26 Nov, which
+put whole pages in these inks, and the mirror of Phase 17's lit pigments was put to Lucas the same
+day with its computed table and a recommendation. His reply of 27 Nov to the message carrying that
+question and one other was *"Looks good! Keep going"*; it is read as yes to both, and the reading is
+recorded as a reading. Six paper inks are in `tokens.css` (`--gilt-ink`, `--brick-ink`,
+`--salmon-ink`, `--green-ink`, `--ink-3-ink`, `--ink-2-ink`), each its pigment mixed toward `--coal`
+by the least step that reads 4.5 : 1 on every paper surface. On paper the word duties are bound to
+them: `--text-accent`, `--text-secondary`, `--text-tertiary`, `--refusal-text`, the six `--sev-*`
+and the three `--fix-*`. The pigments are unmoved.
+
+What that settles: `grounds.test.mjs`'s `KNOWN` list of thirty-four paper rows is empty, and so is
+`inks.test.mjs`'s `CLICKABLE` remainder of eleven controls.
+
+What it does not settle, and why this stays open:
+- a severity duty is also set as a rule and a dot, so those are a shade darker on paper too;
+- fatal and serious words on paper are `#895641` and `#815948`, a shade apart, and are told apart
+  by their word and their mark;
+- a pigment named directly as a word in a DRAWING file's HTML caption is outside the duty table,
+  and nobody has read the rendered paper pages for one (the rendered-contrast audit Phase 17 ran
+  on the instrument has not been run on paper).
+

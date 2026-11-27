@@ -30,7 +30,7 @@ const CLASS_WORD = {
   advisory: 'advisory',
 };
 
-const body = { font: 'var(--fw-reg) 12.5px/1.55 var(--body)', color: 'var(--text-secondary)', margin: 0 };
+const body = { font: 'var(--fw-reg) 14.5px/1.55 var(--body)', color: 'var(--text-secondary)', margin: 0 };
 const quiet = { font: 'var(--type-data-s)', color: 'var(--text-secondary)' };
 const receipt = { font: 'var(--fw-reg) 12px/1.5 var(--receipt, var(--mono))', color: 'var(--text-secondary)' };
 

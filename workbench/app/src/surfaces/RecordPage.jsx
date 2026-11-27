@@ -18,11 +18,9 @@ import { useNames } from '../names/useNames.js';
 import { useSurfaceFilters } from '../filters/useFilters.js';
 import { matches } from '../search/match.js';
 import { kindOfSurface, recordIdOf } from '../record/kinds.js';
-import { Term } from '../components/Term.jsx';
 import { RecordLink } from '../components/RecordLink.jsx';
-import { Eyebrow } from '../components/Eyebrow.jsx';
 import { FilterInput } from '../components/FilterInput.jsx';
-import { FilterStrip } from '../Chrome.jsx';
+import { PageHero } from '../components/PageHead.jsx';
 import { Reading, data } from '../record/parts.jsx';
 import { RoomBody } from '../record/RoomBody.jsx';
 import { MassingBody } from '../record/MassingBody.jsx';
@@ -49,26 +47,34 @@ function KindIndex({ kind }) {
   const rows = q.trim() ? all.filter((e) => matches(e, q, ['name', 'id'])) : all;
   const ready = names.status === 'ready';
   return (
-    <div data-record-index={kind.surface} style={{ display: 'flex', flexDirection: 'column', minHeight: 0, flex: 1 }}>
-      <FilterStrip filters={filters} right={
-        <span data-index-shown={ready ? rows.length : undefined} data-index-total={ready ? all.length : undefined}
-          style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)' }}>
-          {ready ? `${rows.length} of ${all.length}` : '…'}
-        </span>
-      }>
-        <Eyebrow as="span"><Term id={kind.termId} /></Eyebrow>
-        <FilterInput value={q} onChange={(v) => filters.set('q', v)} count={ready ? rows.length : undefined}
-          label="Filter by name or id" placeholder="filter" width={200} />
-      </FilterStrip>
-      <div style={{ flex: 1, overflow: 'auto', minHeight: 0, padding: '16px 26px 40px' }}>
+    <div data-record-index={kind.surface} className="tdl-scroll">
+      <div className="tdl-page tdl-page-wide">
+        <PageHero termId={`surface-${kind.surface}`} className="tdl-rise">
+          <div className="tdl-hero-acts">
+            <FilterInput value={q} onChange={(v) => filters.set('q', v)} count={ready ? rows.length : undefined}
+              label="Filter by name or id" placeholder="filter" width={300} large />
+            <span data-index-shown={ready ? rows.length : undefined} data-index-total={ready ? all.length : undefined}
+              style={data}>
+              {ready ? `${rows.length} of ${all.length}` : '…'}
+            </span>
+            {filters.activeCount > 0 && (
+              <button type="button" onClick={filters.clear} className="tdl-link" style={{ font: 'var(--type-data-s)' }}>clear</button>
+            )}
+          </div>
+        </PageHero>
+        <div className="tdl-rule-double" style={{ marginBottom: 14 }} />
         {!ready && names.status !== 'error' && <p style={data}>reading the index…</p>}
         {names.status === 'error' && <p style={{ font: 'var(--type-body)', color: 'var(--text-secondary)' }}>The index could not be read.</p>}
-        {ready && rows.map((e) => (
-          <div key={e.cite} data-index-row={e.id} style={{ display: 'flex', gap: 12, alignItems: 'baseline', padding: '3px 0' }}>
-            <span style={{ font: 'var(--fw-reg) 14px/1.45 var(--serif)' }}><RecordLink cite={e.cite} /></span>
-            {e.meta && <span style={data}>{Array.isArray(e.meta) ? e.meta.join(' · ') : String(e.meta)}</span>}
+        {ready && (
+          <div className="tdl-columns tdl-rise-2">
+            {rows.map((e) => (
+              <div key={e.cite} data-index-row={e.id} className="tdl-index-row">
+                <RecordLink cite={e.cite} />
+                {e.meta && <span className="tdl-index-meta">{Array.isArray(e.meta) ? e.meta.join(' · ') : String(e.meta)}</span>}
+              </div>
+            ))}
           </div>
-        ))}
+        )}
       </div>
     </div>
   );
@@ -87,10 +93,12 @@ function OneRecord({ kind, id }) {
   const cite = `${kind.cite}:${id}`;
   const { Body } = reader;
   return (
-    <div data-record-page={cite} style={{ flex: 1, overflow: 'auto', minHeight: 0, padding: '20px 26px 40px' }}>
-      <Reading error={error} cite={cite} ready={Boolean(rec)}>
-        {rec && <Body rec={rec} />}
-      </Reading>
+    <div data-record-page={cite} className="tdl-scroll">
+      <div className="tdl-page">
+        <Reading error={error} cite={cite} ready={Boolean(rec)}>
+          {rec && <Body rec={rec} />}
+        </Reading>
+      </div>
     </div>
   );
 }

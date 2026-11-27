@@ -183,3 +183,13 @@ export function libraryCards(view, lookup) {
     };
   });
 }
+
+/* The record's one sentence in two sizes. Its first clause, up to the first comma, is the
+   headline; the rest is the lede. Nothing is dropped and nothing reordered: a sentence with no
+   comma is all headline. */
+export function thesisParts(definition) {
+  const text = typeof definition === 'string' ? definition.trim() : '';
+  const at = text.indexOf(', ');
+  if (at < 12 || at > text.length - 12) return { head: text, rest: '' };
+  return { head: text.slice(0, at + 1), rest: text.slice(at + 2) };
+}

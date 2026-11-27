@@ -38,7 +38,7 @@ import {
 } from '../compare/view.js';
 
 const quietText = { font: 'var(--type-body)', color: 'var(--text-secondary)' };
-const two = { display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1fr)', gap: '0 28px' };
+const two = { display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1fr)', gap: '0 clamp(28px, 4vw, 64px)' };
 const mono = { fontFamily: 'var(--mono)', fontSize: 12 };
 
 /* A record's word as plain text, for the one place a `Term` cannot sit: an input's label. */
@@ -62,19 +62,22 @@ function Identify({ a, b, identify }) {
       {Array.isArray(dis) ? dis.map((d, i) => {
         const by = authorOf(d, a, b);
         return (
-          <div key={i} data-disambiguation-by={by || undefined} style={{ marginBottom: 12 }}>
-            {by && <div style={data}><StyleName id={by} name={names[by]} /></div>}
-            <p style={prose}>{d.difference || d.note || d.tell}</p>
+          <div key={i} data-disambiguation-by={by || undefined} style={{ marginBottom: 18 }}>
+            <p className="tdl-lede" style={{ marginBottom: 6 }}>{d.difference || d.note || d.tell}</p>
+            {by && <div style={{ font: 'italic var(--fw-reg) 15px/1.4 var(--serif)', color: 'var(--text-secondary)' }}>
+              <StyleName id={by} name={names[by]} /></div>}
           </div>
         );
       }) : (typeof dis === 'string' && <p style={quiet} data-disambiguation-none="">{dis}</p>)}
-      <div style={{ ...two, marginTop: 16 }}>
+      <div style={{ ...two, marginTop: 22 }}>
         {[[a, idf.tells_a], [b, idf.tells_b]].map(([sid, tells]) => (
           <Section key={sid} data-tells-of={sid}
             eyebrow={<><Term id="diagnostic-tell" /> · <StyleName id={sid} name={names[sid]} /></>}>
-            {(tells || []).map((t, i) => (
-              <p key={i} style={{ ...quiet, marginBottom: 7 }}>{typeof t === 'string' ? t : t.tell || t.statement}</p>
-            ))}
+            <ol className="tdl-numbered tdl-numbered-s">
+              {(tells || []).map((t, i) => (
+                <li key={i}>{typeof t === 'string' ? t : t.tell || t.statement}</li>
+              ))}
+            </ol>
           </Section>
         ))}
       </div>
@@ -87,8 +90,8 @@ function Identify({ a, b, identify }) {
       )}
       {shared.length > 0 && (
         <Section eyebrow={<><Term id="shared-ancestry" /> · {shared.length}</>} data-shared-ancestry={shared.length}>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px 16px' }}>
-            {shared.map((sid) => <span key={sid}><RecordLink cite={'style:' + sid} /></span>)}
+          <div className="tdl-columns">
+            {shared.map((sid) => <div key={sid} className="tdl-index-row"><RecordLink cite={'style:' + sid} /></div>)}
           </div>
         </Section>
       )}
@@ -100,7 +103,7 @@ function Identify({ a, b, identify }) {
 function KitCell({ side, differs }) {
   const on = (f) => (differs.includes(f) ? { color: 'var(--text-body)' } : { color: 'var(--text-secondary)' });
   return (
-    <div style={{ font: 'var(--fw-reg) 13px/1.5 var(--body)' }}>
+    <div style={{ font: 'var(--fw-reg) 15px/1.5 var(--serif)' }}>
       <div style={on('binding')} data-field="binding">
         {side.binding ? <Term field="kit.binding" value={side.binding} /> : null}
       </div>
@@ -120,9 +123,8 @@ function KitCell({ side, differs }) {
 function KitRows({ rows }) {
   return rows.map((r) => (
     <div key={r.slot} data-kit-row={r.slot} data-differs-on={r.differs_on.join(' ')}
-      style={{ display: 'grid', gridTemplateColumns: '190px minmax(0, 1fr) minmax(0, 1fr)', gap: '0 22px',
-        padding: '7px 0', borderTop: '1px solid var(--border-soft)' }}>
-      <div style={{ font: 'var(--fw-reg) 13.5px/1.35 var(--serif)' }}>
+      className="tdl-compare-row">
+      <div style={{ font: 'var(--fw-reg) 17px/1.35 var(--serif)' }}>
         <RecordLink cite={'slot:' + r.slot}>{r.name || undefined}</RecordLink>
       </div>
       <KitCell side={r.a} differs={r.differs_on} />
@@ -133,13 +135,12 @@ function KitRows({ rows }) {
 
 function KitHead({ a, b, names }) {
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: '190px minmax(0, 1fr) minmax(0, 1fr)', gap: '0 22px',
-      padding: '0 0 5px' }}>
+    <div className="tdl-compare-row tdl-compare-row-head">
       <Eyebrow as="span"><Term id="slot" /></Eyebrow>
       {[a, b].map((sid) => (
         <span key={sid} style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)' }}>
-          <StyleName id={sid} name={names[sid]} />
-          <span style={{ display: 'block' }}>
+          <span style={{ font: 'var(--fw-med) 17px/1.3 var(--serif)', color: 'var(--text-body)' }}><StyleName id={sid} name={names[sid]} /></span>
+          <span style={{ display: 'block', marginTop: 3 }}>
             <Term id="binding" /> · <Term id="variant-status-canonical" /> · <Term id="variant-status-forbidden" /> · <Term id="cascade-source" />
           </span>
         </span>
@@ -168,11 +169,9 @@ function Kit({ a, b, kit, names }) {
 function Plans({ partis, styleId }) {
   return (partis || []).map((p) => (
     <div key={p.id} data-parti={p.id} data-nativity={p.nativity || undefined}
-      style={{ display: 'flex', gap: 10, alignItems: 'baseline', padding: '3px 0', flexWrap: 'wrap' }}>
-      <span style={{ font: 'var(--fw-reg) 14px/1.4 var(--serif)' }}>
-        <RecordLink cite={'parti:' + p.id} ctx={{ style: styleId }}>{p.name || undefined}</RecordLink>
-      </span>
-      {NATIVITY_TERMS[p.nativity] && <Term id={NATIVITY_TERMS[p.nativity]} />}
+      className="tdl-index-row">
+      <RecordLink cite={'parti:' + p.id} ctx={{ style: styleId }}>{p.name || undefined}</RecordLink>
+      {NATIVITY_TERMS[p.nativity] && <span className="tdl-index-meta"><Term id={NATIVITY_TERMS[p.nativity]} /></span>}
     </div>
   ));
 }
@@ -211,42 +210,40 @@ export function Compare({ selection, setSelection }) {
     ? error.body.detail.missing : null;
 
   return (
-    <div data-compare={a && b ? `${a}/${b}` : ''} style={{ display: 'flex', flexDirection: 'column', minHeight: 0, flex: 1 }}>
-      <header data-compare-head="" style={{ flex: 'none', padding: '14px 26px 10px', borderBottom: '1px solid var(--border-hairline)' }}>
-        <div style={{ display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap' }}>
-          <StylePicker value={a || ''} width={230} onChange={pickA} />
-          <span style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)' }}><Term id="compare-with" /></span>
-          <StylePicker value={b || ''} width={230} label={withWord} onChange={pickB} />
-        </div>
+    <div data-compare={a && b ? `${a}/${b}` : ''} ref={scroller} data-compare-scroller="" className="tdl-scroll">
+      <header data-compare-head="" className="tdl-record-head tdl-rise">
+        <div className="tdl-hero-kicker"><Term id="compare-with" /></div>
         {a && b && (
-          <h2 style={{ font: 'var(--fw-reg) var(--fs-d2, 26px)/1.15 var(--display)', letterSpacing: 'var(--tr-display)',
-            margin: '10px 0 2px' }}>
-            <StyleName id={a} name={names[a]} /> · <StyleName id={b} name={names[b]} />
+          <h2 className="tdl-compare-title">
+            <span><StyleName id={a} name={names[a]} /></span>
+            <span aria-hidden="true" className="tdl-compare-amp">·</span>
+            <span><StyleName id={b} name={names[b]} /></span>
           </h2>
         )}
+        <div className="tdl-hero-acts">
+          <StylePicker value={a || ''} width={250} onChange={pickA} />
+          <span style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)' }}><Term id="compare-with" /></span>
+          <StylePicker value={b || ''} width={250} label={withWord} onChange={pickB} />
+        </div>
       </header>
 
       {a && b && (
-        <nav aria-label="compare sections" data-compare-strip=""
-          style={{ flex: 'none', display: 'flex', gap: 2, padding: '0 20px', borderBottom: '1px solid var(--border-hairline)',
-            overflowX: 'auto', background: 'var(--surface-panel)' }}>
-          {COMPARE_SECTIONS.map((id) => {
-            const on = id === section;
-            return (
-              <a key={id} href={compareSectionHref(a, b, id)} aria-current={on ? 'page' : undefined}
-                data-compare-section-link={id}
-                style={{ padding: '8px 10px 7px', whiteSpace: 'nowrap', textDecoration: 'none',
-                  color: on ? 'var(--text-body)' : 'var(--text-secondary)',
-                  borderBottom: on ? '2px solid var(--gilt-deep)' : '2px solid transparent',
-                  font: (on ? 'var(--fw-med)' : 'var(--fw-reg)') + ' 13px/1.3 var(--body)' }}>
-                <SectionWord id={id} />
-              </a>
-            );
-          })}
-        </nav>
+        <div className="tdl-record-bar" style={{ marginTop: 22 }}>
+          <nav aria-label="compare sections" data-compare-strip="" className="tdl-tabs tdl-record-bar-inner">
+            {COMPARE_SECTIONS.map((id) => {
+              const on = id === section;
+              return (
+                <a key={id} href={compareSectionHref(a, b, id)} aria-current={on ? 'page' : undefined}
+                  data-compare-section-link={id} className="tdl-tab">
+                  <SectionWord id={id} />
+                </a>
+              );
+            })}
+          </nav>
+        </div>
       )}
 
-      <div ref={scroller} data-compare-scroller="" style={{ flex: 1, overflow: 'auto', minHeight: 0, padding: '20px 26px 60px' }}>
+      <div className="tdl-page tdl-page-wide" style={{ paddingTop: 34 }}>
         {error && (
           <div data-compare-missing={missing ? missing.join(' ') : ''}>
             {missing
@@ -260,7 +257,7 @@ export function Compare({ selection, setSelection }) {
             <Section data-compare-section="identify" eyebrow={<SectionWord id="identify" />}>
               {/* Phase 17 (WP-17.13): where the pair parts, off the payload's own two cascades */}
               {(() => { const parting = payload.cascades ? partingOf(payload.cascades.a, payload.cascades.b) : null; return parting && (
-                <p data-parting={parting.common || ''} style={{ font: 'var(--fw-reg) 15px/1.5 var(--body)', color: 'var(--text-body)', margin: '0 0 14px' }}>
+                <p data-parting={parting.common || ''} style={{ font: 'var(--fw-reg) 18px/1.5 var(--serif)', color: 'var(--text-body)', margin: '0 0 20px' }}>
                   <Term id="where-they-part" />{' · '}
                   {parting.common ? <RecordLink cite={'style:' + parting.common} /> : <MarkGlyph token="--mark-not-applicable" size={12} />}
                   <span style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)', marginLeft: 10 }}>
@@ -281,7 +278,7 @@ export function Compare({ selection, setSelection }) {
                   const sid = side === 'a' ? a : b;
                   return (
                     <div key={side} data-packs-of={sid}>
-                      <p style={{ ...data, margin: '0 0 8px' }}><StyleName id={sid} name={names[sid]} /></p>
+                      <p style={{ font: 'var(--fw-med) 17px/1.3 var(--serif)', margin: '0 0 10px' }}><StyleName id={sid} name={names[sid]} /></p>
                       <PackLists payload={payload.proportions[side]} styleId={sid} />
                     </div>
                   );
@@ -295,8 +292,8 @@ export function Compare({ selection, setSelection }) {
                   const partis = payload.plans[side] || [];
                   return (
                     <div key={side} data-plans-of={sid} data-plan-count={partis.length}>
-                      <p style={{ ...data, margin: '0 0 8px' }}>
-                        <StyleName id={sid} name={names[sid]} /> · <Term id="parti" /> · {partis.length}
+                      <p style={{ font: 'var(--fw-med) 17px/1.3 var(--serif)', margin: '0 0 10px' }}>
+                        <StyleName id={sid} name={names[sid]} /> <span style={data}>· <Term id="parti" /> · {partis.length}</span>
                       </p>
                       <Plans partis={partis} styleId={sid} />
                     </div>

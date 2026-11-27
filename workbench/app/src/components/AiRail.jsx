@@ -49,7 +49,7 @@ function Citation({ cite, onCite }) {
 
 function UserTurn({ text }) {
   return (
-    <p style={{ font: 'var(--fw-reg) 13px/1.55 var(--body)', color: 'var(--text-body)', margin: 0,
+    <p style={{ font: 'var(--fw-reg) 15px/1.55 var(--body)', color: 'var(--text-body)', margin: 0,
       paddingLeft: 10, borderLeft: '2px solid var(--border-hairline)' }}>{text}</p>
   );
 }
@@ -59,9 +59,9 @@ function RefusalTurn({ text, reason }) {
     <div style={{ border: '1px solid var(--border-hairline)', borderLeft: '2px solid var(--refusal)',
       background: 'var(--surface-raised)', padding: '11px 12px' }}>
       <div style={{ ...EYE, color: 'var(--refusal-text)', marginBottom: 6 }}>refused</div>
-      <p style={{ font: 'var(--fw-reg) 13px/1.55 var(--body)', color: 'var(--text-body)', margin: 0 }}>{text}</p>
+      <p style={{ font: 'var(--fw-reg) 15px/1.55 var(--body)', color: 'var(--text-body)', margin: 0 }}>{text}</p>
       {reason && (
-        <p style={{ font: 'var(--fw-reg) 12.5px/1.55 var(--body)', color: 'var(--text-secondary)',
+        <p style={{ font: 'var(--fw-reg) 14.5px/1.55 var(--body)', color: 'var(--text-secondary)',
           margin: '7px 0 0' }}>{reason}</p>
       )}
     </div>
@@ -78,7 +78,7 @@ function QuestionTurn({ text, cite, onCite }) {
         <MarkGlyph token="--mark-yours-to-judge" size={10} />
         <Term id="judgment-yours-to-judge" />
       </div>
-      <p style={{ font: 'var(--fw-reg) 13px/1.55 var(--body)', color: 'var(--text-body)', margin: 0 }}>{text}</p>
+      <p style={{ font: 'var(--fw-reg) 15px/1.55 var(--body)', color: 'var(--text-body)', margin: 0 }}>{text}</p>
       {cite && <div style={{ marginTop: 7 }}><Citation cite={cite} onCite={onCite} /></div>}
     </div>
   );
@@ -91,7 +91,7 @@ function AssistantTurn({ turn, onCite }) {
         <ToolTrace calls={turn.calls} onCite={onCite} running={turn.running}
           style={{ marginBottom: 9 }} />
       )}
-      <p style={{ font: 'var(--fw-reg) 13px/1.6 var(--body)', color: 'var(--text-secondary)', margin: 0 }}>
+      <p style={{ font: 'var(--fw-reg) 15px/1.6 var(--body)', color: 'var(--text-secondary)', margin: 0 }}>
         {turn.text}
       </p>
       {turn.cites && turn.cites.length > 0 && (
@@ -125,7 +125,7 @@ function Starters({ starters, onPick }) {
         <button key={q} type="button" data-rail-starter="" onClick={() => onPick(q)}
           style={{ textAlign: 'left', background: 'var(--surface-raised)',
             border: '1px solid var(--border-soft)', color: 'var(--text-secondary)',
-            font: 'var(--fw-reg) 12.5px/1.45 var(--body)', padding: '5px 8px', cursor: 'pointer' }}>
+            font: 'var(--fw-reg) 14.5px/1.45 var(--body)', padding: '5px 8px', cursor: 'pointer' }}>
           {q}
         </button>
       ))}
@@ -197,7 +197,7 @@ function AiRail({ turns, onCite, onSend, placeholder, width, style, toolCount, t
             }
           } : undefined}
           style={{ width: '100%', background: 'var(--surface-well)', border: '1px solid var(--border-soft)',
-            color: 'var(--text-body)', font: 'var(--fw-reg) 13px/1.5 var(--body)', padding: '7px 9px' }} />
+            color: 'var(--text-body)', font: 'var(--fw-reg) 15px/1.5 var(--body)', padding: '7px 9px' }} />
       </form>
     </aside>
   );

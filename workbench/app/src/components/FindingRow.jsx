@@ -122,7 +122,7 @@ function FindingRow({
     }
   }, classTag), /*#__PURE__*/React.createElement("span", {
     style: {
-      font: 'var(--fw-reg) 12.5px/1.45 var(--body)',
+      font: 'var(--fw-reg) 14.5px/1.45 var(--body)',
       color: 'var(--text-body)',
       flex: 1,
       textWrap: 'pretty'
@@ -140,7 +140,7 @@ function FindingRow({
     }
   }, finding.why && /*#__PURE__*/React.createElement("p", {
     style: {
-      font: 'var(--fw-reg) 13px/1.55 var(--body)',
+      font: 'var(--fw-reg) 15px/1.55 var(--body)',
       color: 'var(--text-secondary)',
       margin: '0 0 8px'
     }
@@ -151,7 +151,7 @@ function FindingRow({
     }
   }, "why"), finding.why), finding.fix && /*#__PURE__*/React.createElement("p", {
     style: {
-      font: 'var(--fw-reg) 13px/1.55 var(--body)',
+      font: 'var(--fw-reg) 15px/1.55 var(--body)',
       color: 'var(--text-secondary)',
       margin: 0
     }

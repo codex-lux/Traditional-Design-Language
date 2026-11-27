@@ -251,6 +251,25 @@ def test_the_chain_is_the_member_of_ancestry_root_first(client):
             assert chain == [], sid
 
 
+def test_the_dossier_serves_the_records_own_period(client):
+    """THE PERIOD BAR WAS DRAWN FOR NO STYLE (26 Nov 2026). WP-17.9 drew a period bar from a
+    `period` no route served: `core.get_style` gives the years as one string and this route gave
+    none, so the page handed its bar `undefined` on every style. The route serves the node's own
+    block now, verbatim -- every style in the corpus, not one of each rank, because the defect was
+    a key absent everywhere and a sample would have read the same."""
+    S = _styles()
+    seen = 0
+    for sid in sorted(S):
+        dos = _get(client, f"/api/styles/{sid}/dossier")
+        assert "period" in dos, sid
+        assert dos["period"] == (S[sid].get("period") or None), sid
+        seen += 1 if dos["period"] else 0
+    # the premise: the corpus states periods, so the equality above is not None == None throughout
+    assert seen > 100, seen
+    # and the route the page USED to read still serves none: this is where the bar's input lives
+    assert "period" not in _get(client, "/api/styles/tidewater-georgian?sections=summary")
+
+
 def test_members_and_buildable_descendants(client):
     for sid in _one_of_each_rank():
         dos = _get(client, f"/api/styles/{sid}/dossier")

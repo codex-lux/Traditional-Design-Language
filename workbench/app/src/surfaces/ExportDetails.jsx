@@ -42,7 +42,7 @@ function save(name, content, type = 'application/json') {
 const card = { border: '1px solid var(--border-hairline)', padding: '14px 16px', flex: '1 1 300px',
   minWidth: 280, maxWidth: 420 };
 const cardTitle = { font: 'var(--fw-reg) 17px/1.2 var(--display)', color: 'var(--text-body)', margin: '0 0 7px' };
-const cardBody = { font: 'var(--fw-reg) 13px/1.55 var(--body)', color: 'var(--text-secondary)', margin: '0 0 12px' };
+const cardBody = { font: 'var(--fw-reg) 15px/1.55 var(--body)', color: 'var(--text-secondary)', margin: '0 0 12px' };
 
 /* WHICH FACE AN ELEVATION LEAVES AS (WP-14.27, PRD §C.12). Export drew only the face the record
    calls the entrance front, so the other three elevations the generator draws could be looked at
@@ -267,13 +267,13 @@ export function ExportDetails({ lastEval }) {
           ))}
         </div>
 
-        <p data-transcription-pointer="" style={{ font: 'var(--fw-reg) 12.5px/1.6 var(--body)',
+        <p data-transcription-pointer="" style={{ font: 'var(--fw-reg) 14.5px/1.6 var(--body)',
           color: 'var(--text-secondary)', margin: '16px 0 0', maxWidth: '76ch' }}>
           <a href={formatHash('transcription')}>{word('surface-transcription')}</a>
           {' — '}{describeTerm(glossary, 'surface-transcription').text}
         </p>
 
-        <p data-no-costing="" style={{ font: 'var(--fw-reg) 12.5px/1.6 var(--body)', color: 'var(--text-secondary)',
+        <p data-no-costing="" style={{ font: 'var(--fw-reg) 14.5px/1.6 var(--body)', color: 'var(--text-secondary)',
           margin: '24px 0 0', maxWidth: '76ch' }}>
           <Term id="no-costing-engine" />{' — '}{describeTerm(glossary, 'no-costing-engine').text}
         </p>

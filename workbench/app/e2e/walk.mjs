@@ -1692,6 +1692,37 @@ await page.waitForSelector('[data-tell]', { timeout: 20000 }).catch(() => {});
   check(`dossier: the strip is the payload's sections at the payload's counts (${strip.length})`,
     strip.length > 1 && key(strip) === key(served));
   check('dossier: no section is offered at zero', strip.every(([, n]) => n !== '0'));
+
+  /* THE PERIOD BAR IS ON THE PAGE, AND ITS INK CAN BE SEEN (26 Nov 2026). WP-17.9 drew it from a
+     `period` no route served, so it was drawn for no style, and nothing read the rendered page for
+     it. The dossier route serves the record's own block now. Counted first, then held to the
+     record: one segment for the floruit, at the record's own years, and filled in an ink that
+     differs from the paint behind it -- its first ink was `--paper`, which is no ink on a page. */
+  const period = dos.period || null;
+  if (!period || period.floruit_start == null || period.floruit_end == null) {
+    unjudged.push('dossier: the period bar -- the dossier route states no floruit for tidewater-georgian, '
+      + 'so there is no period for a bar to be held to');
+  } else {
+    const bar = await page.evaluate(() => {
+      const box = document.querySelector('[data-period-bar]');
+      if (!box) return null;
+      const seg = box.querySelector('[data-period-segment="floruit"]');
+      const rect = seg ? seg.querySelector('rect') : null;
+      const paint = (el) => { for (let e = el; e; e = e.parentElement) { const c = getComputedStyle(e).backgroundColor;
+        if (c && c !== 'rgba(0, 0, 0, 0)' && c !== 'transparent') return c; } return null; };
+      return { bars: document.querySelectorAll('[data-period-bar]').length,
+        floruit: box.querySelectorAll('[data-period-segment="floruit"]').length,
+        years: seg ? [...seg.parentElement.querySelectorAll('text')].map((t) => t.textContent.trim()) : [],
+        fill: rect ? getComputedStyle(rect).fill : null, ground: paint(box),
+        width: rect ? rect.getBoundingClientRect().width : 0 };
+    });
+    check(`dossier: the period bar is drawn, once, with its floruit (${bar ? bar.bars : 0} bar, ${bar ? bar.floruit : 0} floruit)`,
+      !!bar && bar.bars === 1 && bar.floruit === 1 && bar.width > 0);
+    check(`dossier: and its years are the record's (${period.floruit_start}–${period.floruit_end} in ${JSON.stringify(bar ? bar.years : [])})`,
+      !!bar && bar.years.includes(String(period.floruit_start)) && bar.years.includes(String(period.floruit_end)));
+    check(`dossier: and the floruit is drawn in an ink the page does not paint behind it (${bar ? bar.fill : null} on ${bar ? bar.ground : null})`,
+      !!bar && !!bar.fill && !!bar.ground && bar.fill !== bar.ground);
+  }
 }
 await shot('style-record');
 
@@ -2283,6 +2314,7 @@ await page.waitForSelector('text=solecisms', { timeout: 15000 });
    it is read back off the hash, survives a reload, and Back returns to the bare page with the card
    gone. The fault picked is the list's first, read off the page and never named here. */
 let faultPicked = null;
+let faultsVoice = null;   // read on the opening pane, inside the block below
 {
   await page.waitForSelector('main [data-no-record="faults"] [data-term="no-record-chosen"]', { timeout: 15000 })
     .catch(() => {});
@@ -2310,12 +2342,20 @@ let faultPicked = null;
     parseHash(await page.evaluate(() => location.hash)).selection.fault === undefined
     && await page.locator('main article[data-fault]').count() === 0
     && await page.locator('main [data-no-record="faults"]').count() === 1);
+  /* THE VOICE LINE STANDS ON THE OPENING PANE (26 Nov 2026, the two rooms). It was in the head of
+     the fault LIST, in small type over the rows, so this check read it with a fault open. It is
+     part of what the page opens on now -- its own line at display size, the three severity
+     figures, then this sentence -- and a fault chosen is set as an article with nothing above it.
+     So it is read here, at the bare address, where the walk already stands; reading it below with
+     a card open would assert the old layout. */
+  faultsVoice = /explaining an economy/i.test(await page.locator('main').innerText());
   await page.goForward().catch(() => {});
   await page.waitForSelector(`main article[data-fault="${faultPicked}"]`, { timeout: 15000 }).catch(() => {});
 }
 await page.waitForSelector('main >> text=dishonest', { timeout: 15000 }).catch(() => {});
 const faults = await page.locator('main').innerText();
-check('fault corpus voice line present', /explaining an economy/i.test(faults));
+if (faultsVoice === null) unjudged.push('the fault corpus voice line -- no fault row was drawn to pick, so the walk never stood on the opening pane it is read from');
+else check('fault corpus voice line present on the opening pane', faultsVoice);
 check('fix tiers named plainly', /dishonest/i.test(faults));
 /* THE CARD ANSWERS FIRST (WP-14.11). Every fault record carries `correct_practice` (the right way)
    and `detection` (how to spot it), and the card rendered neither. They lead now, read here in
@@ -4779,7 +4819,12 @@ async function journeyRead() {
   const banner = p.locator('[data-cold-link]');
   const text = (await banner.first().textContent().catch(() => '')) || '';
   check('a cold deep link is told what this is', await banner.count() === 1 && Boolean(def) && text.includes(def));
-  check('and where it has landed', /Faults/.test(await banner.locator('[data-cold-link-trail]').first().textContent().catch(() => '')));
+  /* ONE TRAIL OF CRUMBS (ruled 26 Nov 2026, "reader first"). The banner carried a second trail
+     under the top bar's own; where the reader has landed is said once now, by the crumbs directly
+     above the banner, and the banner draws none. */
+  check('and where it has landed is said by the top bar\'s crumbs, above it',
+    /Faults/i.test(await p.locator('header[data-topbar] nav[aria-label="crumbs"]').first().textContent().catch(() => '')));
+  check('once: the banner carries no second trail', await banner.locator('[data-cold-link-trail]').count() === 0);
   check('with the front door and the guided example as its two ways in',
     (await banner.locator('[data-cold-link-front]').getAttribute('href')) === '#/'
     && /^#\/style\//.test((await banner.locator('[data-cold-link-guided]').getAttribute('href')) || ''));

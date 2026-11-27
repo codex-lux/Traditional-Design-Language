@@ -50,7 +50,8 @@ import { Eyebrow } from '../components/Eyebrow.jsx';
 import { JudgmentMark } from '../components/JudgmentMark.jsx';
 import { MarkGlyph } from '../components/MarkGlyph.jsx';
 import { Term } from '../components/Term.jsx';
-import { FilterStrip, Chip } from '../Chrome.jsx';
+import { Chip } from '../Chrome.jsx';
+import { PageHero } from '../components/PageHead.jsx';
 import { SiteDiagram } from '../brief/SiteDiagram.jsx';
 
 
@@ -85,9 +86,9 @@ function Advisory({ label, detail, tone }) {
         border: '1px solid var(--text-tertiary)',
         background: tone === 'limit' ? 'transparent' : 'var(--text-tertiary)' }} />
       <span>
-        <span style={{ font: 'var(--fw-reg) 13px/1.5 var(--body)',
+        <span style={{ font: 'var(--fw-reg) 15px/1.5 var(--body)',
           color: tone === 'limit' ? 'var(--text-body)' : 'var(--text-secondary)' }}>{label}</span>
-        {detail && <span style={{ display: 'block', font: 'var(--fw-reg) 12px/1.5 var(--body)',
+        {detail && <span style={{ display: 'block', font: 'var(--fw-reg) 14px/1.5 var(--body)',
           color: 'var(--text-secondary)' }}>{detail}</span>}
       </span>
     </div>
@@ -96,8 +97,8 @@ function Advisory({ label, detail, tone }) {
 
 const label = { font: 'var(--type-eyebrow)', letterSpacing: 'var(--tr-eyebrow)',
   textTransform: 'uppercase', color: 'var(--text-secondary)', display: 'block', marginBottom: 5 };
-const input = { background: 'var(--surface-well)', border: '1px solid var(--border-soft)',
-  color: 'var(--text-body)', font: 'var(--type-data)', padding: '5px 8px', width: '100%' };
+const input = { background: 'var(--surface-well)', border: '1px solid var(--border-hairline)',
+  color: 'var(--text-body)', font: 'var(--fw-reg) 16px/1.4 var(--serif)', padding: '8px 11px', width: '100%' };
 
 export function BriefIntake({ go }) {
   const s = React.useSyncExternalStore(session.subscribe, session.get);
@@ -269,50 +270,49 @@ export function BriefIntake({ go }) {
   const offTier = offSchemaTier(tiers, brief.context.budget_tier);
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', minHeight: 0, flex: 1 }}>
-      <FilterStrip right={
-        /* An act, so a button: not a Chip, which is a filter and announces itself as a toggle.
-           Disabled until the brief states the two fields its schema requires -- the same test
-           the journey's brief step makes -- and the strip beside it says which two. */
-        <button type="button" data-compose="" onClick={compose} disabled={composing || !ready}
-          aria-busy={composing || undefined}
-          style={{ font: 'var(--type-data-s)', padding: '3px 10px', whiteSpace: 'nowrap',
-            border: '1px solid ' + (composing || !ready ? 'var(--border-hairline)' : 'var(--gilt-deep)'),
-            color: composing || !ready ? 'var(--text-disabled)' : 'var(--text-accent)',
-            background: 'transparent', cursor: composing || !ready ? 'default' : 'pointer' }}>
-          {composing ? 'composing…' : `compose ${brief.candidates || 4} candidates`}
-        </button>
-      }>
-        <Eyebrow as="span">brief intake</Eyebrow>
-        <span style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)' }}>
-          only style and target area are required — everything else absent becomes a logged decision
-        </span>
-      </FilterStrip>
+    <div data-brief-page="" className="tdl-scroll">
+      <div className="tdl-page tdl-page-wide" style={{ paddingTop: 38 }}>
+        {/* THE BRIEF LEADS WITH ITS OWN LINE AND ITS ONE ACT (WP-18.2). The act stood in a 34 px
+            strip in eleven-pixel Courier, greyed, beside a sentence in the same face. */}
+        <PageHero termId="surface-brief" className="tdl-rise">
+          <p className="tdl-hero-lede" style={{ fontSize: 17 }}>
+            only style and target area are required — everything else absent becomes a logged decision
+          </p>
+          <div className="tdl-hero-acts">
+            {/* An act, so a button: not a Chip, which is a filter and announces itself as a toggle.
+                Disabled until the brief states the two fields its schema requires -- the same test
+                the journey's brief step makes -- and the line above says which two. */}
+            <button type="button" data-compose="" onClick={compose} disabled={composing || !ready}
+              aria-busy={composing || undefined} className="tdl-act tdl-act-primary">
+              {composing ? 'composing…' : `compose ${brief.candidates || 4} candidates`}
+              <span aria-hidden="true" className="tdl-act-arrow">→</span>
+            </button>
+          </div>
+        </PageHero>
 
-      <div style={{ flex: 1, overflow: 'auto', minHeight: 0, padding: '20px 24px 34px' }}>
         {error && (
           /* The server's own words, never ours: a brief naming a parti nobody holds, or one its own
              massing contradicts, is refused by the composer by name before any job starts. */
           <div data-brief-refused="" role="alert"
             style={{ border: '1px solid var(--sev-serious)', padding: '10px 12px', marginBottom: 16,
-            font: 'var(--fw-reg) 13px/1.5 var(--body)', color: 'var(--text-body)' }}>
+            font: 'var(--fw-reg) 15px/1.5 var(--body)', color: 'var(--text-body)' }}>
             The brief was refused: {String(error)}
           </div>
         )}
         {exampleError && (
           <div data-example-error={exampleError.id}
             style={{ border: '1px solid var(--sev-serious)', padding: '10px 12px', marginBottom: 16,
-              font: 'var(--fw-reg) 13px/1.5 var(--body)', color: 'var(--text-body)' }}>
+              font: 'var(--fw-reg) 15px/1.5 var(--body)', color: 'var(--text-body)' }}>
             The example brief <code>{exampleError.id}</code> could not be read: {exampleError.reason}
           </div>
         )}
 
-        <div style={{ display: 'flex', gap: 28, alignItems: 'flex-start', flexWrap: 'wrap' }}>
+        <div className="tdl-rise-2" style={{ display: 'flex', gap: 22, alignItems: 'flex-start', flexWrap: 'wrap' }}>
           {/* the brief */}
-          <div style={{ flex: '1 1 420px', minWidth: 380, maxWidth: 560 }}>
+          <div className="tdl-panel" style={{ flex: '1 1 420px', minWidth: 380, maxWidth: 600 }}>
             <Eyebrow style={{ marginBottom: 12 }}>the brief</Eyebrow>
             {examples.length > 0 && (
-              <p data-example-briefs="" style={{ font: 'var(--fw-reg) 13px/1.5 var(--body)', color: 'var(--text-secondary)',
+              <p data-example-briefs="" style={{ font: 'var(--fw-reg) 15px/1.5 var(--body)', color: 'var(--text-secondary)',
                 margin: '-4px 0 14px' }}>
                 or start from an example:{' '}
                 {examples.map((x, i) => (
@@ -326,14 +326,16 @@ export function BriefIntake({ go }) {
               </p>
             )}
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
-              <div>
+              {/* The name and the style each take the row: a house's name is a line of words, and at
+                  half the panel's width a typed name ran past its own field at 1280 px. */}
+              <div style={{ gridColumn: '1 / -1' }}>
                 <span style={label}>name</span>
                 <input style={input} value={brief.name}
                   onChange={(e) => { set('name', e.target.value); set('id', e.target.value.toLowerCase().replace(/[^a-z0-9]+/g, '-') || 'new-brief'); }} />
               </div>
-              <div>
+              <div style={{ gridColumn: '1 / -1' }}>
                 <span style={label}>style · required</span>
-                <StylePicker value={brief.style} onChange={pickStyle} label="style" width={232} />
+                <StylePicker value={brief.style} onChange={pickStyle} label="style" width={232} fill />
               </div>
               <div>
                 <span style={label}>target area, sf · required</span>
@@ -418,7 +420,7 @@ export function BriefIntake({ go }) {
           </div>
 
           {/* the site */}
-          <div style={{ flex: '0 1 340px', minWidth: 300 }}>
+          <div className="tdl-panel" style={{ flex: '0 1 360px', minWidth: 300 }}>
             <Eyebrow style={{ marginBottom: 12 }}>the site</Eyebrow>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
               <div>
@@ -474,7 +476,7 @@ export function BriefIntake({ go }) {
           </div>
 
           {/* feasibility, advisory */}
-          <div style={{ flex: '0 1 330px', minWidth: 300 }}>
+          <div className="tdl-panel tdl-panel-quiet" style={{ flex: '0 1 340px', minWidth: 300 }}>
             <Eyebrow style={{ marginBottom: 12 }}>feasibility · advisory, computed as you type</Eyebrow>
 
             {/* The style's plan types, BY THE NATIVITY THE SERVER STATED (WP-14.25). A request in
@@ -525,7 +527,7 @@ export function BriefIntake({ go }) {
               <Eyebrow style={{ marginBottom: 8 }}>
                 {silent.length} field{silent.length === 1 ? '' : 's'} unstated
               </Eyebrow>
-              <p style={{ font: 'var(--fw-reg) 13px/1.55 var(--body)', color: 'var(--text-secondary)', margin: 0 }}>
+              <p style={{ font: 'var(--fw-reg) 15px/1.55 var(--body)', color: 'var(--text-secondary)', margin: 0 }}>
                 {silent.length
                   ? `Left blank — ${silent.join(', ')} — each becomes a composer decision, reported in the
                      decision log. An assumption, not a fact.`
@@ -545,7 +547,7 @@ export function BriefIntake({ go }) {
               <a href={formatHash('workbench', {}, {})} data-conflict-link="">
                 <Eyebrow as="span">{word('conflict-set')} · {word('on-the-bench')}</Eyebrow>
               </a>
-              <p data-conflict-definition="" style={{ font: 'var(--fw-reg) 12.5px/1.5 var(--body)',
+              <p data-conflict-definition="" style={{ font: 'var(--fw-reg) 14.5px/1.5 var(--body)',
                 color: 'var(--text-secondary)', margin: '6px 0 0' }}>
                 {describeTerm(glossary, 'conflict-set').text}
               </p>

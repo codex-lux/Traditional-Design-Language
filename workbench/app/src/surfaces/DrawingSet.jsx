@@ -246,14 +246,14 @@ export function DrawingSet({ go, lastEval }) {
 
   if (!plan) {
     return (
-      <div style={{ padding: '26px 30px', maxWidth: 640 }}>
+      <div className="tdl-scroll"><div className="tdl-waiting tdl-rise" data-waiting="drawings">
         <Eyebrow>no plan on the bench</Eyebrow>
-        <p style={{ font: 'var(--fw-reg) 14px/1.6 var(--body)', color: 'var(--text-secondary)', margin: '10px 0 14px' }}>
+        <p className="tdl-waiting-title" style={{ fontSize: 'clamp(24px, 2.6vw, 34px)', lineHeight: 1.25 }}>
           The drawing set is generated from the plan record on the workbench. Load or
           compose one first.
         </p>
-        <ActionChip onClick={() => go('workbench')}>go to the Plan Workbench</ActionChip>
-      </div>
+        <div className="tdl-hero-acts"><ActionChip onClick={() => go('workbench')}>go to the Plan Workbench</ActionChip></div>
+      </div></div>
     );
   }
 
@@ -332,11 +332,11 @@ export function DrawingSet({ go, lastEval }) {
             <Eyebrow tone="secondary" style={{ marginBottom: 6 }}>
               {error.status === 422 ? 'the generator refused' : 'the drawing could not be made'}
             </Eyebrow>
-            <p style={{ font: 'var(--fw-reg) 13.5px/1.6 var(--body)', color: 'var(--text-body)', margin: 0 }}>
+            <p style={{ font: 'var(--fw-reg) 15.5px/1.6 var(--body)', color: 'var(--text-body)', margin: 0 }}>
               {errText}
             </p>
             {error.status === 422 && (
-            <p style={{ font: 'var(--fw-reg) 12.5px/1.55 var(--body)', color: 'var(--text-secondary)', margin: '7px 0 0' }}>
+            <p style={{ font: 'var(--fw-reg) 14.5px/1.55 var(--body)', color: 'var(--text-secondary)', margin: '7px 0 0' }}>
               A refusal is content: this record does not carry what the {kind} generator
               needs, and it says so rather than inventing it.
             </p>
@@ -440,7 +440,7 @@ export function DrawingSet({ go, lastEval }) {
                   textTransform: 'uppercase', color: 'var(--text-body)', flex: '0 1 auto', minWidth: 0 }}>
                   {(plan.name || plan.id).split(/\s+/).join('·\u200B')}
                 </span>
-                <span style={{ font: 'italic var(--fw-reg) 12.5px/1.5 var(--serif)', color: 'var(--text-secondary)',
+                <span style={{ font: 'italic var(--fw-reg) 14.5px/1.5 var(--serif)', color: 'var(--text-secondary)',
                   textAlign: 'right', flex: '1 1 34ch', minWidth: '22ch' }}>
                   {DISCLOSURE[kind]}
                 </span>

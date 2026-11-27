@@ -35,6 +35,7 @@ Every package below carries a **Status** line. This is the summary. Original pac
 | **17 — The Workbench, redrawn** | **WP-17.0 through 17.15 (29 Oct 2026)** | **Complete** — Lucas read the Front Door on 29 Oct (*"extraordinarily bland, dense and impossible to intuitively navigate"*) and ruled the register a dark instrument with vellum plates, the Front Door spined on the journey, the AI rail opened only when summoned, and every surface carried into the shell. The handoff is `docs/ui-redesign-2026-10-29.md`. |
 | **The prover decides (26 Nov 2026)** | one package, cited by its report: `docs/reports/the-prover-decides-2026-11-26.md` | **Built, and its acceptance bar is NOT met.** Lucas read the deployed Workbench return 4 of 4 refused on the stock Georgian brief. The tiling is restated on the wall lines (`geometry_cp._line_grid`, redundant with the ruled model, on the portfolio's hard steps only), the hard steps run on one worker, a refusal whose facts are proven impossible together reads PROVEN and is not retried, the reinstatement pass has a window, and the composer places every candidate once before any twice. Of 14 diagrams composed for the brief, 2 hold every fact, 6 are proven impossible, 6 are undecided. The native double pile stays refused: its service wing cannot tile (`oq/the-double-piles-service-wing-cannot-tile-on-its-hyphens-face`), ruled to be fixed separately. |
 | **The garage is its own mass (26 to 27 Nov 2026)** | one package, cited by its report: `docs/reports/the-garage-is-its-own-mass-2026-11-26.md` | **Built. The native double pile is drawable where judged on four workers and not inside the compose budget on one.** Four rulings, each asked of Lucas and answered as a separate act, recorded in `oq/the-double-piles-service-wing-cannot-tile-on-its-hyphens-face`. **Asked 1:** where does the garage stand? **Answered:** its own mass beyond the service wing, linked by the mudroom. **Asked 2:** what lets the four-room wing tile? **Answered:** size the wing for its door set. **Asked 3** (found by measuring, not in the task): where does a single service range stand along the main block's flank? **Answered:** against the rear wall. **Asked 4:** how is the wing's box found? **Answered:** the prover finds it, smallest whole-foot box first. Built in `compose.attach_garage`, `geometry.flank_sizes`, `blocks_for` and `flank_laying`, `geometry_cp.size_wings`, and plan schema 0.14.0 (`flank_laying`, a statement of the record). `TILING`, `COVERAGE`, the bands, `typefacts.py` and the parti's rooms and doors are unchanged. `compose(family-georgian, 4)`: four runs at four workers each returned 6, 4 not refused, 2 drawable where judged, the native double pile first; three runs at one worker each returned 6, 3 not refused, 1 drawable where judged, the double pile refused UNDECIDED. The shipped Tidewater record is NOT moved, against the approved plan: `oq/the-shipped-range-is-still-laid-on-the-axis`. |
+| **18 — The two rooms** | **WP-18.0 built (26 Nov 2026)**: the two rooms, the reader-first shell, and the first tranche (the front door, the styles index, a style's dossier, the fault corpus). `docs/reports/wp-18.0-two-rooms.md` · **WP-18.1 to 18.4 built (27 Nov 2026)**: the rest of the library, the drafting room's openings and the plan page's sheet, the small controls, and the paper inks. `docs/reports/wp-18.1-the-rest-of-the-rooms.md` | **Built, and not finished.** Lucas read the Phase 17 workbench a month on: *"it feels stale and there's a lot of information thrown at you all at once and there's very little visual journey throughout."* Three rulings on 26 Nov; on 27 Nov he saw the first tranche and replied *"Looks good! Keep going"*. The second report's §V lists what is still as Phase 17 left it: the candidate set with candidates in it, the finding rows, the export cards, a tracing draft, the atlas, and a rendered-contrast audit of the paper pages. |
 
 **Revised order for the remaining work** (supersedes the recommended order in Section 0, which assumed nothing had been built):
 
@@ -6102,3 +6103,44 @@ every test that resolves a token to judge its contrast would then be judging a l
 Each package ends with a report in `docs/reports/wp-17.N-<slug>.md`, the app suite, the server
 suite and the glossary checker green, the browser walk re-pointed, and screenshots at 1280,
 1440 and 1680 opened and compared with the note.
+
+---
+
+## Phase 18 — The two rooms
+
+Raised by Lucas on 26 Nov 2026 against the Workbench as Phase 17 left it: *"Right now it feels
+stale and there's a lot of information thrown at you all at once and there's very little visual
+journey throughout."* He asked for the UI to be reviewed and overhauled until it is intuitive,
+stunning and a joy to interact with.
+
+**All eighteen surfaces were built, served and screenshotted before anything was drawn.** What the
+pictures showed is in `docs/reports/wp-18.0-two-rooms.md` §I.
+
+**Rulings of 26 Nov 2026.** Put as three direct questions, each with its alternatives, and
+answered the same day:
+- **R1, two rooms.** The library is a pattern book and is set on vellum; the house is the drafting
+  room and stays the dark instrument, where a plate is the brightest thing in view; the shell is
+  dark in both. This amends the 29 Oct ruling that put every surface on the instrument.
+- **R2, reader first.** Content leads a page. *How to read this page* opens on demand, the
+  cold-link banner is one dismissable line, there is one trail of crumbs, and a machine id shows
+  once in a record's own head and on demand elsewhere. Nothing is deleted.
+- **R3, a first tranche, then show.** The shell, the front door and two exemplar pages are built
+  to the new standard and shown; the remaining surfaces follow once the direction has been seen.
+
+**27 Nov 2026.** Lucas saw the first tranche with two questions put to him: whether the direction is
+right and the rest may follow, and whether words on paper should take the deeper inks computed in
+the first report's §VII (recommended). His reply was *"Looks good! Keep going"*. It answers the
+first directly and is read as yes to the second; the second report records that as a reading.
+
+**The mechanism is still two grounds.** Phase 17 bound every duty on both grounds, so a page reads
+on vellum the day its row moves. `app/src/grounds.js` gained `ROOM_OF`, and the ground is derived
+from the room. `app/src/theme/rooms.css` is the layout of the two rooms and names no colour of its
+own; `grounds.test.mjs` reads it with the readers it reads `tokens.css` with.
+
+| WP | Package | Status |
+|---|---|---|
+| 18.0 | The rulings; the two rooms; the reader-first shell (the page head folded into the top bar, the one-line cold-link banner, ids on demand, the quiet term mark); the front door as the threshold; the styles index as chapters; a style's dossier as a page; the fault corpus; the drafting room loaded when entered | **BUILT (26 Nov 2026)**. `docs/reports/wp-18.0-two-rooms.md` |
+| 18.1 | The rest of the library on vellum: the family tree, the proportion packs, the elements and the four record pages, the glossary, a comparison, and the kit | **BUILT (27 Nov 2026)**. `docs/reports/wp-18.1-the-rest-of-the-rooms.md`. The atlas is not touched |
+| 18.2 | The drafting room: the brief, the candidates, the plan, the drawings, the export and the tracing, each with an opening state that invites | **PART-BUILT (27 Nov 2026)**, same report. Built: the brief; the four empty stations; the plan page's sheet leading its disclosures; the type. Not built: the candidate set with candidates in it, the finding rows, the export cards, a tracing draft. The sheet's `∗` on a porch drawn 8 ft wide (WP-18.0's report §VIII) is not fixed |
+| 18.3 | The filter strips and the pickers, which are still set in mono | **BUILT (27 Nov 2026)**, same report. The binding, variant and source chips are Phase 17's ladder and are not changed |
+| 18.4 | The audit of the phase, on the rendered page | **PART-BUILT (27 Nov 2026)**, same report: the paper inks, which empty the two lists of known paper rows. **The rendered-contrast audit of the paper pages is not run, and no adversarial audit of this phase's own diff has been made** |

@@ -328,18 +328,20 @@ export function Transcription({ go }) {
 
   if (!draft) {
     return (
-      <div style={{ padding: '26px 30px', maxWidth: 720 }}>
+      <div className="tdl-scroll"><div className="tdl-waiting tdl-rise" data-waiting="transcription">
         <Eyebrow>transcription</Eyebrow>
-        <h2 style={{ font: 'var(--fw-reg) var(--fs-d2)/1.1 var(--display)', margin: '8px 0 10px' }}>
+        <h2 className="tdl-waiting-title">
           A drawing goes in; a record comes out
         </h2>
-        <p style={{ font: 'var(--fw-reg) 14px/1.6 var(--body)', color: 'var(--text-secondary)', margin: '0 0 16px' }}>
+        <p className="tdl-waiting-text" style={{ marginBottom: 26 }}>
           Trace rooms over a scanned drawing, or start from a drafter's DXF — its
           extraction arrives as candidates with the gaps named, and a human fills
           every one. Nothing is guessed into the record.
         </p>
-        <Chip onClick={() => draftDoc.load(emptyDraft())}>start a draft</Chip>
-      </div>
+        <button type="button" className="tdl-act tdl-act-primary" data-start-draft="" onClick={() => draftDoc.load(emptyDraft())}>
+          start a draft <span aria-hidden="true" className="tdl-act-arrow">→</span>
+        </button>
+      </div></div>
     );
   }
 
@@ -545,7 +547,7 @@ export function Transcription({ go }) {
             {gaps.length ? `not yet a record — ${gaps.length} gap(s)` : 'ready — every gap filled'}
           </Eyebrow>
           {gaps.length > 0 && (
-            <p data-critic-blind="" style={{ font: 'italic var(--fw-reg) 13px/1.5 var(--serif)', color: 'var(--text-secondary)', margin: '2px 0 4px' }}>
+            <p data-critic-blind="" style={{ font: 'italic var(--fw-reg) 15px/1.5 var(--serif)', color: 'var(--text-secondary)', margin: '2px 0 4px' }}>
               <Term id="critic-will-not-see-yet" />
             </p>
           )}

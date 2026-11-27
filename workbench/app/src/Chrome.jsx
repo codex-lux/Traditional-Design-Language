@@ -19,6 +19,7 @@ import { noEntry } from './glossary/termView.js';
 import { crumbLabel } from './nav/crumbs.js';
 import { JOURNEY_WORDS, JOURNEY_TERMS } from './journey/journey.js';
 import { layout } from './state/layout.js';
+import { prefs } from './state/prefs.js';
 import { MarkGlyph } from './components/MarkGlyph.jsx';
 
 /* A count and its word, apart from the other two: a count the check did not state is "not
@@ -86,11 +87,11 @@ function SearchInvitation({ onSearch }) {
   return (
     <>
       <button type="button" onClick={onSearch} aria-label="Search the corpus"
-        aria-describedby={d.describedBy} title={d.title}
+        aria-describedby={d.describedBy} title={d.title} className="tdl-chrome-btn"
         style={{ display: 'flex', alignItems: 'center', gap: 10, minWidth: 0, width: '100%',
-          padding: '3px 9px', border: '1px solid var(--border-hairline)', background: 'var(--surface-well)',
-          color: 'var(--text-secondary)', transition: 'var(--t-hover)' }}>
-        <span style={{ font: 'var(--fw-reg) 12.5px/1.4 var(--body)' }}>Search the corpus</span>
+          padding: '6px 10px', border: '1px solid var(--border-hairline)', background: 'var(--surface-well)',
+          color: 'var(--text-secondary)' }}>
+        <span style={{ font: 'var(--fw-reg) 13.5px/1.4 var(--body)' }}>Search the corpus</span>
         <span style={{ flex: 1 }} />
         <span style={{ font: 'var(--type-data-s)', fontFamily: 'var(--mono)',
           color: 'var(--text-secondary)' }}>⌘K</span>
@@ -101,8 +102,9 @@ function SearchInvitation({ onSearch }) {
 }
 
 /* THE TOP BAR (Phase 17, WP-17.2; the masthead and the crumb strip until then). Forty-eight
-   pixels of coal: the trail as an eyebrow, the address in the corpus's own grammar in mono beside
-   it, and the one button that opens the assistant, which is folded until it is asked for. The
+   pixels of coal: the trail as an eyebrow, the page's own head folded to one control (26 Nov
+   2026; the address in mono stood here until then, and the browser's own bar already says it),
+   and the one button that opens the assistant, which is folded until it is asked for. The
    wordmark, the bench, search and the keys moved into the sidebar; while the sidebar is folded the
    search and the keys stand here, so neither is ever off the screen. */
 /* WHILE THE LEFT RAIL IS FOLDED THE TOP BAR CARRIES THE HOUSE (the second audit of Phase 17): the
@@ -110,7 +112,7 @@ function SearchInvitation({ onSearch }) {
    hid the refusal and Next together -- the "refusal invisible on the counts line" the candidate-click
    work had fixed, reintroduced by the layout. They are the rail's own components, drawn here only
    while the rail is folded, so nothing is decided twice and no hook is doubled. */
-export function TopBar({ crumbs, address, onAsk, onSearch, onKeys, navOpen, plan, planStep, spine }) {
+export function TopBar({ crumbs, help, onAsk, onSearch, onKeys, navOpen, plan, planStep, spine }) {
   const ask = useTermDescription('ask-the-corpus');
   return (
     <header data-topbar="" style={{ height: 'var(--topbar-h)', flex: 'none', display: 'flex', alignItems: 'center',
@@ -123,18 +125,17 @@ export function TopBar({ crumbs, address, onAsk, onSearch, onKeys, navOpen, plan
         </div>
       )}
       <CrumbStrip crumbs={crumbs} />
-      {address && (
-        <code data-address="" style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)', whiteSpace: 'nowrap',
-          overflow: 'hidden', textOverflow: 'ellipsis', minWidth: 0, flexShrink: 1 }}>{address}</code>
-      )}
       <div style={{ flex: 1 }} />
+      {/* How to read this page: the page's own head, folded here until asked for (26 Nov 2026). */}
+      {help}
       {!navOpen && onSearch && <SearchInvitation onSearch={onSearch} />}
       {!navOpen && onKeys && <KeysButton onKeys={onKeys} />}
       {onAsk && (
         <button type="button" onClick={onAsk} data-ask="" aria-describedby={ask.describedBy} title={ask.title}
-          style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '4px 12px',
+          className="tdl-ask"
+          style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '5px 14px',
             border: '1px solid var(--gilt)', color: 'var(--text-body)', whiteSpace: 'nowrap',
-            font: 'var(--fw-med) 13px/1.3 var(--body)', transition: 'var(--t-hover)' }}>
+            font: 'var(--fw-med) 13px/1.3 var(--body)' }}>
           <Term id="ask-the-corpus" />
         </button>
       )}
@@ -151,19 +152,58 @@ function Wordmark({ compact, item }) {
     <a href="#/" data-home="" data-nav={item ? item.id : undefined}
       aria-current={item && item.current ? 'page' : undefined}
       style={{ font: `var(--fw-med) ${compact ? 11.5 : 12.5}px/1.55 var(--serif)`, letterSpacing: '.26em',
-        textTransform: 'uppercase', color: 'var(--text-body)', borderBottom: 'none', display: 'block',
+        textTransform: 'uppercase', color: 'var(--text-body)', borderBottom: 'none',
+        display: 'flex', alignItems: 'center', gap: compact ? 9 : 12,
         whiteSpace: compact ? 'nowrap' : 'normal' }}>
+      <Monogram size={compact ? 20 : 30} />
       <span>Traditional&#183;<wbr />Design&#183;<wbr />Language</span>
     </a>
   );
 }
 
+/* The product's mark: a doorcase in elevation, drawn in the gilt line and nothing else -- a
+   pediment, its entablature, two pilasters and the opening between them. It is a drawing, so
+   its ink is a stroke. */
+function Monogram({ size = 30 }) {
+  return (
+    <svg aria-hidden="true" width={size} height={size} viewBox="0 0 30 30" style={{ flex: 'none' }}
+      fill="none" stroke="var(--gilt)" strokeWidth="1.15" strokeLinejoin="miter">
+      <path d="M3 10.5 15 3.5 27 10.5Z" />
+      <path d="M4 10.5H26V13H4Z" />
+      <path d="M6.5 13V26M10 13V26M20 13V26M23.5 13V26" />
+      <path d="M2.5 26.5H27.5" />
+      <path d="M12.5 26V17.5a2.5 2.5 0 0 1 5 0V26" />
+    </svg>
+  );
+}
+
+/* MACHINE IDS, ON DEMAND (ruled 26 Nov 2026, "reader first"). Every name on a page was followed by
+   its id in mono, which doubled the page's words for the one reader in ten who works by id. An id
+   is printed once now, in the head of the record's own page, and shown beside a link when it is
+   pointed at; this control shows every one, for the reader who wants them, and remembers that in
+   this browser (`state/prefs.js`, never the URL). `App.jsx` marks `#root[data-ids]` from the same
+   store and the stylesheet does the rest. */
+export const IDS_PREF = 'machine-ids';
+function IdsToggle() {
+  const on = React.useSyncExternalStore(prefs.subscribe, () => prefs.get().folds[IDS_PREF] === true);
+  return (
+    <button type="button" data-ids-toggle="" aria-pressed={on} onClick={() => prefs.setFold(IDS_PREF, !on)}
+      title="Show record ids beside names" className="tdl-chrome-btn"
+      // pressed is said by the rule and the body ink, never by the accent as a word: the accent
+      // reads below 4.5 : 1 as small type on paper, and `inks.test.mjs` holds every control to that
+      style={{ padding: '3px 9px', border: '1px solid ' + (on ? 'var(--border-focus)' : 'var(--border-paper)'),
+        font: 'var(--type-data-s)', color: on ? 'var(--text-body)' : 'var(--text-secondary)', whiteSpace: 'nowrap' }}>
+      ids
+    </button>
+  );
+}
+
 function KeysButton({ onKeys }) {
   return (
-    <button type="button" onClick={onKeys} data-keys="" aria-haspopup="dialog"
+    <button type="button" onClick={onKeys} data-keys="" aria-haspopup="dialog" className="tdl-chrome-btn"
       style={{ display: 'inline-flex', alignItems: 'baseline', gap: 6, padding: '3px 9px',
         border: '1px solid var(--border-paper)', font: 'var(--type-data-s)', color: 'var(--text-secondary)',
-        whiteSpace: 'nowrap', transition: 'var(--t-hover)' }}>
+        whiteSpace: 'nowrap' }}>
       Keys <kbd style={{ fontFamily: 'var(--mono)' }}>?</kbd>
     </button>
   );
@@ -264,21 +304,20 @@ function RailLink({ it, depth, width, desc }) {
   const words = typeof it.meta === 'string' ? it.meta : null;
   return (
     <>
-      <a data-nav={it.id} href={it.href} aria-current={on ? 'page' : undefined}
+      <a data-nav={it.id} href={it.href} aria-current={on ? 'page' : undefined} className="tdl-rail-link"
         aria-describedby={desc ? desc.describedBy : undefined} title={desc ? desc.title : undefined}
-        style={{ display: 'flex', flexDirection: 'column', width: '100%', boxSizing: 'border-box',
-          padding: `4px 14px 4px ${14 + depth * 14}px`, minHeight: 28, borderBottom: 'none',
+        style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', width: '100%', boxSizing: 'border-box',
+          padding: `5px 16px 5px ${16 + depth * 14}px`, minHeight: 'var(--rail-row-h)', borderBottom: 'none',
           textDecoration: 'none', cursor: 'pointer',
-          background: on ? 'var(--surface-raised)' : 'transparent',
-          borderLeft: on ? '2px solid var(--text-accent)' : '2px solid transparent',
+          background: on ? 'var(--surface-raised)' : undefined,
           transition: 'var(--t-hover)' }}>
         <span style={{ display: 'flex', alignItems: 'baseline', gap: 9, width: '100%' }}>
           {it.step != null && (
             <span data-step-n="" style={{ font: 'var(--type-data-s)', fontFamily: 'var(--mono)',
               color: on ? 'var(--text-body)' : 'var(--text-secondary)', flex: 'none' }}>{it.step}</span>
           )}
-          <span data-missing={it.label == null && it.missing ? '' : undefined}
-            style={{ font: (on ? 'var(--fw-med)' : 'var(--fw-reg)') + ' 13px/1.4 var(--body)',
+          <span data-rail-label="" data-missing={it.label == null && it.missing ? '' : undefined}
+            style={{ font: (on ? 'var(--fw-med)' : 'var(--fw-reg)') + ' 14.5px/1.4 var(--body)',
               color: on ? 'var(--text-body)' : 'var(--text-secondary)', flex: 1, minWidth: 0,
               overflowWrap: 'anywhere' }}>
             {label}
@@ -369,8 +408,10 @@ export function LeftRail({ model, view, busy, plan, planStep, spine, onSearch, o
       <div style={{ flex: 'none', display: 'flex', flexDirection: 'column', gap: 8, padding: '10px 12px',
         borderTop: '1px solid var(--border-hairline)' }}>
         {onSearch && <SearchInvitation onSearch={onSearch} />}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
           {onKeys ? <KeysButton onKeys={onKeys} /> : <span />}
+          <IdsToggle />
+          <span style={{ flex: 1 }} />
           <FoldControl pane="nav" label="the surface list" side="left" />
         </div>
       </div>
@@ -447,8 +488,8 @@ export function Chip({ on, onClick, children, tone, title, radio }) {
   const aria = radio ? { role: 'radio', 'aria-checked': !!on }
     : (on === undefined ? {} : { 'aria-pressed': !!on });
   return (
-    <button type="button" onClick={onClick} title={title} {...aria}
-      style={{ font: 'var(--type-data-s)', padding: '2px 7px', whiteSpace: 'nowrap',
+    <button type="button" onClick={onClick} title={title} {...aria} className="tdl-chip"
+      style={{ font: 'var(--fw-reg) 13.5px/1.35 var(--serif)', padding: '3px 10px', whiteSpace: 'nowrap',
         border: '1px solid ' + (on ? (tone || 'var(--text-accent)') : 'var(--border-hairline)'),
         // A TONE IS THE CHIP'S EDGE, AND ITS WORD IS A DUTY (Phase 17's audit): a `tone` pigment
         // set as the word read as low as 2.93 : 1 on the instrument, by a route no `color:` scan sees
@@ -461,13 +502,13 @@ export function Chip({ on, onClick, children, tone, title, radio }) {
    something that is switched on. */
 export function ActionChip({ onClick, children, title, disabled, affix = '→' }) {
   return (
-    <button type="button" onClick={onClick} title={title} disabled={disabled}
-      style={{ font: 'var(--type-data-s)', padding: '2px 7px', whiteSpace: 'nowrap',
-        display: 'inline-flex', alignItems: 'center', gap: 5, border: '1px solid transparent',
+    <button type="button" onClick={onClick} title={title} disabled={disabled} className="tdl-action"
+      style={{ font: 'var(--fw-med) 14px/1.35 var(--serif)', padding: '3px 8px', whiteSpace: 'nowrap',
+        display: 'inline-flex', alignItems: 'center', gap: 6, border: '1px solid transparent',
         color: disabled ? 'var(--text-disabled)' : 'var(--text-accent)',
         cursor: disabled ? 'default' : 'pointer', transition: 'var(--t-hover)' }}>
       {children}
-      {affix && <span aria-hidden="true" style={{ color: disabled ? 'var(--text-disabled)' : 'var(--text-secondary)' }}>{affix}</span>}
+      {affix && <span aria-hidden="true" className="tdl-act-arrow" style={{ color: disabled ? 'var(--text-disabled)' : 'var(--text-secondary)' }}>{affix}</span>}
     </button>
   );
 }
@@ -492,8 +533,8 @@ export function FilterGroup({ label, summary, children, defaultOpen = false, act
   return (
     <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8, flex: 'none' }}>
       <button type="button" onClick={() => setOpen(!open)} aria-expanded={open}
-        title={open ? `Fold ${label} away` : `Show the ${label} filters`}
-        style={{ font: 'var(--type-data-s)', padding: '2px 7px', whiteSpace: 'nowrap',
+        title={open ? `Fold ${label} away` : `Show the ${label} filters`} className="tdl-chip"
+        style={{ font: 'var(--fw-reg) 13.5px/1.35 var(--serif)', padding: '3px 10px', whiteSpace: 'nowrap',
           display: 'inline-flex', alignItems: 'center', gap: 6,
           border: '1px solid ' + (active ? 'var(--gilt-deep)' : 'var(--border-hairline)'),
           color: active ? 'var(--text-accent)' : 'var(--text-secondary)',

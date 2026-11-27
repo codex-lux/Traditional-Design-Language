@@ -25,6 +25,11 @@ import { stripComments } from './sourceReader.mjs';
 
 const SRC = fileURLToPath(new URL('./', import.meta.url));
 const CSS = readFileSync(join(SRC, 'theme', 'tokens.css'), 'utf8');
+// THE SECOND STYLESHEET (26 Nov 2026): the layout of the two rooms. It declares no colour token and
+// rebinds no duty, so every token reader below still reads `tokens.css` alone; what is read here
+// as well is every CLASS RULE and every word a rule sets, by the same readers, so a pigment set in
+// the new file fails exactly where one set in the old file does.
+const ROOMS_CSS = readFileSync(join(SRC, 'theme', 'rooms.css'), 'utf8');
 
 // the ladders' duties joined the list with the second audit of Phase 17 (binding, variant, affinity,
 // a figure's kind, a lineage edge): each names a rung, not a pigment, and each must follow its ground
@@ -106,42 +111,11 @@ function contrastRows(css) {
    Three are `oq/two-inks-set-as-small-text-read-below-aa`'s (the refusal, the gilt, the green); the
    severity words and the tertiary grey are amended into it, dated, by Phase 17's audit. Held by
    identity, so none may grow a sibling and a fix must remove its row. */
-const KNOWN = [
-  '--text-secondary on vellum reads 4.32 : 1 on --paper-deep',
-  '--refusal-text on vellum reads 3.11 : 1 on --paper-deep',
-  '--refusal-text on vellum reads 3.29 : 1 on --paper-mat',
-  '--refusal-text on vellum reads 3.50 : 1 on --paper',
-  '--refusal-text on vellum reads 3.72 : 1 on --paper-lit',
-  '--sev-advisory on vellum reads 4.32 : 1 on --paper-deep',
-  '--sev-cleared on vellum reads 3.37 : 1 on --paper-deep',
-  '--sev-cleared on vellum reads 3.55 : 1 on --paper-mat',
-  '--sev-cleared on vellum reads 3.78 : 1 on --paper',
-  '--sev-cleared on vellum reads 4.03 : 1 on --paper-lit',
-  '--sev-fatal on vellum reads 3.11 : 1 on --paper-deep',
-  '--sev-fatal on vellum reads 3.29 : 1 on --paper-mat',
-  '--sev-fatal on vellum reads 3.50 : 1 on --paper',
-  '--sev-fatal on vellum reads 3.72 : 1 on --paper-lit',
-  '--sev-info on vellum reads 2.80 : 1 on --paper-deep',
-  '--sev-info on vellum reads 2.96 : 1 on --paper-mat',
-  '--sev-info on vellum reads 3.15 : 1 on --paper',
-  '--sev-info on vellum reads 3.35 : 1 on --paper-lit',
-  '--sev-minor on vellum reads 3.64 : 1 on --paper-deep',
-  '--sev-minor on vellum reads 3.84 : 1 on --paper-mat',
-  '--sev-minor on vellum reads 4.09 : 1 on --paper',
-  '--sev-minor on vellum reads 4.35 : 1 on --paper-lit',
-  '--sev-serious on vellum reads 2.41 : 1 on --paper-deep',
-  '--sev-serious on vellum reads 2.54 : 1 on --paper-mat',
-  '--sev-serious on vellum reads 2.71 : 1 on --paper',
-  '--sev-serious on vellum reads 2.88 : 1 on --paper-lit',
-  '--text-accent on vellum reads 3.64 : 1 on --paper-deep',
-  '--text-accent on vellum reads 3.84 : 1 on --paper-mat',
-  '--text-accent on vellum reads 4.09 : 1 on --paper',
-  '--text-accent on vellum reads 4.35 : 1 on --paper-lit',
-  '--text-tertiary on vellum reads 2.80 : 1 on --paper-deep',
-  '--text-tertiary on vellum reads 2.96 : 1 on --paper-mat',
-  '--text-tertiary on vellum reads 3.15 : 1 on --paper',
-  '--text-tertiary on vellum reads 3.35 : 1 on --paper-lit',
-];
+/* EMPTIED ON 27 NOV 2026 (Phase 18, the paper inks). The thirty-four rows were one pigment each
+   set as a word on paper: a refusal, a severity, the accent, the tertiary grey, and --ink-2 on
+   --paper-deep. Each duty is bound on paper to its pigment mixed toward --coal by the least step
+   that reads, as Phase 17 bound the instrument's to a lit pigment. A new row here is a new defect. */
+const KNOWN = [];
 
 test('every text duty reads 4.5 : 1 on every surface of its own ground', () => {
   assert.deepEqual([...contrastRows(CSS)].sort(), [...KNOWN].sort());
@@ -244,6 +218,10 @@ function cssRuleRows(css) {
 
 test('no class rule in the stylesheet names a colour primitive, but the paper ones', () => {
   assert.deepEqual(cssRuleRows(CSS), []);
+  assert.deepEqual(cssRuleRows(ROOMS_CSS), [], 'the rooms\' stylesheet is held to the same rule');
+  assert.ok((ROOMS_CSS.match(/(?<![\w-])color:/g) || []).length > 20, 'the premise: that file does set words');
+  assert.deepEqual(Object.keys(rootTokens(ROOMS_CSS)).filter((t) => DUTY.test(t)), [],
+    'and it declares no duty: a duty is declared once, in tokens.css, where both grounds bind it');
   assert.deepEqual(cssRuleRows('.x{color:var(--ink-2)}'), ['.x: 1'], 'the reader sees a pigment in a rule');
   assert.deepEqual(cssRuleRows('.x{color:var(--gilt-deep)}'), ['.x: 1'], 'and a hue set as a word');
   assert.deepEqual(cssRuleRows('[data-ground="instrument"] .x{color:var(--brick)}').length, 1, 'a rule under a ground is not the ground block');
@@ -276,12 +254,42 @@ test('App marks the shell and each <main> from the one table', () => {
   assert.match(app, /<main data-ground=\{groundOf\(/);
 });
 
-/* ── 5. every surface stands on the instrument (WP-17.14), and nothing moves one back unsaid ── */
-test('every surface is on the instrument since WP-17.14', async () => {
-  const { SURFACE_GROUND, SHELL_GROUND } = await import('./grounds.js');
-  assert.equal(SHELL_GROUND, 'instrument');
-  assert.deepEqual(Object.entries(SURFACE_GROUND).filter(([, g]) => g !== 'instrument'), [],
-    'a surface moved back to vellum is a decision about the whole page: say so here, by name');
+/* ── 5. TWO ROOMS (ruled 26 Nov 2026), and nothing moves a surface between them unsaid ─────────
+   From WP-17.14 until that ruling this section held every surface to the instrument. Lucas ruled
+   the library a pattern book set on vellum and the house the dark drafting room, amending the
+   29 Oct ruling; the shell stays the instrument in both. The two lists below are that ruling BY
+   NAME, so moving a surface across is a change to this test and is said here. */
+const LIBRARY = ['compare', 'elements', 'faults', 'glossary', 'grouping', 'massing', 'overview', 'parti',
+  'phylogeny', 'proportions', 'room', 'style'];
+const HOUSE = ['brief', 'candidates', 'drawings', 'export', 'transcription', 'workbench'];
+test('the library is set on vellum and the house on the instrument, each surface in one room', async () => {
+  const { SURFACE_GROUND, SHELL_GROUND, ROOM_OF, ROOMS, roomOf, groundOf } = await import('./grounds.js');
+  assert.equal(SHELL_GROUND, 'instrument', 'the shell is the desk both rooms stand on');
+  assert.deepEqual(ROOMS, { library: 'vellum', house: 'instrument' });
+  const inRoom = (room) => Object.keys(ROOM_OF).filter((s) => ROOM_OF[s] === room).sort();
+  assert.deepEqual(inRoom('library'), LIBRARY, 'a surface moved into or out of the library: say so here, by name');
+  assert.deepEqual(inRoom('house'), HOUSE, 'a surface moved into or out of the house: say so here, by name');
+  assert.equal(LIBRARY.length + HOUSE.length, Object.keys(ROOM_OF).length, 'no surface is in a third room');
+  // the ground FOLLOWS from the room: the two tables cannot disagree, because one is derived
+  for (const [surface, room] of Object.entries(ROOM_OF)) {
+    assert.equal(SURFACE_GROUND[surface], ROOMS[room], surface);
+    assert.equal(groundOf(surface), ROOMS[room], surface);
+    assert.equal(roomOf(surface), room, surface);
+  }
+  assert.equal(roomOf('no-such-surface'), 'library', 'an id nobody decided about is a page, never the instrument');
+});
+test('App marks each page with its room, read from the one table', () => {
+  const app = readFileSync(join(SRC, 'App.jsx'), 'utf8');
+  assert.match(app, /data-in-room=\{roomOf\(/, 'the <main> says which room it is');
+  assert.match(app, /root\.setAttribute\('data-in-room', roomOf\(/, 'and so does the shell, for a rule that must know');
+  /* AND NEVER AS `data-room`, which is the plan sheet's hook for a PLACED room. The first version
+     used that name, and the walk's relaxation-mark check, which measures each mark against every
+     `[data-room]`, met two page-sized "rooms" called house and reported six marks adrift. Read off
+     the code with its comments stripped, because the comment beside the fix names the old attribute. */
+  const live = stripComments(app);
+  assert.doesNotMatch(live, /['"]data-room['"]\s*,\s*roomOf|data-room=\{roomOf/, 'the sheet\'s hook, taken for the page\'s');
+  // the premise: that hook is real, and it is the sheet's
+  assert.match(readFileSync(join(SRC, 'sheet', 'Sheet.jsx'), 'utf8'), /data-room=\{/);
 });
 
 /* ── 6. A WORD IS SET IN A DUTY, NEVER A PIGMENT (Phase 17's audit) ───────────────────────────
@@ -359,10 +367,31 @@ test('a severity word, and the text beside it, reads on its own field on the ins
    ground. The exceptions are named by identity, each with its reason, and may only shrink. */
 const COLOR_EXCEPT = {
   '--text-disabled': 'an inactive control: WCAG 1.4.3 does not apply to one',
-  '--text-on-gilt': 'set on its own gilt fill, 5.26 : 1 on either ground',
+  '--text-on-gilt': 'the primary act (`.tdl-act-primary`, theme/rooms.css), on its own gilt fill: 5.26 : 1 on either ground',
   '--surface-panel': 'Gate.jsx sets it on its own inverted fill, the body text duty',
-  '--fix-right': 'FaultCard.jsx, on the fault card, which is vellum: oq/two-inks-set-as-small-text-read-below-aa',
+  '--fix-right': 'FaultCard.jsx, on the fault card, which is vellum, where it is --green-ink and reads 4.5 : 1 (Phase 18)',
 };
+/* The tokens a stylesheet's rules set a WORD in: each `color:` declaration, read to its own `;`
+   (a rule there carries several declarations to a line, and a `background:` after a `color:` is
+   not a word). */
+export function cssWordTokens(css) {
+  const out = new Set();
+  const live = css.replace(/\/\*[\s\S]*?\*\//g, '');
+  for (const m of live.matchAll(/(?<![\w-])color:\s*([^;}]*)/g)) {
+    for (const t of m[1].matchAll(/var\(--([a-z0-9-]+)\)/g)) out.add('--' + t[1]);
+  }
+  return out;
+}
+export function disabledInkOnLiveRules(css) {
+  const rows = [];
+  for (const m of css.replace(/\/\*[\s\S]*?\*\//g, '').matchAll(/([^{}]+)\{([^{}]*)\}/g)) {
+    if (!/(?<![\w-])color:\s*var\(--text-disabled\)/.test(m[2])) continue;
+    for (const sel of m[1].split(',')) {
+      if (!/:disabled|\[disabled\]|\[aria-disabled/.test(sel)) rows.push(sel.trim());
+    }
+  }
+  return rows;
+}
 function colorTokenRows() {
   const toks = new Map();
   const walkTok = (d) => {
@@ -376,6 +405,7 @@ function colorTokenRows() {
     }
   };
   walkTok(SRC);
+  for (const t of cssWordTokens(ROOMS_CSS)) toks.set(t, 'theme/rooms.css');
   const rows = [];
   for (const [t] of [...toks].sort()) {
     const v = groundValue(CSS, 'instrument', t);
@@ -387,6 +417,17 @@ function colorTokenRows() {
 }
 test('every token a word is set in reads 4.5 : 1 on the instrument, but the named exceptions', () => {
   assert.deepEqual(colorTokenRows(), Object.keys(COLOR_EXCEPT).sort());
+  // the stylesheet reader: a word's token, and never the field declared after it on the same line
+  assert.deepEqual([...cssWordTokens('.x{color:var(--text-body);background:var(--surface-raised)} .y{border-color:var(--gilt)}')],
+    ['--text-body']);
+  assert.ok(cssWordTokens(ROOMS_CSS).has('--text-on-gilt'), 'the premise: the rooms\' rules are among the words read');
+  // AN EXCEPTION NAMED BY TOKEN IS AN EXCEPTION FOR EVERY SITE THAT TOKEN IS SET AT (found by mutating
+  // this file's own guard, 26 Nov 2026: a live row name set in --text-disabled stayed green, because
+  // that token is excused as "an inactive control" wherever it stands). A stylesheet's selector says
+  // whether the control is inactive, so there the excuse is held to it: the disabled ink is a word
+  // only under a selector that says disabled.
+  assert.deepEqual(disabledInkOnLiveRules(ROOMS_CSS), []);
+  assert.deepEqual(disabledInkOnLiveRules('.x{color:var(--text-disabled)} .y:disabled,.y[aria-disabled="true"]{color:var(--text-disabled)}'), ['.x']);
 });
 
 /* ── 9. AN ELEMENT THAT PAINTS PAPER SAYS IT IS VELLUM (the second audit of Phase 17) ───────────
@@ -409,7 +450,7 @@ export function paperClasses(css) {
   }
   return out;
 }
-const PAPER_CLASSES = paperClasses(CSS);
+const PAPER_CLASSES = paperClasses(CSS + '\n' + ROOMS_CSS);
 export function unmarkedPaper(src, classes = PAPER_CLASSES) {
   return elements(src).filter((e) => {
     if (e.name === 'svg') return false;

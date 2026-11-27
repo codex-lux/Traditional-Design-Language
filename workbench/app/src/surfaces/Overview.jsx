@@ -42,6 +42,14 @@
    then the worked example, what the corpus holds and what it is not. The readers' paragraphs and
    the two-spine map are gone: the readers are `about-tdl`'s still, and the sidebar is the map.
 
+   REDRAWN AS THE THRESHOLD (26 Nov 2026, the two rooms). The page stands between the drafting
+   room and the library and shows both: a dark band first, where the thesis is set at display size
+   beside the lit plate and the house's five steps run as stations on one line; then the library
+   below it on paper, five cards and the closing furniture. The thesis is `about-tdl`'s one
+   sentence, set in two sizes: its first clause as the headline and the rest as the lede
+   (`thesisParts`), every word the record's and in the record's order. Nothing else on the page
+   changed hands -- the same records, the same routes, the same `data-` hooks.
+
    IT FITS A LAPTOP: no fixed width over a column's share, every row wraps. `state/layout.js`'s
    table makes this page 'reflow' and the shell marks `#root[data-reflow]` from it (WP-14.30; the
    1380 px floor that attribute once released is gone). This page does not set that attribute
@@ -57,13 +65,12 @@ import { prefs } from '../state/prefs.js';
 import { navModel, inHandFrom } from '../nav/navModel.js';
 import { journeyState, JOURNEY_WORDS } from '../journey/journey.js';
 import {
-  aboutView, guidedView, rankRows, total, entranceItems, resumeView, stationTiles, libraryCards,
+  aboutView, guidedView, rankRows, total, entranceItems, resumeView, stationTiles, libraryCards, thesisParts,
 } from '../frontdoor/frontDoor.js';
 import { isMissing } from '../glossary/lookup.js';
 import { Term, noEntry } from '../components/Term.jsx';
 import { RecordLink } from '../components/RecordLink.jsx';
 import { Eyebrow } from '../components/Eyebrow.jsx';
-import { Vellum } from '../components/Vellum.jsx';
 import { Plate } from '../components/Plate.jsx';
 import { MarkGlyph } from '../components/MarkGlyph.jsx';
 import { GLYPHS } from '../frontdoor/glyphs.js';
@@ -73,7 +80,6 @@ import { barView } from '../journey/bar.js';
 const prose = { font: 'var(--type-prose)', color: 'var(--text-body)', margin: 0 };
 const small = { font: 'var(--fw-reg) var(--fs-body-s)/var(--lh-body) var(--serif)', color: 'var(--text-body)' };
 const note = { font: 'var(--type-data-s)', color: 'var(--text-secondary)' };
-const rule = { borderTop: '1px solid var(--border-soft)' };
 /* Its anchors take the `a` rule whole: an inline underline here beat `a:hover` (WP-14.33's audit). */
 
 /* A place's word, or `noEntry(id)` where the record is missing; nothing while it loads. */
@@ -112,11 +118,12 @@ function Hero() {
   const svg = hero && hero.drawing && typeof hero.drawing.svg === 'string' ? hero.drawing.svg : null;
   const engine = hero && hero.drawing && hero.drawing.solver ? hero.drawing.solver.engine : null;
   return (
-    <Plate data-hero={hero ? (hero.refused ? 'refused' : hero.plan_id || '') : (failed ? 'failed' : 'loading')}
+    <Plate className={svg ? 'tdl-hero-plate tdl-plate-in' : 'tdl-hero-plate'}
+      data-hero={hero ? (hero.refused ? 'refused' : hero.plan_id || '') : (failed ? 'failed' : 'loading')}
       caption={hero && !hero.refused ? <><Term id="front-door-hero" />{JOURNEY_WORDS.separator}{hero.name}{engine ? JOURNEY_WORDS.separator + engine : ''}</> : null}>
-      {svg && <div className="plate-fit" style={{ maxHeight: 460, overflow: 'hidden' }} dangerouslySetInnerHTML={{ __html: svg }} />}
+      {svg && <div className="plate-fit" dangerouslySetInnerHTML={{ __html: svg }} />}
       {!svg && !hero && !failed && (
-        <div aria-busy="true" style={{ padding: 40 }}><MarkGlyph token="--mark-loading"><Term id="front-door-hero" /></MarkGlyph></div>
+        <div aria-busy="true" style={{ padding: '18vh 40px', textAlign: 'center' }}><MarkGlyph token="--mark-loading"><Term id="front-door-hero" /></MarkGlyph></div>
       )}
       {/* A REFUSAL AND A FAILURE ARE TWO THINGS: where no shipped record may be drawn the plate says
           refused, with the count it swept; where the request itself failed nothing was judged, and
@@ -135,59 +142,53 @@ function Hero() {
   );
 }
 
-/* One station: a vellum tile done, a dark tile with a gilt border in hand, a dashed outline not yet.
-   A blocked step is a tile and not a link, as in the sidebar. */
-const TILE = {
-  // the done tile is vellum: it carries data-ground="vellum", so the panel duty here is paper
-  '--mark-journey-done': { background: 'var(--surface-panel)', border: '1px solid var(--surface-panel)' },
-  '--mark-journey-current': { background: 'var(--heavy-2)', border: '1.5px solid var(--gilt)' },
-  '--mark-journey-not-yet': { background: 'transparent', border: '1px dashed var(--border-paper)' },
-  '--mark-refused': { background: 'transparent', border: '2px solid var(--refusal)' },
-};
+/* One station on the line: its mark, its number and name, and the journey's words for it. A
+   blocked step is drawn and is not a link, as in the sidebar. */
 function Station({ t }) {
-  const done = t.mark === '--mark-journey-done';
   const body = (
-    <span data-ground={done ? 'vellum' : undefined} style={{ display: 'flex', flexDirection: 'column', gap: 4,
-      padding: '10px 12px 11px', minHeight: 74, ...TILE[t.mark] }}>
-      <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-        <MarkGlyph token={t.mark} size={12} />
-        <span style={{ ...note }}>{t.n}</span>
-        <span style={{ font: 'var(--fw-med) 15px/1.3 var(--body)', color: 'var(--text-body)' }}>
-          <Word label={t.label} missing={t.missing} />
-        </span>
+    <>
+      <span className="tdl-station-mark"><MarkGlyph token={t.mark} size={15} /></span>
+      <span className="tdl-station-name">
+        <span className="tdl-station-n">{t.n}</span><Word label={t.label} missing={t.missing} />
       </span>
-      {t.words && <span style={{ font: 'italic var(--fw-reg) 13px/1.35 var(--body)',
-        color: t.state === 'refused' ? 'var(--refusal-text)' : 'var(--text-secondary)' }}>{t.words}</span>}
-    </span>
+      {t.words && (
+        <span className="tdl-station-words" data-refused={t.state === 'refused' ? '' : undefined}>{t.words}</span>
+      )}
+    </>
   );
   return (
-    <li data-station={t.id} data-station-mark={t.mark} style={{ listStyle: 'none', minWidth: 0, zIndex: 1 }}>
-      {t.href ? <a href={t.href} data-station-link={t.id} style={{ display: 'block', borderBottom: 'none' }}>{body}</a> : body}
+    <li data-station={t.id} data-station-mark={t.mark} style={{ minWidth: 0 }}>
+      {t.href
+        ? <a href={t.href} data-station-link={t.id} className="tdl-station">{body}</a>
+        : <span className="tdl-station">{body}</span>}
     </li>
   );
 }
 
+/* A library card: the drawn figure, the API's count, the place's name and its record's line.
+   The name is the card's link and its hit area is the whole card (`tdl-stretch`); a second link
+   inside the card stands above it. */
 function LibraryCard({ c, entrance, children }) {
   const paths = GLYPHS[c.id] || [];
   return (
-    <Vellum as="section" data-library-card={c.id} style={{ padding: '14px 16px 15px', minWidth: 0,
-      display: 'flex', flexDirection: 'column', gap: 8 }}>
+    <section data-library-card={c.id} data-lifts="" className="tdl-card tdl-library-card"
+      style={{ background: 'var(--surface-lit)' }}>
       <span style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 10 }}>
         {paths.length > 0 && (
-          <svg aria-hidden="true" width="40" height="40" viewBox="0 0 40 40" style={{ flex: 'none' }}>
+          <svg aria-hidden="true" width="52" height="52" viewBox="0 0 40 40" style={{ flex: 'none' }}>
             {paths.map((d, i) => <path key={i} d={d} fill="none" stroke="var(--heavy)"
               strokeWidth="var(--lw-fine)" vectorEffect="non-scaling-stroke" />)}
           </svg>
         )}
-        {c.figure != null && <span data-card-figure="" style={{ font: 'var(--type-data)', color: 'var(--text-body)' }}>{c.figure}</span>}
+        {c.figure != null && <span data-card-figure="" className="tdl-card-figure">{c.figure}</span>}
       </span>
-      <a href={c.href} data-entrance-link={entrance || undefined}
-        style={{ font: 'var(--fw-reg) var(--fs-d4)/1.25 var(--display)', alignSelf: 'flex-start' }}>
+      <a href={c.href} data-entrance-link={entrance || undefined} className="tdl-card-title tdl-stretch"
+        style={{ alignSelf: 'flex-start', marginTop: 6 }}>
         <Word label={c.label} missing={c.missing} />
       </a>
-      {c.what && <p style={{ ...small, margin: 0 }}>{c.what}</p>}
+      {c.what && <p className="tdl-card-text">{c.what}</p>}
       {children}
-    </Vellum>
+    </section>
   );
 }
 
@@ -237,72 +238,75 @@ export function Overview({ onSearch, lastEval }) {
   const tiles = model ? stationTiles(bar, journey.resume, model) : [];
   const cards = model ? libraryCards(sidebarView(model, { bar, resume: journey.resume, surface: 'overview' }), lookup) : [];
 
+  const thesis = about.state === 'ready' ? thesisParts(about.definition) : null;
+
   return (
-    <div data-front-door="" data-ground="instrument" style={{ flex: 1, overflow: 'auto', minHeight: 0, minWidth: 0,
-      background: 'var(--surface-app)' }}>
-      <div style={{ maxWidth: 1240, margin: '0 auto', padding: '40px clamp(16px, 3vw, 40px) 64px' }}>
+    <div data-front-door="" className="tdl-scroll">
+      {/* THE DRAFTING ROOM: the thesis, the act, a real plate lit beside them, and the journey. */}
+      <section className="tdl-threshold" data-ground="instrument" data-threshold="">
+        <div className="tdl-threshold-inner">
+          <div className="tdl-threshold-grid">
+            <header data-about="" className="tdl-rise" aria-busy={about.state === 'loading' ? 'true' : undefined} style={{ minWidth: 0 }}>
+              {about.state === 'missing' && <p data-missing="" style={note}>{noEntry(about.missing)}</p>}
+              {about.state === 'ready' && (
+                <>
+                  <Eyebrow as="div" tone="accent">{about.term}</Eyebrow>
+                  {/* one sentence, the record's, in two sizes */}
+                  <h1 data-about-definition="" className="tdl-thesis">
+                    {thesis.head}
+                    {thesis.rest && <span className="tdl-hero-lede" style={{ display: 'block', letterSpacing: 0 }}> {thesis.rest}</span>}
+                  </h1>
+                </>
+              )}
+              <div className="tdl-hero-acts" style={{ marginTop: 30 }}>
+                <a href={resume ? resume.href : (doors.brief ? doors.brief.href : '#/brief')} data-front-act="continue"
+                  data-resume={resume ? resume.id : undefined} className="tdl-act tdl-act-primary">
+                  <Term id="front-door-continue" /><span className="tdl-act-arrow" aria-hidden="true">→</span>
+                </a>
+                <a href={doors.brief ? doors.brief.href : '#/brief'} data-front-act="new-brief" data-entrance-link="brief"
+                  className="tdl-act">
+                  <Term id="front-door-new-brief" />
+                </a>
+              </div>
+              {resume && resume.plan && plan && (
+                <p style={{ ...small, color: 'var(--text-secondary)', margin: '14px 0 0' }}>
+                  <Term id="on-the-bench" />
+                  <span style={{ marginLeft: 7, color: 'var(--text-body)' }}>{plan.name || plan.id}</span>
+                  {resume.origin && (
+                    <span data-resume-origin="" style={{ ...note, marginLeft: 7, display: 'inline-block' }}>
+                      {JOURNEY_WORDS.separator}{resume.origin}
+                    </span>
+                  )}
+                </p>
+              )}
+            </header>
+            <Hero />
+          </div>
 
-        {/* THE THESIS, the act, and a real plate beside them. */}
-        <div style={{ display: 'grid', gap: '28px 44px', alignItems: 'center',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(22rem, 1fr))' }}>
-          <header data-about="" aria-busy={about.state === 'loading' ? 'true' : undefined} style={{ minWidth: 0 }}>
-            {about.state === 'missing' && <p data-missing="" style={note}>{noEntry(about.missing)}</p>}
-            {about.state === 'ready' && (
-              <>
-                <Eyebrow as="div" tone="accent">{about.term}</Eyebrow>
-                <h1 data-about-definition="" style={{ font: 'var(--fw-reg) clamp(24px, 2.3vw, var(--fs-d2))/1.22 var(--display)',
-                  letterSpacing: 'var(--tr-display)', color: 'var(--text-body)', margin: '12px 0 0', maxWidth: '26em' }}>
-                  {about.definition}
-                </h1>
-              </>
-            )}
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, marginTop: 26, alignItems: 'center' }}>
-              <a href={resume ? resume.href : (doors.brief ? doors.brief.href : '#/brief')} data-front-act="continue"
-                data-resume={resume ? resume.id : undefined}
-                style={{ padding: '9px 18px', background: 'var(--gilt)', color: 'var(--text-on-gilt)', borderBottom: 'none',
-                  font: 'var(--fw-med) 15px/1.3 var(--body)' }}>
-                <Term id="front-door-continue" />
-              </a>
-              <a href={doors.brief ? doors.brief.href : '#/brief'} data-front-act="new-brief" data-entrance-link="brief"
-                style={{ padding: '8px 16px', border: '1px solid var(--border-paper)', borderBottom: '1px solid var(--border-paper)',
-                  font: 'var(--fw-reg) 15px/1.3 var(--body)' }}>
-                <Term id="front-door-new-brief" />
-              </a>
-            </div>
-            {resume && resume.plan && plan && (
-              <p style={{ ...small, color: 'var(--text-secondary)', margin: '12px 0 0' }}>
-                <Term id="on-the-bench" />
-                <span style={{ marginLeft: 7, color: 'var(--text-body)' }}>{plan.name || plan.id}</span>
-                {resume.origin && (
-                  <span data-resume-origin="" style={{ ...note, marginLeft: 7, display: 'inline-block' }}>
-                    {JOURNEY_WORDS.separator}{resume.origin}
-                  </span>
-                )}
-              </p>
-            )}
-          </header>
-          <Hero />
+          {/* THE JOURNEY, as five stations on one line. */}
+          <section data-stations="" className="tdl-rise-3" style={{ marginTop: 'clamp(34px, 6vh, 64px)' }}>
+            <Eyebrow as="h2" style={{ margin: '0 0 18px', textAlign: 'center' }}><Term id="nav-group-a-house" /></Eyebrow>
+            <ol className="tdl-stations">
+              {tiles.map((t) => <Station key={t.id} t={t} />)}
+            </ol>
+          </section>
         </div>
+      </section>
 
-        {/* THE JOURNEY, as five stations on a rule. */}
-        <section data-stations="" style={{ marginTop: 44 }}>
-          <Eyebrow as="h2" style={{ margin: 0 }}><Term id="nav-group-a-house" /></Eyebrow>
-          <ol style={{ position: 'relative', display: 'grid', gap: 12, margin: '14px 0 0', padding: 0,
-            gridTemplateColumns: 'repeat(auto-fit, minmax(10rem, 1fr))' }}>
-            <span aria-hidden="true" style={{ position: 'absolute', left: 0, right: 0, top: '50%',
-              borderTop: '1px solid var(--border-paper)' }} />
-            {tiles.map((t) => <Station key={t.id} t={t} />)}
-          </ol>
-        </section>
-
-        {/* THE LIBRARY, as five cards with a drawn figure and the API's count. */}
-        <section data-library="" style={{ marginTop: 40 }}>
-          <Eyebrow as="h2" style={{ margin: 0 }}><Term id="nav-group-library" /></Eyebrow>
-          <div style={{ display: 'grid', gap: 14, marginTop: 14, gridTemplateColumns: 'repeat(auto-fit, minmax(13rem, 1fr))' }}>
+      {/* THE LIBRARY, on paper: five cards with a drawn figure and the API's count. */}
+      <div className="tdl-library-band">
+        <section data-library="">
+          <div className="tdl-section-head">
+            <h2 className="tdl-section-title"><Term id="nav-group-library" /></h2>
+            <button type="button" onClick={onSearch} className="tdl-quiet-link tdl-link" data-front-search="">
+              Search the corpus <kbd style={{ ...note, marginLeft: 6 }}>⌘K</kbd>
+            </button>
+          </div>
+          <div className="tdl-grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(11.5rem, 1fr))' }}>
             {cards.map((c) => (
               <LibraryCard key={c.id} c={c} entrance={c.id === 'style' ? 'style' : null}>
                 {c.id === 'style' && doors.inHand && (
-                  <p style={{ ...small, margin: 0 }}>
+                  <p className="tdl-card-text" style={{ position: 'relative', zIndex: 1, marginTop: 'auto' }}>
                     <a href={doors.inHand.href} data-entrance-link="in-hand">
                       <Word label={doors.inHand.label} missing={doors.inHand.missing} />
                     </a>
@@ -313,32 +317,19 @@ export function Overview({ onSearch, lastEval }) {
           </div>
         </section>
 
-        {/* The one invitation that is not a place: look something up. */}
-        <button type="button" onClick={onSearch}
-          style={{ display: 'flex', alignItems: 'center', gap: 14, width: '100%', maxWidth: 560,
-            margin: '28px 0 0', padding: '11px 15px', textAlign: 'left',
-            border: '1px solid var(--border-paper)', background: 'var(--surface-well)',
-            transition: 'var(--t-hover)' }}>
-          <span style={{ font: 'var(--fw-reg) 15px/1.4 var(--body)', color: 'var(--text-secondary)' }}>
-            Search the corpus
-          </span>
-          <span style={{ flex: 1 }} />
-          <span style={{ ...note, fontFamily: 'var(--mono)' }}>⌘K</span>
-        </button>
-
         {/* THE WORKED EXAMPLE, WHAT IT HOLDS, and WHAT IT IS NOT: the closing furniture. */}
-        <div style={{ marginTop: 40, display: 'grid', gap: '26px 40px',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(17rem, 1fr))', alignItems: 'start' }}>
-          <section data-guided-example="" style={{ ...rule, paddingTop: 10, minWidth: 0 }}>
+        <div className="tdl-colophon" style={{ marginTop: 56 }}>
+          <section data-guided-example="" style={{ minWidth: 0 }}>
             {guided.state === 'missing' && <p data-missing="" style={note}>{noEntry(guided.missing)}</p>}
             {guided.state === 'ready' && (
               <>
-                <Eyebrow as="h2" style={{ margin: 0 }}>{guided.word}</Eyebrow>
-                <p data-guided-definition="" style={{ ...prose, margin: '8px 0 0' }}>{guided.definition}</p>
+                <div className="tdl-rule-double" />
+                <Eyebrow as="h2" style={{ margin: '12px 0 0' }}>{guided.word}</Eyebrow>
+                <p data-guided-definition="" style={{ ...prose, margin: '10px 0 0' }}>{guided.definition}</p>
                 {guided.cites.length > 0 && (
-                  <ul style={{ listStyle: 'none', padding: 0, margin: '10px 0 0' }}>
+                  <ul style={{ listStyle: 'none', padding: 0, margin: '12px 0 0' }}>
                     {guided.cites.map((c) => (
-                      <li key={c} style={{ ...small, padding: '3px 0' }}>
+                      <li key={c} style={{ ...small, padding: '4px 0' }}>
                         <RecordLink cite={c}>{c === guided.briefCite && briefName ? briefName : undefined}</RecordLink>
                       </li>
                     ))}
@@ -346,15 +337,16 @@ export function Overview({ onSearch, lastEval }) {
                 )}
                 {/* WHERE IT STOPS, in the record's words and no others. */}
                 {guided.more && (
-                  <p data-guided-stop="" style={{ ...small, margin: '10px 0 0', paddingLeft: 10,
+                  <p data-guided-stop="" style={{ ...small, color: 'var(--text-secondary)', margin: '12px 0 0', paddingLeft: 12,
                     borderLeft: '2px solid var(--border-hairline)' }}>{guided.more}</p>
                 )}
               </>
             )}
           </section>
 
-          <section data-inventory="" style={{ ...rule, paddingTop: 10, minWidth: 0 }}>
-            <Eyebrow as="h2" data-heading="front-door-holds" style={{ margin: 0 }}>
+          <section data-inventory="" style={{ minWidth: 0 }}>
+            <div className="tdl-rule-double" />
+            <Eyebrow as="h2" data-heading="front-door-holds" style={{ margin: '12px 0 0' }}>
               <Term id="front-door-holds" />
             </Eyebrow>
             <div data-ontology-version={o ? o.ontology_version : undefined}
@@ -362,7 +354,7 @@ export function Overview({ onSearch, lastEval }) {
               {o ? `ontology ${o.ontology_version}` : ' '}
             </div>
             {counts && (
-              <dl style={{ margin: '8px 0 0' }}>
+              <dl style={{ margin: '10px 0 0' }}>
                 {rankRows(counts, lookup).map((r) => (
                   <div key={r.key} data-rank={r.key} style={invRow}>
                     <dt>{r.termId ? <Term field="style.rank" value={r.key} />
@@ -391,13 +383,14 @@ export function Overview({ onSearch, lastEval }) {
           </section>
 
           {about.state === 'ready' && about.isNot.length > 0 && (
-            <section data-is-not-section="" style={{ ...rule, paddingTop: 10, minWidth: 0 }}>
-              <Eyebrow as="h2" data-heading="front-door-is-not" style={{ margin: 0 }}>
+            <section data-is-not-section="" style={{ minWidth: 0 }}>
+              <div className="tdl-rule-double" />
+              <Eyebrow as="h2" data-heading="front-door-is-not" style={{ margin: '12px 0 0' }}>
                 <Term id="front-door-is-not" />
               </Eyebrow>
-              <ul data-is-not="" style={{ listStyle: 'none', padding: '4px 0 0', margin: 0, minWidth: 0 }}>
+              <ul data-is-not="" style={{ listStyle: 'none', padding: '6px 0 0', margin: 0, minWidth: 0 }}>
                 {about.isNot.map((line) => (
-                  <li key={line} style={{ ...small, color: 'var(--text-secondary)', padding: '4px 0' }}>{line}</li>
+                  <li key={line} style={{ ...small, color: 'var(--text-secondary)', padding: '5px 0' }}>{line}</li>
                 ))}
               </ul>
             </section>
@@ -410,7 +403,7 @@ export function Overview({ onSearch, lastEval }) {
 
 const invRow = {
   display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 12,
-  borderBottom: '1px solid var(--border-soft)', padding: '3px 0',
-  font: 'var(--fw-reg) var(--fs-body-s)/1.4 var(--serif)', color: 'var(--text-body)',
+  borderBottom: '1px solid var(--border-soft)', padding: '5px 0',
+  font: 'var(--fw-reg) var(--fs-body)/1.4 var(--serif)', color: 'var(--text-body)',
 };
 const figure = { margin: 0, font: 'var(--type-data)', color: 'var(--text-body)' };

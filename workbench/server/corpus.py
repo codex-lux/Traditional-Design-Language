@@ -1190,7 +1190,13 @@ def style_dossier(style_id):
             sections.append({"id": "identify", "count": None})
         elif counts.get(sid):
             sections.append({"id": sid, "count": counts[sid]})
+    # THE PERIOD, as the record states it (26 Nov 2026). WP-17.9 drew a period bar from
+    # `rec.period`, and no route served a `period`: `core.get_style` gives the years as one
+    # string in its summary and this route gave none, so the bar was handed `undefined` on every
+    # style from the day it was written and drew nothing, under a board row reading COMPLETE. It
+    # is the node's own block, verbatim, or None where the record states no period.
     return {"id": style_id, "name": n.get("name"), "rank": n.get("rank"),
+            "period": n.get("period") or None,
             "member_of": n.get("member_of"), "chain": chain,
             "members": [_node_ref(m) for m in members], "buildable_at": buildable,
             "sections": sections, "faults": faults, "plan_types": plans}

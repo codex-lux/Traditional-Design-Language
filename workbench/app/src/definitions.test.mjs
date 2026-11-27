@@ -332,14 +332,17 @@ test('no readable text in --ink-4 in the new components or the package’s style
   assert.doesNotMatch(block, /--ink-4/);
 });
 
-test('the eyebrow’s default ink is --ink-2 on vellum, through the secondary text duty', () => {
+test('the eyebrow’s default ink is the working grey on vellum, through the secondary text duty', () => {
   const src = stripComments(read('components/Eyebrow.jsx'));
   assert.match(src, /tone = 'secondary'/);
-  // Phase 17: the tone is the duty, and the duty is --ink-2 wherever no dark ground is set
+  // Phase 17: the tone is the duty. Phase 18 (27 Nov 2026): on paper the duty is --ink-2-ink,
+  // which is --ink-2 a twenty-fifth of the way to coal, the least step that reads 4.5 : 1 on
+  // --paper-deep (where --ink-2 read 4.32). The pigment --ink-2 is unmoved.
   assert.match(src, /secondary: 'var\(--text-secondary\)'/);
   const css = read('theme/tokens.css');
-  assert.equal(groundValue(css, 'vellum', '--text-secondary'), groundValue(css, null, '--ink-2'));
-  assert.equal(groundValue(css, null, '--text-secondary'), groundValue(css, null, '--ink-2'));
+  assert.equal(groundValue(css, 'vellum', '--text-secondary'), groundValue(css, null, '--ink-2-ink'));
+  assert.equal(groundValue(css, null, '--text-secondary'), groundValue(css, null, '--ink-2-ink'));
+  assert.equal(groundValue(css, null, '--ink-2'), '#6C6557');
   assert.match(src, /tones\[tone\] \|\| tones\.secondary/);
 });
 

@@ -9,10 +9,10 @@
    sheet re-tokenized to the Drawn Language reads its inks at their paper values. */
 import React from 'react';
 
-export function Plate({ caption, head, children, style, ...rest }) {
+export function Plate({ caption, head, children, style, className, ...rest }) {
   return (
     <figure data-plate="" style={{ margin: 0, minWidth: 0, ...style }} {...rest}>
-      <div data-ground="vellum" className="tdl-plate">
+      <div data-ground="vellum" className={className ? `tdl-plate ${className}` : 'tdl-plate'}>
         {head && <div data-plate-head="" style={{ display: 'flex', justifyContent: 'flex-end', gap: 8, marginBottom: 6 }}>{head}</div>}
         {children}
       </div>
