@@ -1,4 +1,5 @@
 import React from "react";
+import { useNames } from "../names/useNames.js";
 
 /* P2 — the cascade is a first-class object, not a breadcrumb and not a tooltip. Tidewater
    Georgian resolves through 20 levels; appalachian-log-house reaches 23, and monterey-revival 53. Craftsman resolves
@@ -35,6 +36,7 @@ function ProvenanceTrace({
   style
 }) {
   const [all, setAll] = React.useState(false);
+  const names = useNames();
   if (mode === 'compact') {
     const hit = cascade.filter(function (l) {
       return l.id === sourceId;
@@ -61,111 +63,60 @@ function ProvenanceTrace({
   const shown = all ? cascade : cascade.slice(0, collapseFrom);
   const maxB = Math.max(1, ...cascade.map(function (l) { return l.bindings || 0; }));
   const hidden = cascade.length - shown.length;
-  return /*#__PURE__*/React.createElement("div", {
-    style: style
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'flex',
-      alignItems: 'baseline',
-      justifyContent: 'space-between'
-    }
-  }, /*#__PURE__*/React.createElement("span", {
-    style: EYE
-  }, "cascade\xA0\xA0(nearest first)"), /*#__PURE__*/React.createElement("span", {
-    style: {
-      font: 'var(--type-data-s)',
-      color: 'var(--text-secondary)'
-    }
-  }, cascade.length, " levels")), /*#__PURE__*/React.createElement("div", {
-    style: {
-      marginTop: 8
-    }
-  }, shown.map(function (l) {
-    const isSource = l.id === sourceId;
-    return /*#__PURE__*/React.createElement(React.Fragment, { key: l.id }, /*#__PURE__*/React.createElement("button", {
-      type: "button",
-      onClick: onSelect ? function () {
-        onSelect(l.id);
-      } : undefined,
-      style: {
-        display: 'flex',
-        alignItems: 'baseline',
-        gap: 10,
-        width: '100%',
-        textAlign: 'left',
-        minHeight: 'var(--row-h)',
-        padding: '0 6px',
-        cursor: onSelect ? 'pointer' : 'default',
-        background: isSource ? 'var(--surface-raised)' : 'transparent',
-        borderLeft: isSource ? '2px solid var(--text-accent)' : '2px solid transparent',
-        transition: 'var(--t-hover)'
-      }
-    }, /*#__PURE__*/React.createElement("span", {
-      style: {
-        font: 'var(--type-data-s)',
-        color: 'var(--text-secondary)',
-        width: 22,
-        flex: 'none',
-        textAlign: 'right'
-      }
-    }, l.distance), /*#__PURE__*/React.createElement("span", {
-      style: {
-        font: 'var(--type-data)',
-        flex: 1,
-        minWidth: 0,
-        overflow: 'hidden',
-        textOverflow: 'ellipsis',
-        whiteSpace: 'nowrap',
-        color: isSource ? 'var(--text-accent)' : l.distance === 0 ? 'var(--text-body)' : 'var(--text-secondary)'
-      }
-    }, l.id), /*#__PURE__*/React.createElement("span", {
-      style: {
-        font: 'var(--type-data-s)',
-        color: 'var(--text-secondary)',
-        flex: 'none'
-      }
-    }, l.bindings), l.counts && /*#__PURE__*/React.createElement(LevelBar, {
-      counts: l.counts,
-      max: maxB
-    }), l.detail && /*#__PURE__*/React.createElement("span", {
-      style: {
-        font: 'var(--type-data-s)',
-        color: 'var(--text-secondary)',
-        flex: 'none',
-        maxWidth: 176,
-        overflow: 'hidden',
-        textOverflow: 'ellipsis',
-        whiteSpace: 'nowrap',
-        textAlign: 'right'
-      }
-    }, l.detail)), l.bans && l.bans.length > 0 && /*#__PURE__*/React.createElement("div", {
-      "data-cascade-bans": l.id,
-      style: {
-        font: 'var(--type-data-s)',
-        color: 'var(--text-secondary)',
-        padding: '0 6px 4px 38px',
-        overflowWrap: 'anywhere'
-      }
-    }, /*#__PURE__*/React.createElement("span", {
-      style: { color: 'var(--refusal-text)', marginRight: 6 }
-    }, "\u2715"), l.bans.map(function (b) {
-      return b.variant ? b.slot + ' \u00b7 ' + b.variant : b.slot;
-    }).join(', ')));
-  })), hidden > 0 && /*#__PURE__*/React.createElement("button", {
-    type: "button",
-    // a control that navigates takes the link ink through the class (WP-14.33); Phase 17 moved
-    // it off the gilt, which removes its row from inks.test's gilt remainder
-    className: "tdl-link",
-    onClick: function () {
-      setAll(true);
-    },
-    style: {
-      font: 'var(--type-eyebrow)',
-      letterSpacing: 'var(--tr-eyebrow)',
-      textTransform: 'uppercase',
-      marginTop: 8
-    }
-  }, "show ", hidden, " further levels"));
+  const nameOf = function (id) {
+    const e = names.status === 'ready' ? names.index.get('style:' + id) : null;
+    return (e && e.name) || id;
+  };
+  return (
+    <div style={style} data-cascade="">
+      <div className="tdl-section-head" style={{ marginBottom: 6 }}>
+        <span style={EYE}>cascade&nbsp;&nbsp;(nearest first)</span>
+        <span style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)' }}>{cascade.length} levels</span>
+      </div>
+      <div>
+        {shown.map(function (l) {
+          const isSource = l.id === sourceId;
+          return (
+            <div key={l.id} className="tdl-cascade-level">
+              {/* A LEVEL IS ITS STYLE'S NAME, its bar and its count (WP-18.1). It was the id in
+                  Courier with the three counts spelled out beside it and every ban it writes run on
+                  beneath: one ladder took a screen of machine text. The counts are the row's title,
+                  and the bans fold under a count of their own. */}
+              <button type="button" onClick={onSelect ? function () { onSelect(l.id); } : undefined}
+                className="tdl-cascade-row" aria-current={isSource ? 'true' : undefined} title={l.detail || undefined}
+                style={{ cursor: onSelect ? 'pointer' : 'default' }}>
+                <span className="tdl-cascade-n">{l.distance}</span>
+                <span className="tdl-cascade-name" data-own={l.distance === 0 ? '' : undefined}>
+                  {nameOf(l.id)}<span className="tdl-record-note">{l.id}</span>
+                </span>
+                {l.counts && <LevelBar counts={l.counts} max={maxB} />}
+                <span className="tdl-cascade-n" style={{ width: 22 }}>{l.bindings}</span>
+              </button>
+              {l.bans && l.bans.length > 0 && (
+                <details data-cascade-bans={l.id} className="tdl-cascade-bans">
+                  <summary>
+                    <span aria-hidden="true" style={{ color: 'var(--refusal-text)', marginRight: 6 }}>{'✕'}</span>
+                    {l.bans.length}
+                  </summary>
+                  <div>
+                    {l.bans.map(function (b) { return b.variant ? b.slot + ' · ' + b.variant : b.slot; }).join(', ')}
+                  </div>
+                </details>
+              )}
+            </div>
+          );
+        })}
+      </div>
+      {hidden > 0 && (
+        // a control that navigates takes the link ink through the class (WP-14.33); Phase 17 moved
+        // it off the gilt, which removes its row from inks.test's gilt remainder
+        <button type="button" className="tdl-link" onClick={function () { setAll(true); }}
+          style={{ font: 'var(--fw-reg) 14px/1.4 var(--serif)', marginTop: 10 }}>
+          show {hidden} further levels
+        </button>
+      )}
+    </div>
+  );
 }
 export default ProvenanceTrace;
 export { ProvenanceTrace };

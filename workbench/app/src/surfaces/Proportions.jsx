@@ -31,6 +31,7 @@ import { FilterStrip, Chip, FilterGroup } from '../Chrome.jsx';
 import { FilterInput } from '../components/FilterInput.jsx';
 import { matches } from '../search/match.js';
 import { PlateViewer } from '../components/PlateViewer.jsx';
+import { PageHero } from '../components/PageHead.jsx';
 import { PullPane } from '../components/PullPane.jsx';
 import { Term } from '../components/Term.jsx';
 import { RecordLink } from '../components/RecordLink.jsx';
@@ -174,7 +175,7 @@ const H3 = {
   font: 'var(--type-eyebrow)', letterSpacing: 'var(--tr-eyebrow)', textTransform: 'uppercase',
   color: 'var(--text-secondary)', fontWeight: 500, margin: '0 0 10px',
 };
-const NOTE = { font: 'var(--fw-reg) 12.5px/1.55 var(--body)', color: 'var(--text-secondary)', maxWidth: '76ch' };
+const NOTE = { font: 'var(--fw-reg) 15px/1.55 var(--serif)', color: 'var(--text-secondary)', maxWidth: '76ch' };
 const CELL = { font: 'var(--type-data-s)', color: 'var(--text-secondary)', padding: '5px 14px 3px 0', verticalAlign: 'top',
   overflowWrap: 'anywhere' };
 const TH = {
@@ -208,35 +209,56 @@ function PackLink({ id, name, selection, params, on, children }) {
 /* The list of packs by kind, the kind named by its glossary record. On the index it is the
    page; beside a pack it is the navigation. */
 function PackList({ groups, selection, params, packId, compact }) {
+  if (compact) {
+    return (
+      <div data-pack-list="">
+        {groups.map((g) => (
+          <div key={g.kind} style={{ marginBottom: 18 }}>
+            <h3 data-kind-heading={g.kind} style={{ ...H3, padding: '0 16px', marginBottom: 6 }}>
+              <Term field="pack.kind" value={g.kind} />
+            </h3>
+            {g.packs.map((p) => (
+              <div key={p.id} data-pack-row={p.id} className="tdl-pack-row" data-on={p.id === packId ? '' : undefined}>
+                <PackLink id={p.id} name={p.name} selection={selection} params={params} on={p.id === packId} />
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
+    );
+  }
+  /* THE INDEX IS A BOOK OF PLATES (WP-18.1): each kind a chapter, each pack a card that leads with
+     its own drawing where the list route serves one. */
   return (
     <div data-pack-list="">
       {groups.map((g) => (
-        <div key={g.kind} style={{ marginBottom: compact ? 14 : 24 }}>
-          <h3 data-kind-heading={g.kind} style={{ ...H3, padding: compact ? '0 12px' : 0, marginBottom: 6 }}>
+        <section key={g.kind} className="tdl-glossary-family" style={{ marginTop: 40 }}>
+          <h3 data-kind-heading={g.kind} className="tdl-glossary-family-name">
             <Term field="pack.kind" value={g.kind} />
+            <span className="tdl-section-count">{g.packs.length}</span>
           </h3>
-          {g.packs.map((p) => (
-            <div key={p.id} data-pack-row={p.id} style={{ padding: compact ? '2px 12px' : '4px 0',
-              borderLeft: compact ? `2px solid ${p.id === packId ? 'var(--gilt-deep)' : 'transparent'}` : 'none',
-              background: compact && p.id === packId ? 'var(--surface-raised)' : 'transparent',
-              font: compact ? 'var(--type-data-s)' : 'var(--fw-reg) 14px/1.5 var(--serif)',
-              display: compact ? 'block' : 'flex', gap: 12, alignItems: 'flex-start' }}>
-              {/* WP-14.24: the pack's first assembly at the wall datum, from the list route's served
-                  geometry; a row whose pack has none keeps the column and draws nothing in it */}
-              {!compact && (p.thumb
-                ? <AssemblyThumb pack={p.id} thumb={p.thumb} />
-                : <span data-thumb-none={p.drawing || 'none'} aria-hidden="true" style={{ width: THUMB_W, flex: 'none' }} />)}
-              <div style={{ minWidth: 0 }}>
-                <PackLink id={p.id} name={p.name} selection={selection} params={params} on={p.id === packId} />
-                {!compact && authorityWords(p.authority) && (
-                  <div data-pack-authority="" style={{ ...NOTE, font: 'var(--fw-reg) 12px/1.45 var(--body)', maxWidth: '90ch' }}>
-                    {authorityWords(p.authority)}
+          <div className="tdl-grid" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(19rem, 1fr))', marginTop: 18 }}>
+            {g.packs.map((p) => (
+              <div key={p.id} data-pack-row={p.id} className="tdl-card tdl-kind-card tdl-pack-card">
+                {/* WP-14.24: the pack's first assembly at the wall datum, from the list route's served
+                    geometry; a row whose pack has none keeps the column and draws nothing in it */}
+                {p.thumb
+                  ? <AssemblyThumb pack={p.id} thumb={p.thumb} />
+                  : <span data-thumb-none={p.drawing || 'none'} aria-hidden="true" style={{ width: THUMB_W, flex: 'none' }} />}
+                <div style={{ minWidth: 0 }}>
+                  <div className="tdl-card-title" style={{ fontSize: 20 }}>
+                    <PackLink id={p.id} name={p.name} selection={selection} params={params} on={p.id === packId} />
                   </div>
-                )}
+                  {authorityWords(p.authority) && (
+                    <div data-pack-authority="" className="tdl-card-text" style={{ marginTop: 6 }}>
+                      {authorityWords(p.authority)}
+                    </div>
+                  )}
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        </section>
       ))}
     </div>
   );
@@ -245,19 +267,18 @@ function PackList({ groups, selection, params, packId, compact }) {
 function Head({ data, meta, isOrder }) {
   const resolved = Array.isArray(data.resolved_from) && data.resolved_from.length > 1 ? data.resolved_from : null;
   return (
-    <header data-section="head">
-      <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, flexWrap: 'wrap' }}>
-        <h2 data-pack-name="" style={{ font: 'var(--fw-reg) var(--fs-d3)/1.12 var(--display)',
-          letterSpacing: 'var(--tr-display)', margin: '0 0 2px' }}>{data.name}</h2>
-        <span className="tdl-record-note" data-pack-id="">{data.pack}</span>
-      </div>
-      <div style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)', marginTop: 4 }}>
+    <header data-section="head" className="tdl-rise">
+      <div className="tdl-hero-kicker">
         <Term field="pack.kind" value={data.kind || meta?.kind} />
-        {resolved && <> · an overlay, read through {resolved.join(' → ')}</>}
+        {resolved && <span style={{ textTransform: 'none', letterSpacing: 0, font: 'var(--type-data-s)' }}>an overlay, read through {resolved.join(' → ')}</span>}
       </div>
-      <div data-module="" style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)', marginTop: 8, maxWidth: '90ch' }}>
+      <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, flexWrap: 'wrap' }}>
+        <h2 data-pack-name="" className="tdl-record-title" style={{ fontSize: 'clamp(30px, 3.4vw, 44px)' }}>{data.name}</h2>
+        <span className="tdl-record-id" data-pack-id="" style={{ marginLeft: 0 }}>{data.pack}</span>
+      </div>
+      <div data-module="" style={{ font: 'var(--fw-reg) 17px/1.5 var(--serif)', color: 'var(--text-secondary)', marginTop: 12, maxWidth: '50em' }}>
         <Term id="module" /> {feetInches16(data.module_in)}
-        {data.module_name && <span style={{ fontFamily: 'var(--serif)', fontSize: 13 }}> — {data.module_name}</span>}
+        {data.module_name && <span> — {data.module_name}</span>}
         {' · '}{data.parts} <Term id="part">parts</Term> of {feetInches16(data.part_in)}
         {isOrder && data.diameters_per_module != null ? ` · ${data.diameters_per_module} diameters to the module` : ''}
       </div>
@@ -731,11 +752,25 @@ export function Proportions({ selection }) {
   /* THE INDEX: no pack named, so no pack drawn. */
   if (!packId) {
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', minHeight: 0, flex: 1 }}>
-        {strip}
-        <div data-proportions-index="" style={{ flex: 1, overflow: 'auto', minHeight: 0, padding: '18px 24px 34px' }}>
+      <div data-proportions-index="" className="tdl-scroll">
+        <div className="tdl-page tdl-page-wide">
+          <PageHero termId="surface-proportions" className="tdl-rise">
+            <div className="tdl-hero-acts">
+              <FilterInput value={f.values.q || ''} onChange={(v) => f.set('q', v)} count={listed}
+                label="Filter the proportion packs by name, kind or authority"
+                placeholder="filter the packs" width={300} large />
+              <span style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)' }}>{packs ? listed : '…'}</span>
+              {styleId && (
+                <span data-style-in-hand={styleId} style={{ display: 'inline-flex', alignItems: 'center', gap: 8,
+                  font: 'var(--fw-reg) 15px/1.4 var(--serif)', color: 'var(--text-secondary)', whiteSpace: 'nowrap' }}>
+                  for <RecordLink cite={`style:${styleId}`} />
+                  <Chip on onClick={clearStyle} title="read every pack again">×</Chip>
+                </span>
+              )}
+            </div>
+          </PageHero>
           {styleError && <p style={NOTE}>Could not read which packs reach <RecordLink cite={`style:${styleId}`} />: {styleError}</p>}
-          {listState || <PackList groups={groups} selection={sel} params={params} packId={null} />}
+          {listState || <div className="tdl-rise-2"><PackList groups={groups} selection={sel} params={params} packId={null} /></div>}
         </div>
       </div>
     );
@@ -758,10 +793,10 @@ export function Proportions({ selection }) {
       {strip}
       <div style={{ flex: 1, display: 'flex', minHeight: 0 }}>
         <PullPane pane="proportions" side="left"
-          style={{ borderRight: '1px solid var(--border-hairline)', overflow: 'auto', padding: '12px 0 20px' }}>
+          style={{ borderRight: '1px solid var(--border-hairline)', overflow: 'auto', padding: '18px 0 26px' }}>
           {listState || <PackList groups={groups} selection={sel} params={params} packId={packId} compact />}
         </PullPane>
-        <div data-pack-page={packId} style={{ flex: 1, overflow: 'auto', minHeight: 0, padding: '18px 24px 34px' }}>
+        <div data-pack-page={packId} style={{ flex: 1, overflow: 'auto', minHeight: 0, padding: '30px clamp(20px, 3vw, 44px) 60px' }}>
           {got.error && got.pack === packId ? (
             <p style={NOTE}>This pack could not be dimensioned: {got.error}</p>
           ) : !data ? (

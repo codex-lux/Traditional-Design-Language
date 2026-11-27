@@ -33,15 +33,20 @@ import { termView } from '../glossary/termView.js';
 import { matches } from '../search/match.js';
 import { cascadeRows as ladderRows } from '../dossier/relations.js';
 import { PullPane } from '../components/PullPane.jsx';
+import { useNames } from '../names/useNames.js';
 
 /* resolve_kit rows → SlotRow props. Source strings become {distance, id}; the
    "a + b (extends)" composite renders as the base ancestor plus a marker. */
-function adaptRow(row, distances) {
+function adaptRow(row, distances, nameOf) {
   let source = null;
+  let sourceName = null;
   if (row.source) {
     const base = row.source.split(' + ')[0];
     const composite = row.source.includes('(extends)');
     source = { id: composite ? base + ' +ext' : row.source, distance: distances[base] ?? '?' };
+    // the level's own name, where the names index holds it; the id stands where it does not
+    const n = nameOf('style:' + base);
+    sourceName = n ? (composite ? n + ' +ext' : n) : null;
   }
   const params = row.parameters && typeof row.parameters === 'object'
     ? Object.entries(row.parameters).map(([name, p]) => ({
@@ -58,7 +63,7 @@ function adaptRow(row, distances) {
         ...(row.forbidden || []).map((id) => ({ name: id, status: 'forbidden' })),
       ];
   return {
-    id: row.slot, group: row.group, binding: row.binding, source,
+    id: row.slot, name: nameOf('slot:' + row.slot), group: row.group, binding: row.binding, source, sourceName,
     rule: row.rule, note: row.note,
     parameters: params,
     variants: variants.length ? variants : null,
@@ -84,6 +89,11 @@ export function KitSurface({ styleId, onCite, selection, setSelection }) {
   const [counts, setCounts] = React.useState(null);
   const glossary = useGlossary();
   const thin = termView(glossary, { id: 'thin-kit' });
+  const names = useNames();
+  const nameOf = (cite) => {
+    const e = names.status === 'ready' ? names.index.get(cite) : null;
+    return (e && e.name) || null;
+  };
 
   const filters = useSurfaceFilters(KIT_SPEC);
   const { group, q } = filters.values;
@@ -129,8 +139,34 @@ export function KitSurface({ styleId, onCite, selection, setSelection }) {
     .filter((s) => matches(s, q, ['slot', 'group', 'name', 'binding', 'source', 'value']))
     .map((s) => {
       const d = detail[`${styleId}:${s.slot}`];
-      return adaptRow(d ? { ...s, ...d } : s, distances);
+      return adaptRow(d ? { ...s, ...d } : s, distances, nameOf);
     });
+  /* THE ROWS STAND UNDER THEIR GROUP (WP-18.1). The table was one alphabetical run of slot ids
+     with the group's id repeated down a column; it is the ontology's groups in the ontology's
+     order now, each a heading over its slots. A row whose group the overview does not name is
+     kept, under its own id, after the named ones: nothing is dropped for want of a heading. */
+  const known = new Set(groups.map((g) => g.id));
+  const sections = [
+    ...groups.map((g) => ({ id: g.id, name: g.name || g.id, rows: rows.filter((r) => r.group === g.id) })),
+    ...[...new Set(rows.map((r) => r.group).filter((g) => !known.has(g)))]
+      .map((g) => ({ id: g, name: g, rows: rows.filter((r) => r.group === g) })),
+  ].filter((sec) => sec.rows.length > 0);
+
+  /* THE OPEN SLOT IS BROUGHT INTO VIEW. A link names a slot (`#/style/<id>/kit/<slot>`), and under
+     its group the slot may stand well below the fold: the first time this kit shows it, the row is
+     scrolled to the head of the table, and a row opened by hand is only brought into view. */
+  const tableRef = React.useRef(null);
+  const shownFor = React.useRef(null);
+  const loaded = Boolean(kit);
+  React.useEffect(() => {
+    if (!openSlot || !loaded || !tableRef.current) return;
+    const row = tableRef.current.querySelector(`[data-kit-slot="${CSS.escape(openSlot)}"]`);
+    if (!row) return;
+    const first = shownFor.current !== styleId;
+    shownFor.current = styleId;
+    row.scrollIntoView({ block: first ? 'start' : 'nearest' });
+  }, [openSlot, loaded, styleId]);
+  React.useEffect(() => { if (loaded && !openSlot) shownFor.current = styleId; }, [loaded, openSlot, styleId]);
 
   const cascadeRows = ladderRows(cascade);
   const inKit = !openSlot || !kit || (kit.slots || []).some((s) => s.slot === openSlot);
@@ -166,62 +202,71 @@ export function KitSurface({ styleId, onCite, selection, setSelection }) {
             Folded by default — open, they pushed the count and the specified-only toggle
             off the right-hand edge of the strip, which is how a bar of filters starts
             hiding the things it is supposed to be reporting. */}
-        <FilterGroup label="slot group" active={group ? 1 : 0} summary={group || (groups.length ? `all ${groups.length}` : 'all')}>
+        <FilterGroup label="slot group" active={group ? 1 : 0}
+          summary={group ? ((groups.find((g) => g.id === group) || {}).name || group) : (groups.length ? `all ${groups.length}` : 'all')}>
           <ChipGroup label="slot group">
             {groups.map((g) => (
               <Chip key={g.id} radio on={group === g.id}
-                onClick={() => filters.toggle('group', g.id)}>{g.id} {g.count}</Chip>
+                onClick={() => filters.toggle('group', g.id)}>{g.name || g.id} {g.count}</Chip>
             ))}
           </ChipGroup>
         </FilterGroup>
       </FilterStrip>
 
       <div style={{ flex: 1, display: 'flex', minHeight: 0 }}>
-        <PullPane pane="kit" side="left"
-          style={{ borderRight: '1px solid var(--border-hairline)', overflow: 'auto', padding: '14px 12px 22px' }}>
-          {cascadeRows.length > 0 && (
-            <ProvenanceTrace cascade={cascadeRows} sourceId={source} collapseFrom={7}
-              onSelect={(x) => { setSource(x); onCite && onCite('style:' + x); }} />
-          )}
-        </PullPane>
-
-        <div style={{ flex: 1, overflow: 'auto', minHeight: 0 }}>
+        <div className="tdl-scroll" data-kit-scroll="">
           {!inKit && (
-            <p data-slot-absent={openSlot} style={{ font: 'var(--fw-reg) 13px/1.55 var(--body)', color: 'var(--text-secondary)',
-              margin: 0, padding: '10px 12px', borderBottom: '1px solid var(--border-hairline)', background: 'var(--surface-raised)' }}>
+            <p data-slot-absent={openSlot} style={{ font: 'var(--fw-reg) 15px/1.55 var(--serif)', color: 'var(--text-secondary)',
+              margin: 0, padding: '12px var(--page-gutter)', borderBottom: '1px solid var(--border-hairline)', background: 'var(--surface-raised)' }}>
               <RecordLink cite={'slot:' + openSlot} /> is not among the slots this kit lists
               {specifiedOnly ? ' as bound — “specified only” is on' : ''}
             </p>
           )}
-          {/* The four fixed columns take 448 px, so beside the ladder at a laptop's width the slot
-              column -- the one the table is FOR -- collapsed to a single character. It keeps a floor
-              and the table scrolls sideways instead: a name cut to "a…" is not a row anybody can read. */}
-          <div data-kit-table="" style={{ minWidth: 640 }}>
-          <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, padding: '10px 10px 8px',
-            borderBottom: '1px solid var(--border-hairline)', position: 'sticky', top: 0, background: 'var(--surface-panel)', zIndex: 1 }}>
-            <Eyebrow as="span" style={{ width: 132, flex: 'none' }}>group</Eyebrow>
-            <Eyebrow as="span" style={{ flex: 1 }}>slot</Eyebrow>
-            <Eyebrow as="span" style={{ width: 74, flex: 'none' }}>binding</Eyebrow>
-            <Eyebrow as="span" style={{ width: 190, flex: 'none' }}>source</Eyebrow>
-            <Eyebrow as="span" style={{ width: 52, flex: 'none', textAlign: 'right' }}>faults</Eyebrow>
+          {/* The slot's name keeps a floor and the table scrolls sideways before it gives the name
+              up: a name cut to "a…" is not a row anybody can read. */}
+          <div data-kit-table="" className="tdl-kit" ref={tableRef}>
+            <div className="tdl-slot-row tdl-slot-head" aria-hidden="true">
+              <Eyebrow as="span">slot</Eyebrow>
+              <Eyebrow as="span">canonical</Eyebrow>
+              <Eyebrow as="span">binding</Eyebrow>
+              <Eyebrow as="span">source</Eyebrow>
+              <Eyebrow as="span" style={{ textAlign: 'right' }}>faults</Eyebrow>
+            </div>
+            {sections.map((sec) => (
+              <section key={sec.id} data-kit-group={sec.id} className="tdl-kit-group">
+                <h3 className="tdl-kit-group-name">
+                  {sec.name}<span className="tdl-record-note">{sec.id}</span>
+                  <span className="tdl-section-count">{sec.rows.length}</span>
+                </h3>
+                {sec.rows.map((s) => (
+                  <SlotRow key={s.id} slot={s} expanded={openSlot === s.id}
+                    onToggle={() => openSlotTo(openSlot === s.id ? null : s.id)}
+                    onSource={(x) => setSource(x)}
+                    onFault={(x) => onCite && onCite('fault:' + x)} />
+                ))}
+              </section>
+            ))}
           </div>
-          {rows.map((s) => (
-            <SlotRow key={s.id} slot={s} expanded={openSlot === s.id}
-              onToggle={() => openSlotTo(openSlot === s.id ? null : s.id)}
-              onSource={(x) => setSource(x)}
-              onFault={(x) => onCite && onCite('fault:' + x)} />
-          ))}
-          </div>
-          <div style={{ padding: '14px 12px 26px', maxWidth: '72ch' }}>
-            <Eyebrow style={{ marginBottom: 5 }}><Term id="thin-kit" /></Eyebrow>
+          <div style={{ padding: '26px var(--page-gutter) 60px', maxWidth: '46rem' }}>
+            <Eyebrow style={{ marginBottom: 7 }}><Term id="thin-kit" /></Eyebrow>
             {thin.state === 'ready' && (
               <p data-term-definition="thin-kit"
-                style={{ font: 'var(--fw-reg) 12.5px/1.6 var(--body)', color: 'var(--text-secondary)', margin: 0 }}>
+                style={{ font: 'var(--fw-reg) 16px/1.6 var(--serif)', color: 'var(--text-secondary)', margin: 0 }}>
                 {thin.definition}
               </p>
             )}
           </div>
         </div>
+
+        {/* THE CASCADE STANDS TO THE RIGHT (WP-18.1). It is where an answer comes from, and it led
+            the page from the left margin; the kit leads now and its provenance is beside it. */}
+        <PullPane pane="kit" side="right"
+          style={{ borderLeft: '1px solid var(--border-hairline)', overflow: 'auto', padding: '18px 16px 26px' }}>
+          {cascadeRows.length > 0 && (
+            <ProvenanceTrace cascade={cascadeRows} sourceId={source} collapseFrom={7}
+              onSelect={(x) => { setSource(x); onCite && onCite('style:' + x); }} />
+          )}
+        </PullPane>
       </div>
     </div>
   );

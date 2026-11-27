@@ -184,7 +184,7 @@
      either; a stylesheet that also has an opinion about the rail width is the layout bug
      this file would ship next. */
   --topbar-h:48px;
-  --substrip-h:34px;             /* vocabulary filter strip under the topbar */
+  --substrip-h:42px;             /* vocabulary filter strip under the topbar */
   --panel-pad:16px;
   --gutter:20px;
 
@@ -795,44 +795,7 @@ html,body{height:100%}body{overflow:auto}#root{height:100%}input[type=range]{hei
    folded into the top bar, and its rules moved with it. */
 
 /* The Glossary: an index grouped by family, and one page per word. */
-.tdl-glossary-scroll{flex:1;min-height:0;overflow:auto}
-.tdl-glossary{max-width:76rem;padding-bottom:48px}
-.tdl-glossary-status{padding:18px 22px;color:var(--text-secondary)}
-.tdl-glossary-filters{display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;padding:14px 22px}
-.tdl-glossary-families{display:inline-flex;flex-wrap:wrap;gap:6px}
-.tdl-glossary-family{padding:14px 22px 6px}
-.tdl-glossary-family-name{font:var(--type-eyebrow);letter-spacing:var(--tr-eyebrow);
-  text-transform:uppercase;color:var(--text-secondary);margin:0 0 8px}
-.tdl-glossary-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(18rem,1fr));
-  gap:12px 28px;margin:0}
-/* Each word is a vellum card on the instrument (Phase 17, WP-17.14; board 14). */
-.tdl-glossary-entry{padding:12px 14px 14px;border:1px solid var(--border-hairline)}
-.tdl-glossary-entry dt{font:var(--type-name)}
-.tdl-glossary-entry dd{margin:4px 0 0;font:var(--fw-reg) var(--fs-body-s)/var(--lh-body) var(--serif)}
-.tdl-glossary-sense{font:var(--type-data-s);color:var(--text-secondary);margin-left:.6em}
-.tdl-glossary-page{padding:22px 26px 26px;max-width:72ch;margin:18px 22px;border:1px solid var(--border-hairline)}
-.tdl-glossary-back{font:var(--type-data-s);margin:0 0 10px}
-.tdl-glossary-kicker{font:var(--type-data-s);color:var(--text-secondary);margin:0 0 4px}
-.tdl-glossary-kicker code{margin-left:.8em;overflow-wrap:anywhere}
-.tdl-glossary-sense-lede{display:block;margin:4px 0 0}
-.tdl-glossary-def{font:var(--type-prose);margin:12px 0 0}
-.tdl-glossary-analogy{font:var(--type-aside);color:var(--text-secondary);margin:8px 0 0}
-.tdl-glossary-more{margin:10px 0 0}
-.tdl-glossary-field{margin-top:18px}
-.tdl-glossary-field ul{margin:6px 0 0;padding-left:1.2em}
-.tdl-glossary-field ul.tdl-glossary-links{list-style:none;padding-left:0}
-.tdl-glossary-links li{margin:3px 0}
-.tdl-glossary-readers{display:grid;grid-template-columns:max-content 1fr;gap:4px 14px;margin:6px 0 0}
-.tdl-glossary-readers dt{font:var(--type-data-s);color:var(--text-secondary)}
-.tdl-glossary-readers dd{margin:0}
-.tdl-glossary-reads code,.tdl-glossary-field code{overflow-wrap:anywhere}
-.tdl-glossary-basis{color:var(--text-secondary);margin-top:6px}
-@media (max-width:1379px){
-  .tdl-glossary-list{grid-template-columns:1fr}
-  .tdl-glossary-filters{flex-direction:column;align-items:flex-start}
-  .tdl-glossary-readers{grid-template-columns:1fr}
-}
-
+/* THE GLOSSARY is laid out in `rooms.css` since WP-18.1: a dictionary on paper. */
 /* The key to the marks (WP-14.29, `components/MarkKey.jsx`): each mark's specimen in a fixed
    column, its word, and the record's definition. No colour is set here -- each specimen paints
    itself from its own duty token -- and no word is set in an ink below --ink-2. */

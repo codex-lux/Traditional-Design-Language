@@ -40,7 +40,10 @@ function tScale(y) {
   if (y <= BREAK_AT) return ((y + 700) / (BREAK_AT + 700)) * BREAK_FRAC;
   return BREAK_FRAC + ((y - BREAK_AT) / (2026 - BREAK_AT)) * (1 - BREAK_FRAC);
 }
-const RANK_INDENT = { tradition: 0, family: 10, style: 20, variant: 30 };
+const RANK_INDENT = { tradition: 0, family: 12, style: 24, variant: 36 };
+/* The name column. It was 210 px of 12 px type, which cut "Continental Baroque & Neoclassical"
+   and ran a tradition's name into its own lane rule; a name is read before its bar is. */
+const LABEL_W = 260;
 const yr = (v) => (v == null ? '?' : v < 0 ? Math.abs(v) + ' BC' : String(v));
 
 const PHYLO_SPEC = { view: { widens: true }, rank: {}, q: { type: 'text' }, claims: { type: 'bool' } };
@@ -186,7 +189,7 @@ export function Phylogeny({ onCite, selection, setSelection, full, onFull, onExi
     return lit(e.from) && lit(e.to) && rowIndex[e.from] != null && rowIndex[e.to] != null;
   });
 
-  const ROW = 20, PAD = 8;
+  const ROW = 24, PAD = 8;
   // With nothing chosen no lineage is lit, and no row is dimmed for not being part of one.
   const bright = (id) => !sel || lit(id);
   const H = rows.length * ROW + PAD * 2;
@@ -266,7 +269,7 @@ export function Phylogeny({ onCite, selection, setSelection, full, onFull, onExi
             onFull={onFull ? () => onFull('phylogeny') : undefined} />
         ) : (
         <div style={{ flex: 1, overflow: 'auto', minHeight: 0, padding: '14px 18px 26px' }}>
-          <div style={{ position: 'relative', height: 26, marginLeft: 210, marginBottom: 4 }}>
+          <div style={{ position: 'relative', height: 26, marginLeft: LABEL_W, marginBottom: 4 }}>
             {[-700, 1600, 1700, 1800, 1900, 2000].map((y) => (
               <span key={y} style={{ position: 'absolute', left: tScale(y) * 100 + '%', top: 0,
                 transform: 'translateX(-50%)', font: 'var(--type-data-s)', color: 'var(--text-secondary)' }}>
@@ -278,14 +281,14 @@ export function Phylogeny({ onCite, selection, setSelection, full, onFull, onExi
             <span style={{ position: 'absolute', left: BREAK_FRAC * 100 + '%', top: 15,
               transform: 'translate(-50%,0)', font: 'var(--type-data-s)', color: 'var(--text-accent)' }}>‖</span>
           </div>
-          <div style={{ marginLeft: 210, display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap',
+          <div style={{ marginLeft: LABEL_W, display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap',
             gap: '2px 16px', marginBottom: 10 }}>
             <Eyebrow as="span" style={{ whiteSpace: 'nowrap' }}>compressed · 700 BC–1600</Eyebrow>
             <Eyebrow as="span" style={{ whiteSpace: 'nowrap' }}>expanded · 1600–2026</Eyebrow>
           </div>
 
           <div style={{ position: 'relative', height: H }}>
-            <svg style={{ position: 'absolute', left: 210, right: 0, top: 0, height: H, width: 'calc(100% - 210px)' }}
+            <svg style={{ position: 'absolute', left: LABEL_W, right: 0, top: 0, height: H, width: `calc(100% - ${LABEL_W}px)` }}
               preserveAspectRatio="none" viewBox={'0 0 1000 ' + H}>
               {edges.map((e, i) => {
                 const a = rows[rowIndex[e.from]], b = rows[rowIndex[e.to]];
@@ -323,10 +326,11 @@ export function Phylogeny({ onCite, selection, setSelection, full, onFull, onExi
               return (
                 <div key={r.id} style={{ position: 'absolute', left: 0, right: 0, top: i * ROW + PAD, height: ROW }}>
                   <button type="button" onClick={(ev) => pick(ev, r.id)}
-                    style={{ position: 'absolute', left: RANK_INDENT[r.rank] || 0,
-                      width: 200 - (RANK_INDENT[r.rank] || 0),
+                    className="tdl-taxon" aria-current={on ? 'true' : undefined}
+                    style={{ position: 'absolute', left: 8 + (RANK_INDENT[r.rank] || 0),
+                      width: LABEL_W - 18 - (RANK_INDENT[r.rank] || 0),
                       textAlign: 'left', height: ROW, display: 'flex', alignItems: 'center', gap: 6 }}>
-                    <span style={{ font: (on ? 'var(--fw-med)' : 'var(--fw-reg)') + ' 12px/1.2 var(--display)',
+                    <span style={{ font: (on || r.rank === 'tradition' ? 'var(--fw-med)' : 'var(--fw-reg)') + ' ' + (r.rank === 'tradition' ? '15px' : '14px') + '/1.2 var(--serif)',
                       color: on || isLit ? 'var(--text-body)' : 'var(--text-secondary)',
                       whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{r.name}</span>
                     {/* LOW CONFIDENCE IS ONE MARK AND ONE WORD (WP-14.29): a dashed square, the
@@ -341,11 +345,11 @@ export function Phylogeny({ onCite, selection, setSelection, full, onFull, onExi
                       </span>
                     )}
                   </button>
-                  <div style={{ position: 'absolute', left: 210, right: 0, top: 0, height: ROW }}>
+                  <div style={{ position: 'absolute', left: LABEL_W, right: 0, top: 0, height: ROW }}>
                     <button type="button" onClick={(ev) => pick(ev, r.id)}
                       title={`${r.name} · ${r.rank} · ${yr(r.from)}–${yr(r.to)}`}
                       style={{ position: 'absolute', left: left + '%', width: Math.max(right - left, 0.7) + '%',
-                        top: 6, height: 8, background: hue, opacity: on ? 1 : (isLit ? 0.7 : 0.26),
+                        top: 7, height: 10, background: hue, opacity: on ? 1 : (isLit ? 0.7 : 0.26),
                         border: on ? '1px solid var(--text-body)' : 'none', transition: 'var(--t-finding)' }} />
                   </div>
                 </div>
@@ -359,17 +363,17 @@ export function Phylogeny({ onCite, selection, setSelection, full, onFull, onExi
               no check reads them and nothing would notice the day a peer trunk is added. The
               absence is the `missing-peer-trunks` glossary record's, which quotes the README; the
               trunks the tree holds are its own tradition-rank nodes, read off the graph in hand. */}
-          <div data-peer-trunks="" style={{ marginLeft: 210, marginTop: 18, border: '1px solid var(--border-hairline)',
+          <div data-peer-trunks="" style={{ marginLeft: LABEL_W, marginTop: 22, border: '1px solid var(--border-hairline)',
             color: 'var(--text-secondary)', backgroundImage: 'var(--mark-wanted)', padding: '14px 16px' }}>
             <div style={{ background: 'var(--surface-panel)', display: 'inline-block', padding: '4px 8px' }}>
               <Eyebrow tone="secondary" as="span"><Term id="missing-peer-trunks" /></Eyebrow>
               {trunksView.state === 'ready' && (
                 <>
                   <p data-term-definition="missing-peer-trunks"
-                    style={{ font: 'var(--fw-reg) 12.5px/1.55 var(--body)', color: 'var(--text-secondary)', margin: '6px 0 0',
+                    style={{ font: 'var(--fw-reg) 15px/1.55 var(--serif)', color: 'var(--text-secondary)', margin: '6px 0 0',
                       maxWidth: '68ch' }}>{trunksView.definition}</p>
                   {trunksView.record.more && (
-                    <p style={{ font: 'var(--fw-reg) 12.5px/1.55 var(--body)', color: 'var(--text-secondary)', margin: '4px 0 0',
+                    <p style={{ font: 'var(--fw-reg) 15px/1.55 var(--serif)', color: 'var(--text-secondary)', margin: '4px 0 0',
                       maxWidth: '68ch' }}>{trunksView.record.more}</p>
                   )}
                 </>
@@ -380,7 +384,7 @@ export function Phylogeny({ onCite, selection, setSelection, full, onFull, onExi
                 {heldTrunks.map((t) => (
                   <button key={t.id} type="button" data-trunk={t.id} onClick={(ev) => pick(ev, t.id)}
                     style={{ display: 'inline-flex', alignItems: 'center', gap: 5,
-                      font: 'var(--fw-reg) 12px/1.3 var(--display)', color: 'var(--text-body)' }}>
+                      font: 'var(--fw-reg) 15px/1.3 var(--serif)', color: 'var(--text-body)' }}>
                     <span style={{ width: 8, height: 8, flex: 'none',
                       background: TRADITION_HUES[t.tradition] || 'var(--border-hairline)' }} />
                     {t.name}
@@ -400,19 +404,19 @@ export function Phylogeny({ onCite, selection, setSelection, full, onFull, onExi
           justifyContent: 'flex-end' }}>
           <FoldControl pane="phylo" label="the taxon's record" side="right" />
         </div>
-        <div style={{ flex: 1, overflow: 'auto', minHeight: 0, padding: '2px 14px 24px' }}>
+        <div style={{ flex: 1, overflow: 'auto', minHeight: 0, padding: '2px 20px 30px' }}>
           {!sel && <NoRecordChosen surface="phylogeny" />}
           {selNode && (
             <>
               <Eyebrow>{selNode.rank}</Eyebrow>
-              <h3 data-taxon-record={selNode.id} style={{ font: 'var(--fw-reg) var(--fs-d3)/1.12 var(--display)', fontVariationSettings: '"opsz" 48',
-                letterSpacing: 'var(--tr-display)', margin: '6px 0 3px' }}>{selNode.name}</h3>
+              <h3 data-taxon-record={selNode.id} style={{ font: 'var(--fw-reg) var(--fs-d2)/1.1 var(--display)', fontVariationSettings: '"opsz" 48',
+                letterSpacing: 'var(--tr-display)', margin: '8px 0 6px' }}>{selNode.name}</h3>
               <div style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)' }}>
-                {selNode.id} · {yr(selNode.from)}–{yr(selNode.to)}
+                <span className="tdl-record-note" data-id-shown="" style={{ marginLeft: 0 }}>{selNode.id} · </span>{yr(selNode.from)}–{yr(selNode.to)}
                 {selNode.confidence ? ` · confidence ${selNode.confidence}` : ''}
               </div>
               {selNode.short && (
-                <p style={{ font: 'var(--fw-reg) 13px/1.6 var(--body)', color: 'var(--text-secondary)', margin: '11px 0 0' }}>
+                <p style={{ font: 'var(--fw-reg) 17px/1.55 var(--serif)', color: 'var(--text-body)', margin: '14px 0 0', textWrap: 'pretty' }}>
                   {selNode.short}
                 </p>
               )}
@@ -431,24 +435,27 @@ export function Phylogeny({ onCite, selection, setSelection, full, onFull, onExi
                      Back returns to the taxon it was reached from and a reload keeps it. */
                   <button key={i} type="button" data-descent={e.from}
                     onClick={() => { setSel(e.from); setSelection && setSelection({ style: e.from }); }}
-                    style={{ display: 'block', font: 'var(--type-data-s)', textAlign: 'left',
-                      color: carriesKit(e) ? 'var(--text-body)' : 'var(--text-secondary)', padding: '2px 0' }}>
-                    {e.from} <span style={{ color: 'var(--text-secondary)' }}>· {e.type}</span>
+                    className="tdl-taxon"
+                    style={{ display: 'block', width: '100%', font: 'var(--fw-reg) 15px/1.35 var(--serif)', textAlign: 'left',
+                      color: carriesKit(e) ? 'var(--text-body)' : 'var(--text-secondary)', padding: '4px 6px' }}>
+                    {(derived && derived.byId[e.from] && derived.byId[e.from].name) || e.from}
+                    <span className="tdl-record-note">{e.from}</span>{' '}
+                    <span style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)' }}>· {e.type}</span>
                   </button>
                 ))}
                 {graph.edges.filter((e) => e.to === sel).length === 0 && (
-                  <p style={{ font: 'var(--fw-reg) 12.5px/1.5 var(--body)', color: 'var(--text-secondary)', margin: 0 }}>
+                  <p style={{ font: 'var(--fw-reg) 15px/1.5 var(--serif)', color: 'var(--text-secondary)', margin: 0 }}>
                     Nothing descends from this node in the corpus.
                   </p>
                 )}
               </div>
 
               <button type="button" onClick={() => onCite && onCite('style:' + sel)} className="tdl-link"
-                style={{ marginTop: 16, marginRight: 16, font: 'var(--type-data-s)' }}>
+                style={{ marginTop: 18, marginRight: 18, font: 'var(--fw-med) 15px/1.4 var(--serif)' }}>
                 full record →
               </button>
               <button type="button" onClick={() => onCite && onCite('kit:' + sel)} className="tdl-link"
-                style={{ marginTop: 16, font: 'var(--type-data-s)' }}>
+                style={{ marginTop: 18, font: 'var(--fw-med) 15px/1.4 var(--serif)' }}>
                 resolve this style's kit →
               </button>
             </>

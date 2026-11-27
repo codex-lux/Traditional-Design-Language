@@ -53,9 +53,9 @@ export function FilterInput({ value, onChange, label, placeholder, width = 190, 
           if (e.key === 'Escape' && draft) { e.stopPropagation(); clear(); }
         }}
         placeholder={placeholder || 'filter'}
-        className={large ? 'tdl-field-large' : undefined}
-        style={{ width, font: large ? 'var(--fw-reg) 17px/1.4 var(--serif)' : 'var(--type-data)', color: 'var(--text-body)',
-          padding: large ? '9px 14px' : '2px 7px',
+        className={large ? 'tdl-field tdl-field-large' : 'tdl-field'}
+        style={{ width, font: large ? 'var(--fw-reg) 17px/1.4 var(--serif)' : 'var(--fw-reg) 14.5px/1.4 var(--serif)', color: 'var(--text-body)',
+          padding: large ? '9px 14px' : '4px 9px',
           background: large ? 'var(--surface-lit)' : 'var(--surface-well)', border: '1px solid var(--border-hairline)' }} />
       {!draft && (
         <span aria-hidden="true" style={{ font: 'var(--type-data-s)', fontFamily: 'var(--mono)',

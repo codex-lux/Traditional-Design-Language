@@ -16,9 +16,9 @@ export function GroupingBody({ rec }) {
   const attaches = Array.isArray(rec.attaches_to) ? rec.attaches_to : [];
   const carried = Array.isArray(rec.carried_by) ? rec.carried_by : [];
   return (
-    <div data-record-body="grouping" style={{ maxWidth: 820 }}>
-      <RecordHead name={rec.name} id={rec.id} aka={rec.aka} meta={rec.scale} />
-      <Prose text={rec.description} />
+    <div data-record-body="grouping">
+      <RecordHead name={rec.name} id={rec.id} aka={rec.aka} meta={rec.scale} kicker={<Term id="grouping" />} />
+      <Prose text={rec.description} lede />
 
       {rooms.length > 0 && (
         <Section eyebrow={<><Term id="room" /> · {rooms.length}</>} data-grouping-rooms={rooms.length}>
@@ -33,9 +33,9 @@ export function GroupingBody({ rec }) {
       {rules.length > 0 && (
         <Section eyebrow={<><Term id="internal-rules" /> · {rules.length}</>} data-grouping-rules={rules.length}>
           {rules.map((r, i) => (
-            <div key={i} data-grouping-rule={i} style={{ display: 'flex', gap: 12, alignItems: 'baseline', padding: '3px 0' }}>
-              <span style={{ ...data, width: 76, flex: 'none' }}>{[r.severity, r.kind].filter(Boolean).join(' · ')}</span>
-              <p style={{ ...quiet, color: 'var(--text-body)' }}>{r.statement}</p>
+            <div key={i} data-grouping-rule={i} className="tdl-reason-row" style={{ gridTemplateColumns: 'minmax(7rem, 10rem) minmax(0, 1fr)' }}>
+              <span style={data}>{[r.severity, r.kind].filter(Boolean).join(' · ')}</span>
+              <p className="tdl-reason" style={{ color: 'var(--text-body)', fontSize: 17 }}>{r.statement}</p>
             </div>
           ))}
         </Section>

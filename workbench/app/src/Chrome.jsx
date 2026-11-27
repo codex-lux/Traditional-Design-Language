@@ -488,8 +488,8 @@ export function Chip({ on, onClick, children, tone, title, radio }) {
   const aria = radio ? { role: 'radio', 'aria-checked': !!on }
     : (on === undefined ? {} : { 'aria-pressed': !!on });
   return (
-    <button type="button" onClick={onClick} title={title} {...aria}
-      style={{ font: 'var(--type-data-s)', padding: '2px 7px', whiteSpace: 'nowrap',
+    <button type="button" onClick={onClick} title={title} {...aria} className="tdl-chip"
+      style={{ font: 'var(--fw-reg) 13.5px/1.35 var(--serif)', padding: '3px 10px', whiteSpace: 'nowrap',
         border: '1px solid ' + (on ? (tone || 'var(--text-accent)') : 'var(--border-hairline)'),
         // A TONE IS THE CHIP'S EDGE, AND ITS WORD IS A DUTY (Phase 17's audit): a `tone` pigment
         // set as the word read as low as 2.93 : 1 on the instrument, by a route no `color:` scan sees
@@ -502,13 +502,13 @@ export function Chip({ on, onClick, children, tone, title, radio }) {
    something that is switched on. */
 export function ActionChip({ onClick, children, title, disabled, affix = '→' }) {
   return (
-    <button type="button" onClick={onClick} title={title} disabled={disabled}
-      style={{ font: 'var(--type-data-s)', padding: '2px 7px', whiteSpace: 'nowrap',
-        display: 'inline-flex', alignItems: 'center', gap: 5, border: '1px solid transparent',
+    <button type="button" onClick={onClick} title={title} disabled={disabled} className="tdl-action"
+      style={{ font: 'var(--fw-med) 14px/1.35 var(--serif)', padding: '3px 8px', whiteSpace: 'nowrap',
+        display: 'inline-flex', alignItems: 'center', gap: 6, border: '1px solid transparent',
         color: disabled ? 'var(--text-disabled)' : 'var(--text-accent)',
         cursor: disabled ? 'default' : 'pointer', transition: 'var(--t-hover)' }}>
       {children}
-      {affix && <span aria-hidden="true" style={{ color: disabled ? 'var(--text-disabled)' : 'var(--text-secondary)' }}>{affix}</span>}
+      {affix && <span aria-hidden="true" className="tdl-act-arrow" style={{ color: disabled ? 'var(--text-disabled)' : 'var(--text-secondary)' }}>{affix}</span>}
     </button>
   );
 }
@@ -533,8 +533,8 @@ export function FilterGroup({ label, summary, children, defaultOpen = false, act
   return (
     <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8, flex: 'none' }}>
       <button type="button" onClick={() => setOpen(!open)} aria-expanded={open}
-        title={open ? `Fold ${label} away` : `Show the ${label} filters`}
-        style={{ font: 'var(--type-data-s)', padding: '2px 7px', whiteSpace: 'nowrap',
+        title={open ? `Fold ${label} away` : `Show the ${label} filters`} className="tdl-chip"
+        style={{ font: 'var(--fw-reg) 13.5px/1.35 var(--serif)', padding: '3px 10px', whiteSpace: 'nowrap',
           display: 'inline-flex', alignItems: 'center', gap: 6,
           border: '1px solid ' + (active ? 'var(--gilt-deep)' : 'var(--border-hairline)'),
           color: active ? 'var(--text-accent)' : 'var(--text-secondary)',

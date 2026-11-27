@@ -573,9 +573,9 @@ const NAVIGATES = /\bonCite\s*\(|\bonFault\s*\(|\bonSlot\s*\(|\bgo\s*\(|\bhref\b
    where the pigment read 2.93 and 3.17. */
 const CLICKABLE = [
   ["Chrome.jsx", "button", "--text-accent",
-    "{onClick} title={title} {...aria} style={{ font: 'var(--type", "chip"],
+    "{onClick} title={title} {...aria} className=\"tdl-chip\" style", "chip"],
   ["Chrome.jsx", "button", "--text-accent",
-    "{onClick} title={title} disabled={disabled} style={{ font: '", "chip"],
+    "{onClick} title={title} disabled={disabled} className=\"tdl-a", "chip"],
   ["Chrome.jsx", "button", "--text-accent",
     "{() => setOpen(!open)} aria-expanded={open} title={open ? `F", "action"],
   ["components/FindingRow.jsx", "button", "--text-accent",
@@ -583,7 +583,7 @@ const CLICKABLE = [
   ["components/FindingRow.jsx", "button", "--sev-cleared",
     "function () { onAssert(finding); }, style: { font: 'var(--ty", "action"],
   ["components/SlotRow.jsx", "button", "--text-accent",
-    "function () { onSource(slot.source.id); }, style: { ...EYE, ", "action"],
+    "{function () { onSource(slot.source.id); }} className=\"tdl-a", "action"],
   ["components/UnsourcedImageRecord.jsx", "button", "--text-accent",
     "function () { onRequest(record); }, style: { font: 'var(--ty", "action"],
   ["dossier/ProportionsSection.jsx", "button", "--text-accent",
@@ -593,6 +593,9 @@ const CLICKABLE = [
   ["surfaces/PlanWorkbench.jsx", "button", "--text-accent",
     "{() => planDoc.update(mutations.revokeRelation(i))} style={{", "action"],
 ];
+// THREE ROWS WERE RE-KEYED ON 27 NOV 2026 (WP-18.1) AND NONE WAS ADDED: Chrome's Chip and
+// ActionChip and SlotRow's "trace to origin" each gained a class for its hover state, which moves
+// the sixty characters a row is known by. The control, its ink and its class are what they were.
 // CLICKABLE-END
 
 if (process.env.INK_RATCHET_PRINT) console.log(JSON.stringify(clickableRows(), null, 1));

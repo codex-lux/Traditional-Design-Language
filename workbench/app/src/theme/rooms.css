@@ -273,3 +273,183 @@ a.tdl-library-card:hover svg{transform:translateY(-2px) scale(1.06)}
 .tdl-family-name a:hover{border-bottom-color:var(--link-underline-hover)}
 .tdl-tradition-name a{border-bottom-color:transparent}
 .tdl-field-large:focus-visible{outline-offset:0}
+
+/* ── THE REST OF THE LIBRARY (WP-18.1): an index, and a record's own page ───── */
+/* A record's name on its own page, a size under a style's: a room is not a tradition. */
+.tdl-record-title{font:var(--fw-reg) clamp(34px,4.2vw,56px)/1.04 var(--display);letter-spacing:-.004em;
+  color:var(--text-body);margin:10px 0 0;text-wrap:balance}
+.tdl-aka{font:italic var(--fw-reg) 18px/1.45 var(--serif);color:var(--text-secondary);margin:10px 0 0;max-width:44em}
+.tdl-lede{font:var(--fw-reg) clamp(18px,1.45vw,20px)/1.58 var(--serif);color:var(--text-body);max-width:40em;
+  margin:0 0 1.7em;text-wrap:pretty}
+.tdl-facts{display:grid;grid-template-columns:auto minmax(0,1fr);gap:7px 22px;margin:0 0 26px;max-width:44em;align-items:baseline}
+.tdl-facts dt{font:var(--type-eyebrow);letter-spacing:var(--tr-eyebrow);text-transform:uppercase;color:var(--text-secondary)}
+.tdl-facts dd{margin:0;font:var(--fw-reg) 17px/1.45 var(--serif);color:var(--text-body)}
+/* An index set in columns, as a book's is: a name, and the one figure beside it. */
+.tdl-columns{columns:3 15rem;column-gap:clamp(24px,3vw,44px)}
+.tdl-columns-2{columns:2 20rem;column-gap:clamp(24px,3vw,44px)}
+.tdl-columns>*,.tdl-columns-2>*{break-inside:avoid}
+.tdl-index-row{display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding:5px 0;
+  border-bottom:1px solid var(--border-soft);font:var(--fw-reg) 16px/1.4 var(--serif);color:var(--text-body)}
+.tdl-index-row a{border-bottom-color:transparent}
+.tdl-index-row a:hover{border-bottom-color:var(--link-underline-hover)}
+.tdl-index-meta{font:var(--type-data-s);color:var(--text-secondary);text-align:right;flex:none;max-width:55%}
+/* A row that names a record and says why it is named: the name in a fixed column, the reason beside it. */
+.tdl-reason-row{display:grid;grid-template-columns:minmax(9rem,15rem) minmax(0,1fr);gap:4px 22px;align-items:baseline;
+  padding:11px 0;border-bottom:1px solid var(--border-soft);font:var(--fw-reg) 17px/1.4 var(--serif)}
+.tdl-reason-row:last-child{border-bottom:0}
+.tdl-reason-row a{border-bottom-color:transparent}
+.tdl-reason-row a:hover{border-bottom-color:var(--link-underline-hover)}
+.tdl-reason{font:var(--fw-reg) 15px/1.5 var(--serif);color:var(--text-secondary);margin:0;max-width:40em;text-wrap:pretty}
+.tdl-reason-name{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;min-width:0}
+@media (max-width:720px){.tdl-reason-row{grid-template-columns:minmax(0,1fr)}}
+/* A table of a record's own figures: ruled, at reading size, the figures in the data face. */
+.tdl-table{width:100%;border-collapse:collapse;font:var(--fw-reg) 16px/1.4 var(--serif);color:var(--text-body)}
+.tdl-table th{font:var(--type-data-s);color:var(--text-secondary);text-align:left;font-weight:var(--fw-reg);
+  padding:0 18px 7px 0;border-bottom:1px solid var(--border-hairline);vertical-align:bottom}
+.tdl-table td{padding:8px 18px 8px 0;border-bottom:1px solid var(--border-soft);vertical-align:baseline}
+.tdl-table tr:last-child td{border-bottom:0}
+.tdl-table .tdl-num{font:var(--type-data-s);color:var(--text-secondary);white-space:nowrap}
+.tdl-table tbody tr{transition:var(--t-hover)}
+.tdl-table tbody tr:hover{background:var(--surface-raised)}
+/* The four kinds of record that stand under the elements, as four ways in. */
+.tdl-kind-card{position:relative;gap:6px;padding:18px 20px 20px}
+.tdl-kind-card:hover .tdl-stretch{border-bottom-color:var(--link-underline-hover)}
+.tdl-kind-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-lift);border-color:var(--text-secondary)}
+/* A bar of parts that sum to a whole, and its key. */
+.tdl-bar{display:flex;height:14px;border:1px solid var(--border-hairline)}
+.tdl-bar-key{display:flex;flex-wrap:wrap;gap:6px 20px;margin-top:10px}
+.tdl-bar-key>span{display:inline-flex;gap:7px;align-items:center}
+
+/* ── THE GLOSSARY: a dictionary on paper (WP-18.1) ──────────────────────────── */
+.tdl-glossary-scroll{flex:1;min-height:0;overflow:auto}
+.tdl-glossary{max-width:var(--page-measure-wide);margin:0 auto;padding:44px var(--page-gutter) 88px}
+.tdl-glossary-status{padding:18px 0;color:var(--text-secondary)}
+/* The families, as a contents line: a word, pressed or not. */
+.tdl-glossary-families{display:flex;flex-wrap:wrap;gap:2px 4px;margin:20px 0 0}
+.tdl-pick{padding:4px 10px 5px;font:var(--fw-reg) 15px/1.4 var(--serif);color:var(--text-secondary);
+  border-bottom:2px solid transparent;transition:var(--t-hover)}
+.tdl-pick:hover{color:var(--text-body);border-bottom-color:var(--border-hairline)}
+.tdl-pick[aria-pressed="true"],.tdl-pick[aria-checked="true"],.tdl-pick[aria-current]{color:var(--text-body);font-weight:var(--fw-med);border-bottom-color:var(--border-focus)}
+.tdl-glossary-family{margin:46px 0 0}
+.tdl-glossary-family-name{display:flex;align-items:baseline;justify-content:space-between;gap:14px;
+  font:var(--fw-reg) var(--fs-d2)/1.1 var(--display);margin:0 0 6px;padding:0 0 10px;border-bottom:2px solid var(--text-body)}
+.tdl-glossary-family-name .tdl-term{text-decoration:none}
+.tdl-glossary-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(19rem,1fr));gap:0 clamp(24px,3vw,44px);margin:0}
+.tdl-glossary-entry{padding:15px 0 16px;border-bottom:1px solid var(--border-soft)}
+.tdl-glossary-entry dt{font:var(--fw-reg) 21px/1.2 var(--display);color:var(--text-body)}
+.tdl-glossary-entry dt a{border-bottom-color:transparent}
+.tdl-glossary-entry dt a:hover{border-bottom-color:var(--link-underline-hover)}
+.tdl-glossary-entry dd{margin:6px 0 0;font:var(--fw-reg) 15.5px/1.52 var(--serif);color:var(--text-secondary);text-wrap:pretty}
+.tdl-glossary-sense{font:var(--type-data-s);color:var(--text-secondary);margin-left:.6em}
+/* One word's own page. */
+.tdl-glossary-page{max-width:46rem;padding:0}
+.tdl-glossary-back{font:var(--fw-reg) 14px/1.4 var(--serif);margin:0 0 22px}
+.tdl-glossary-back a::before{content:"\2190\00a0"}
+.tdl-glossary-kicker{font:var(--type-eyebrow);letter-spacing:var(--tr-eyebrow);text-transform:uppercase;color:var(--text-secondary);margin:0}
+.tdl-glossary-word{font:var(--fw-reg) clamp(34px,4.2vw,56px)/1.04 var(--display);letter-spacing:-.004em;margin:10px 0 0;text-wrap:balance}
+.tdl-glossary-sense-lede{display:block;margin:10px 0 0}
+.tdl-glossary-def{font:var(--fw-reg) clamp(19px,1.6vw,22px)/1.55 var(--serif);margin:28px 0 0;text-wrap:pretty}
+.tdl-glossary-analogy{font:italic var(--fw-reg) 18px/1.55 var(--serif);color:var(--text-secondary);margin:14px 0 0;
+  padding-left:18px;border-left:2px solid var(--border-hairline)}
+.tdl-glossary-more{font:var(--type-prose);margin:16px 0 0}
+.tdl-glossary-field{margin-top:34px;font:var(--fw-reg) 17px/1.55 var(--serif)}
+.tdl-glossary-field>h2{margin:0 0 10px;padding:0 0 8px;border-bottom:1px solid var(--border-hairline)}
+.tdl-glossary-field p{margin:0 0 .6em}
+.tdl-glossary-field ul{margin:0;padding-left:1.2em}
+.tdl-glossary-field li{margin:0 0 5px}
+.tdl-glossary-field ul.tdl-glossary-links{list-style:none;padding-left:0}
+.tdl-glossary-readers{display:grid;grid-template-columns:max-content 1fr;gap:8px 20px;margin:0}
+.tdl-glossary-readers dt{font:var(--type-data-s);color:var(--text-secondary);padding-top:4px}
+.tdl-glossary-readers dd{margin:0}
+.tdl-glossary-reads code,.tdl-glossary-field code{overflow-wrap:anywhere;font:var(--type-data-s);color:var(--text-secondary)}
+.tdl-glossary-basis{color:var(--text-secondary);margin-top:8px;font-size:15.5px}
+.tdl-glossary-prov{font:var(--type-data-s);color:var(--text-secondary)}
+@media (max-width:1379px){.tdl-glossary-readers{grid-template-columns:1fr}}
+/* The key to the marks, inside its own family. */
+.tdl-glossary-family .tdl-mark-key{padding:16px 0 10px;border-bottom:1px solid var(--border-hairline);margin:0 0 4px}
+
+/* ── TWO STYLES SIDE BY SIDE (WP-18.1): a spread, one style a page ──────────── */
+.tdl-compare-title{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 18px;margin:10px 0 0;
+  font:var(--fw-reg) clamp(32px,4vw,54px)/1.06 var(--display);letter-spacing:-.004em;color:var(--text-body)}
+.tdl-compare-title a{border-bottom-color:transparent}
+.tdl-compare-title a:hover{border-bottom-color:var(--link-underline-hover)}
+.tdl-compare-amp{color:var(--text-accent)}
+[data-compare-section]{scroll-margin-top:52px}
+.tdl-compare-row{display:grid;grid-template-columns:minmax(9rem,15rem) minmax(0,1fr) minmax(0,1fr);gap:0 clamp(20px,3vw,44px);
+  padding:11px 0;border-top:1px solid var(--border-soft);align-items:baseline;transition:var(--t-hover)}
+.tdl-compare-row:hover{background:var(--surface-raised)}
+.tdl-compare-row-head{border-top:0;border-bottom:1px solid var(--border-hairline);padding:0 0 9px}
+.tdl-compare-row-head:hover{background:none}
+.tdl-compare-row a{border-bottom-color:transparent}
+.tdl-compare-row a:hover{border-bottom-color:var(--link-underline-hover)}
+/* The numbered list at a column's size, where two stand side by side. */
+.tdl-numbered-s>li{padding:11px 0 11px 40px;font-size:17px}
+.tdl-numbered-s>li::before{width:28px;font-size:23px;top:9px}
+
+/* ── THE SMALL CONTROLS (WP-18.3): a filter, an act, a field, set in the reading face ── */
+/* They were Courier at eleven pixels in a ruled box, which is how a record's id is set: a control
+   a person presses read as a machine's note. The state inks stay where they were (inline, on the
+   duty tokens); what a class adds is the answer to the pointer. */
+.tdl-chip{transition:var(--t-hover)}
+.tdl-chip:hover{border-color:var(--text-secondary)!important;color:var(--text-body)!important}
+.tdl-action:not(:disabled):hover{border-color:var(--border-hairline)!important;background:var(--surface-raised)}
+.tdl-action:not(:disabled):hover .tdl-act-arrow{transform:translateX(3px)}
+.tdl-field{transition:border-color var(--dur-2) var(--ease-ink),box-shadow var(--dur-2) var(--ease-ink)}
+.tdl-field:hover{border-color:var(--text-secondary)!important}
+.tdl-field::placeholder{color:var(--text-secondary);font-style:italic;opacity:.85}
+
+/* ── A STYLE'S KIT (WP-18.1): the slots under their groups, the cascade beside them ── */
+.tdl-kit{min-width:680px;padding:6px clamp(16px,2.4vw,34px) 0}
+.tdl-kit-group{margin:0 0 26px}
+.tdl-kit-group-name{display:flex;align-items:baseline;gap:12px;margin:22px 0 0;padding:0 0 8px;
+  font:var(--fw-reg) var(--fs-d4)/1.2 var(--display);color:var(--text-body);border-bottom:2px solid var(--text-body)}
+.tdl-kit-group-name .tdl-section-count{margin-left:auto}
+.tdl-slot{border-bottom:1px solid var(--border-soft);transition:var(--t-hover)}
+.tdl-slot:hover{background:var(--surface-raised)}
+.tdl-slot[data-open]{background:var(--surface-card);box-shadow:inset 3px 0 0 var(--border-focus)}
+.tdl-slot{scroll-margin-top:46px}
+.tdl-slot-row{display:grid;grid-template-columns:minmax(11rem,1.05fr) minmax(9rem,1.6fr) 5.4rem minmax(9rem,1.1fr) 4rem;
+  gap:0 18px;align-items:baseline;width:100%;text-align:left;padding:10px 10px}
+.tdl-slot-head{position:sticky;top:0;z-index:2;padding:12px 10px 9px;background:var(--surface-app);
+  border-bottom:1px solid var(--border-hairline)}
+.tdl-slot-name{font:var(--fw-reg) 17.5px/1.3 var(--serif);color:var(--text-body);min-width:0}
+.tdl-slot-name[data-binding="open"]{color:var(--text-secondary)}
+.tdl-slot-answer{font:italic var(--fw-reg) 15px/1.4 var(--serif);color:var(--text-secondary);min-width:0;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tdl-slot-source{font:var(--fw-reg) 14.5px/1.35 var(--serif);color:var(--text-secondary);min-width:0;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tdl-slot-up{font:var(--type-data-s);margin-right:6px}
+.tdl-slot-faults{font:var(--type-data-s);text-align:right;white-space:nowrap}
+.tdl-slot-body{padding:6px 18px 26px 28px;max-width:60rem}
+.tdl-slot-part{margin:0 0 20px}
+.tdl-slot-rule{font:var(--fw-reg) 19px/1.55 var(--serif);color:var(--text-body);margin:6px 0 0;max-width:40em;text-wrap:pretty}
+.tdl-slot-note{font:var(--fw-reg) 15.5px/1.55 var(--serif);color:var(--text-secondary);margin:9px 0 0;max-width:42em}
+/* The cascade ladder. */
+.tdl-cascade-row{display:flex;align-items:center;gap:10px;width:100%;text-align:left;min-height:30px;padding:3px 6px;
+  border-left:2px solid transparent;transition:var(--t-hover)}
+.tdl-cascade-row:hover{background:var(--surface-raised)}
+.tdl-cascade-row[aria-current]{background:var(--surface-raised);border-left-color:var(--border-focus)}
+.tdl-cascade-n{font:var(--type-data-s);color:var(--text-secondary);width:18px;flex:none;text-align:right}
+.tdl-cascade-name{flex:1;min-width:0;font:var(--fw-reg) 15px/1.3 var(--serif);color:var(--text-secondary);
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tdl-cascade-name[data-own]{color:var(--text-body);font-weight:var(--fw-med)}
+.tdl-cascade-bans{padding:0 6px 4px 36px;font:var(--type-data-s);color:var(--text-secondary)}
+.tdl-cascade-bans summary{cursor:pointer;width:max-content;list-style:none}
+.tdl-cascade-bans summary::-webkit-details-marker{display:none}
+.tdl-cascade-bans summary:hover{color:var(--text-body)}
+.tdl-cascade-bans>div{padding:4px 0 6px;overflow-wrap:anywhere}
+
+/* ── PROPORTIONS (WP-18.1): a book of plates, and the list beside one plate ──── */
+.tdl-pack-card{flex-direction:row;align-items:flex-start;gap:16px;min-height:118px}
+.tdl-pack-card .tdl-record-name{border-bottom-color:transparent}
+.tdl-pack-card:hover .tdl-record-name{border-bottom-color:var(--link-underline-hover)}
+.tdl-pack-card .tdl-record-name::after{content:"";position:absolute;inset:0}
+.tdl-pack-row{padding:4px 16px 4px 14px;border-left:2px solid transparent;font:var(--fw-reg) 14.5px/1.4 var(--serif);transition:var(--t-hover)}
+.tdl-pack-row:hover{background:var(--surface-raised)}
+.tdl-pack-row[data-on]{background:var(--surface-raised);border-left-color:var(--border-focus)}
+.tdl-pack-row .tdl-record-name{border-bottom-color:transparent}
+
+/* ── THE FAMILY TREE (WP-18.1): a name answers the pointer before its bar is read ── */
+.tdl-taxon{transition:var(--t-hover)}
+.tdl-taxon:hover{background:var(--surface-raised)}
+.tdl-taxon:hover>span:first-child{color:var(--text-body)!important}
