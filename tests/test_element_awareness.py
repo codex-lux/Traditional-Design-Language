@@ -1116,7 +1116,14 @@ class TestTheLotCapIsOnTheBuiltExtent:
         **THE TWO LITERALS MOVED AT ITEM 4 AND THE IDENTITY DID NOT**, which is the difference
         between a measurement and a guard. The main block was 63 ft while `derive_footprint`
         counted the wings' programme into it as well as beside it; sized from its own rooms it is
-        45, so the building is 100 ft rather than 118. `flanking_ft` is unmoved at 55."""
+        45, so the building is 100 ft rather than 118. `flanking_ft` is unmoved at 55.
+
+        AND THEY MOVED AGAIN ON 26 NOV 2026, BY THREE FEET, WITH THE IDENTITY STILL HOLDING. The
+        east element here is ONE room, a breakfast room declared 12 x 14 ft. It was laid as one bay
+        of a single pile, 9 x 19 ft, so a 12 ft room stood in a 9 ft box; since the garage ruling
+        an element whose body is one room is that room's own declared rectangle, 12 x 14. Measured
+        against a worktree of the parent `cc98832`: the west element is 18 x 21 ft on both trees
+        and the east one is 9 x 19 there and 12 x 14 here, so 100 and 55 are 103 and 58."""
         p = _shipped_untagged()
         for r in p["levels"][0]["rooms"]:
             if r["type"] in ("kitchen", "pantry"):
@@ -1130,8 +1137,10 @@ class TestTheLotCapIsOnTheBuiltExtent:
         lo = min(b["x_ft"] for b in bl)
         hi = max(b["x_ft"] + b["width_ft"] for b in bl)
         L = p["geometry_report"]["lot"]
-        assert round(hi - lo, 2) == L["built_extent_ft"] == 100.0, (hi - lo, L)
-        assert round(L["built_extent_ft"] - L["main_block_ft"], 2) == L["flanking_ft"] == 55.0, L
+        assert round(hi - lo, 2) == L["built_extent_ft"] == 103.0, (hi - lo, L)
+        assert round(L["built_extent_ft"] - L["main_block_ft"], 2) == L["flanking_ft"] == 58.0, L
+        east = next(b for b in bl if b["id"] == "east-dependency")
+        assert (east["width_ft"], east["depth_ft"]) == (12.0, 14.0), "the one room's own rectangle"
 
 
 EI = modcache.load("export_ifc", os.path.join(ROOT, "build", "export_ifc.py"))
@@ -1688,15 +1697,18 @@ CMP = modcache.load("compose", os.path.join(ROOT, "build", "compose.py"))
 
 
 class TestTheGarageJoinsTheElementItsAnchorIsIn:
-    """WP-11.6. `attach_garage` doors its mudroom onto the kitchen and, where there is one, the
-    back hall. Once a diagram can state a service dependency, that kitchen may be in one -- and a
-    door between two elements cannot be placed, measured 5 of 5. A mudroom in the main block
-    doored to a kitchen in a wing is a door across open ground.
+    """WP-11.6, RE-CUT 26 Nov 2026. `attach_garage` doors its mudroom onto the kitchen. Once a
+    diagram can state a service dependency, that kitchen may be in one -- and a door between two
+    elements that do not touch cannot be placed, measured 5 of 5.
 
-    DRIVEN, and it has to be: no parti in this corpus carries a `block` today, so this branch is
-    unreachable from the data and a mutation deleting it left the whole suite green until this
-    class existed. That is WP-8.11's rule -- a fixture that waits for the corpus to exercise a
-    branch is measuring the corpus."""
+    WP-11.6's answer was to put the mudroom and the garage INTO the kitchen's element, and this
+    class pinned that. Lucas ruled on 26 Nov 2026 that the garage is its own mass linked by the
+    mudroom (`oq/the-double-piles-service-wing-cannot-tile-on-its-hyphens-face`): a 22 x 20 ft
+    garage inside the kitchen's wing is what the prover proved untileable in 36 boxes. The class
+    keeps its name, because ids are not renamed; its first test now holds the ruled reading.
+
+    DRIVEN, and it has to be: one parti in this corpus carries a `block`, so a fixture that
+    waited for the corpus to exercise this branch would be measuring one diagram."""
 
     def _plan_with_a_tagged_kitchen(self):
         p = _shipped_untagged()
@@ -1708,15 +1720,42 @@ class TestTheGarageJoinsTheElementItsAnchorIsIn:
             lv["rooms"] = [r for r in lv["rooms"] if r["type"] not in ("garage", "mudroom")]
         return p
 
-    def test_the_mudroom_and_the_garage_take_the_kitchens_block(self):
+    def test_a_tagged_kitchen_makes_the_garage_its_own_mass_and_the_mudroom_its_link(self):
         p = self._plan_with_a_tagged_kitchen()
         log = []
         CMP.attach_garage(p, {"context": {"garage_bays": 2}}, log)
         ground = next(lv for lv in p["levels"] if (lv.get("index") or 0) == 0)
         by = {r["id"]: r for r in ground["rooms"]}
         assert "garage" in by, log
-        assert by["garage"].get("block") == "west-dependency", (by["garage"], log)
-        assert by["garage-mudroom"].get("block") == "west-dependency", (by["garage-mudroom"], log)
+        mud, gar = by["garage-mudroom"], by["garage"]
+        # its own element, and NOT the kitchen's
+        assert gar.get("block") == CMP.GARAGE_BLOCK != "west-dependency", (gar, log)
+        assert mud.get("block") == CMP.GARAGE_BLOCK and mud.get("hyphen") is True, (mud, log)
+        # the link doors the kitchen and the garage and nothing else: the wing stands between
+        # it and the back hall, which the fixture has (the premise, asserted)
+        assert any(r["type"] == "back-hall" for r in ground["rooms"])
+        kitchen = next(r for r in ground["rooms"] if r["type"] == "kitchen")
+        assert [d["to"] for d in mud["doors"]] == [kitchen["id"]], mud["doors"]
+        assert gar["doors"][0]["to"] == mud["id"]
+        # the placer reads the chain off exactly these records
+        levels, prep = GEO.prep_rooms(p)
+        rows = {e["id"]: e for e in GEO.flank_sizes(prep, 9.0)}
+        assert rows[CMP.GARAGE_BLOCK]["beyond"] == "west-dependency", rows[CMP.GARAGE_BLOCK]
+        assert rows[CMP.GARAGE_BLOCK]["hyph"][0]["id"] == mud["id"]
+
+    def test_the_garages_free_walls_follow_the_side_its_wing_is_on(self):
+        """`attach_garage` wrote N, E, S whatever side the wing stood on. Beyond a WEST wing the
+        garage's east wall is the one its link is on."""
+        for side, other in (("W", "E"), ("E", "W")):
+            p = self._plan_with_a_tagged_kitchen()
+            ground = next(lv for lv in p["levels"] if (lv.get("index") or 0) == 0)
+            for r in ground["rooms"]:
+                if r.get("block") == "west-dependency":
+                    r["exterior_walls"] = ["N", side]
+            CMP.attach_garage(p, {"context": {"garage_bays": 2}}, [])
+            gar = next(r for r in ground["rooms"] if r["id"] == "garage")
+            assert gar["exterior_walls"] == ["N", side, "S"], (side, gar["exterior_walls"])
+            assert other not in {w["wall"] for w in gar["windows"]}, (side, gar["windows"])
 
     def test_and_an_UNTAGGED_kitchen_leaves_them_untagged(self):
         """The control, and the byte-identity guard for every plan in this corpus: no block on

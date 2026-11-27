@@ -50,3 +50,12 @@ the measurement instead.
 This is `oq/a-grouping-rule-and-a-room-record-can-disagree`'s family, and its standing rule
 applies: **do not reconcile it by editing whichever number makes a checker green.** Both bands
 carry a stated reason and neither is the obvious one to move.
+
+## Amended 26 to 27 November 2026: a second link with the same shortfall
+
+Lucas ruled that the garage of a house with a service wing is its own mass, linked by the mudroom.
+`compose.attach_garage` tags the mudroom `hyphen: true`, and `geometry.flank_sizes` reads its 7 ft
+`width_ft` as the gap between the wing and the garage. That is the same reading this entry is
+about, on a second room: 7 ft against the grouping's 12 to 20 ft, and `rooms/mudroom.json` bands
+the width at 6 to 10 ft, so the mudroom cannot meet the grouping's figure inside its own band
+either. Nothing convicts it, for the reason given above. Neither band was edited. **Still open.**

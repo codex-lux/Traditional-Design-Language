@@ -324,7 +324,15 @@ def test_a_wing_grows_with_the_house_and_stays_centred():
     """Ruling 4's third part with decision 11: where the prover grows the main block's depth before
     compromising a room, each dependency grows by the same even step, never past the main block,
     and stays exactly centred. Without it the composed centre passage's wing held 306 sf of rooms in
-    an 18 x 17 ft box at every depth the prover tried."""
+    an 18 x 17 ft box at every depth the prover tried.
+
+    RE-CUT 26 TO 27 NOV 2026. "Stays exactly centred" is the AXIS laying, and since that day a
+    composed house with one range states `flank_laying: rear` (ruled) and stands it against the
+    rear wall. Both halves are asserted now, on the one record read two ways: as composed the wing
+    grows and keeps its rear wall on the main block's, and with the statement taken off it grows
+    and stays exactly centred, which is what this test always held. The second sizing ruling of
+    that day (`geometry_cp.size_wings`) is not in play here: no `flank_box` is on the footprint,
+    so this is the growth of a wing at its derived box."""
     import sys
     sys.path.insert(0, str(ROOT / "build"))
     import modcache
@@ -334,12 +342,19 @@ def test_a_wing_grows_with_the_house_and_stays_centred():
     plan, _log, p = CO.instantiate("centre-passage-double-pile", brief)
     _levels, prep = G.prep_rooms(plan)
     fpd = GC._snap_fpd(G.derive_footprint(plan, p, prep))
-    base = {e["id"]: e for e in G.blocks_for(plan, fpd, prep, 0)}
-    deps = [k for k, e in base.items() if e["role"] == "dependency"]
-    assert deps, "the premise: the composed double pile has a service wing"
-    grown = {e["id"]: e for e in G.blocks_for(plan, dict(fpd, H=fpd["H"] + 4, flank_grow_ft=4), prep, 0)}
-    for k in deps:
-        assert grown[k]["H"] == min(base[k]["H"] + 4, fpd["H"] + 4), (base[k], grown[k])
-        assert grown[k]["y"] == (fpd["H"] + 4 - grown[k]["H"]) / 2, "exactly centred on the grown block"
-    capped = {e["id"]: e for e in G.blocks_for(plan, dict(fpd, H=fpd["H"] + 2, flank_grow_ft=200), prep, 0)}
-    assert all(capped[k]["H"] <= fpd["H"] + 2 for k in deps), "never deeper than the main block"
+    assert plan.get("flank_laying") == "rear", "the premise: the composer states the rear laying"
+    on_axis = dict(plan); on_axis.pop("flank_laying")
+    for rec, laid in ((plan, "rear"), (on_axis, "axis")):
+        base = {e["id"]: e for e in G.blocks_for(rec, fpd, prep, 0)}
+        deps = [k for k, e in base.items() if e["role"] == "dependency"]
+        assert deps, "the premise: the composed double pile has a service wing"
+        assert {base[k]["laid"] for k in deps} == {laid}
+        grown = {e["id"]: e for e in G.blocks_for(rec, dict(fpd, H=fpd["H"] + 4, flank_grow_ft=4), prep, 0)}
+        for k in deps:
+            assert grown[k]["H"] == min(base[k]["H"] + 4, fpd["H"] + 4), (base[k], grown[k])
+            if laid == "axis":
+                assert grown[k]["y"] == (fpd["H"] + 4 - grown[k]["H"]) / 2, "exactly centred on the grown block"
+            else:
+                assert grown[k]["y"] + grown[k]["H"] == fpd["H"] + 4, "its rear wall on the grown block's"
+        capped = {e["id"]: e for e in G.blocks_for(rec, dict(fpd, H=fpd["H"] + 2, flank_grow_ft=200), prep, 0)}
+        assert all(capped[k]["H"] <= fpd["H"] + 2 for k in deps), "never deeper than the main block"
