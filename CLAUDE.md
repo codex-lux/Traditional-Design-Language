@@ -140,8 +140,9 @@ or an `--aff-*` token. It works the list WP-18.1's report left as not built.
   of the drafting room's own pages; an adversarial audit of the phase's diff; the whole
   `check_all.py`.
 - **The app suite is 930 against 923**: 7 added, none removed. 20 mutations, all red on the first
-  run. **The final browser walk had not finished when this entry was committed**, and the
-  report's §VI says so until it has.
+  run. **The walk on the final code is 724 passed and 3 failed**, all three the plan sheet's
+  placement reds (the porch's `∗` twice, the doors line), with one docs commit made part-way
+  through it. The three checks that were red on PR #48's CI and are not placement reds passed.
 
 **PHASE 18'S OTHER TWELVE SURFACES ARE BUILT, AND THE PLAN PAGE'S DRAWING HAD STOOD UNDER FOUR
 PANELS (27 Nov 2026).** Read `docs/reports/wp-18.1-the-rest-of-the-rooms.md` before touching an
