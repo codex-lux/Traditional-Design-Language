@@ -21,6 +21,7 @@ import pytest
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "build"))
 import modcache  # noqa: E402
+from conftest import stub_pool_probe  # noqa: E402
 
 CO = modcache.load("compose", os.path.join(ROOT, "build", "compose.py"))
 TF = modcache.load("typefacts", os.path.join(ROOT, "build", "typefacts.py"))
@@ -103,6 +104,7 @@ class TestTheComposerRetries:
                 gr["refused"] = (copy.deepcopy(_ref(first_class)) if len(calls) == 1 else
                                  (copy.deepcopy(_ref(TF.UNDECIDED)) if second_refused else None))
             return out
+        stub_pool_probe(monkeypatch)      # the placer is a spy; so no real probe
         monkeypatch.setattr(RV, "revise", spy)
         res = compose_module.compose(_brief(), candidates=4, revise=True, revise_rounds=0,
                                      revise_engine="auto", revise_budget_s=600)

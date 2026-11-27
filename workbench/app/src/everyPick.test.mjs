@@ -21,7 +21,7 @@ import {
 } from './surfaces/drawingFaces.js';
 import { KINDS } from './surfaces/drawingKinds.js';
 import { FAULT_GROUPS, faultGroups, groupRows, styleFaultIds } from './faults/groups.js';
-import { nativityLine, setSize, poolPassedOver, passedOverTone, POOL_STOP_TERMS, NATIVITY_TERMS } from './candidateOrder.js';
+import { nativityLine, setSize, poolPassedOver, poolProbed, passedOverTone, POOL_STOP_TERMS, NATIVITY_TERMS } from './candidateOrder.js';
 
 const ROOT = new URL('../../../', import.meta.url);
 const read = (p) => readFileSync(new URL(p, ROOT), 'utf8');
@@ -344,4 +344,37 @@ test('the column words its nativity from the record and the picked column is the
   assert.match(cs, /setSelection\(\{ candidate: c\.n \}\)/);
   assert.match(cs, /const size = setSize\(result, askedFor\)/);
   assert.doesNotMatch(cs, /returned \{cands\.length\}/, 'the strip counts the set, not every column');
+});
+
+test('the deciding pass over the pool is read from the composer, and only `held` is a finding (26 Nov 2026)', () => {
+  /* The composer probes the pool before it places from it (`pool_fill.probed`) and the surface
+     says so. Mutations: ink every verdict as held, or drop the row filter -- each goes red. */
+  const r = { pool_fill: { probed: [
+    { parti: 'a', parti_name: 'A', verdict: 'refuted-at-the-derived-depth', seconds: 1.1 },
+    { parti: 'b', verdict: 'undecided', seconds: 25 },
+    { parti: 'c', parti_name: 'C', verdict: 'held', seconds: 10.8 },
+    { parti: 'd', verdict: 'could-not-evaluate' },
+    { parti: 'e', verdict: 'a word from a later composer' },
+    null, {}, { parti: 'f' }, { parti: 'g', verdict: '' }, { verdict: 'held' }] } };
+  assert.deepEqual(poolProbed(r), [
+    { parti: 'a', name: 'A', verdict: 'refuted-at-the-derived-depth', tone: 'unjudged' },
+    { parti: 'b', name: 'b', verdict: 'undecided', tone: 'unjudged' },
+    { parti: 'c', name: 'C', verdict: 'held', tone: 'held' },
+    { parti: 'd', name: 'd', verdict: 'could-not-evaluate', tone: 'unjudged' },
+    { parti: 'e', name: 'e', verdict: 'a word from a later composer', tone: 'unjudged' }]);
+  // the order asked is the order shown, and no pass is no rows
+  assert.deepEqual(poolProbed({ pool_fill: { probed: [] } }), []);
+  assert.deepEqual(poolProbed({ pool_fill: { probed: null } }), []);
+  assert.deepEqual(poolProbed({ pool_fill: null }), []);
+  assert.deepEqual(poolProbed(null), []);
+  // a refutation at one depth is never inked as a refusal: no tone here is the refusal's
+  assert.ok(poolProbed(r).every((p) => p.tone !== 'refusal'));
+  const cs = live(read('workbench/app/src/surfaces/CandidateSet.jsx'));
+  assert.match(cs, /const probed = poolProbed\(result\)/);
+  assert.match(cs, /<Term id="pool-probed-first" \/>/);
+  assert.match(cs, /data-probe-verdict=\{p\.verdict\}/);
+  assert.ok(RECORDS.has('pool-probed-first'));
+  // the composer writes the list the leaf reads, and the verdict word the leaf inks as a finding
+  assert.match(read('build/compose.py'), /"probed": probed, "probe": probe,/);
+  assert.match(read('build/geometry_cp.py'), /PROBE_HELD = "held"/);
 });

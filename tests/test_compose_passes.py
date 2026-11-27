@@ -21,6 +21,7 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "build"))
 import modcache  # noqa: E402
+from conftest import stub_pool_probe  # noqa: E402
 
 CO = modcache.load("compose", os.path.join(ROOT, "build", "compose.py"))
 RV = modcache.load("revise", os.path.join(ROOT, "build", "revise.py"))
@@ -55,6 +56,7 @@ def _compose(monkeypatch, second_places=(), candidates=3, budget=600):
             gr["refused"] = (None if nth >= 1 and pid in second_places
                              else copy.deepcopy(_ref(TF.UNDECIDED)))
         return out
+    stub_pool_probe(monkeypatch)      # the placer is a spy; so no real probe
     monkeypatch.setattr(RV, "revise", spy)
     res = CO.compose(_brief(), candidates=candidates, revise=True, revise_rounds=0,
                      revise_engine="auto", revise_budget_s=budget)

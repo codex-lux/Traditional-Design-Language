@@ -71,6 +71,7 @@ drawing, because the drawing is a render of the data.
 Loaded through geometry.solve()'s dispatcher; not a CLI of its own.
 """
 import copy
+import hashlib
 import math
 import os
 import threading
@@ -2433,6 +2434,151 @@ def solve_cp(plan, parti=None, seed=7, time_limit_s=20.0, candidates=250):
     return _solve_cp(plan, parti, seed, time_limit_s, candidates, workers=1, available=w)
 
 
+# THE DECIDING PASS OVER A POOL (ruled by Lucas, 26 Nov 2026: "short deciding pass"). The composer's
+# pool-fill tried the ranked pool in score order, a full placement each, and stopped at its cap:
+# measured on the stock Georgian brief on one worker, the side-hall town house -- which holds every
+# type fact -- stood behind diagrams that are undecided in their whole time, and was never reached.
+# `probe_all_facts` asks ONE question of a composed record, the portfolio's own first walls-released
+# hard step at the derived depth, under a short cap, so the fill can place the diagrams that hold
+# before the ones nobody can decide.
+#
+# IT IS THE SAME STEP AND NOT A SECOND MODEL: `_hard_model` is the one builder, and `_solve_cp`'s
+# loop calls it too. So where the composer asks (`remember=True`), the answer is kept under the
+# hash of the exact model -- constraints, line grid, hint and seed -- and the placement that follows
+# does not solve that model again: an INFEASIBLE is a proof and stands; a placement found is a
+# placement of that very model and goes straight to the polish; an UNKNOWN is skipped only where
+# the probe was given at least the time and the workers the step would have had. The attempt is
+# tagged `probed` on the record either way, and an UNKNOWN stays `H:UNKNOWN`, so
+# `geometry._cp_undecided` reads it exactly as it reads a step that ran.
+#
+# THE ANSWERS ARE THE COMPOSE'S AND ARE FORGOTTEN WITH IT (`forget_probes`, called in the
+# composer's `finally`). Nothing here outlives one request: "an undecided CP answer is not cached"
+# (the audit of Phase 17) is about the solve cache, which this does not touch.
+#
+# THE CAP IS MEASURED AND IS NOT "A FEW SECONDS". On one worker, no hint, 26 Nov 2026, the stock
+# brief's pool at the derived depth: held -- living hall 3.1 s, side hall 15.9 s; refuted -- double
+# pile 0.2, octagon 1.1, connected farmstead 1.7, tower villa 8.9, cape 12.8, hall-and-parlor 20.7;
+# undecided at 25 s -- six. A 5 s cap finds the living hall and not the side hall.
+PROBE_CAP_S = 25.0
+PROBE_HELD = "held"
+PROBE_REFUTED = "refuted-at-the-derived-depth"
+PROBE_UNDECIDED = "undecided"
+PROBE_UNJUDGED = "could-not-evaluate"
+# A refutation at ONE depth is never the word "proven": that needs the walls-released step
+# INFEASIBLE at all three depths (`all_facts_account`), and the placement that follows asks them.
+PROBE_VERDICTS = (PROBE_HELD, PROBE_REFUTED, PROBE_UNDECIDED, PROBE_UNJUDGED)
+_PROBED = {}
+
+
+def forget_probes():
+    """Drop every answer `probe_all_facts(remember=True)` kept. The composer calls it when its
+    set is done, whatever happened, so no answer crosses a request."""
+    _PROBED.clear()
+
+
+def _model_key(model, seed):
+    """The identity of one hard model as the solver is handed it: its whole proto -- variables,
+    constraints, the line grid's, the hint -- and the seed. Two builds of one composed record give
+    one key; an edit to a room, a door or the footprint gives another."""
+    return hashlib.sha256((f"{seed}\n" + str(model.Proto())).encode()).hexdigest()
+
+
+def _released_first(plan, prep, fpd, ewalls, downgraded, kinds=("wall", "axis")):
+    """The pins the portfolio's walls-released steps set aside: every live pin of the ladder's two
+    lowest ranks (WP-17.5), as `_dk` keys. One spelling for `_solve_cp` and the probe."""
+    _m, _r, q_ = _build(plan, prep, fpd, ewalls, frozenset(downgraded), objective=False)
+    return {_dk(k, key) for _l, _t, k, key in q_.lits if k in kinds and key}
+
+
+def _hard_model(plan, prep, fpd, ewalls, downgraded, parti, seed):
+    """One hard step's model, as the portfolio poses it: the ruled model with `downgraded`
+    released, the line grid where it is on, every live assumption hardened, and the search's
+    placement as a hint. Returns `(model, rooms, reqs, grid_counts)`."""
+    m_, r_, q_ = _build(plan, prep, fpd, ewalls, frozenset(downgraded), objective=False)
+    g_ = _line_grid(m_, r_, q_, plan, prep, fpd) or {}
+    _harden(m_, q_)
+    _hint_heuristic(m_, r_, plan, parti, seed, candidates=40)
+    return m_, r_, q_, g_
+
+
+def probed_answer(model, seed, allowance_s, workers):
+    """The kept answer for this exact model, or None where there is none or it may not stand in
+    for the step: an UNKNOWN reached under less time or fewer workers than the step would have
+    says nothing about what the step would have found."""
+    if not _PROBED:
+        return None
+    hit = _PROBED.get(_model_key(model, seed))
+    if hit is None:
+        return None
+    if hit["status"] not in ("OPTIMAL", "FEASIBLE", "INFEASIBLE") and not (
+            hit["cap_s"] >= allowance_s and hit["workers"] >= workers):
+        return None
+    return hit
+
+
+def probe_all_facts(plan, parti=None, seed=7, time_limit_s=PROBE_CAP_S, remember=False):
+    """Does this composed record hold every type fact at its derived depth? One hard step, the
+    portfolio's own (`_hard_model`), under `time_limit_s`. Returns `{"verdict", "status",
+    "seconds", "workers", "cap_s", "line_grid"}` with the verdict one of `PROBE_VERDICTS`:
+
+    * `held`: a placement holding every fact posed was found;
+    * `refuted-at-the-derived-depth`: proved impossible AT THIS DEPTH. The portfolio goes on to
+      try 2 and 4 ft deeper, so this is not the word "proven";
+    * `undecided`: the cap ran out;
+    * `could-not-evaluate`, with `why`: no footprint, no ortools, or one worker with the line grid
+      off, where the hard steps do not run at all (WP-17.5's measurement) -- never read as held
+      and never as refuted.
+      `systemic: True` marks the two causes that are the box's and not the record's, so a
+      caller probing a list can stop at the first.
+
+    The plan is not written to. `remember=True` keeps the answer for the placement that follows
+    (see the block above); the caller then owes a `forget_probes()`."""
+    try:
+        from ortools.sat.python import cp_model
+    except ImportError:
+        return {"verdict": PROBE_UNJUDGED, "systemic": True,
+                "why": "the ortools package is not installed"}
+    w = portfolio_workers()
+    took = w > 1 and _PORTFOLIO_LOCK.acquire(blocking=False)
+    workers = w if took else 1
+    try:
+        if not (workers > 1 or line_grid_on()):
+            return {"verdict": PROBE_UNJUDGED, "workers": workers, "systemic": True,
+                    "why": "on one worker with the line grid off the hard steps do not run"}
+        plan = copy.deepcopy(plan)
+        _levels, prep = GEO.prep_rooms(plan)
+        fpd = GEO.derive_footprint(plan, parti, prep)
+        if "error" in fpd:
+            return {"verdict": PROBE_UNJUDGED, "workers": workers, "why": fpd["error"]}
+        fpd = _snap_fpd(fpd)
+        if fpd["H"] < 1 or fpd["W"] < 1:
+            return {"verdict": PROBE_UNJUDGED, "workers": workers,
+                    "why": f"footprint degenerate at {fpd['W']} x {fpd['H']} ft"}
+        ewalls = GEO.entrance_walls(plan)
+        rel = _released_first(plan, prep, fpd, ewalls, ())
+        m_, r_, _q, g_ = _hard_model(plan, prep, fpd, ewalls, rel, parti, seed)
+        sv_ = cp_model.CpSolver()
+        sv_.parameters.max_time_in_seconds = max(1.0, float(time_limit_s))
+        sv_.parameters.num_search_workers = workers
+        sv_.parameters.random_seed = seed
+        t0 = time.monotonic()
+        st_ = sv_.Solve(m_)
+        secs = round(time.monotonic() - t0, 1)
+        name = sv_.StatusName(st_)
+        held = st_ in (cp_model.OPTIMAL, cp_model.FEASIBLE)
+        verdict = (PROBE_HELD if held else
+                   PROBE_REFUTED if st_ == cp_model.INFEASIBLE else PROBE_UNDECIDED)
+        if remember:
+            _PROBED[_model_key(m_, seed)] = {
+                "status": name, "values": _values(sv_, r_) if held else None, "seconds": secs,
+                "workers": workers, "cap_s": float(time_limit_s)}
+        return {"verdict": verdict, "status": name, "seconds": secs, "workers": workers,
+                "cap_s": float(time_limit_s), "line_grid": bool(g_)}
+    finally:
+        if took:
+            _PORTFOLIO_LOCK.release()
+
+
 # THE MODES A SOLVE IS RECORDED AS HAVING PLACED BY (the audit of Phase 17, 30 Oct 2026, finding 13).
 # `portfolio`: a hard step of the worker portfolio returned the placement, every type fact posed hard.
 # `ladder`: the assumption ladder did -- on one worker, or on several after the portfolio did not
@@ -3050,25 +3196,35 @@ def _solve_cp(plan, parti=None, seed=7, time_limit_s=20.0, candidates=250, worke
             fpd = fpd0 if not dh else dict(fpd0, H=fpd0["H"] + dh, flank_grow_ft=dh,
                                            slack=fpd0["W"] * (fpd0["H"] + dh) - fpd0["need"])
             if kinds and not _rel:
-                m_, r_, q_ = _build(plan, prep, fpd, ewalls, frozenset(downgraded), objective=False)
-                _rel = {_dk(k, key) for _l, _t, k, key in q_.lits if k in kinds and key}
+                _rel = _released_first(plan, prep, fpd, ewalls, downgraded, kinds)
                 downgraded.update(_rel)
-            m_, r_, q_ = _build(plan, prep, fpd, ewalls, frozenset(downgraded), objective=False)
-            grid.update(_line_grid(m_, r_, q_, plan, prep, fpd) or {})
-            _harden(m_, q_)
-            _hint_heuristic(m_, r_, plan, parti, seed, candidates=40)
-            sv_ = cp_model.CpSolver()
-            sv_.parameters.max_time_in_seconds = max(1.0, left * share)
-            sv_.parameters.num_search_workers = workers
-            sv_.parameters.random_seed = seed
-            st_ = sv_.Solve(m_)
-            attempts.append((f"{fpd0['bays']}b hard{step}{f' +{dh:g}ft' if dh else ''} {workers}w",
-                             "H:" + sv_.StatusName(st_)))
+            m_, r_, q_, g_ = _hard_model(plan, prep, fpd, ewalls, downgraded, parti, seed)
+            grid.update(g_)
+            allow = max(1.0, left * share)
+            # THE DECIDING PASS'S ANSWER, WHERE THE COMPOSER ASKED ONE OF THIS EXACT MODEL (ruled
+            # 26 Nov 2026; see `probe_all_facts`): the first walls-released step is not solved a
+            # second time. The attempt says `probed`, with the probe's own seconds and workers.
+            hit = probed_answer(m_, seed, allow, workers) if kinds and not dh else None
+            tag = f"{fpd0['bays']}b hard{step}{f' +{dh:g}ft' if dh else ''} "
+            if hit is not None:
+                name, vals = hit["status"], hit["values"]
+                tag += f"probed {hit['seconds']:g}s {hit['workers']}w"
+            else:
+                sv_ = cp_model.CpSolver()
+                sv_.parameters.max_time_in_seconds = allow
+                sv_.parameters.num_search_workers = workers
+                sv_.parameters.random_seed = seed
+                st_ = sv_.Solve(m_)
+                name = sv_.StatusName(st_)
+                vals = (_values(sv_, r_) if st_ in (cp_model.OPTIMAL, cp_model.FEASIBLE) else None)
+                tag += f"{workers}w"
+            attempts.append((tag, "H:" + name))
             if kinds:
-                joint.append((dh, sv_.StatusName(st_)))
-            if st_ in (cp_model.OPTIMAL, cp_model.FEASIBLE):
-                rank_notes.append(portfolio_held_note(workers, q_, plan, _rel, dh))
-                return _finish_feasible(fpd, _values(sv_, r_), sv_.StatusName(st_), mode="portfolio")
+                joint.append((dh, name))
+            if vals is not None:
+                rank_notes.append(portfolio_held_note(hit["workers"] if hit else workers, q_, plan,
+                                                      _rel, dh))
+                return _finish_feasible(fpd, vals, name, mode="portfolio")
         downgraded.difference_update(_rel)
         rank_notes.append(all_facts_note(workers, joint))
         # THE LADDER KEEPS ITS OWN SHARE, MEASURED FROM WHEN IT STARTS. This was

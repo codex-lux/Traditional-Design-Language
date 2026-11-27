@@ -2623,6 +2623,98 @@ def pool_fill_not_reached_line(pool_fill):
     return f"{len(left)} diagram(s) further down the pool were not placed, {why} ({names})."
 
 
+# THE DECIDING PASS OVER THE POOL (ruled by Lucas, 26 Nov 2026: "short deciding pass"). Before the
+# pool-fill places anything, each pool diagram is asked one question in score order -- does it hold
+# every type fact at its derived depth (`geometry_cp.probe_all_facts`, the portfolio's own first
+# walls-released step) -- and the fill then places the ones that HELD first, in score order, the
+# undecided and the unprobed next, and the ones REFUTED AT THAT DEPTH last. Nothing is dropped: a
+# diagram refuted at the derived depth may hold two feet deeper, which only its placement asks.
+# `POOL_FILL_PLACEMENTS`, the proven-uses-no-slot rule and the set's deadline are unchanged.
+#
+# WHY: measured on the stock Georgian brief on one worker, the side-hall town house, which holds
+# every fact, stood behind diagrams undecided in their whole time and the cap of four stopped the
+# fill before it. THE PASS SPENDS THE SET'S OWN TIME: at most `POOL_PROBE_SHARE` of what the set
+# has left when the fill starts, each probe capped at `geometry_cp.PROBE_CAP_S`, and it stops as
+# soon as it has found as many holders as the set is short. Its answers carry into the placements
+# that follow (the prover does not solve the probed model twice), and are forgotten when the fill
+# ends.
+POOL_PROBE_SHARE = 0.5
+# with less than this left in the pass the next diagram is not probed: a probe cut to a few seconds
+# decides nothing on one worker and would only be recorded as an "undecided" that the cap wrote
+POOL_PROBE_MIN_S = 5.0
+# why the pass ended: it found enough holders; its share of the set's time ran out; it reached the
+# end of the pool; or no probe can run on this box at all (no ortools, or one worker with the line
+# grid off), which is said once and never as a verdict on a diagram
+POOL_PROBE_STOPS = ("enough-held", "share", "pool", "could-not-evaluate")
+
+
+def probe_the_pool(pool, need, budget_s, probe, cap_s, clock=time.perf_counter):
+    """The deciding pass, as arithmetic over a `probe(candidate, cap_s) -> dict` callable so the
+    order, the share and the stops can be held without a solve. Returns `(probed, stopped_by)`:
+    one row per diagram ASKED, in the order asked, and which of `POOL_PROBE_STOPS` ended it."""
+    GC = _mod("geometry_cp", f"{ROOT}/build/geometry_cp.py")
+    probed, held, end = [], 0, clock() + float(budget_s)
+    for c in pool:
+        if held >= need:
+            return probed, "enough-held"
+        left = end - clock()
+        if left < POOL_PROBE_MIN_S:
+            return probed, "share"
+        res = probe(c, min(float(cap_s), left)) or {}
+        if res.get("systemic"):
+            return probed, "could-not-evaluate"
+        probed.append({"parti": c["parti"], "parti_name": c.get("parti_name"),
+                       "verdict": res.get("verdict") or GC.PROBE_UNJUDGED,
+                       "status": res.get("status"), "seconds": res.get("seconds"),
+                       "cap_s": res.get("cap_s"), "workers": res.get("workers"),
+                       **({"why": res["why"]} if res.get("why") else {})})
+        if probed[-1]["verdict"] == GC.PROBE_HELD:
+            held += 1
+    return probed, "pool"
+
+
+def pool_probe_order(pool, probed):
+    """The order the fill places the pool in after the deciding pass: held, then everything the
+    pass could not call (undecided, could not be evaluated, not asked), then refuted at the derived
+    depth -- each group in the pool's own score order (the sort is stable). With nothing probed it
+    is the pool's order exactly."""
+    GC = _mod("geometry_cp", f"{ROOT}/build/geometry_cp.py")
+    verdict = {p["parti"]: p.get("verdict") for p in probed or []}
+    tier = {GC.PROBE_HELD: 0, GC.PROBE_REFUTED: 2}
+    return sorted(pool, key=lambda c: tier.get(verdict.get(c["parti"]), 1))
+
+
+def pool_probe_line(pool_fill):
+    """The deciding pass's reading line, or None where no diagram was asked. Counts each verdict
+    apart; a refutation at the derived depth is said as that and never as proven."""
+    GC = _mod("geometry_cp", f"{ROOT}/build/geometry_cp.py")
+    rows = pool_fill.get("probed") or []
+    if not rows:
+        return None
+    by = lambda v: [r["parti"] for r in rows if r.get("verdict") == v]
+    held, ref, und = by(GC.PROBE_HELD), by(GC.PROBE_REFUTED), by(GC.PROBE_UNDECIDED)
+    unj = [r["parti"] for r in rows if r.get("verdict") not in (GC.PROBE_HELD, GC.PROBE_REFUTED,
+                                                               GC.PROBE_UNDECIDED)]
+    pr = pool_fill.get("probe") or {}
+    stop = {"enough-held": "it stopped once it had found as many as the set was short",
+            "share": (f"it stopped at its share of the set's time "
+                      f"({pr.get('budget_s', '?')} s), so the diagrams after these were not asked"),
+            "pool": "it asked every diagram in the pool"}.get(pr.get("stopped_by"), "")
+    parts = [f"{len(held)} held every type fact at the derived depth"
+             + (f" ({', '.join(held)})" if held else "") + " and were placed first",
+             f"{len(und)} were undecided in {pr.get('cap_s', '?')} s"]
+    if ref:
+        parts.append(f"{len(ref)} were refuted at that depth, which is not a proof that they cannot "
+                     f"be drawn, and were placed last ({', '.join(ref)})")
+    if unj:
+        parts.append(f"{len(unj)} could not be evaluated ({', '.join(unj)})")
+    return (f"Before the pool-fill placed anything, the pool was probed in score order: {len(rows)} "
+            f"diagram(s) were each asked whether they hold every type fact, in "
+            f"{pr.get('seconds', '?')} s of the set's time. " + "; ".join(parts) + "."
+            + (f" {stop[:1].upper()}{stop[1:]}." if stop else "")
+            + " The fill then placed the pool in that order -- see pool_fill.probed.")
+
+
 def pool_fill_line(pool_fill, candidates):
     """The pool-fill's reading line, counting what it passed over APART: refused, could not be
     evaluated, and (where the brief named one of them) returned anyway as the named diagram."""
@@ -2924,9 +3016,16 @@ def compose(brief, candidates=4, on_candidate=None, revise=True, revise_rounds=4
                                  + "; ".join(f"{r['move']} on {r['room']}: {r['why']}" for r in mv_refused))
             else:
                 t0 = time.perf_counter()
+                # THE REPAIR'S PLACEMENT READS THE ONE SHARE (26 Nov 2026). It is ruled a placement
+                # "at the compose budget" (19 Nov), and it restated that budget here as its time
+                # limit -- the spelling `tests/test_compose_budget.py` refuses anywhere in this
+                # function since R12, red from the repair's own commit on. The limit is the same
+                # 60 s: what changed is that it is derived from the repair's share by
+                # `placement_time_limit_s`, as every other placement's is.
+                r_share = _GEO.BUDGET_COMPOSE_S + 10.0
                 rv_r = RV.revise(repaired, rounds=revise_rounds, engine="auto",
-                                 budget_s=_GEO.BUDGET_COMPOSE_S + 10.0, brief=brief, parti=parti_rec,
-                                 place=True, C=C, time_limit_s=_GEO.BUDGET_COMPOSE_S,
+                                 budget_s=r_share, brief=brief, parti=parti_rec, place=True, C=C,
+                                 time_limit_s=placement_time_limit_s(r_share, _GEO.BUDGET_COMPOSE_S),
                                  reserve_round=True)
                 ref_r = (rv_r["plan"].get("geometry_report") or {}).get("refused")
                 repair["seconds"] = round(time.perf_counter() - t0, 1)
@@ -3122,25 +3221,54 @@ def compose(brief, candidates=4, on_candidate=None, revise=True, revise_rounds=4
         # in one to four seconds each, and the cap of four stopped the fill before it. Such a
         # diagram is still named in `passed_over`, and the set's time still bounds the loop.
         proven_free = 0
-        while have < candidates and i < len(out) and placed - proven_free < POOL_FILL_PLACEMENTS:
-            remaining = None if deadline is None else deadline - time.perf_counter()
-            if remaining is not None and remaining < 5.0:
-                out_of_time = True
-                break
-            c = out[i]
-            i += 1
-            placed += 1
-            _revise_one(c, i, None if remaining is None else min(remaining, _GEO.BUDGET_COMPOSE_S),
-                        acts="first")
-            if _drawable(c):
-                added.append(c)
-                have += 1
-            else:
-                # its standing and the reason in that standing's terms: refused, could not be
-                # evaluated, or a refusal nobody here wrote -- never one word for three
-                passed.append(passed_over_entry(c))
-                if passed[-1].get("proven"):
-                    proven_free += 1
+        # THE DECIDING PASS (ruled 26 Nov 2026; see `probe_the_pool`). The pool is probed in score
+        # order and the fill takes it in `pool_probe_order`. `pool` is the fill's own list: `out`
+        # keeps the composer's score order for every later reader. Only where the prover places
+        # (`revise_engine` is not the search's by name), and only where the set is short.
+        GC = _mod("geometry_cp", f"{ROOT}/build/geometry_cp.py")
+        pool, probed, probe = list(out[candidates:]), [], None
+        try:
+            if have < candidates and revise_engine != "heuristic":
+                remaining = None if deadline is None else deadline - time.perf_counter()
+                # with no set budget stated the pass is bounded as though the fill's own
+                # placements were all the time there is
+                p_budget = POOL_PROBE_SHARE * (remaining if remaining is not None else
+                                               POOL_FILL_PLACEMENTS * _GEO.BUDGET_COMPOSE_S)
+                t_p = time.perf_counter()
+                probed, p_stop = probe_the_pool(
+                    pool, candidates - have, p_budget,
+                    lambda c, cap: GC.probe_all_facts(c["plan"], PARTIS[c["parti"]],
+                                                      time_limit_s=cap, remember=True),
+                    GC.PROBE_CAP_S)
+                probe = {"cap_s": GC.PROBE_CAP_S, "share": POOL_PROBE_SHARE,
+                         "budget_s": round(p_budget, 1),
+                         "seconds": round(time.perf_counter() - t_p, 1), "stopped_by": p_stop}
+                pool = pool_probe_order(pool, probed)
+            j = 0
+            while have < candidates and j < len(pool) and placed - proven_free < POOL_FILL_PLACEMENTS:
+                remaining = None if deadline is None else deadline - time.perf_counter()
+                if remaining is not None and remaining < 5.0:
+                    out_of_time = True
+                    break
+                c = pool[j]
+                j += 1
+                placed += 1
+                _revise_one(c, candidates + j,
+                            None if remaining is None else min(remaining, _GEO.BUDGET_COMPOSE_S),
+                            acts="first")
+                if _drawable(c):
+                    added.append(c)
+                    have += 1
+                else:
+                    # its standing and the reason in that standing's terms: refused, could not be
+                    # evaluated, or a refusal nobody here wrote -- never one word for three
+                    passed.append(passed_over_entry(c))
+                    if passed[-1].get("proven"):
+                        proven_free += 1
+        finally:
+            # the pass's answers are this fill's and do not outlive it
+            GC.forget_probes()
+        i = candidates + j
         # `drawable_in_set` keeps its name (a reader of the shape) and means NOT REFUSED, the
         # standing the fill counts; `not_refused_in_set` says so in words beside it
         in_set = sum(1 for c in out[:candidates] if _drawable(c))
@@ -3149,7 +3277,11 @@ def compose(brief, candidates=4, on_candidate=None, revise=True, revise_rounds=4
                      # how many of those were PROVEN impossible and so used no slot of the cap
                      "proven_not_counted": proven_free,
                      "passed_over": passed,
-                     "not_reached": [c["parti"] for c in out[i:]] if have < candidates else [],
+                     "not_reached": [c["parti"] for c in pool[j:]] if have < candidates else [],
+                     # the deciding pass (ruled 26 Nov 2026): each diagram asked, in the order
+                     # asked, with its verdict and its seconds; how the pass was bounded and what
+                     # ended it; None where no pass ran (the set was full, or the search places)
+                     "probed": probed, "probe": probe,
                      # which bound ended the loop, so `not_reached` is never given a cause it
                      # did not have (finding 26): set-full | pool | budget | cap
                      "stopped_by": pool_fill_stopped_by(have, candidates, i, len(out), out_of_time),
@@ -3283,6 +3415,9 @@ def compose(brief, candidates=4, on_candidate=None, revise=True, revise_rounds=4
         result["pool_fill"] = pool_fill
         if pool_fill["placed_from_pool"]:
             result["how_to_read_this"].append(pool_fill_line(pool_fill, candidates))
+        probed_line = pool_probe_line(pool_fill)
+        if probed_line:
+            result["how_to_read_this"].append(probed_line)
         unreached = pool_fill_not_reached_line(pool_fill)
         if unreached:
             result["how_to_read_this"].append(unreached)

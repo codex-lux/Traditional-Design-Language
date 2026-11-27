@@ -203,3 +203,19 @@ def deterministic_solver(det_seconds):
     s.parameters.num_search_workers = 1
     s.parameters.random_seed = 7
     return s
+
+
+def stub_pool_probe(monkeypatch):
+    """Tell the composer's deciding pass that no probe can run here (26 Nov 2026).
+
+    For a test that STATES every placement's verdict through a spy on `revise.revise` and composes
+    on `auto`: the pool-fill's deciding pass (`geometry_cp.probe_all_facts`) would otherwise put the
+    real prover to each pool diagram, up to its cap apiece, behind a placer the test has replaced.
+    The stub answers the way a box with no prover does -- `systemic`, so the pass stops at once and
+    records nothing -- which is the composer's own stated path, not a verdict on any diagram.
+    `tests/test_pool_probe.py` is where the pass itself is held."""
+    import modcache
+    GC = modcache.load("geometry_cp", os.path.join(BUILD, "geometry_cp.py"))
+    monkeypatch.setattr(GC, "probe_all_facts", lambda *a, **k: {
+        "verdict": GC.PROBE_UNJUDGED, "systemic": True,
+        "why": "stubbed: this test states every placement's verdict by a spy"})

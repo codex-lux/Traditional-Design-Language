@@ -226,6 +226,22 @@ export function passedOverTone(standing) {
   return standing === 'refused' ? 'refusal' : 'unjudged';
 }
 
+/** THE DECIDING PASS OVER THE POOL (ruled 26 Nov 2026), read from the composer
+ *  (`pool_fill.probed`): each diagram it asked, in the order asked, with the composer's own
+ *  verdict word. Before the pool-fill places anything it asks each pool diagram whether it holds
+ *  every type fact at its derived depth, and places the holders first; the surface says the pool
+ *  was probed, so a set whose pool-filled house was not the next in score order is not read as an
+ *  accident. `held` is the one verdict that is a finding FOR a house. Every other one -- undecided,
+ *  refuted at that depth, could not be evaluated, or a word this leaf does not know -- is unjudged
+ *  ink and never a refusal's: refuted at one depth is not a proof that the house cannot be drawn. */
+export function poolProbed(result) {
+  const pf = result && result.pool_fill;
+  return (pf && Array.isArray(pf.probed) ? pf.probed : [])
+    .filter((p) => p && p.parti && typeof p.verdict === 'string' && p.verdict)
+    .map((p) => ({ parti: p.parti, name: p.parti_name || p.parti, verdict: p.verdict,
+      tone: p.verdict === 'held' ? 'held' : 'unjudged' }));
+}
+
 /** The diagrams the pool-fill placed and did not take, in the composer's words
  *  (`pool_fill.passed_over`, each with its standing), and the ones it did not reach (`not_reached`),
  *  with the bound that stopped it. Never a silence: a set that came back short with nothing said

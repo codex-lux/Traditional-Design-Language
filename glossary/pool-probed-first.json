@@ -1,0 +1,14 @@
+{
+  "id": "pool-probed-first",
+  "term": "probed before it was placed",
+  "family": "house",
+  "definition": "Before the composer places any diagram from further down its ranked list, it asks each one, in score order, one short question: does this house hold every fact of its type it was asked to hold. Those that hold are placed first.",
+  "more": "A probe is a question and not a placement. The diagrams nobody could call in the time are placed next, and those refuted at that depth last. Refuted at that depth is not a proof that a house cannot be drawn: it may hold a little deeper, which only its placement asks. Nothing is dropped by a probe, and the time it takes is the set's own.",
+  "kind": "editorial",
+  "basis": "Our wording of the composer's deciding pass. build/compose.py: \"each pool diagram is asked one question in score order\", \"and the fill then places the ones that HELD first, in score order\", and a \"diagram refuted at the derived depth may hold two feet deeper, which only its placement asks.\"",
+  "see": [
+    "term:filled-from-the-pool",
+    "term:pool-fill-limit-reached",
+    "term:pool-fill-time-ran-out"
+  ]
+}

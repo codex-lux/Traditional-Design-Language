@@ -1060,7 +1060,33 @@ check(`door marks carry their type (${openings.types.join(', ')})`,
 // the undrawable disclosure: it must name pairs, and every room it names must be a room
 // this sheet actually drew — a caption naming phantoms would be a new kind of lie
 const undrawn = openings.note.match(/(\d+) declared door\(s\) without a drawable opening[^:]*:([^.]*)\./i);
-check('the sheet states the doors it could not draw', !!undrawn);
+/* RE-CUT 26 NOV 2026: THIS DEMANDED AN UNDRAWABLE DOOR, AND THE HOUSE STOPPED HAVING ONE. It read
+   `!!undrawn` -- the sheet must print the undrawable line -- which is right only while the
+   subject's placement leaves a door undrawn. With the line grid on the prover's hard steps the
+   drawable example places every declared door (measured: 21 door records, 0 unplaced; main's
+   walk drew 5 marks and named 6, this one draws 11), so the sheet rightly prints no such line and
+   the check convicted it of the repair. A guard whose premise is that a house is defective reads
+   a fix as a regression. THE PROPERTY is that every declared door is ACCOUNTED FOR: drawn as a
+   mark, or named as undrawable. So it is held to the record both ways -- a door pair is counted
+   once however many of its two rooms declare it, each exterior door is its own -- and a sheet
+   that neither draws nor names a door fails whichever way the placement went. */
+const doorPairs = (() => {
+  const seen = new Set();
+  let outside = 0;
+  for (const l of rec.levels || []) {
+    for (const r of l.rooms || []) {
+      for (const d of r.doors || []) {
+        if (!d || !d.to || d.to === 'exterior') outside += 1;
+        else seen.add([r.id, d.to].sort().join('|'));
+      }
+    }
+  }
+  return seen.size + outside;
+})();
+const namedUndrawn = undrawn ? Number(undrawn[1]) : 0;
+check(`the sheet accounts for every declared door: drawn, or named as one it could not draw `
+  + `(${openings.total} drawn + ${namedUndrawn} named of ${doorPairs} declared pair(s))`,
+  doorPairs > 0 && openings.total + namedUndrawn >= doorPairs);
 if (undrawn) {
   const named = undrawn[2].split(',').map((s) => s.trim()).filter(Boolean);
   const ids = new Set([...openings.rooms, 'exterior']);

@@ -23,6 +23,7 @@ import pytest
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "build"))
 import modcache  # noqa: E402
+from conftest import stub_pool_probe  # noqa: E402
 
 CO = modcache.load("compose", os.path.join(ROOT, "build", "compose.py"))
 TF = modcache.load("typefacts", os.path.join(ROOT, "build", "typefacts.py"))
@@ -264,6 +265,7 @@ class TestTheComposerRepairs:
             return ([{"move": STACK, "room": findings[0]["room"], "log": "Sized X to Y.",
                       "changed": [{"path": "p", "from": 1, "to": 2}]}], [])
 
+        stub_pool_probe(monkeypatch)      # the placer is a spy; so no real probe
         monkeypatch.setattr(RV, "revise", spy)
         monkeypatch.setattr(compose_module, "apply_repair", fake_apply)
         res = compose_module.compose(_brief(), candidates=4, revise=True, revise_rounds=0,

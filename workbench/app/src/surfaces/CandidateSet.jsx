@@ -24,7 +24,7 @@ import { refusalHeadline, errorText } from '../sheet/refusal.js';
 import { Eyebrow } from '../components/Eyebrow.jsx';
 import { nav } from '../state/nav.js';
 import { FilterStrip, Chip, ChipGroup, ActionChip } from '../Chrome.jsx';
-import { ORDERS, order, setSize, poolPassedOver } from '../candidateOrder.js';
+import { ORDERS, order, setSize, poolPassedOver, poolProbed } from '../candidateOrder.js';
 import {
   adaptCandidate, selectionAction, selectionView, setStanding, tallyView, drawabilityView,
 } from '../candidateCard.js';
@@ -145,6 +145,7 @@ export function CandidateSet({ onCite, go, selection, setSelection }) {
   const household = jobBrief ? jobBrief.household : s.brief?.household;
   const size = setSize(result, askedFor);
   const pool = poolPassedOver(result);
+  const probed = poolProbed(result);
   /* THE PICKED COLUMN AND WHAT A READER CAN DO WITH IT. A click on a column selects it (the
      decision log below follows it, and the address records it); it has never loaded anything,
      and the one link that does sat at the foot of each card, under the score axes. A reader who
@@ -363,6 +364,27 @@ export function CandidateSet({ onCite, go, selection, setSelection }) {
             <ConflictSet refusal={c.refused} where={`candidate ${c.parti_name || c.parti}`} />
           </div>
         ))}
+
+        {/* THE DECIDING PASS (ruled 26 Nov 2026): the pool diagrams the composer probed before it
+            placed any, in the order it asked them, each with its own verdict word. `held` is inked
+            as a finding; every other verdict is the unjudged ink, because refuted at one depth is
+            not a refusal and undecided is not a pass. The definition is the glossary's. */}
+        {probed.length > 0 && (
+          <div data-pool-probed={probed.map((p) => p.parti).join(' ')}
+            style={{ font: 'var(--fw-reg) 13px/1.55 var(--body)', color: 'var(--text-secondary)', margin: '16px 0 0',
+              maxWidth: '74ch' }}>
+            <Term id="pool-probed-first" />
+            {probed.map((p) => (
+              <p key={p.parti} data-probe-verdict={p.verdict} data-probe-tone={p.tone}
+                style={{ margin: '4px 0 0', paddingLeft: 12,
+                  borderLeft: `2px solid ${p.tone === 'held' ? 'var(--border-soft)' : 'var(--judge-unjudged)'}` }}>
+                <span style={{ fontFamily: 'var(--mono)', fontSize: 12 }}>{p.name}</span>
+                {JOURNEY_WORDS.separator}
+                <span style={{ fontFamily: 'var(--mono)', fontSize: 12 }}>{p.verdict}</span>
+              </p>
+            ))}
+          </div>
+        )}
 
         {/* WP-17.6: the diagrams the pool-fill placed and did not take, each with the composer's
             reason, and the ones it did not reach, with the bound that stopped it (the audit's
