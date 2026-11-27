@@ -145,6 +145,51 @@ Three things to know before touching it:
 `TDL_CP_LINE_GRID=0` turns it off, which is the control its figures were taken against. Report:
 `docs/reports/the-prover-decides-2026-11-26.md`.
 
+## Where a flanking range stands, and how its wing is sized (26 to 27 November 2026)
+
+Four rulings, each asked of Lucas and answered as a separate act. The record is
+`docs/open-questions/oq-the-double-piles-service-wing-cannot-tile-on-its-hyphens-face.md`.
+
+**The garage is its own mass.** Where the kitchen stands in a dependency, `compose.attach_garage`
+gives the garage its own `block` and tags the mudroom it makes as that block's link. The house is a
+chain on one flank: main block, back hall, service wing, mudroom, garage. `geometry.flank_sizes`
+reads the chain off the door graph (`beyond`), lays a chained element on its parent's side, and
+treats an element of one room as that room's own declared rectangle. A link may be a `threshold`
+room as well as a `circulation` one (`geometry.LINK_CLASSES`).
+
+**One range stands against the rear wall.** `groupings/dependency-and-hyphen.json` states it, hard:
+"Where dependencies are paired they are symmetrical about the main block's axis; where there is one,
+it does not sit on the entrance elevation." `geometry.flank_laying` is the one reader. It answers
+`rear` where three things hold: the record states `flank_laying: rear` (plan schema 0.14.0), the
+flanking elements are on one side, and `context.entrance_faces` is N or S. Otherwise it answers
+`axis`, which is how every record was laid before. Each link is centred on the shallower of the two
+masses it joins.
+
+The statement is the record's. The composer writes it on a house with a `block` tag. The one
+shipped record with a dependency does not carry it, so its placement is what it was:
+`oq/the-shipped-range-is-still-laid-on-the-axis`.
+
+**The prover finds the wing's box.** `geometry_cp.size_wings` runs before a house is posed. Each
+dependency of more than one room is posed alone, over whole-foot boxes, smallest first, and the
+first box that holds is the wing's. In that solve the wing's own tiling, its rooms' bands, its doors
+and its links are held; the main block's tiling and bands, the stacks, bearing, the hearth, the
+authored walls and the axis are set aside. `TILING`, `COVERAGE` and every band are unchanged.
+
+- The window is from the derived width to one bay wider and from the derived depth to 4 ft deeper,
+  never deeper than the main block and never past the lot.
+- The box goes onto the footprint as `flank_box`. A wing so sized does not take the depth growth
+  (`flank_grow_ft`), and its block's `note` says how it was sized.
+- `solver.wing_sizing` and `solver.wing_sizing_note` say what was posed and what was taken. They
+  are not in `downgrade_rounds`: the step gives nothing up. A box that did not decide in
+  `WING_BOX_S` is counted as undecided.
+- A decided search is kept for the process, keyed on the rooms, the footprint and the front.
+- The search engine has no prover. A house placed by `engine="heuristic"` keeps the derived box.
+
+On `briefs/family-georgian.json` the composed double pile's wing is derived at 18 x 20 ft and sized
+at 21 x 22 ft, 19 boxes posed in 3 to 4 s. The house then holds every type fact 4 ft deeper than
+derived, which the existing hard steps already try. Report:
+`docs/reports/the-garage-is-its-own-mass-2026-11-26.md`.
+
 ## What this does not yet do, stated plainly
 
 It produces **valid, dimensioned, drawable plans with every compromise reported**. It does not yet produce plans an architect would sign.
