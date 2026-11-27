@@ -9,12 +9,13 @@ import os
 import socket
 import sys
 
-HOST = os.environ.get("WORKBENCH_HOST", "127.0.0.1")
+from .bind import LOOPBACK, host as _host   # no dependencies: safe before the import check
+
+HOST = _host()
 # PORT is what Railway/Heroku-style platforms inject; WORKBENCH_PORT stays the local knob.
 PORT = int(os.environ.get("PORT") or os.environ.get("WORKBENCH_PORT") or 8177)
 
 
-LOOPBACK = ("127.0.0.1", "localhost", "::1")
 ALLOW_OPEN_VAR = "WORKBENCH_ALLOW_OPEN"
 
 

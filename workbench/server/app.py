@@ -39,7 +39,7 @@ from fastapi.responses import FileResponse, JSONResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from starlette.middleware.body_limit import RequestBodyLimitMiddleware
 
-from . import auth, corpus, evaluate, jobs, limits, mcp_mount
+from . import auth, bind, corpus, evaluate, jobs, limits, mcp_mount
 
 core = corpus.core
 
@@ -1144,14 +1144,46 @@ async def rail_messages(request: Request):
 
 
 # ----------------------------------------------------------------- dev
+DEV_RELOAD_VAR = "WORKBENCH_DEV_RELOAD"
+_ON, _OFF = ("1", "true", "yes", "on"), ("0", "false", "no", "off")
+
+
+def _loopback_bind(host):
+    return bind.is_loopback(host)
+
+
+def dev_reload_enabled():
+    """Is the reload route there at all (deployment-readiness review, 27 Nov 2026, DR-13).
+
+    The route exists so an edit to the corpus ON DISK is seen without a restart (OQ 28: explicit,
+    never a file-watcher). In the image the corpus is baked in and cannot change, so there it
+    did one thing: let a signed-in caller force a 600 ms re-parse of everything. It answers on a
+    loopback bind, which is a developer's machine, and not on a public one, which is how the
+    Dockerfile starts the server; WORKBENCH_DEV_RELOAD=1 or =0 says otherwise in either
+    direction. A value that is neither is the default for the bind: an unreadable setting never
+    switches the route on.
+
+    Read per request and not at import, so the answer follows the environment the process is
+    in, and a test can change it."""
+    said = (os.environ.get(DEV_RELOAD_VAR) or "").strip().lower()
+    if said in _ON:
+        return True
+    if said in _OFF:
+        return False
+    return _loopback_bind(bind.host())
+
+
 @app.post("/api/dev/reload")
 def dev_reload(request: Request):
+    # Refused BEFORE it is metered: where the route is off it is not there, and a 404 costs the
+    # caller's heavy budget nothing.
+    if not dev_reload_enabled():
+        raise HTTPException(404, "Not Found")
     # Metered, because it is the most expensive thing an authorised caller can ask for and it
     # was the one heavy route outside the heavy bucket. invalidate() drops the module cache,
     # core._data and the search index, so the NEXT request re-globs and re-parses the whole
     # corpus — measured at ~600 ms — and a loop here is high-amplification for a caller who
-    # pays almost nothing. Whether the route should exist in a production build at all is a
-    # separate question, recorded rather than decided here.
+    # pays almost nothing.
     _heavy(request)
     return corpus.invalidate()
 
