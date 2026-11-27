@@ -64,3 +64,36 @@ storeys in 7.4 s. The conflict is the service wing's door arrangement on the hyp
 brief's garage in the same wing, and it has its own entry:
 `oq/the-double-piles-service-wing-cannot-tile-on-its-hyphens-face`. This entry's "about once in
 nine" was measured on Lucas's Tidewater brief and is not re-measured here. **Still open.**
+
+## Amended 26 to 27 November 2026: on the stock brief the house holds every fact
+
+The amendment above put the whole proof in the service wing and said the main block held every
+fact in 7.4 s. That is not reproduced. With the garage ruled its own mass, the main block alone
+could not hold its facts with the range centred on its axis, at the derived depth or 2, 4 or 6 ft
+deeper, on that tree or on its parent. Two more rulings followed: the one range stands against the
+main block's rear wall, and the prover finds the wing's box. With both built, the composed double
+pile on `briefs/family-georgian.json` holds every type fact 4 ft deeper than derived, on four
+workers and on one, and the refusal is gone on that brief. The record of all four questions and
+answers is `oq/the-double-piles-service-wing-cannot-tile-on-its-hyphens-face`; the runs are in
+`docs/reports/the-garage-is-its-own-mass-2026-11-26.md`.
+
+**"On four workers and on one" above is true of one placement and false of the product on one
+worker**, measured after it was written. `compose(family-georgian, 4)` at four workers returned
+the double pile first and DRAWABLE WHERE JUDGED on four runs of four. At one worker it came back
+refused UNDECIDED (bearing, stacks, tiling) on four runs of four. The composer's declared loop
+resizes thirteen rooms before the house is placed (the butler's pantry from 5.6 x 9.5 to
+9.1 x 11.1 ft among them); that record, placed alone on one worker, is undecided at the derived
+depth and 2 and 4 ft deeper at 60 s and again at 120 s, so a longer budget is not the lever. The
+record as first composed holds every fact on one worker in 61 s. Which of the thirteen resizes
+makes the difference was not measured.
+
+**And at the 40 s batch budget on four workers it does not decide either.** The gate
+(`tests/test_sheet_coherence.py`) places the composer's candidate with `engine="cp"` at that budget.
+Run alone three times: twice the prover returned no placement (UNKNOWN), once a placement with
+facts released. At the composer's 60 s it held on four runs of four. The 2 ft deeper step is
+infeasible and slow to prove, and it runs before the 4 ft step that holds.
+
+This entry was raised on Lucas's own Tidewater brief, which is not a file in the tree. It was not
+re-measured, so the "about once in nine" above stands as the last measurement of that brief.
+**Still open: for the stock brief on one worker and at 40 s, and for Lucas's brief at any worker
+count.**

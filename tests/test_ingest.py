@@ -252,7 +252,11 @@ def test_provenance_validates_and_gates_method():
     # placer refuses a window for now (R5's pier floor, R6's axis below) and the openings below a
     # refused upper window was to stand on. Admitted before the commit, on the gate above: the
     # sixteen plans placed on the deterministic engine validate against this file, 16 of 16.
-    assert schema["version"] == "0.13.0"
+    # 0.14.0 (26 to 27 Nov 2026): `flank_laying`, a STATEMENT of the record and not a placement
+    # output -- where a house's one flanking range stands along the main block's depth (ruled).
+    # The composer writes it on a house with a dependency; no shipped record carries it, so the
+    # sixteen placed records validate exactly as they did.
+    assert schema["version"] == "0.14.0"
     plan = json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
     plan["provenance"] = {
         "source": "HABS VA-1234 sheet 2", "method": "traced",

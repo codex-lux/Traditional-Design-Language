@@ -984,6 +984,17 @@ def instantiate(parti_id, brief):
                             if any(a["a"] == x["id"] for x in rooms) and any(a["b"] == x["id"] for x in rooms)],
             "note": f"Composed from the {p['name']} parti. {p['trades_away']}"}
     attach_garage(plan, brief, log)
+    # THE RANGE AGAINST THE REAR WALL IS A STATEMENT OF THE RECORD (ruled by Lucas, 26 to 27 Nov
+    # 2026; `plan.flank_laying`, plan schema 0.14.0). A composed house with a dependency says so,
+    # and `geometry.flank_laying` then applies it only where the range is on one flank and the
+    # entrance front is stated. A one-rectangle house states nothing, so its record does not move.
+    _geo = _mod("geometry", f"{ROOT}/build/geometry.py")
+    if any(_geo.is_block_tag(r.get("block")) for lv in plan["levels"] for r in lv["rooms"]):
+        plan["flank_laying"] = "rear"
+        log.append("RULED (26 to 27 Nov 2026): the service range stands against the rear wall of "
+                   "the main block, where it is on one flank. groupings/dependency-and-hyphen.json, "
+                   "hard: \"Where dependencies are paired they are symmetrical about the main "
+                   "block's axis; where there is one, it does not sit on the entrance elevation.\"")
     symmetrise_doors(plan)
     # WP-6.2 — after symmetrise, so a door is dimensioned ONCE and both of its records
     # agree. Before this, every composed door was `{"to": id}` and the renderers guessed.
@@ -1398,6 +1409,30 @@ def compose_to_the_type(plan, parti, brief, log):
 # bedroom question cannot arise.
 GARAGE_ANCHOR = "mudroom"
 
+# WHERE THE KITCHEN STANDS IN A WING, THE LINK IS A ROOM AFTER ALL, AND THE GARAGE IS ITS OWN MASS
+# (ruled by Lucas, 26 Nov 2026: `oq/the-double-piles-service-wing-cannot-tile-on-its-hyphens-face`).
+#
+# Everything above is true of a house in ONE rectangle, which is every diagram but one: there the
+# mudroom and the garage are rooms of the block and the "hyphen" is a sentence on the garage's
+# record. It stopped being true of `centre-passage-double-pile` on 15 Sep 2026, when that
+# diagram's service programme moved into a dependency. From then this function copied the
+# kitchen's `block` onto the mudroom and the garage, so a 22 x 20 ft garage stood INSIDE the
+# kitchen wing, and on 26 Nov the prover proved that wing could not be tiled in any of 36 boxes.
+#
+# The objection above -- "a 14 ft link out to a detached dependency cannot also touch the
+# kitchen" -- is about a link off the MAIN BLOCK. A link off the far face of the kitchen's own
+# wing touches the kitchen by construction, so the mudroom keeps its hard kitchen door and IS the
+# link: tagged into the garage's element with `hyphen: true`, which is how `geometry.flank_sizes`
+# reads a link and how it learns the garage stands beyond the wing (`geometry._beyond`). The
+# 3 Sep 2026 ruling that "the hyphen is a ROOM" asked for this paragraph to be corrected and it
+# never was.
+#
+# WHAT IT COSTS, SAID: the gap between the two masses is the mudroom's own 7 ft, short of the
+# 12 to 20 ft both hyphen groupings state, exactly as the back hall's 5 ft already is
+# (`oq/a-back-hall-cannot-be-a-hyphen-and-stay-inside-its-own-width-band`); and the mudroom no
+# longer doors the back hall, because the wing stands between them.
+GARAGE_BLOCK = "garage"
+
 def attach_garage(plan, brief, log):
     """Attach garage-and-hyphen to the plan's massing, or refuse and say why."""
     bays = (brief.get("context") or {}).get("garage_bays")
@@ -1445,23 +1480,31 @@ def attach_garage(plan, brief, log):
         # same one the tradesman's entrance had", and it carries its own should_adjoin on the
         # mudroom. Adding a mudroom that the existing back hall cannot reach would satisfy the
         # garage's rule by breaking the back hall's.
+        # THE KITCHEN IN A WING MAKES THE GARAGE ITS OWN MASS (26 Nov 2026; see `GARAGE_BLOCK`).
+        own_mass = bool(kitchen.get("block"))
         doors = [{"to": kitchen["id"], "width_ft": 3.0}]
         back = next((r for r in ground["rooms"] if r["type"] == "back-hall"), None)
-        if back:
+        if back and not own_mass:
             doors.append({"to": back["id"], "width_ft": 3.0})
         anchor = {"id": "garage-mudroom", "type": "mudroom", "name": "Mudroom",
                   "width_ft": 7.0, "length_ft": 9.0, "ceiling_ft": 8.5,
                   "doors": doors,
-                  # WP-11.6: the mudroom joins the element its ANCHOR is in. Once a diagram can
-                  # state a service dependency, the kitchen this room doors onto may be in one --
-                  # and a door between two elements cannot be placed, measured 5 of 5. Landing
-                  # the mudroom in the main block while its kitchen is in a wing is a door across
-                  # open ground, which is the one thing the hyphen exists to prevent.
-                  **({"block": kitchen["block"]} if kitchen.get("block") else {}),
-                  "note": "Added with the garage. Without it the kitchen becomes the mudroom, "
-                          "which is the failure rooms/garage.json names. Sits on the service "
-                          "sequence the back hall's own record describes: garage, mudroom, "
-                          "back hall, kitchen."}
+                  # WP-11.6 landed the mudroom in the element its kitchen is in, because a door
+                  # between two elements that do not touch cannot be placed (measured 5 of 5).
+                  # Since 26 Nov 2026 it is the LINK of the garage's own element instead: it
+                  # stands in the gap beyond the kitchen's wing, against the kitchen, so the door
+                  # is across a shared wall and not across open ground.
+                  **({"block": GARAGE_BLOCK, "hyphen": True} if own_mass else {}),
+                  "note": ("Added with the garage, as the link between the kitchen's wing and "
+                           "the garage's own mass (ruled 26 Nov 2026). It doors the kitchen and "
+                           "the garage and nothing else: the wing stands between it and the back "
+                           "hall. Its 7 ft is the gap between the two masses, short of the 12 to "
+                           "20 ft garage-and-hyphen states."
+                           if own_mass else
+                           "Added with the garage. Without it the kitchen becomes the mudroom, "
+                           "which is the failure rooms/garage.json names. Sits on the service "
+                           "sequence the back hall's own record describes: garage, mudroom, "
+                           "back hall, kitchen.")}
         made_anchor = True
 
     w, l = room_default_dims("garage")
@@ -1474,10 +1517,28 @@ def attach_garage(plan, brief, log):
     l = lo_l   # the shallow end of the band: 20 ft takes a 16 ft car with clearance,
                # and every foot past that is depth the room cannot daylight
     hyphen_len = 14.0                              # inside the grouping's own 12-20 ft rule
+    # ITS OWN MASS where the mudroom made above is its link. The free walls then follow the side
+    # the wing is on -- `geometry.flank_side`, the one spelling `flank_sizes` reads -- instead of
+    # the E written here, because a garage beyond a WEST wing has its link on its east wall.
+    own_mass = made_anchor and anchor.get("block") == GARAGE_BLOCK
+    out_wall = "E"
+    if own_mass:
+        _G = _mod("geometry", f"{ROOT}/build/geometry.py")
+        out_wall = _G.flank_side([r for r in ground["rooms"]
+                                  if r.get("block") == kitchen["block"]])
+        link_ft = anchor["width_ft"]
+        link_words = (f"Linked to the kitchen's wing by the mudroom, a room {link_ft:g} ft across "
+                      f"and the gap between the two masses — short of garage-and-hyphen's own "
+                      f"12-20 ft rule, and said so")
+    else:
+        link_words = (f"Linked back by a {hyphen_len:g} ft hyphen — inside garage-and-hyphen's own "
+                      f"12-20 ft rule; the link is a property of the attachment, not a room, because "
+                      f"every service room that could model it hard-requires a kitchen door it cannot "
+                      f"have")
 
     garage = {"id": "garage", "type": "garage", "name": f"{int(bays)}-Car Garage",
               "width_ft": width, "length_ft": round(l, 1), "ceiling_ft": 9.0,
-              "exterior_walls": ["N", "E", "S"],
+              "exterior_walls": ["N", out_wall, "S"],
               # ...and the garage joins the mudroom it doors onto, for the same reason.
               **({"block": anchor["block"]} if anchor.get("block") else {}),
               # A window in the side wall, not a glazed vehicle door: rooms/garage.json is
@@ -1487,7 +1548,7 @@ def attach_garage(plan, brief, log):
               "window_head_ft": 7.5,
               "windows": [{"wall": wall, "width_ft": 2.8, "height_ft": 3.6,
                            "count": 2, "operable": True, "egress": False}
-                          for wall in ("E", "N")],
+                          for wall in (out_wall, "N")],
               "doors": [{"to": anchor["id"], "width_ft": 3.0}]
                        + [{"to": "exterior", "width_ft": 9.0, "type": "garage",
                            "note": "Turned off the principal elevation; two 9 ft openings with a "
@@ -1495,10 +1556,7 @@ def attach_garage(plan, brief, log):
                           for _ in range(int(bays))],
               "note": (f"Placed as a dependency on the {massing} massing "
                        f"({entry.get('position', 'per garage-and-hyphen.attaches_to')}), not by adjacency. "
-                       f"Linked back by a {hyphen_len:g} ft hyphen — inside garage-and-hyphen's own "
-                       f"12-20 ft rule; the link is a property of the attachment, not a room, because "
-                       f"every service room that could model it hard-requires a kitchen door it cannot "
-                       f"have. Ridge 60-80% of the main ridge, per the same grouping. Authored, not "
+                       f"{link_words}. Ridge 60-80% of the main ridge, per the same grouping. Authored, not "
                        f"retrieved — no traditional style has a rule for this room.")}
     if made_anchor:
         ground["rooms"].append(anchor)
@@ -1513,9 +1571,12 @@ def attach_garage(plan, brief, log):
                f"{' (added with it)' if made_anchor else ''}, per garage-and-hyphen.attaches_to for the "
                f"{massing} massing ({entry.get('fit', 'possible')} fit: {entry.get('position', 'unspecified position')}). "
                f"Placed by attachment, never by adjacency — the garage's only interior neighbour is "
-               f"that one threshold room, which is why it cannot land against a bedroom. Linked back "
-               f"by a {hyphen_len:g} ft hyphen. No traditional style has a rule for this room; this is "
-               f"invented and should be shown to a client as such.")
+               f"that one threshold room, which is why it cannot land against a bedroom. "
+               + (f"It is its own mass beyond the kitchen's wing, and the mudroom is the link "
+                  f"({anchor['width_ft']:g} ft, short of the grouping's 12-20 ft rule). "
+                  if own_mass else f"Linked back by a {hyphen_len:g} ft hyphen. ")
+               + "No traditional style has a rule for this room; this is "
+                 "invented and should be shown to a client as such.")
     if any(lv.get("index", 0) > 0 for lv in plan["levels"]):
         log.append("NOT SOLVED: whether an upper-storey room ends up over the garage is a geometry "
                    "question this composer does not answer — it places rooms, not volumes. "

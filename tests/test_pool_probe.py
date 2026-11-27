@@ -478,3 +478,99 @@ def test_the_answers_are_forgotten_when_the_fill_ends_whatever_ended_it(monkeypa
     with pytest.raises(RuntimeError):
         _compose(monkeypatch, lambda i, pid: GC.PROBE_UNDECIDED, raise_on=fill0[0])
     assert not GC._PROBED, "a fill that raised left its answers behind"
+
+
+# ------------------------------------------- the merge of 27 Nov 2026: a house with a wing to size
+# The garage package sizes a wing of several rooms before the prover poses the house
+# (`geometry_cp.size_wings`), and the box rides on the footprint. The probe is the placement's own
+# first walls-released step, so it stands on that footprint too (`geometry_cp.wing_sized`, one
+# spelling for both). The corpus has one composed diagram that reaches this: the centre-passage
+# double pile with a garage in the brief. Each test asserts that premise.
+WING_PARTI = "centre-passage-double-pile"
+
+
+class _Stop(Exception):
+    """Raised by a spy to end a solve at the step under test."""
+
+
+def _composed_with_a_wing():
+    with open(os.path.join(ROOT, "briefs", "family-georgian.json")) as f:
+        brief = json.load(f)
+    plan, _log, _p = CO.instantiate(WING_PARTI, brief)
+    return plan, CO.PARTIS[WING_PARTI]
+
+
+def test_on_a_house_with_a_wing_the_probe_poses_the_model_the_placement_poses(monkeypatch):
+    _ortools()
+    monkeypatch.setattr(GC, "_WING_BOXES", {})          # this test's own sizing, kept for it alone
+    plan, parti = _composed_with_a_wing()
+    # a 1 s step: the answer is not the subject, the MODEL it was asked of is
+    res = GC.probe_all_facts(plan, parti, time_limit_s=1.0, remember=True, sizing_s=120.0)
+    if res["verdict"] == GC.PROBE_UNJUDGED:
+        pytest.skip(f"COULD NOT EVALUATE: {res.get('why')}")
+    sized = {k: v for k, v in (res["wing_sizing"] or {}).items()
+             if v["taken_ft"] is not None and list(v["taken_ft"]) != list(v["derived_ft"])}
+    assert sized, ("the premise: this house has a wing whose derived box does not hold and whose "
+                   f"sized box is another one; the sizing said {res['wing_sizing']}")
+    kept = list(GC._PROBED)
+    assert len(kept) == 1, kept
+
+    asked = []
+
+    def spy(model, seed, allowance_s, workers):
+        asked.append(GC._model_key(model, seed))
+        raise _Stop
+
+    monkeypatch.setattr(GC, "probed_answer", spy)
+    # A small limit: the sizing is read from what the probe kept, and the walls-held step ahead of
+    # the one under test only has to end. It cannot hold, because the walls-released step at this
+    # depth is the looser model.
+    with pytest.raises(_Stop):
+        out = GC._solve_cp(copy.deepcopy(plan), parti, time_limit_s=5.0, candidates=40, workers=1)
+        pytest.fail("the placement never reached its first walls-released step: "
+                    f"{(out.get('solver') or out).get('attempts')}")
+    assert asked == kept, (
+        "the probe and the placement posed two different models of one house, so the probe's "
+        "answer is of a house nobody places and is never taken up")
+
+
+def test_a_wing_whose_box_was_not_decided_leaves_the_probe_unjudged_and_keeps_nothing(monkeypatch):
+    _ortools()
+    monkeypatch.setattr(GC, "_WING_BOXES", {})
+    plan, parti = _composed_with_a_wing()
+    report = {"service": {"derived_ft": [18, 20], "taken_ft": None, "boxes_in_window": 40,
+                          "tried": 3, "undecided": 1, "past_the_lot": 0, "seconds": 0.1}}
+    # what `size_wings` returns when its time runs out: a report, and nothing kept for the process
+    monkeypatch.setattr(GC, "size_wings", lambda *a, **k: ({}, {k_: dict(v) for k_, v in report.items()}))
+    monkeypatch.setattr(GC, "_hard_model",
+                        lambda *a, **k: pytest.fail("a step was posed on a box nobody decided"))
+    res = GC.probe_all_facts(plan, parti, remember=True)
+    assert res["verdict"] == GC.PROBE_UNJUDGED and "not decided" in res["why"], res
+    assert not res.get("systemic"), "it is this record's, so the pass goes on to the next diagram"
+    assert res["wing_sizing"] == report and not GC._PROBED
+
+
+def test_a_house_with_no_wing_is_sized_as_nothing_and_its_probe_is_what_it_was(monkeypatch):
+    _ortools()
+    monkeypatch.setattr(GC, "_WING_BOXES", {})
+    plan = copy.deepcopy(_walls_cannot_hold())
+    _levels, prep = GEO.prep_rooms(plan)
+    fpd = GC._snap_fpd(GEO.derive_footprint(plan, None, prep))
+    out, report, decided = GC.wing_sized(plan, prep, fpd, GEO.entrance_walls(plan), 1.0)
+    assert out == fpd and report == {} and decided is True and not GC._WING_BOXES
+    res = _decided(GC.probe_all_facts(_walls_cannot_hold()))
+    assert res["wing_sizing"] is None and res["verdict"] == GC.PROBE_HELD, res
+
+
+def test_a_sized_box_goes_onto_the_footprint_and_widens_the_flank_by_its_own_difference(monkeypatch):
+    fpd = {"W": 45.0, "H": 37.0, "bay": 9.0, "flank": 60.0, "built_extent": 105.0}
+    monkeypatch.setattr(GC, "size_wings", lambda *a, **k: (
+        {"service": (21, 22)}, {"service": {"derived_ft": [18, 20], "taken_ft": [21, 22]}}))
+    monkeypatch.setattr(GC, "_wing_key", lambda *a, **k: "k")
+    monkeypatch.setattr(GC, "_WING_BOXES", {"k": ({}, {})})
+    out, report, decided = GC.wing_sized({}, {}, fpd, [], 1.0)
+    assert out["flank_box"] == {"service": (21, 22)} and decided is True
+    assert out["flank"] == 63.0 and out["built_extent"] == 108.0
+    assert "flank_box" not in fpd and fpd["flank"] == 60.0, "the footprint handed in is not written to"
+    monkeypatch.setattr(GC, "_WING_BOXES", {})
+    assert GC.wing_sized({}, {}, fpd, [], 1.0)[2] is False, "a search not kept was not decided"
