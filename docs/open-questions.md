@@ -19,14 +19,14 @@ it, so the mechanism that collided five times is unavailable rather than discour
 Decisions deferred rather than made quietly. Two of these came from authoring the
 Georgian kit end to end, which was the point of doing it.
 
-**291 questions, of which 163 are open.** A question is OPEN while
+**291 questions, of which 162 are open.** A question is OPEN while
 it awaits a ruling; the two HALF CLOSED entries count as open, because a half-closed
 question is an open one. Status words in use, and no others —
 **open:** `OPEN`, `STILL OPEN`, `HALF CLOSED`, `PARTLY`, `IN PROGRESS`;
 **settled:** `CLOSED`, `RESOLVED`, `RULED`, `FIXED`, `CONFIRMED`, `ANSWERED`, `LEFT AS A STANDING DISCLOSURE`, `SUPERSEDED`, `WITHDRAWN`.
 `build/check_ids.py` fails the build on any other word rather than assuming it benign.
 
-## Open — 163
+## Open — 162
 
 Awaiting a ruling. This is the list to read first.
 
@@ -144,7 +144,6 @@ Awaiting a ruling. This is the list to read first.
 | **oq/the-composers-footprint-is-not-the-placed-one** | OPEN | [two derivations of one house's width, and the card publishes the one nobody builds](open-questions/oq-the-composers-footprint-is-not-the-placed-one.md) |
 | **oq/the-depth-a-roof-needs-is-known-and-cannot-be-enforced** | OPEN | [the floor is derived, and enforcing it would propagate a broken licence](open-questions/oq-the-depth-a-roof-needs-is-known-and-cannot-be-enforced.md) |
 | **oq/the-divergence-mark-is-in-neither-face-the-sheet-names** | OPEN | [one character, and the sheet cannot supply it](open-questions/oq-the-divergence-mark-is-in-neither-face-the-sheet-names.md) |
-| **oq/the-double-piles-service-wing-cannot-tile-on-its-hyphens-face** | IN PROGRESS | [the native Georgian house is one wing from drawable](open-questions/oq-the-double-piles-service-wing-cannot-tile-on-its-hyphens-face.md) |
 | **oq/the-elevation-draws-the-front-door-where-the-composition-wants-it** | OPEN | [and the placement puts it somewhere else](open-questions/oq-the-elevation-draws-the-front-door-where-the-composition-wants-it.md) |
 | **oq/the-elevation-draws-the-main-blocks-face-and-not-the-buildings** | OPEN | [the wing has no front](open-questions/oq-the-elevation-draws-the-main-blocks-face-and-not-the-buildings.md) |
 | **oq/the-elevation-reads-five-packs-whatever-the-style-binds** | OPEN | [every elevation is dimensioned from `opening-proportion`, `sash-light`, `facade-classical`, `brick-course` and `gibbs-ionic`, never from the style's bindings](open-questions/oq-the-elevation-reads-five-packs-whatever-the-style-binds.md) |
@@ -196,7 +195,7 @@ Awaiting a ruling. This is the list to read first.
 | **oq/which-packs-module-is-a-building-input** | HALF CLOSED — class A settled 26 Sep 2026 (WP-14.33): `room-harmonic` declared, the other two left undeclared by ruling; classes B, C and D unruled | [`trim-classical`'s module is the ceiling the reader sets; which other packs' modules are, and which only look as if they are](open-questions/oq-which-packs-module-is-a-building-input.md) |
 | **oq/which-rooms-take-the-hearth** | OPEN | [the corpus says the end rooms and never which rooms those are](open-questions/oq-which-rooms-take-the-hearth.md) |
 
-## Settled — 128
+## Settled — 129
 
 Ruled, closed or recorded as a standing disclosure. Kept in full: the ruling and the original question both, because what was asked stays legible beside what was decided.
 
@@ -307,6 +306,7 @@ Ruled, closed or recorded as a standing disclosure. Kept in full: the ruling and
 | **oq/the-composer-ranks-first-a-house-that-may-not-be-drawn** | CLOSED 16 October 2026 (ruled that day, reading 1; executed by the follow-up to the candidate-click audit) | [`_sort_key` never reads the refusal written onto the dict it sorts](open-questions/oq-the-composer-ranks-first-a-house-that-may-not-be-drawn.md) |
 | **oq/the-composer-returns-sets-in-which-nothing-may-be-drawn** | CLOSED | [the ranking is right and has nothing to rank](open-questions/oq-the-composer-returns-sets-in-which-nothing-may-be-drawn.md) |
 | **oq/the-coverage-floor-is-an-exact-cover-per-element** | CLOSED — answered by measurement in WP-11.13, and not by choosing a number (7 September 2026) | [0.97 of each box, and the boxes have no slack](open-questions/oq-the-coverage-floor-is-an-exact-cover-per-element.md) |
+| **oq/the-double-piles-service-wing-cannot-tile-on-its-hyphens-face** | CLOSED 27 November 2026 (four rulings of 26 to 27 November, built the same days) | [the native Georgian house is one wing from drawable](open-questions/oq-the-double-piles-service-wing-cannot-tile-on-its-hyphens-face.md) |
 | **oq/the-dxf-draws-its-own-windows** | CLOSED 27 Sep 2026 | [a downloaded DXF is a different drawing of the same house, today](open-questions/oq-the-dxf-draws-its-own-windows.md) |
 | **oq/the-elevation-measures-a-front-the-drawn-layer-refuses-to-judge** | CLOSED 29 September 2026 (ruled that day; executed by WP-16.1) | [one front, two answers](open-questions/oq-the-elevation-measures-a-front-the-drawn-layer-refuses-to-judge.md) |
 | **oq/the-entrance-porch-can-be-drawn-on-the-back-and-no-layer-says-so** | CLOSED 17 Sep 2026 | [the search charges 100 points and the critic is silent](open-questions/oq-the-entrance-porch-can-be-drawn-on-the-back-and-no-layer-says-so.md) |

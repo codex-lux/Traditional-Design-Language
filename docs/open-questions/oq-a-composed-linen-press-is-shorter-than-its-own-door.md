@@ -26,11 +26,19 @@ door is seated is left to how the press happens to be drawn.**
 Five partis carry a linen press. `rooms/linen-press.json` bands its length at 2.5 to 4 ft and says
 in its own words that the press "fits in a 14 in deep by 36 in wide recess".
 
+**In a whole compose the door is seated, and that is the declared loop's doing.** The composer's
+declared loop widens the press from 2.9 to 3.0 ft before the house is placed (measured: thirteen
+rooms of this house are resized there, the press among them), and at 3.0 ft the prover asks for
+3 ft. So on the four four-worker composes of the stock brief the double pile had no unplaced door.
+The defect is in the record as first composed, and it shows on any placement of that record made
+without the loop: `compose.instantiate` followed by `geometry.solve`, which is what the parti
+checker and a test fixture do.
+
 ## Why it matters
 
 It is the one thing that stood between the native double pile and a drawable sheet on the
-one-worker placement above, and it is not a fact about the house. The report of that package gives
-the count over its compose runs.
+one-worker placement above, and it is not a fact about the house. A record that is only drawable
+after a later loop has repaired it is a record two readers will judge differently.
 
 ## Readings, none taken
 

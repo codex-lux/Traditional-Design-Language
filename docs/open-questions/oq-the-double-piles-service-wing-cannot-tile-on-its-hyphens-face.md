@@ -1,8 +1,8 @@
 # oq/the-double-piles-service-wing-cannot-tile-on-its-hyphens-face — the native Georgian house is one wing from drawable
 
-*Status: IN PROGRESS · Raised in: the prover decides (26 November 2026)*
+*Status: CLOSED 27 November 2026 (four rulings of 26 to 27 November, built the same days) · Raised in: the prover decides (26 November 2026)*
 
-**OPEN — on the stock brief `briefs/family-georgian.json`, the composed `centre-passage-double-pile`
+**CLOSED (see the last section). As raised: on the stock brief `briefs/family-georgian.json`, the composed `centre-passage-double-pile`
 is proven unable to hold its type's facts, and the whole proof sits in its service wing. The main
 block holds every fact on both storeys. The wing cannot be tiled in any box tried, because of where
 its doors are, and the three smallest composition changes that might fix it were each measured.
@@ -180,3 +180,32 @@ What these answers do not say: the rear-wall reading is ruled for a house with d
 flank; a house with a range on each flank keeps the axis. The link's exact place on the wing was
 offered as "centred on the wing" and three places were measured to work. No stack claim is
 withdrawn, and no band moves.
+
+## Closed, 27 November 2026 — the wing tiles and the house holds every fact
+
+All four rulings are built: `compose.attach_garage`, `geometry.flank_sizes`, `blocks_for` and
+`flank_laying`, `geometry_cp.size_wings`, and the record's own `flank_laying` (plan schema 0.14.0).
+`TILING`, `COVERAGE`, the bands, `build/typefacts.py` and the parti's rooms and doors are unchanged.
+
+`compose(briefs/family-georgian.json, 4)`, one run at a time on one four-core container:
+
+| workers | runs | returned | not refused | drawable where judged | the native double pile |
+|---|---|---|---|---|---|
+| 4 | 4 | 6, 6, 6, 6 | 4, 4, 4, 4 | 2, 2, 2, 2 | first of the set, DRAWABLE WHERE JUDGED, every run |
+| 1 | 4 | 6, 6, 6, 6 | 3, 3, 3, 3 | 1, 1, 1, 1 | refused UNDECIDED (bearing, stacks, tiling), every run |
+
+The wing's question is answered: it is sized at 21 x 22 ft on the record as first composed (19
+boxes posed) and at 21 x 20 ft on the record the composer's declared loop hands on (10 posed), and
+it tiles.
+
+What is left is not the wing's and is carried elsewhere:
+
+- **On one worker the house does not decide.** The record the composer hands to the placed loop is
+  undecided at all three depths at 60 s and at 120 s. Amended into
+  `oq/the-composed-double-pile-cannot-hold-its-facts-at-any-depth-tried`.
+- **The shipped Tidewater record is still laid on the axis.**
+  `oq/the-shipped-range-is-still-laid-on-the-axis`.
+- **A composed linen press as first composed is shorter than its own door.**
+  `oq/a-composed-linen-press-is-shorter-than-its-own-door`.
+
+Report: `docs/reports/the-garage-is-its-own-mass-2026-11-26.md`.

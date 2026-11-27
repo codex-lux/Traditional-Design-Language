@@ -5,9 +5,12 @@ decides").*
 
 ## I. The result
 
-On `briefs/family-georgian.json` the native `centre-passage-double-pile` was refused, PROVEN. It now
-places with every type fact held, and on most runs it reads DRAWABLE WHERE JUDGED and leads the
-returned set. §V has the count for each run and the stated reason for the runs where it does not.
+On `briefs/family-georgian.json` the native `centre-passage-double-pile` was refused, PROVEN. On
+four workers it now places with every type fact held, reads DRAWABLE WHERE JUDGED and leads the
+returned set, on four runs of four. On one worker it comes back refused UNDECIDED on four runs of
+four. §V has every run and the measured reason for the one-worker result.
+
+So the task's "done" is met on four workers and not on one, and the reason is stated.
 
 Four rulings got it there. Each was asked of Lucas as a direct question and answered as a separate
 act, and each is recorded in
@@ -105,9 +108,11 @@ departs from the plan Lucas approved**, which said the record would move and be 
 reason is the table and this project's own precedent of keeping a shipped placement out of a
 package about something else. `oq/the-shipped-range-is-still-laid-on-the-axis`.
 
-**A composed linen press is shorter than its own door.** Declared 1.3 x 2.9 ft with a 2 ft 3 in
-door whose leaf and jambs need 2.95 ft. The prover asks for the 2 ft the room can offer, so the
-door is seated only where the press happens to be drawn 3 ft on the passage.
+**A composed linen press is shorter than its own door.** As first composed it is 1.3 x 2.9 ft
+with a 2 ft 3 in door whose leaf and jambs need 2.95 ft. The prover asks for the 2 ft the room can
+offer, so the door is seated only where the press happens to be drawn 3 ft on the passage. The
+composer's declared loop widens the press to 3.0 ft before a compose places the house, so the
+whole compose seats it; a bare `instantiate` then `solve` may not, and on one worker did not.
 `oq/a-composed-linen-press-is-shorter-than-its-own-door`. Not fixed: each remedy changes what is
 asked of every composed house with a linen press.
 
@@ -140,9 +145,70 @@ asked of every composed house with a linen press.
 
 ## V. The product, measured
 
-*This section is not finished. The runs are in flight as this commit is made.*
+`compose(briefs/family-georgian.json, 4)` at production defaults, one run at a time on one
+four-core container, the worker count set with `TDL_CP_WORKERS`. "Not refused" and "drawable where
+judged" are the set's own two counts (`compose.set_drawability`).
 
-`compose(briefs/family-georgian.json, 4)`, one run at a time on a four-core container. Two runs at
-four workers so far, 583 and 582 s: each returned 6, with 4 not refused and 2 drawable where judged,
-the native double pile first and the side hall second, both DRAWABLE WHERE JUDGED. The third
-four-worker run and the three one-worker runs, the whole build and its attribution are still to come.
+| workers | run | wall | returned | not refused | drawable where judged | the native double pile |
+|---|---|---|---|---|---|---|
+| 4 | 1 | 583 s | 6 | 4 | 2 | first; every fact held; DRAWABLE WHERE JUDGED |
+| 4 | 2 | 582 s | 6 | 4 | 2 | the same |
+| 4 | 3 | 546 s | 6 | 4 | 2 | the same |
+| 4 | 4 | 569 s | 6 | 4 | 2 | the same |
+| 1 | 1 | 538 s | 6 | 3 | 1 | last; refused UNDECIDED for bearing, stacks, tiling |
+| 1 | 2 | 541 s | 6 | 3 | 1 | the same |
+| 1 | 3 | 541 s | 6 | 3 | 1 | the same |
+| 1 | 4 | 542 s | 6 | 3 | 1 | the same |
+
+Two of the eight runs are not as clean as the rest and are said: four-worker run 1 was made before
+the laying became a statement of the record (the composed house was laid the same way in both),
+and one-worker run 4 ran while the mutation check used another core.
+
+On every four-worker run the set was, in order: the double pile and the side hall, both DRAWABLE
+WHERE JUDGED with the hearth unjudged; the living hall and the courtyard, placed and NOT DRAWABLE
+(one door, and three doors with five rooms past their band); the five-part and the single pile,
+refused and not proven.
+
+For comparison, the parent's own report gives one run each on the same brief: four workers, 3 of 6
+not refused and 1 drawable where judged; one worker, 2 of 5 and 0.
+
+**The double pile placed alone.** `compose.instantiate` then `geometry.solve(engine="cp",
+time_limit_s=60)`:
+
+| workers | record | result |
+|---|---|---|
+| 4 | as first composed | 61.6 s; hard steps INFEASIBLE, INFEASIBLE, OPTIMAL at +0, +2, +4 ft; DRAWABLE WHERE JUDGED |
+| 1 | as first composed | 61.0, 61.0 and 61.1 s; INFEASIBLE, UNKNOWN, OPTIMAL; every fact held; NOT DRAWABLE on the two runs that were assessed, for the linen press's door |
+| 1 | as first composed, 120 s | 121.0 s; INFEASIBLE, INFEASIBLE, OPTIMAL |
+| 1 | as the declared loop hands it on | 69.9 s at 60 s and 130.5 s at 120 s; UNKNOWN at all three depths both times |
+
+**Why one worker does not decide inside a compose.** The composer's declared loop runs before the
+house is placed and resizes thirteen of its rooms: the butler's pantry from 5.6 x 9.5 to
+9.1 x 11.1 ft, the dressing room from 6.2 x 10.0 to 10.1 x 14.1, the three chamber closets from
+2.2 to 5.2 ft wide, the passages from 8.5 to 10.0 ft, and eight smaller changes. On that record
+the three hard steps each run out their slice undecided on one worker, at 60 s and at 120 s, so
+the retry Lucas ruled on 30 Oct would not have helped; in the compose it was not begun, because
+the set's budget had 40 s left. Four workers decide the same record inside the budget. Which of
+the thirteen resizes costs the one-worker proof was not measured.
+
+**The wing-sizing step's cost.** 3.0 to 3.8 s on the record as first composed (19 boxes posed,
+21 x 22 ft taken) and 2.4 to 2.5 s on the declared loop's record (10 posed, 21 x 20 ft taken), on
+one worker or four, no box undecided. On the shipped Tidewater record: 4.5 s, 50 posed, none held.
+
+## VI. Tests and the whole build
+
+**New tests.** 18 in `tests/test_garage_mass.py`, 2 in `tests/test_element_awareness.py`; one
+re-cut away there. Three existing tests re-cut, each with its movement attributed against the
+parent: the plan schema version pin (`tests/test_ingest.py`); the wing-growth test
+(`tests/test_cp_portfolio.py`), which reads the composed record both ways now; and the
+three-element lot fixture (`tests/test_element_awareness.py`), whose one-room east element is
+12 x 14 ft and was 9 x 19.
+
+**Mutation check.** 18 mutations over the new guards, each asserted to have landed and each
+restored byte for byte. All 18 went red, in the tests written for them (checked by name on a second
+pass without `-x`).
+
+**The shipped plans.** With the laying a statement of the record, the corpus placement and
+openings digests (`tests/test_elements.py`, `tests/test_appendages.py`) and the four CP model
+hashes (`tests/test_cp_elements.py`) are unmoved.
+

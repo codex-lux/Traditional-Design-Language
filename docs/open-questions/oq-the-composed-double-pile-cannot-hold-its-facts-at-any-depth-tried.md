@@ -77,6 +77,16 @@ workers and on one, and the refusal is gone on that brief. The record of all fou
 answers is `oq/the-double-piles-service-wing-cannot-tile-on-its-hyphens-face`; the runs are in
 `docs/reports/the-garage-is-its-own-mass-2026-11-26.md`.
 
+**"On four workers and on one" above is true of one placement and false of the product on one
+worker**, measured after it was written. `compose(family-georgian, 4)` at four workers returned
+the double pile first and DRAWABLE WHERE JUDGED on four runs of four. At one worker it came back
+refused UNDECIDED (bearing, stacks, tiling) on four runs of four. The composer's declared loop
+resizes thirteen rooms before the house is placed (the butler's pantry from 5.6 x 9.5 to
+9.1 x 11.1 ft among them); that record, placed alone on one worker, is undecided at the derived
+depth and 2 and 4 ft deeper at 60 s and again at 120 s, so a longer budget is not the lever. The
+record as first composed holds every fact on one worker in 61 s. Which of the thirteen resizes
+makes the difference was not measured.
+
 This entry was raised on Lucas's own Tidewater brief, which is not a file in the tree. It was not
 re-measured, so the "about once in nine" above stands as the last measurement of that brief.
-**Still open, for that brief alone.**
+**Still open: on one worker for the stock brief, and for Lucas's brief at any worker count.**
