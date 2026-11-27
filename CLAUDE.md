@@ -92,14 +92,17 @@ named dimension. Eight were found this way in WP-4.6; that is OQ 48. Useful whil
 TABLE NEVER READ (27 Nov 2026).** Read `docs/reports/wp-18.5-the-drafting-rooms-interiors.md` before
 touching a candidate column's order, a finding row, the export cards, the family tree's name column
 or an `--aff-*` token. It works the list WP-18.1's report left as not built.
-- **Nothing new was asked.** It is the same *"Looks good! Keep going"*. Pull request #48 was opened
-  from the interface while it was worked, and carries this branch.
+- **Nothing new was asked.** It is the same *"Looks good! Keep going"*.
+- **Pull request #48 was opened from the interface and MERGED while this was worked.** It carried
+  the branch to `3d66f1a`, WP-18.1 to 18.4. This package is on the same branch after that merge,
+  with `main` merged in, and is in no pull request. A force push to restart the branch was
+  refused by the session's permissions, so the branch was not rebased.
 - **What is built:**
   - a candidate column runs name, standing, the score, why, trades away, how it scores, the
     counts, the facts. The score's working is not folded, and the trade stays next to the score;
   - the names of the fatal faults nobody judged fold under their mark and count, which stay in view;
-  - a finding row gives the statement the width; the layer, the tags and the room are one line
-    under it;
+  - a finding row gives the statement the width; the severity, the layer and the room are one
+    stacked side column;
   - the export page leads with its record's line and its cards are one grid;
   - the Drawing Set's strip prints no id unless ids are asked for;
   - a tracing draft's panel is in the reading face;
@@ -117,11 +120,28 @@ or an `--aff-*` token. It works the list WP-18.1's report left as not built.
   - **A floor in `em` is held to the row's own type.** The selection row's two-line floor was
     derived from `--type-data-s`; the row is in the reading face now and the test reads the line
     height the row declares.
+  - **PR #48's CI found one red that is this phase's own, and it is fixed.**
+    `tests/test_svg_census.py` refuses a file that emits SVG and is not registered. WP-18.0 drew
+    the product's mark in `Chrome.jsx` and no Phase 18 package ran a test under `tests/`.
+    **A test under `tests/` reads the app's source: run `tests/test_svg_census.py` after adding
+    an `<svg>` to a `.jsx`.**
+  - **`docs/fidelity.md` cannot be regenerated without `ezdxf`.** `--write-doc` here rewrote four
+    DXF rows as could-not-evaluate. They are left as the doc had them; the one new row was added
+    by hand.
+  - **The first cut of the finding row cost a quarter of the list** (a row 66 to 86 px). Measure a
+    list's row height when a row is redrawn.
+  - **The rest of CI's reds are attributed by id against the run on `ea25d12`** (the report's §VI):
+    the known list, prover rows that differ run to run, and a walk check that slept 500 ms for the
+    palette's index, which waits for its option now.
+- **Measured at 1440 x 900 against a build of `3d66f1a`:** the candidate set's first screen 955
+  characters of Courier to 15; a column's *why* 759 px down to 173; a finding's statement 212 px
+  wide to 311 at the same row height; a tracing draft 424 characters of Courier to 0.
 - **What is NOT done:** the atlas; the plan sheet's `∗` on a porch drawn 8 ft wide; a rendered read
-  of the drafting room's own pages; an adversarial audit of the phase's diff.
-- **The app suite is 930 against 923**: 7 added, none removed. 16 mutations, all red on the first
-  run. **The browser walk had not finished when this entry was committed**, and the report's §VI
-  says so until it has.
+  of the drafting room's own pages; an adversarial audit of the phase's diff; the whole
+  `check_all.py`.
+- **The app suite is 930 against 923**: 7 added, none removed. 20 mutations, all red on the first
+  run. **The final browser walk had not finished when this entry was committed**, and the
+  report's §VI says so until it has.
 
 **PHASE 18'S OTHER TWELVE SURFACES ARE BUILT, AND THE PLAN PAGE'S DRAWING HAD STOOD UNDER FOUR
 PANELS (27 Nov 2026).** Read `docs/reports/wp-18.1-the-rest-of-the-rooms.md` before touching an
