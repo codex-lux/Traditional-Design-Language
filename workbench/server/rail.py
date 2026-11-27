@@ -10,10 +10,16 @@ The model marks structure with literal tags the client renders as typed cards:
   <refusal reason="…">…</refusal> a refusal, at the same weight as a result
 """
 import json
+import logging
 import os
 import re
 
 from . import citations, corpus, limits, tools
+
+# A failed turn is logged with its traceback (review of 27 Nov 2026, DR-05; see jobs.py). The
+# exception and the model id only: the conversation is the reader's and is never written here.
+log = logging.getLogger("tdl.rail")
+
 
 def _env(name, default):
     """Read lazily. A module-level os.environ.get freezes at import — invisible to
@@ -506,5 +512,6 @@ def stream_turn(body, identity=None):
         else:
             yield _sse("error", {"error": "tool-round cap reached"})
     except Exception as e:
+        log.exception("assistant turn failed (model %s)", model())
         yield _sse("error", {"error": f"{type(e).__name__}: {str(e)[:300]}"})
     yield _sse("turn_end", {})

@@ -10,6 +10,7 @@ and says so through the poll's `status`.
 """
 import asyncio
 import json
+import logging
 import os
 import queue
 import threading
@@ -20,6 +21,14 @@ from concurrent.futures import ThreadPoolExecutor
 from . import corpus
 
 core = corpus.core
+
+# A FAILED JOB IS LOGGED, WITH ITS TRACEBACK (deployment-readiness review, 27 Nov 2026, DR-05).
+# Each `except` below told the READER what went wrong in a string cut at 500 characters and told
+# the operator nothing, on a server that runs uvicorn at `warning` and so writes no access log
+# either: a compose failing for every reader could not be told from an idle afternoon. The id and
+# the kind are logged; the brief and the plan are the reader's and are not.
+log = logging.getLogger("tdl.jobs")
+rail_log = logging.getLogger("tdl.rail")
 
 _JOBS = {}
 # ONE LOCK OVER `_JOBS` (the audit of Phase 17). The routes are sync `def`s, so Starlette runs them
@@ -213,6 +222,7 @@ def _run(job):
         job.finished = time.time()
         _put(job, "done", _strip_plans(result))
     except Exception as e:  # a failed compose is reported, never swallowed
+        log.exception("compose job %s failed", job.id)
         job.status = "error"
         job.finished = time.time()
         job.error = str(e)[:500]
@@ -282,6 +292,7 @@ def _run_revise(job):
         job.finished = time.time()
         _put(job, "done", _strip_plans(result))
     except Exception as e:  # a failed revise is reported, never swallowed
+        log.exception("revise job %s failed", job.id)
         job.status = "error"
         job.finished = time.time()
         job.error = str(e)[:500]
@@ -518,6 +529,7 @@ async def bridge_sync_stream(make_iter, poll_s=_POLL_S):
             for line in make_iter():
                 q.put(line)              # blocks when the reader falls behind, which is
         except Exception as e:           # backpressure rather than unbounded buffering
+            rail_log.exception("a bridged stream died outside its own handler")
             q.put(_sse("error", {"error": f"{type(e).__name__}: {str(e)[:200]}",
                                  "honest": True}))
         finally:
