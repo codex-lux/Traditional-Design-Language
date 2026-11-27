@@ -389,6 +389,9 @@ Everything below is done once, by hand, in the named service's own UI.
      `Cf-Access-Authenticated-User-Email`, which is only an identity when a proxy that
      overwrites the header is guaranteed to sit in front of every request. On a bare
      platform deployment, setting this is an open door: anyone can send that header.
+   - `WORKBENCH_ALLOW_OPEN` — **leave unset.** Since 27 Nov 2026 the server refuses to start on
+     a public bind with neither `WORKBENCH_PASSWORD` nor `WORKBENCH_API_TOKEN` set, and says
+     which to set. This variable is the way to serve it open on purpose.
 4. **Railway → Settings → Deploy** — healthcheck path `/api/health`; **replicas 1**, for
    the reason under "what was found".
 5. **Railway → Settings → Networking** — Generate Domain. It asks which port to route
@@ -407,6 +410,29 @@ Everything below is done once, by hand, in the named service's own UI.
 
 Locally nothing has changed: `make workbench` still serves `http://127.0.0.1:8177` with no
 password, and prints a note saying the server is open when none is set.
+
+## The deployment-readiness review of 27 November 2026
+
+`docs/deployment-readiness/2026-11-27-review.md` is the review; this is what it changed here.
+
+- **A public bind with no gate does not start.** "Open by configuration" is still the local
+  default on `127.0.0.1`. In a container it was one forgotten variable away from serving the
+  assistant to strangers, so `__main__` exits 1 and names the variables. See
+  `WORKBENCH_ALLOW_OPEN` above.
+- **The image installs `workbench/requirements.lock`**, the whole closure pinned with hashes for
+  Python 3.11, and CI's workbench job installs `requirements-dev.lock`, the same pins plus the
+  test packages. `requirements.txt` still states the floors and is the input: `make lock`
+  regenerates both locks (it needs `uv`). Change a floor, run it, commit all three files.
+- **Every response carries security headers**, and pages carry a content security policy
+  (`app.SecurityHeaders`). A new outside host the app must load from (a font, an image, an API)
+  has to be added to that policy or the browser will refuse it.
+- **Failures are logged.** `tdl.jobs` and `tdl.rail` write a traceback for a failed compose, a
+  failed revise and a failed assistant turn. They carry job ids and never the reader's content.
+  uvicorn still runs at `warning`, so there is still no access log.
+
+Left to the owner, each with its reason in the review: what the deploy gate requires while CI
+is red by ruling, a spend limit on the Anthropic key, the Google-hosted webfaces, starting the
+image in CI, `POST /api/dev/reload` in production, and an error tracker.
 
 ## Deliberately not done
 
