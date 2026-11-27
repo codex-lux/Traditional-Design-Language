@@ -19,14 +19,14 @@ it, so the mechanism that collided five times is unavailable rather than discour
 Decisions deferred rather than made quietly. Two of these came from authoring the
 Georgian kit end to end, which was the point of doing it.
 
-**291 questions, of which 162 are open.** A question is OPEN while
+**292 questions, of which 163 are open.** A question is OPEN while
 it awaits a ruling; the two HALF CLOSED entries count as open, because a half-closed
 question is an open one. Status words in use, and no others —
 **open:** `OPEN`, `STILL OPEN`, `HALF CLOSED`, `PARTLY`, `IN PROGRESS`;
 **settled:** `CLOSED`, `RESOLVED`, `RULED`, `FIXED`, `CONFIRMED`, `ANSWERED`, `LEFT AS A STANDING DISCLOSURE`, `SUPERSEDED`, `WITHDRAWN`.
 `build/check_ids.py` fails the build on any other word rather than assuming it benign.
 
-## Open — 162
+## Open — 163
 
 Awaiting a ruling. This is the list to read first.
 
@@ -129,6 +129,7 @@ Awaiting a ruling. This is the list to read first.
 | **oq/no-rake-id-states-a-parapeted-or-tumbled-gable** | OPEN | [the town gable has no word in the rake vocabulary](open-questions/oq-no-rake-id-states-a-parapeted-or-tumbled-gable.md) |
 | **oq/no-tool-answers-which-styles-use-a-pack** | OPEN | [the assistant is told which pack is on the page, and no tool it has can say which styles use it](open-questions/oq-no-tool-answers-which-styles-use-a-pack.md) |
 | **oq/one-work-is-cited-under-several-strings-and-every-source-count-is-inflated** | OPEN | [23 works under 51 strings, and correcting them reddens the build by six](open-questions/oq-one-work-is-cited-under-several-strings-and-every-source-count-is-inflated.md) |
+| **oq/one-worker-runs-one-search-and-the-seed-decides-as-much-as-the-house** | OPEN | [on one core a hard step's time is heavy-tailed, and one search cannot cover the tail](open-questions/oq-one-worker-runs-one-search-and-the-seed-decides-as-much-as-the-house.md) |
 | **oq/six-order-assemblies-state-a-division-and-carry-no-zones** | OPEN | [the order packs state how six of their assemblies divide, and WP-14.18 declared zones on a wall section only](open-questions/oq-six-order-assemblies-state-a-division-and-carry-no-zones.md) |
 | **oq/the-adjudication-cases-the-records-do-not-decide** | OPEN | [181 gaps where the node's own words settle nothing, grouped by the pack that settles them all at once](open-questions/oq-the-adjudication-cases-the-records-do-not-decide.md) |
 | **oq/the-atlas-pane-is-a-different-shape-in-ci-than-in-a-local-walk** | OPEN | [one viewport, one build, two panes](open-questions/oq-the-atlas-pane-is-a-different-shape-in-ci-than-in-a-local-walk.md) |

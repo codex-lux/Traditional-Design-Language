@@ -191,6 +191,14 @@ the retry Lucas ruled on 30 Oct would not have helped; in the compose it was not
 the set's budget had 40 s left. Four workers decide the same record inside the budget. Which of
 the thirteen resizes costs the one-worker proof was not measured.
 
+*(Corrected 27 Nov 2026, `docs/reports/the-one-worker-search-2026-11-27.md`. Measured on the
+joined tree: that record does hold on one worker, in 88.9 s at the derived depth and 46.9 s at
++2 ft where a single step is given the time, so "undecided" above is true of the slices a 60 s or
+120 s solve hands each step and not of the record. No one resize is the cost: undoing any one
+group moved the time unpredictably. The lever was the search. On one worker the hard steps now
+run CP-SAT's no-LP search, and the compose returns the double pile drawable where judged and
+first on three runs of three.)*
+
 **The wing-sizing step's cost.** 3.0 to 3.8 s on the record as first composed (19 boxes posed,
 21 x 22 ft taken) and 2.4 to 2.5 s on the declared loop's record (10 posed, 21 x 20 ft taken), on
 one worker or four, no box undecided. On the shipped Tidewater record: 4.5 s, 50 posed, none held.

@@ -97,3 +97,20 @@ This entry was raised on Lucas's own Tidewater brief, which is not a file in the
 re-measured, so the "about once in nine" above stands as the last measurement of that brief.
 **Still open: for the stock brief on one worker and at 40 s, and for Lucas's brief at any worker
 count.**
+
+## Amended 27 November 2026: on the stock brief it is drawable on one worker
+
+Ruled by Lucas, asked as one direct question: on one worker the prover's walls-released hard
+steps run CP-SAT's no-LP search. `compose(family-georgian, 4)` on one worker then returned the
+double pile first and DRAWABLE WHERE JUDGED on three runs of three, holding every fact posed at
+its derived depth, and on four workers on the one run made.
+
+Two sentences above are corrected by measurement on the joined tree. The record the declared loop
+hands on is not undecidable on one worker: under the default search it holds in 88.9 s at the
+derived depth and 46.9 s at +2 ft, where one step is given the time. And no one of the thirteen
+resizes makes the difference: undoing any one group moved the time unpredictably, from 9 s to over
+100 s. The cause was the search one worker runs. The runs are in
+`docs/reports/the-one-worker-search-2026-11-27.md`.
+
+**Still open: at the 40 s batch budget, which was not re-measured, and for Lucas's own brief at
+any worker count.**

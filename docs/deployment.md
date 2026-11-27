@@ -85,7 +85,10 @@ what the flag promises its one caller.
 
 **`/api/health` says what the prover runs on** (26 November 2026). `prover.workers` is the number of
 CPU workers one placement may take on this server, read through the prover's own function, and
-`prover.line_grid` says whether the line grid is on. Set `TDL_CP_WORKERS` to override the count. A
+`prover.line_grid` says whether the line grid is on. `prover.hard_step_search` (27 November 2026)
+names the search a hard step runs on that many workers: `portfolio` above one, `no-lp` on one, and
+`default` on one where `TDL_CP_ONE_WORKER_SEARCH=default` is set, which is the control and not a
+setting to deploy. Set `TDL_CP_WORKERS` to override the count. A
 set that comes back wholly refused on a server reporting one worker is a different finding from the
 same set on four, and until this nothing on the server could tell them apart.
 

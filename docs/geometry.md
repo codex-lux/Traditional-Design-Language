@@ -171,6 +171,30 @@ step and not a second model. `_hard_model` builds that step for the prover and f
 
 Report: `docs/reports/the-deciding-pass-over-the-pool-2026-11-26.md`.
 
+## The one-worker search (27 November 2026)
+
+With several workers CP-SAT runs three full-problem searches side by side on a hard step
+(`default_lp`, `max_lp`, `no_lp`) and takes whichever answers. With one worker it runs
+`default_lp` alone. On the stock brief's composed double pile that search takes 47 to 89 s on one
+worker or does not answer, and the no-LP search answers in 8 to 11 s.
+
+- **`geometry_cp.hard_step_solver` builds the solver for one walls-released hard step.** On one
+  worker it sets `linearization_level = 0`. On several it sets nothing.
+- **It has two callers**: the portfolio's walls-released steps in `_solve_cp`, and
+  `probe_all_facts`. The probe therefore asks with the search the placement would run.
+- **Nothing else takes it.** The everything-held step, the wing sizing, the ladder, the restores,
+  the polish and the undecided round's retry run the solver's default.
+- **The model is the same model.** A placement found is the ruled model's and a refutation is a
+  proof about it.
+- `hard_step_search(workers)` names the search (`portfolio`, `no-lp` or `default`). The attempt's
+  tag reads `1w no-lp`, and `/api/health` reports it.
+- `TDL_CP_ONE_WORKER_SEARCH=default` puts the solver's default back on one worker. It is the
+  control the figures were taken against.
+
+One search on one worker is still at the mercy of its seed:
+`oq/one-worker-runs-one-search-and-the-seed-decides-as-much-as-the-house`. Report:
+`docs/reports/the-one-worker-search-2026-11-27.md`.
+
 ## Where a flanking range stands, and how its wing is sized (26 to 27 November 2026)
 
 Four rulings, each asked of Lucas and answered as a separate act. The record is
