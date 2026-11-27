@@ -15,3 +15,10 @@ __pycache__/
 workbench/app/e2e/shots/
 
 .github/
+
+# Secrets a local checkout may hold. .gitignore keeps them out of git; without these lines a
+# local `docker build` baked them into the image through `COPY . .` (review of 27 Nov 2026, DR-15).
+.env
+.env.*
+*.pem
+*.key

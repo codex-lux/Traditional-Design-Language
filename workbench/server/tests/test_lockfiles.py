@@ -83,3 +83,8 @@ def test_ci_installs_the_dev_lock_for_the_server_suite():
     runs = [l.strip() for l in job.splitlines() if l.strip().startswith("run: pip install")]
     assert runs == ["run: pip install --require-hashes -r workbench/requirements-dev.lock"], runs
 
+def test_the_image_does_not_take_a_local_env_file():
+    """`.gitignore` keeps `.env` out of git; `COPY . .` reads `.dockerignore`, which did not (DR-15)."""
+    ignored = {l.split("#", 1)[0].strip() for l in _read(ROOT, ".dockerignore").splitlines()}
+    for pattern in (".env", ".env.*", "*.pem", "*.key"):
+        assert pattern in ignored, f".dockerignore does not exclude {pattern}"
