@@ -21,12 +21,12 @@ import { RecordLink } from './RecordLink.jsx';
 import { Eyebrow } from './Eyebrow.jsx';
 import { siblingsOf, benchOf } from '../dossier/relations.js';
 
-const block = { marginBottom: 20 };
+const block = { marginBottom: 26 };
 const note = { font: 'var(--type-data-s)', color: 'var(--text-secondary)', margin: 0 };
 
 function Links({ nodes, attr }) {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 5, font: 'var(--fw-reg) 16px/1.35 var(--serif)' }}>
       {nodes.map((n) => (
         <span key={n.id} {...{ [attr]: n.id }}>
           <RecordLink cite={'style:' + n.id}>{n.name || n.id}</RecordLink>
@@ -43,28 +43,28 @@ export function RelationsPanel({ dossier, styleId, taxa }) {
   const neighbours = taxa ? siblingsOf(styleId, taxa) : null;
   const bench = benchOf(plan, styleId);
   return (
-    <aside aria-label="relations" data-relations={styleId} style={{ padding: '16px 14px 24px' }}>
+    <aside aria-label="relations" data-relations={styleId}>
       <section style={block} data-relation="filed-under">
-        <Eyebrow style={{ marginBottom: 7 }}><Term id="member-of" /></Eyebrow>
+        <Eyebrow style={{ marginBottom: 9 }}><Term id="member-of" /></Eyebrow>
         {chain.length ? <Links nodes={chain} attr="data-filed-under" /> : <p style={note}>—</p>}
       </section>
 
       {members.length > 0 && (
         <section style={block} data-relation="members">
-          <Eyebrow style={{ marginBottom: 7 }}><Term id="section-members" /> · {members.length}</Eyebrow>
+          <Eyebrow style={{ marginBottom: 9 }}><Term id="section-members" /> · {members.length}</Eyebrow>
           <Links nodes={members} attr="data-filed-here" />
         </section>
       )}
 
       <section style={block} data-relation="neighbours">
-        <Eyebrow style={{ marginBottom: 7 }}>Neighbours{neighbours ? ` · ${neighbours.length}` : ''}</Eyebrow>
+        <Eyebrow style={{ marginBottom: 9 }}>Neighbours{neighbours ? ` · ${neighbours.length}` : ''}</Eyebrow>
         {neighbours === null && <p style={note}>…</p>}
         {neighbours && neighbours.length === 0 && <p style={note}>—</p>}
         {neighbours && neighbours.length > 0 && <Links nodes={neighbours} attr="data-neighbour" />}
       </section>
 
       <section style={block} data-relation="bench" data-bench-here={bench && bench.here ? '' : undefined}>
-        <Eyebrow style={{ marginBottom: 7 }}><Term id="on-the-bench" /></Eyebrow>
+        <Eyebrow style={{ marginBottom: 9 }}><Term id="on-the-bench" /></Eyebrow>
         {!bench && <p style={note}>—</p>}
         {bench && (
           <>

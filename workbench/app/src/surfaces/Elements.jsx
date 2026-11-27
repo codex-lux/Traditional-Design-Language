@@ -7,6 +7,11 @@
    `#/room`), because the Elements page is where their record pages stand (the site map's `UNDER`).
    `?q=` narrows the slots by name or id.
 
+   SET AS A BOOK'S INDEX SINCE 27 NOV 2026 (WP-18.1). The page leads with its own record's line
+   (`PageHero`), the four plan-type kinds are four cards with their counts, and each slot group is
+   a block in columns: a slot's name, and the one figure beside it. Every hook the walk reads is
+   where it was.
+
    A SLOT is `dossier/SlotPanel.jsx`, which tranche 1 built as the interim page for a slot with no
    style and parked under the Styles index; its address there, `#/style/-/kit/<slot>`, is read as
    this one and rewritten (router.js, LEGACY_PLACES). */
@@ -14,32 +19,29 @@ import React from 'react';
 import { api } from '../api/client.js';
 import { formatHash } from '../router.js';
 import { useNames } from '../names/useNames.js';
-import { useGlossary } from '../api/useGlossary.js';
-import { termView } from '../glossary/termView.js';
 import { useSurfaceFilters } from '../filters/useFilters.js';
 import { matches } from '../search/match.js';
 import { RECORD_KINDS } from '../record/kinds.js';
 import { Term } from '../components/Term.jsx';
 import { RecordLink } from '../components/RecordLink.jsx';
-import { Eyebrow } from '../components/Eyebrow.jsx';
 import { FilterInput } from '../components/FilterInput.jsx';
-import { FilterStrip } from '../Chrome.jsx';
+import { PageHero, usePageHead } from '../components/PageHead.jsx';
 import { SlotPanel } from '../dossier/SlotPanel.jsx';
 import { data } from '../record/parts.jsx';
 
 const SPEC = { q: { type: 'text' } };
 
-/* A kind's own surface record's word, as a link to that kind's index. */
-function KindLink({ kind, count }) {
-  const glossary = useGlossary();
-  const v = termView(glossary, { id: `surface-${kind.surface}` });
-  const word = v.state === 'ready' ? v.word : v.state === 'loading' ? null : v.text;
+/* A kind as a way in: its count, its own surface record's word as the link, and that record's
+   line about what the page is. Nothing here is written by the app. */
+function KindCard({ kind, count }) {
+  const { view, what } = usePageHead(`surface-${kind.surface}`);
+  const word = view.state === 'ready' ? view.word : view.state === 'loading' ? null : view.text;
   return (
-    <span data-kind-index={kind.surface} style={{ display: 'inline-flex', gap: 6, alignItems: 'baseline' }}>
-      <a href={formatHash(kind.surface, {}, {})} className="tdl-record-name"
-        style={{ font: 'var(--fw-reg) 15px/1.4 var(--serif)' }}>{word}</a>
-      {count != null && <span style={data}>{count}</span>}
-    </span>
+    <div data-kind-index={kind.surface} className="tdl-card tdl-kind-card">
+      <span className="tdl-card-figure">{count != null ? count : ' '}</span>
+      <a href={formatHash(kind.surface, {}, {})} className="tdl-record-name tdl-card-title tdl-stretch">{word}</a>
+      {what && <p className="tdl-card-text">{what}</p>}
+    </div>
   );
 }
 
@@ -67,53 +69,54 @@ function ElementsIndex() {
   }, [names.status, names.index]);
 
   return (
-    <div data-elements-index="" style={{ display: 'flex', flexDirection: 'column', minHeight: 0, flex: 1 }}>
-      <FilterStrip filters={filters} right={
-        <span data-index-shown={body ? shown.length : undefined} data-index-total={body ? slots.length : undefined}
-          style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)' }}>
-          {body ? `${shown.length} of ${slots.length}` : '…'}
-        </span>
-      }>
-        <Eyebrow as="span"><Term id="slot" /></Eyebrow>
-        <FilterInput value={q} onChange={(v) => filters.set('q', v)} count={body ? shown.length : undefined}
-          label="Filter the slots by name or id" placeholder="filter slots" width={200} />
-      </FilterStrip>
+    <div data-elements-index="" className="tdl-scroll">
+      <div className="tdl-page tdl-page-wide">
+        <PageHero termId="surface-elements" className="tdl-rise">
+          <div className="tdl-hero-acts">
+            <FilterInput value={q} onChange={(v) => filters.set('q', v)} count={body ? shown.length : undefined}
+              label="Filter the slots by name or id" placeholder="filter slots" width={300} large />
+            <span data-index-shown={body ? shown.length : undefined} data-index-total={body ? slots.length : undefined}
+              style={data}>
+              {body ? `${shown.length} of ${slots.length}` : '…'}
+            </span>
+            {filters.activeCount > 0 && (
+              <button type="button" onClick={filters.clear} className="tdl-link" style={{ font: 'var(--type-data-s)' }}>clear</button>
+            )}
+          </div>
+        </PageHero>
 
-      <div style={{ flex: 1, overflow: 'auto', minHeight: 0, padding: '16px 26px 40px' }}>
-        <nav data-record-kinds="" aria-label="records"
-          style={{ display: 'flex', flexWrap: 'wrap', gap: '6px 26px', padding: '0 0 14px', marginBottom: 6,
-            borderBottom: 'var(--rule-hair)' }}>
-          {RECORD_KINDS.map((k) => <KindLink key={k.surface} kind={k} count={perKind[k.cite]} />)}
+        <nav data-record-kinds="" aria-label="records" className="tdl-grid tdl-rise-2"
+          style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(13.5rem, 1fr))', margin: '0 0 44px' }}>
+          {RECORD_KINDS.map((k) => <KindCard key={k.surface} kind={k} count={perKind[k.cite]} />)}
         </nav>
 
         {failed && <p style={{ font: 'var(--type-body)', color: 'var(--text-secondary)' }}>The slots could not be read.</p>}
         {!body && !failed && <p style={data}>reading the slots…</p>}
-        {body && groups.map((g) => {
-          const rows = shown.filter((s) => s.group === g.id);
-          if (!rows.length) return null;
-          return (
-            <section key={g.id} data-slot-group={g.id} style={{ marginTop: 18 }}>
-              <h3 style={{ font: 'var(--fw-reg) 17px/1.3 var(--display)', margin: '0 0 6px' }}>
-                {g.name || g.id}<span className="tdl-record-note">{g.id}</span>
-              </h3>
-              <div role="table" style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) auto', gap: '2px 22px',
-                alignItems: 'baseline', maxWidth: 760 }}>
-                <div role="row" style={{ display: 'contents' }}>
-                  <span role="columnheader" style={data}><Term id="slot" /></span>
-                  <span role="columnheader" style={data}><Term id="binding-specified" /></span>
-                </div>
-                {rows.map((s) => (
-                  <div role="row" key={s.id} data-slot-row={s.id} data-specified-by={s.specified_by} style={{ display: 'contents' }}>
-                    <span role="cell" style={{ font: 'var(--fw-reg) 14px/1.45 var(--serif)' }}>
-                      <RecordLink cite={'slot:' + s.id}>{s.name || s.id}</RecordLink>
-                    </span>
-                    <span role="cell" style={{ ...data, textAlign: 'right' }}>{s.specified_by}</span>
+        {body && (
+          <div className="tdl-families tdl-rise-3" style={{ margin: 0 }}>
+            {groups.map((g) => {
+              const rows = shown.filter((s) => s.group === g.id);
+              if (!rows.length) return null;
+              return (
+                <section key={g.id} data-slot-group={g.id} className="tdl-family" role="table" aria-label={g.name || g.id}
+                  style={{ marginBottom: 34 }}>
+                  <div role="row" className="tdl-family-name" style={{ borderBottom: '2px solid var(--text-body)', paddingBottom: 7 }}>
+                    <h3 role="columnheader" style={{ font: 'var(--fw-reg) var(--fs-d4)/1.2 var(--display)', margin: 0 }}>
+                      {g.name || g.id}<span className="tdl-record-note">{g.id}</span>
+                    </h3>
+                    <span role="columnheader" className="tdl-year"><Term id="binding-specified" /></span>
                   </div>
-                ))}
-              </div>
-            </section>
-          );
-        })}
+                  {rows.map((s) => (
+                    <div role="row" key={s.id} data-slot-row={s.id} data-specified-by={s.specified_by} className="tdl-style-row">
+                      <span role="cell"><RecordLink cite={'slot:' + s.id}>{s.name || s.id}</RecordLink></span>
+                      <span role="cell" className="tdl-year">{s.specified_by}</span>
+                    </div>
+                  ))}
+                </section>
+              );
+            })}
+          </div>
+        )}
       </div>
     </div>
   );

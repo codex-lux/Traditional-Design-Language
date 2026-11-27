@@ -293,8 +293,9 @@ are rebound, under `[data-ground="instrument"]` and `[data-ground="vellum"]`
 
 On a library page the five stations shrink to five marks in a row, and the house is still there.
 
-**The top bar** is the crumbs, the address in the corpus's own grammar, and the one button that
-opens the assistant. **The assistant's pane opens only when summoned**: it starts folded at every
+**The top bar** is the crumbs, the page's own head folded to one control, and the one button that
+opens the assistant. *(Until 26 Nov 2026 the address stood beside the crumbs in mono; the browser's
+own bar says it, and the two-rooms section below says what replaced it.)* **The assistant's pane opens only when summoned**: it starts folded at every
 width unless the reader has stored a choice.
 
 **The front door** (WP-17.3) leads with the corpus's own thesis, `about-tdl`'s definition, at
@@ -366,7 +367,8 @@ what the critic will not see yet: every gap the draft still has, each of which w
 critic unable to judge the house until it is filled. A record with a gap is not checked, sent to
 the bench or downloaded.
 
-**A page that could not load says so.** Three pages are fetched only when first visited. If the
+**A page that could not load says so.** The house's pages, the family tree, the proportion packs
+and a comparison are fetched only when first visited (three pages until 26 Nov 2026). If the
 code for one cannot be fetched, as when a new version was put up after the tab was opened, the page
 says it could not be loaded, with the browser's own message, and the rest of the workbench stays
 standing; reloading the tab fetches the current version.
@@ -387,6 +389,100 @@ about the house and not an error code. Each word is its own glossary record:
 | blocked: refused | the plan on the bench breaks a hard fact of its type, so nothing may be drawn from it |
 | blocked: a working sketch | the plan on the bench is a working sketch, and an export would present it as a drawing |
 | ready | this step can be taken now |
+
+## The shell since 26 Nov 2026: two rooms, and the reader first
+
+Lucas read the Phase 17 workbench a month after it shipped: *"it feels stale and there's a lot of
+information thrown at you all at once and there's very little visual journey throughout."* All
+eighteen surfaces were walked and screenshotted before anything was drawn, and he gave three
+rulings the same day, each asked and answered as its own act. The report is
+`docs/reports/wp-18.0-two-rooms.md`.
+
+**Two rooms** (amends the 29 Oct ruling that put every surface on the instrument). The dark ground
+was not the fault; every page being the same dark sheet of small type was.
+- **The library is a pattern book and is set on vellum**: the front door, the styles and a style's
+  dossier, the family tree, the faults, the elements and the record pages, the glossary, a
+  comparison and the proportion packs.
+- **The house is the drafting room and stays the dark instrument**: the brief, the candidates, the
+  plan, the drawings, the export and the tracing. There a plate is the brightest thing in view.
+- **The shell is dark in both.** The sidebar, the top bar and the assistant's strip are the desk
+  both rooms stand on, so crossing from one room to the other changes the page and nothing round it.
+
+`app/src/grounds.js` says which room a surface is in (`ROOM_OF`), and the ground follows from the
+room, so the two cannot disagree. No token changed value: the duties were already bound on both
+grounds, which is why a page reads on vellum the day it is moved. `app/src/theme/rooms.css` is the
+layout of the two rooms and names no colour of its own; `grounds.test.mjs` reads it with the same
+readers it reads `tokens.css` with.
+
+**Reader first.** Content leads a page, and what explains the page is one click away.
+- **The page head is folded into the top bar.** It was a band above every page: the eyebrow, the
+  lede and the list headed *How to read this page*, open on a first visit. It is one control now,
+  and its panel holds the same three things from the same glossary record. It is never open
+  unasked, by the URL or by a stored choice, and it folds when the page it explains is left.
+- **An index draws its own lede.** The styles index and the fault corpus open on their record's
+  line at display size (`PageHero`); a record's page leads with the record's name instead.
+- **A link opened cold is told once, in one line.** The banner keeps the sentence and the two ways
+  to begin. Where the reader is, is said by the top bar directly above it and not a second time.
+- **A machine id is shown on demand.** A record's id is printed once, in the head of its own page,
+  and beside a link while the link is pointed at or focused. The `ids` control at the foot of the
+  sidebar shows every one, and that choice is kept in this browser and never in the URL.
+- **A defined word is marked faintly** where it stands and plainly when it is pointed at.
+
+**The front door is the threshold between the two rooms**, and shows both. A dark band first: the
+thesis at display size beside the lit plate, the two acts, and the house's five steps as stations
+on one line. Below it, on paper, the library as five cards and the closing furniture. The thesis
+is still the one sentence of `about-tdl`, set in two sizes: its first clause is the headline and
+the rest is the lede, with nothing dropped and nothing reordered.
+
+**The styles index is set as chapters.** A tradition heads a chapter, and its families are set in
+columns under it the way an index is set in a book: a family's name over the styles filed under it,
+a variant indented under its style, and the year a floruit begins at the row's end. The filing is
+`styleTree`'s and is unchanged; `styles/chapters.js` only says where one block ends and the next
+begins, and returns every row exactly once.
+
+**A style's dossier is a page.** The head leads it at display size (rank, what it is filed under
+and its years; the name; the record's own short description as the lede; the acts) and scrolls
+away with the page. The section strip stays in reach. The section in view stands beside the
+record's relations. The tells are a numbered list at reading size; the cards that count each other
+section close the page, as the way on, where they used to open it. The kit is the one section that
+keeps the window, because a slot table beside its cascade is an instrument.
+
+**The fault corpus opens on what it is.** With no fault chosen, the page shows its record's line at
+display size and how many faults each severity holds; a figure narrows the list to its severity. A
+fault chosen is set as an article: its severity is the rule over its name, and its sections are at
+reading size.
+
+**A page is entered.** Opening a surface fades it up, a page's head rises into place, and the hero
+plate settles a moment after. A row, a card and an act answer the pointer. Every duration is a
+`--dur-*` token, so a reader who asks for reduced motion gets none.
+
+**The drafting room is loaded when it is entered.** The entry chunk held every surface and stood
+at 690 KB of `check_frontend`'s 700 KB ceiling. The reading room stays in it; the house's pages,
+the family tree, the proportion packs and a comparison are each a chunk of their own.
+
+### The rest of the rooms (27 Nov 2026)
+
+`docs/reports/wp-18.1-the-rest-of-the-rooms.md`. What a person editing a surface needs to know:
+
+- **An index page** is `PageHero` (its own record's line), a large `FilterInput`, and its rows in
+  columns (`.tdl-columns`, `.tdl-index-row`). Elements, the four record kinds, the glossary and the
+  proportion packs are all this shape.
+- **A record's page** is `record/parts.jsx::RecordHead` (the kind in the letter, the name at display
+  size, the id printed once), a double rule, the record's prose as a lede (`<Prose lede>`), then
+  `Section`s. A list of records with reasons is `.tdl-reason-row`; figures are a `.tdl-table`.
+- **A style's kit** stands under its slot groups (`dossier/kitSections.js`, which returns every row
+  exactly once). A row leads with the slot's name, read from the names index because the kit route
+  serves ids. The cascade is to the right.
+- **The plan page draws its sheet first.** The panels that disclose what a placement gave up stand
+  under it, open. `rooms.test.mjs` holds the order.
+- **An empty station of the journey** is `.tdl-waiting`: what it waits for, and the way to it.
+- **A small control** (`Chip`, `ActionChip`, `FilterGroup`, `FilterInput`, `StylePicker`) is set in
+  the reading face and takes its hover state from a class. A filter strip is 40 px, which is the
+  height the walk holds a one-row strip to.
+- **On paper a word is set in a paper ink.** `--gilt-ink`, `--brick-ink`, `--salmon-ink`,
+  `--green-ink`, `--ink-3-ink` and `--ink-2-ink` are each a pigment mixed toward `--coal` by the
+  least step that reads 4.5 : 1 on every paper, and the word duties are bound to them at `:root`
+  and under vellum. A drawing still names the pigment. `rooms.test.mjs` recomputes each ink.
 
 ## Navigation and addressing (WP-5.6)
 

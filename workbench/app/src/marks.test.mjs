@@ -361,7 +361,10 @@ const CARRIES = /data-refusal|data-conflict-set|data-drawing-error|data-export-n
 function refusalInkRows(src, css = readFileSync(TOKENS, 'utf8')) {
   const { byName } = readTokens(css);
   const hexOf = (n) => { try { const v = resolve(byName, n); return /^#[0-9A-F]{6}$/.test(v) ? v : null; } catch { return null; } };
-  const allowed = new Set(['--refusal', '--mark-refused', '--ink', '--ink-2', '--rule', '--rule-soft', '--hair',
+  // `--refusal-text` is the refusal's own WORD since the paper inks (Phase 18, 27 Nov 2026): the
+  // brick mixed 0.27 toward coal, which reads on
+  // paper where the brick read 3.11. It is the refusal's ink by name and is allowed as one.
+  const allowed = new Set(['--refusal', '--refusal-text', '--mark-refused', '--ink', '--ink-2', '--ink-2-ink', '--rule', '--rule-soft', '--hair',
     '--paper', '--paper-deep', '--paper-mat', '--paper-lit'].map(hexOf).filter(Boolean));
   const rows = [];
   const judge = (where, head) => {

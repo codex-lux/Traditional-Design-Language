@@ -77,17 +77,31 @@ export function contrast(a, b) {
 }
 
 /* WHICH GROUND EACH PAGE STANDS ON, one table, the way `state/layout.js` says which pages reflow.
-   The shell (the sidebar, the top bar, the rail) is `SHELL_GROUND`; a surface's `<main>` is its
-   row here. Every surface is migrated onto the instrument in its own Phase 17 package, and its
-   row moves from 'vellum' to 'instrument' in that package's commit, so a surface whose layout
-   has not been redrawn is never shown dark. An id the table does not hold is vellum: a page
+
+   TWO ROOMS (ruled 26 Nov 2026, amending the 29 Oct ruling that put every surface on the
+   instrument). Read off the eighteen surfaces as they stood, the dark ground was not the fault:
+   every page being the same dark sheet of small type was. The LIBRARY is a pattern book and reads
+   as one -- the front door, the styles and a style's dossier, the family tree, the faults, the
+   elements and the record pages, the glossary, a comparison and the proportion packs are set on
+   vellum, as pages. THE HOUSE is the drafting room -- the brief, the candidates, the plan, the
+   drawings, the export and the tracing stay the dark instrument, where a plate is the brightest
+   thing in view. Crossing from one to the other is the journey a reader sees.
+
+   The shell (the sidebar, the top bar, the rail) is `SHELL_GROUND` and is dark in both rooms: it
+   is the desk both stand on. `ROOM_OF` says which room a surface is in, and the ground follows
+   from the room, so the two can never disagree. An id the table does not hold is vellum: a page
    nobody moved is a page nobody redrew. */
 export const SHELL_GROUND = 'instrument';
-export const SURFACE_GROUND = Object.freeze({
-  overview: 'instrument', style: 'instrument', proportions: 'instrument', faults: 'instrument',
-  phylogeny: 'instrument', glossary: 'instrument', brief: 'instrument', candidates: 'instrument',
-  export: 'instrument', elements: 'instrument', room: 'instrument', massing: 'instrument', grouping: 'instrument',
-  parti: 'instrument', compare: 'instrument', workbench: 'instrument', drawings: 'instrument',
-  transcription: 'instrument',
+export const ROOMS = Object.freeze({ library: 'vellum', house: 'instrument' });
+export const ROOM_OF = Object.freeze({
+  overview: 'library', style: 'library', phylogeny: 'library', proportions: 'library', faults: 'library',
+  glossary: 'library', elements: 'library', room: 'library', massing: 'library', grouping: 'library',
+  parti: 'library', compare: 'library',
+  brief: 'house', candidates: 'house', workbench: 'house', drawings: 'house', export: 'house',
+  transcription: 'house',
 });
+export const SURFACE_GROUND = Object.freeze(
+  Object.fromEntries(Object.entries(ROOM_OF).map(([surface, room]) => [surface, ROOMS[room]])),
+);
+export const roomOf = (surface) => ROOM_OF[surface] || 'library';
 export const groundOf = (surface) => SURFACE_GROUND[surface] || 'vellum';

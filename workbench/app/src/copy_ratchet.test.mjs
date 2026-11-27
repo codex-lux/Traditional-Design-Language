@@ -281,7 +281,7 @@ const BASELINE = {
     ["palette/ShortcutCard.jsx", "voice",
       "Everything in the corpus has one address, written kind:id. The rail cites in it, the palette prints it beside every result, and a URL is that address written down — so any view can be refreshed, gone back from, or handed to somebody else."],
     ["surfaces/BriefIntake.jsx", "voice",
-      "brief intake only style and target area are required — everything else absent becomes a logged decision"],
+      "only style and target area are required — everything else absent becomes a logged decision"],
     ["surfaces/CandidateSet.jsx", "voice",
       "The composer returns several contrasting candidates, drawable first, then fatal-free, then by score, and never calls one good. Start at Brief Intake."],
     ["surfaces/CandidateSet.jsx", "voice",

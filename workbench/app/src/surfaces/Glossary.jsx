@@ -40,7 +40,7 @@ import { RecordLink } from '../components/RecordLink.jsx';
 import { FilterInput } from '../components/FilterInput.jsx';
 import { Eyebrow } from '../components/Eyebrow.jsx';
 import { MarkKey } from '../components/MarkKey.jsx';
-import { Chip } from '../Chrome.jsx';
+import { PageHero } from '../components/PageHead.jsx';
 
 const FILTERS = { q: { type: 'text' }, family: {} };
 
@@ -61,32 +61,43 @@ function GlossaryIndex({ lookup }) {
   const groups = glossaryListing(lookup, { q: values.q, family: values.family });
   const shown = groups.reduce((n, g) => n + g.terms.length, 0);
   const families = lookup.families().filter((f) => lookup.family(f).length > 0);
+  const withKey = !values.q && (!values.family || values.family === 'mark');
+  const keyInFamily = withKey && groups.some((g) => g.family === 'mark');
   return (
     <div className="tdl-glossary-index" data-glossary-index="">
-      <div className="tdl-glossary-filters">
-        <FilterInput value={values.q || ''} onChange={(v) => set('q', v)}
-          label="Filter the glossary by word, sense or id" count={shown} />
-        <span className="tdl-glossary-families" role="group" aria-label={wordOf(lookup, 'family-family')}>
+      <PageHero termId="surface-glossary" className="tdl-rise">
+        <div className="tdl-hero-acts">
+          <FilterInput value={values.q || ''} onChange={(v) => set('q', v)}
+            label="Filter the glossary by word, sense or id" count={shown} placeholder="filter words" width={300} large />
+          <span style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)' }}>{shown}</span>
+        </div>
+        {/* The families, as a book's contents line: one is chosen or none is. */}
+        <div className="tdl-glossary-families" role="group" aria-label={wordOf(lookup, 'family-family')}>
           {families.map((f) => (
-            <Chip key={f} on={values.family === f} onClick={() => toggle('family', f)}>
+            <button key={f} type="button" aria-pressed={values.family === f} className="tdl-pick"
+              onClick={() => toggle('family', f)}>
               {wordForValue(lookup, 'glossary.family', f)}
-            </Chip>
+            </button>
           ))}
-        </span>
-      </div>
+        </div>
+      </PageHero>
       {/* The product key to the marks (WP-14.29): on the unfiltered index and on the Marks family,
           which is where the `?` card links. A search narrows the list to words, and the key is
-          not a word to be searched for, so a query leaves it out. */}
-      {!values.q && (!values.family || values.family === 'mark') && <MarkKey />}
+          not a word to be searched for, so a query leaves it out. SINCE WP-18.1 IT STANDS IN ITS
+          OWN FAMILY, at the head of the Marks, where it stood over every word before: the index
+          leads with words. */}
+      {withKey && !keyInFamily && <MarkKey />}
       {groups.map((g) => (
         <section key={g.family} className="tdl-glossary-family" data-family={g.family}
           aria-labelledby={`tdl-glossary-family-${g.family}`}>
           <h2 id={`tdl-glossary-family-${g.family}`} className="tdl-glossary-family-name">
             <Term field="glossary.family" value={g.family} />
+            <span className="tdl-section-count">{g.terms.length}</span>
           </h2>
+          {keyInFamily && g.family === 'mark' && <MarkKey />}
           <dl className="tdl-glossary-list">
             {g.terms.map((rec) => (
-              <div key={rec.id} data-ground="vellum" className="tdl-vellum tdl-glossary-entry" data-glossary-term={rec.id}>
+              <div key={rec.id} className="tdl-glossary-entry" data-glossary-term={rec.id}>
                 <dt>
                   <a href={formatHash('glossary', { term: rec.id })}>{rec.term}</a>
                   {rec.sense && <span className="tdl-glossary-sense">{rec.sense}</span>}
@@ -122,7 +133,7 @@ function TermPage({ id, glossary }) {
   );
   if (view.state !== 'ready') {
     return (
-      <article data-ground="vellum" className="tdl-vellum tdl-glossary-page" data-glossary-page={id} data-missing="">
+      <article className="tdl-glossary-page" data-glossary-page={id} data-missing="">
         {back}
         <h1 className="tdl-glossary-word">{view.text}</h1>
       </article>
@@ -136,11 +147,12 @@ function TermPage({ id, glossary }) {
   const surface = rec.surface && typeof rec.surface === 'object' ? rec.surface : null;
   const read = surface && Array.isArray(surface.read) ? surface.read : [];
   return (
-    <article data-ground="vellum" className="tdl-vellum tdl-glossary-page" data-glossary-page={rec.id}>
+    <article className="tdl-glossary-page tdl-rise" data-glossary-page={rec.id}>
       {back}
-      <p className="tdl-glossary-kicker"><Term field="glossary.family" value={rec.family} /><code>{rec.id}</code></p>
-      <h1 className="tdl-glossary-word">{rec.term}</h1>
+      <p className="tdl-glossary-kicker"><Term field="glossary.family" value={rec.family} /></p>
+      <h1 className="tdl-glossary-word">{rec.term}<span className="tdl-record-id" data-record-id="">{rec.id}</span></h1>
       {rec.sense && <p className="tdl-glossary-sense tdl-glossary-sense-lede">{rec.sense}</p>}
+      <div className="tdl-rule-double" style={{ marginTop: 22 }} />
       <p className="tdl-glossary-def" data-definition="">{rec.definition}</p>
       {rec.analogy && <p className="tdl-glossary-analogy">{rec.analogy}</p>}
       {rec.more && <p className="tdl-glossary-more">{rec.more}</p>}

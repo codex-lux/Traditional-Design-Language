@@ -28,19 +28,19 @@ export function MassingBody({ rec }) {
     .slice().sort((a, b) => rankOf(a.affinity) - rankOf(b.affinity) || String(a.style).localeCompare(String(b.style)));
   const facts = FACTS.filter(([k]) => typeof m[k] === 'string' && m[k].trim());
   return (
-    <div data-record-body="massing" style={{ maxWidth: 820 }}>
-      <RecordHead name={m.name} id={m.id} aka={m.aka} />
+    <div data-record-body="massing">
+      <RecordHead name={m.name} id={m.id} aka={m.aka} kicker={<Term id="massing" />} />
       {facts.length > 0 && (
-        <dl data-massing-facts="" style={{ display: 'grid', gridTemplateColumns: 'auto 1fr', gap: '3px 18px', margin: '0 0 16px' }}>
+        <dl data-massing-facts="" className="tdl-facts">
           {facts.map(([k, termId]) => (
             <React.Fragment key={k}>
-              <dt style={data}><Term id={termId} /></dt>
-              <dd style={{ ...data, color: 'var(--text-body)', margin: 0 }}>{m[k]}</dd>
+              <dt><Term id={termId} /></dt>
+              <dd>{m[k]}</dd>
             </React.Fragment>
           ))}
         </dl>
       )}
-      <Prose text={m.description} />
+      <Prose text={m.description} lede />
       {m.structural_logic && (
         <Section eyebrow={<Term id="structural-logic" />}><Prose text={m.structural_logic} /></Section>
       )}

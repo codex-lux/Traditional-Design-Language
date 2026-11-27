@@ -1,8 +1,8 @@
 /* The pieces every record page shares (WP-14.23).
 
-   A record page is headed by the shell's `PageHead`, whose eyebrow is the KIND (`surface-room`,
-   `surface-massing` ... tranche 2 §B.4); below it `RecordHead` gives the record's own name first,
-   its id as a Courier margin note, and the other names the record itself lists. Every section
+   `RecordHead` gives the record's own name at display size, its id printed once beside it (the
+   one place a record's page prints it, ruled 26 Nov 2026), and the other names the record itself
+   lists; the kind and the record's one categorical word stand over it in the letter. Every section
    heading is a glossary record's word through `Term`; every other word on these pages is the
    record's own. */
 import React from 'react';
@@ -12,17 +12,23 @@ import { prose, quiet, data } from '../dossier/parts.jsx';
 
 export { Section, prose, quiet, data } from '../dossier/parts.jsx';
 
-export function RecordHead({ name, id, aka, meta }) {
+export function RecordHead({ name, id, aka, meta, kicker }) {
   const others = Array.isArray(aka) ? aka.filter((a) => typeof a === 'string' && a.trim()) : [];
   return (
-    <div data-record-head={id} style={{ marginBottom: 18 }}>
-      <h2 style={{ font: 'var(--fw-reg) var(--fs-d2, 28px)/1.1 var(--display)', letterSpacing: 'var(--tr-display)',
-        margin: '0 0 4px' }}>
-        {name || id}<span className="tdl-record-note">{id}</span>
+    <header data-record-head={id} className="tdl-hero tdl-rise" style={{ marginBottom: 34 }}>
+      {(kicker || meta) && (
+        <div className="tdl-hero-kicker">
+          {kicker}
+          {kicker && meta ? <span aria-hidden="true">·</span> : null}
+          {meta ? <span data-record-meta="">{meta}</span> : null}
+        </div>
+      )}
+      <h2 className="tdl-record-title">
+        {name || id}<span className="tdl-record-id" data-record-id="">{id}</span>
       </h2>
-      {others.length > 0 && <p style={{ ...quiet, fontStyle: 'italic' }}>{others.join(' · ')}</p>}
-      {meta && <p style={{ ...data, margin: '4px 0 0' }}>{meta}</p>}
-    </div>
+      {others.length > 0 && <p className="tdl-aka">{others.join(' · ')}</p>}
+      <div className="tdl-rule-double" style={{ marginTop: 26 }} />
+    </header>
   );
 }
 
@@ -38,20 +44,32 @@ export function KnownLink({ cite, children }) {
 }
 
 /* A paragraph of the record's own prose, or nothing. */
-export function Prose({ text, ...rest }) {
+export function Prose({ text, lede, ...rest }) {
   if (typeof text !== 'string' || !text.trim()) return null;
-  return <p style={prose} {...rest}>{text}</p>;
+  return <p className={lede ? 'tdl-lede' : undefined} style={lede ? undefined : prose} {...rest}>{text}</p>;
 }
 
 /* A list of links, one per row, each with an optional note of the record's own. */
 export function LinkRows({ rows, attr }) {
+  const reasoned = rows.some((r) => r.note);
+  if (!reasoned) {
+    return (
+      <div className="tdl-columns">
+        {rows.map((r) => (
+          <div key={r.cite} {...{ [attr]: r.id }} className="tdl-index-row">
+            <KnownLink cite={r.cite}>{r.name}</KnownLink>
+            {r.aside}
+          </div>
+        ))}
+      </div>
+    );
+  }
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
+    <div>
       {rows.map((r) => (
-        <div key={r.cite} {...{ [attr]: r.id }} style={{ display: 'flex', gap: 10, alignItems: 'baseline', flexWrap: 'wrap' }}>
-          <KnownLink cite={r.cite}>{r.name}</KnownLink>
-          {r.aside}
-          {r.note && <span style={{ ...quiet, fontSize: 12.5 }}>{r.note}</span>}
+        <div key={r.cite} {...{ [attr]: r.id }} className="tdl-reason-row">
+          <span className="tdl-reason-name"><KnownLink cite={r.cite}>{r.name}</KnownLink>{r.aside}</span>
+          {r.note ? <p className="tdl-reason">{r.note}</p> : <span />}
         </div>
       ))}
     </div>

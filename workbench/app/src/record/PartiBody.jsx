@@ -12,8 +12,6 @@ import { Term } from '../components/Term.jsx';
 import { RecordLink } from '../components/RecordLink.jsx';
 import { RecordHead, Section, Prose, LinkRows, KnownLink, data } from './parts.jsx';
 
-const cell = { padding: '4px 14px 4px 0', verticalAlign: 'baseline', textAlign: 'left' };
-
 export function PartiBody({ rec }) {
   const p = rec.parti || {};
   const rooms = Array.isArray(p.rooms) ? p.rooms : [];
@@ -24,30 +22,30 @@ export function PartiBody({ rec }) {
   const grows = Array.isArray(scaling.grows_by) ? scaling.grows_by : [];
   const nat = rec.nativity_by_style || {};
   return (
-    <div data-record-body="parti" style={{ maxWidth: 900 }}>
-      <RecordHead name={p.name} id={p.id} aka={p.aka} meta={p.circulation_parti} />
-      <Prose text={p.description} />
+    <div data-record-body="parti">
+      <RecordHead name={p.name} id={p.id} aka={p.aka} meta={p.circulation_parti} kicker={<Term id="parti" />} />
+      <Prose text={p.description} lede />
 
       {rooms.length > 0 && (
         <Section eyebrow={<><Term id="room" /> · {rooms.length}</>} data-parti-rooms={rooms.length}>
-          <table data-parti-topology="" style={{ borderCollapse: 'collapse', width: '100%' }}>
+          <table data-parti-topology="" className="tdl-table">
             <thead>
-              <tr style={{ borderBottom: 'var(--rule-hair)' }}>
-                <th style={{ ...cell, ...data }} scope="col"><Term id="room" /></th>
-                <th style={{ ...cell, ...data }} scope="col"><Term id="parti-level" /></th>
-                <th style={{ ...cell, ...data }} scope="col"><Term id="outside-walls" /></th>
-                <th style={{ ...cell, ...data }} scope="col"><Term id="parti-doors" /></th>
+              <tr>
+                <th scope="col"><Term id="room" /></th>
+                <th scope="col"><Term id="parti-level" /></th>
+                <th scope="col"><Term id="outside-walls" /></th>
+                <th scope="col"><Term id="parti-doors" /></th>
               </tr>
             </thead>
             <tbody>
               {rooms.map((r) => (
-                <tr key={r.id} data-parti-room={r.id} style={{ borderBottom: 'var(--rule-hair-soft)' }}>
-                  <td style={cell}>
+                <tr key={r.id} data-parti-room={r.id}>
+                  <td>
                     {r.type ? <KnownLink cite={'room:' + r.type}>{r.name || r.id}</KnownLink> : <span>{r.name || r.id}</span>}
                   </td>
-                  <td style={{ ...cell, ...data }}>{r.level != null ? String(r.level) : null}</td>
-                  <td style={{ ...cell, ...data }}>{(r.exterior_walls || []).join(' ')}</td>
-                  <td style={{ ...cell, ...data }}>
+                  <td className="tdl-num">{r.level != null ? String(r.level) : null}</td>
+                  <td className="tdl-num">{(r.exterior_walls || []).join(' ')}</td>
+                  <td style={{ font: 'var(--fw-reg) 15px/1.45 var(--serif)', color: 'var(--text-secondary)' }}>
                     {(r.doors || []).map((d) => (byId.has(d) ? (byId.get(d).name || d) : d)).join(' · ')}
                   </td>
                 </tr>
@@ -85,8 +83,8 @@ export function PartiBody({ rec }) {
         if (!styles.length) return null;
         return (
           <Section key={n} eyebrow={<><Term id={'parti-' + n} /> · {styles.length}</>} data-inverse={'style-' + n} data-count={styles.length}>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px 16px' }}>
-              {styles.map((s) => <span key={s} data-style={s}><RecordLink cite={'style:' + s} /></span>)}
+            <div className="tdl-columns">
+              {styles.map((s) => <div key={s} data-style={s} className="tdl-index-row"><RecordLink cite={'style:' + s} /></div>)}
             </div>
           </Section>
         );
