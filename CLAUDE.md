@@ -132,6 +132,15 @@ section carries the packages.
 - **The app suite is 915 against 901, reconciled by name**: 15 added and 1 re-cut away (the guard
   that held every surface to the instrument). 24 mutations of the new guards: 23 red on the first
   run and 1 blind, which is the token excuse above, given a guard and re-run red.
+- **The walk, alone on the machine on the final code, is 724 passed and 3 failed, and none is the
+  package's.** All three are on the plan sheet, whose placement differs from draw to draw. Each was
+  attributed by replaying ONE recorded evaluate answer on the base UI and the new UI.
+  - The sheet's divergence mark leaves a porch drawn 8 ft wide, on both UIs. It is the sheet's
+    defect, older than the phase, and is WP-18.2's.
+  - *The sheet states the doors it could not draw* presumes an undrawable door, and 13 of 14 draws
+    had none.
+  - **To tell a UI change from a placement change, replay one recorded answer on both builds.** The
+    solve is not cached and not reproducible, so two live reads compare two houses.
 - **Put to Lucas and not acted on:** eight inks read below 4.5 : 1 as words on paper. They are older
   than Phase 17 and held by identity, and the library on vellum makes them far more visible. The
   report's §VII gives the computed paper inks, the mirror of Phase 17's lit pigments.
