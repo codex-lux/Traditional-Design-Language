@@ -189,6 +189,77 @@ class GZipExceptSSE:
 app.add_middleware(GZipExceptSSE)
 
 
+class SecurityHeaders:
+    """The browser-side protections, on every response (deployment-readiness review, 27 Nov
+    2026, DR-04). The server sent none of them.
+
+    Plain ASGI and not a BaseHTTPMiddleware, for the reason the gate's own note gives: that
+    class wraps the response in a task group, and three routes here stream. This one only adds
+    to the headers of `http.response.start` and touches no body. Registered last, so it is
+    outermost and a 401 from the gate carries the headers too.
+
+    A header a route already set is KEPT: `CorpusStatic` sandboxes the generated plates with a
+    stricter policy than the page's, and overwriting it would loosen it.
+
+      * `X-Frame-Options` and `frame-ancestors`: a signed-in session cannot be framed by another
+        site and clicked through.
+      * `nosniff`: a JSON or SVG body is never run as script on a guess.
+      * HSTS only where the request arrived over https (uvicorn reads the platform proxy's
+        `X-Forwarded-Proto`), so local http is not pinned to a scheme it does not have.
+      * The content policy goes on PAGES only. `script-src 'self'` with no inline and no eval
+        is the line that matters: the app injects server-drawn SVG in three places, a stored
+        XSS was found through one of them in September, and with this a script that got past
+        the escaping still does not run. Styles need 'unsafe-inline' because the app is set in
+        inline styles and the plates carry their own `<style>`; fonts need `data:` because the
+        sheets embed their face. The two Google hosts are the shell's webfaces
+        (workbench/app/index.html) and leave with them if those are ever self-hosted.
+    """
+
+    CSP = "; ".join((
+        "default-src 'self'",
+        "script-src 'self'",
+        "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+        "font-src 'self' data: https://fonts.gstatic.com",
+        "img-src 'self' data: blob:",
+        "connect-src 'self'",
+        "worker-src 'self' blob:",
+        "object-src 'none'",
+        "base-uri 'self'",
+        "form-action 'self'",
+        "frame-ancestors 'none'",
+    ))
+    ALWAYS = ((b"x-content-type-options", b"nosniff"),
+              (b"x-frame-options", b"DENY"),
+              (b"referrer-policy", b"strict-origin-when-cross-origin"),
+              (b"cross-origin-opener-policy", b"same-origin"))
+    HSTS = (b"strict-transport-security", b"max-age=31536000")
+
+    def __init__(self, app):
+        self.app = app
+
+    async def __call__(self, scope, receive, send):
+        if scope["type"] != "http":
+            return await self.app(scope, receive, send)
+        secure = scope.get("scheme") == "https"
+
+        async def send_with_headers(message):
+            if message["type"] == "http.response.start":
+                headers = list(message.get("headers") or [])
+                have = {k.lower() for k, _ in headers}
+                wanted = list(self.ALWAYS) + ([self.HSTS] if secure else [])
+                ctype = next((v for k, v in headers if k.lower() == b"content-type"), b"")
+                if ctype.lower().startswith(b"text/html"):
+                    wanted.append((b"content-security-policy", self.CSP.encode()))
+                headers += [(k, v) for k, v in wanted if k not in have]
+                message = {**message, "headers": headers}
+            await send(message)
+
+        await self.app(scope, receive, send_with_headers)
+
+
+app.add_middleware(SecurityHeaders)
+
+
 @app.post("/api/login")
 async def login(request: Request, body: dict = Body(...)):
     if not auth.required():
