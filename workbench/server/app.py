@@ -335,6 +335,10 @@ def _build_sha(root=None):
 BUILD_SHA, BUILD_SHA_SOURCE = _build_sha()
 
 
+# The keys of MCP_STATE that name hosts; a signed-out caller of /api/health is shown neither.
+_HOST_LISTS = ("allowed_hosts", "allowed_origins")
+
+
 def _prover_state():
     """The CP workers one solve may take on this box and whether the line grid is on, read
     through the prover's own functions -- never a second reading of the cgroup or the
@@ -389,8 +393,10 @@ def health(request: Request, response: Response):
             # credentials), so it must not enumerate hostnames. allowed_hosts can carry
             # internal service names, so the list is shown only to an authorised caller;
             # everyone else gets the yes/no an operator actually needs.
+            # BOTH LISTS (review of 27 Nov 2026, DR-06): this withheld `allowed_hosts` and went
+            # on serving `allowed_origins`, which is the same names with a scheme in front.
             "mcp": (MCP_STATE if auth.authorised(request)
-                    else {k: v for k, v in MCP_STATE.items() if k != "allowed_hosts"}
+                    else {k: v for k, v in MCP_STATE.items() if k not in _HOST_LISTS}
                          | {"platform_host_detected": bool(mcp_mount._platform_hosts())}),
             "note": None if schema_ok else
             "jsonschema is not installed — plan checks and compose will fail. "
