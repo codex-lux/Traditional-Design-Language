@@ -143,7 +143,19 @@ touching `workbench/server/accesslog.py`, `bind.py`, `rail.cached_prefix`,
   before). **The app suite is 926 of 926.** The whole corpus suite was not run here.
 - **In CI on `ba8fae1`: `deploy gate`, the workbench job and `docker build` are green.** That is
   the workbench job's first green since the walk became red inside it. Corpus shards 3, 4 and 6
-  are red, the same three as on `main`'s `cc887ea`; this branch changes no file they test.
+  are red, the same three as on `main`'s `cc887ea`.
+  - *(Corrected the same evening.)* This line ended "this branch changes no file they test". That
+    was attribution by shard, and it was false: tests in those shards read `CLAUDE.md`, `ci.yml`
+    and paths under `workbench/`, all of which this branch changes.
+  - **Read by test id, on `a76fdaf` against `main`'s `cc887ea`: 19 ids fail here and 18 there, and
+    the 18 are the same ids.** The failing checkers are the same too: `check_partis.py`, and the
+    DXF selftest could-not-evaluate. Four `careful-cp` gate rows fail on both with different figures.
+  - The 19th is `test_axis.py`'s proved-spine test (`test_the_shipped_passage_is_on_centre_after_wp_11_2`).
+    It asks the prover for the Tidewater placement and failed reading `on-centre`. Run alone here
+    on this tree, twice back to back, it failed once and passed once. This branch changes nothing
+    under `build/`, `tests/` or `plans/`. It is a prover-band row.
+  - Its own message says `on-centre` is the house getting better, and to close
+    `oq/the-prover-draws-a-centre-passage-that-does-not-go-through`. That is not taken here.
 
 **A DEPLOYMENT-READINESS REVIEW WAS RUN ON `5f5a2a7` AND ITS VERDICT IS GO-WITH-CONDITIONS (27 Nov
 2026).** Read `docs/deployment-readiness/2026-11-27-review.md` before deploying, or before
