@@ -497,6 +497,7 @@ async def events(job_id):
 
 
 _BRIDGE_END = object()
+_GONE_CHECK_S = 0.2     # how long a producer waits on a full queue before asking if anyone is reading
 
 
 async def bridge_sync_stream(make_iter, poll_s=_POLL_S):
@@ -523,28 +524,63 @@ async def bridge_sync_stream(make_iter, poll_s=_POLL_S):
     invoked ON the worker thread, so any blocking work in its construction stays there too.
     """
     q = queue.Queue(maxsize=64)
+    # A READER WHO LEAVES STOPS THE TURN (deployment-readiness review, 27 Nov 2026, DR-16).
+    # When the response stopped reading -- a closed tab, a dropped connection -- this thread did
+    # not stop producing: it ran the turn to the end, up to ten billed requests for nobody, and
+    # past 64 queued lines it blocked on `q.put` for the life of the process.
+    #
+    # `gone` is set in the reader's `finally`, which runs however the reader ends: read to the
+    # end, closed, or CANCELLED, which is what Starlette does to a response whose client has
+    # disconnected. The producer checks it before each line and inside a full-queue wait, and
+    # closes the generator, so `rail.stream_turn` stops at its next line.
+    #
+    # WHAT THIS CANNOT DO: recall a request already on the wire. The SDK call is blocking and
+    # runs to its answer; what is saved is every request after it.
+    gone = threading.Event()
+
+    def put(item):
+        """Hand one item to the reader. False when the reader has gone."""
+        while not gone.is_set():
+            try:
+                q.put(item, timeout=_GONE_CHECK_S)   # a full queue is backpressure, as before
+                return True
+            except queue.Full:
+                continue
+        return False
 
     def pump():
+        it = None
         try:
-            for line in make_iter():
-                q.put(line)              # blocks when the reader falls behind, which is
-        except Exception as e:           # backpressure rather than unbounded buffering
+            it = make_iter()
+            for line in it:
+                if not put(line):
+                    break
+        except Exception as e:
             rail_log.exception("a bridged stream died outside its own handler")
-            q.put(_sse("error", {"error": f"{type(e).__name__}: {str(e)[:200]}",
-                                 "honest": True}))
+            put(_sse("error", {"error": f"{type(e).__name__}: {str(e)[:200]}",
+                               "honest": True}))
         finally:
-            q.put(_BRIDGE_END)
+            close = getattr(it, "close", None)
+            if close is not None:
+                try:
+                    close()              # GeneratorExit at its current line: nothing more is asked for
+                except Exception:        # noqa: BLE001 -- a generator that objects to closing
+                    rail_log.exception("a bridged stream raised while it was being closed")
+            put(_BRIDGE_END)
 
     threading.Thread(target=pump, daemon=True).start()
-    while True:
-        try:
-            item = q.get_nowait()
-        except queue.Empty:
-            await asyncio.sleep(poll_s)
-            continue
-        if item is _BRIDGE_END:
-            return
-        yield item
+    try:
+        while True:
+            try:
+                item = q.get_nowait()
+            except queue.Empty:
+                await asyncio.sleep(poll_s)
+                continue
+            if item is _BRIDGE_END:
+                return
+            yield item
+    finally:
+        gone.set()
 
 
 def _sse(event, data):

@@ -539,6 +539,7 @@ def stream_turn(body, identity=None):
     yield _sse("turn_start", {"model": model()})
 
     spent = TurnUsage()
+    abandoned = False
     try:
         rounds = max_tool_rounds()
         for _round in range(rounds + 1):
@@ -580,5 +581,13 @@ def stream_turn(body, identity=None):
     except Exception as e:
         log.exception("assistant turn failed (model %s)", model())
         yield _sse("error", {"error": f"{type(e).__name__}: {str(e)[:300]}"})
-    log.info("assistant turn usage (model %s): %s", model(), spent)
+    except GeneratorExit:
+        # The reader left and `jobs.bridge_sync_stream` closed this generator (DR-16). Nothing
+        # more is requested. What was already spent is logged below, marked, because spend for
+        # nobody is exactly the line an operator wants to be able to count.
+        abandoned = True
+        raise
+    finally:
+        log.info("assistant turn usage (model %s%s): %s", model(),
+                 ", abandoned by the reader" if abandoned else "", spent)
     yield _sse("turn_end", {})
