@@ -101,7 +101,8 @@ streamed. `app/` is Vite + React, ported from the design mockup: the Drawn Langu
 tokens verbatim, the 19-component design system, and a plan Sheet drawn only from the
 record and its placement. The plan record is a document the browser owns; the server
 is stateless except the job registry. Corpus edits during dev are picked up via
-`POST /api/dev/reload` (explicit by design — see OQ 28).
+`POST /api/dev/reload` (explicit by design — see OQ 28). That route answers on a loopback
+bind only; on a public bind it is a 404 unless `WORKBENCH_DEV_RELOAD=1` (27 Nov 2026).
 
 See `docs/workbench.md` for the layer doc and `docs/reports/wp-5.2-the-workbench.md`
 for what was built, found, and deliberately not done.
