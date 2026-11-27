@@ -39,13 +39,13 @@ function RefusalCard({
     }
   }, statement), reason && /*#__PURE__*/React.createElement("p", {
     style: {
-      font: 'var(--fw-reg) 13px/1.55 var(--body)',
+      font: 'var(--fw-reg) 15px/1.55 var(--body)',
       color: 'var(--text-secondary)',
       margin: 0
     }
   }, reason), wouldChange && /*#__PURE__*/React.createElement("p", {
     style: {
-      font: 'var(--fw-reg) 13px/1.55 var(--body)',
+      font: 'var(--fw-reg) 15px/1.55 var(--body)',
       color: 'var(--text-secondary)',
       margin: '9px 0 0'
     }

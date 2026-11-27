@@ -62,13 +62,13 @@ function UnsourcedImageRecord({
     }
   }, record.id, record.status ? ' \xB7 ' + record.status : ''), /*#__PURE__*/React.createElement("p", {
     style: {
-      font: 'var(--fw-med) 13px/1.5 var(--body)',
+      font: 'var(--fw-med) 15px/1.5 var(--body)',
       color: 'var(--text-body)',
       margin: '5px 0 0'
     }
   }, record.subject), /*#__PURE__*/React.createElement("p", {
     style: {
-      font: 'var(--fw-reg) 12.5px/1.55 var(--body)',
+      font: 'var(--fw-reg) 14.5px/1.55 var(--body)',
       color: 'var(--text-secondary)',
       margin: '7px 0 0',
       maxWidth: 'var(--measure-note)'
@@ -83,7 +83,7 @@ function UnsourcedImageRecord({
     }
   }, "shot spec"), record.shot_spec), record.alt && /*#__PURE__*/React.createElement("p", {
     style: {
-      font: 'var(--fw-reg) 12.5px/1.55 var(--body)',
+      font: 'var(--fw-reg) 14.5px/1.55 var(--body)',
       color: 'var(--text-secondary)',
       margin: '7px 0 0',
       maxWidth: 'var(--measure-note)'

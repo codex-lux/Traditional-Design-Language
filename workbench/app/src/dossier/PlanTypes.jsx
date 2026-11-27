@@ -39,7 +39,7 @@ function StartBrief({ styleId, partiId }) {
     <>
       <a href={formatHash('brief', { style: styleId, parti: partiId })} data-start-brief={partiId}
         aria-describedby={d.describedBy} title={d.title}
-        style={{ font: 'var(--fw-reg) 13px/1.4 var(--body)' }}>{word}</a>
+        style={{ font: 'var(--fw-reg) 15px/1.4 var(--body)' }}>{word}</a>
       {d.element}
     </>
   );

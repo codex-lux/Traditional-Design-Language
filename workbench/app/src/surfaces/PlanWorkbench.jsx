@@ -365,12 +365,12 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
 
   if (!plan) {
     return (
-      <div style={{ padding: '26px 30px', maxWidth: 720 }}>
+      <div className="tdl-scroll"><div className="tdl-waiting tdl-rise" data-waiting="workbench">
         <Eyebrow>no plan on the bench</Eyebrow>
-        <h2 style={{ font: 'var(--fw-reg) var(--fs-d2)/1.1 var(--display)', margin: '8px 0 10px' }}>
+        <h2 className="tdl-waiting-title">
           Load a plan record
         </h2>
-        <p style={{ font: 'var(--fw-reg) 14px/1.6 var(--body)', color: 'var(--text-secondary)', margin: '0 0 16px' }}>
+        <p className="tdl-waiting-text" style={{ marginBottom: 24 }}>
           Open one of the corpus's example plans, compose candidates from a brief,
           or paste a record. The drawing is a render of the record — nothing is drawn that
           is not in it.
@@ -383,11 +383,11 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
             })}>{e}</Chip>
           ))}
         </div>
-        <label style={{ display: 'block', marginTop: 18, font: 'var(--type-data-s)', color: 'var(--text-secondary)' }}>
+        <label style={{ display: 'block', marginTop: 30, font: 'italic var(--fw-reg) 15px/1.4 var(--serif)', color: 'var(--text-secondary)' }}>
           …or paste a plan record JSON
-          <textarea rows={4} style={{ display: 'block', width: '100%', marginTop: 6,
-            background: 'var(--surface-well)', border: '1px solid var(--border-soft)', color: 'var(--text-body)',
-            font: 'var(--type-data-s)', padding: 8 }}
+          <textarea rows={4} className="tdl-field" style={{ display: 'block', width: '100%', marginTop: 8,
+            background: 'var(--surface-well)', border: '1px solid var(--border-hairline)', color: 'var(--text-body)',
+            font: 'var(--type-data-s)', padding: 10 }}
             onBlur={(e) => {
               try {
                 const rec = JSON.parse(e.target.value);
@@ -396,7 +396,7 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
               } catch { /* not JSON yet */ }
             }} />
         </label>
-      </div>
+      </div></div>
     );
   }
 
@@ -585,7 +585,7 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
         </span>
       }>
         <Eyebrow as="span">style</Eyebrow>
-        <span style={{ font: 'var(--fw-reg) 13px/1.3 var(--body)', color: 'var(--text-secondary)', whiteSpace: 'nowrap' }}>
+        <span style={{ font: 'var(--fw-reg) 15px/1.3 var(--body)', color: 'var(--text-secondary)', whiteSpace: 'nowrap' }}>
           <Term id="judge-this-plan-as" />
         </span>
         <StylePicker value={plan.style} onChange={(v) => planDoc.update(mutations.setStyle(v))}
@@ -741,7 +741,7 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
                       style={{ font: 'var(--type-data-s)', color: 'var(--text-accent)' }}>revoke</button>
                   </p>
                 ))}
-                <p style={{ font: 'var(--fw-reg) 12px/1.5 var(--body)', color: 'var(--text-secondary)', margin: 0 }}>
+                <p style={{ font: 'var(--fw-reg) 14px/1.5 var(--body)', color: 'var(--text-secondary)', margin: 0 }}>
                   An assertion clears a finding only if the validator clears it.
                 </p>
               </div>
@@ -809,88 +809,6 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
             )}
           </div>
 
-          {/* WP-2.3's named conflict set is `components/ConflictSet.jsx` now, and it is rendered
-              WHERE THE PLATE IS rather than above a sheet that goes on drawing (WP-13.4).
-              It used to sit here, over a drawing it called "the least-bad relaxation,
-              labelled — not a solution": true of the 25 Aug ruling and false of the 15 Sep one,
-              which is that no user-facing surface draws a refused placement at all. */}
-          {gaveUp.length > 0 && (
-            <div style={{ maxWidth: 1000, border: '1px solid var(--border-hairline)',
-              borderLeft: '3px solid var(--sev-fatal)', padding: '10px 14px', margin: '0 0 14px' }}>
-              <Eyebrow tone="secondary">what this placement gave up</Eyebrow>
-              <ul style={{ font: 'var(--fw-reg) 12.5px/1.6 var(--body)', color: 'var(--text-secondary)',
-                margin: '6px 0 0', paddingLeft: 18 }}>
-                {gaveUp.map((d) => (
-                  <li key={d.id} style={{ color: TONE[d.tone] || 'var(--text-secondary)' }}>{d.text}</li>
-                ))}
-              </ul>
-              <p style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)', margin: '8px 0 0' }}>
-                Each line is a count the placement record already carried and no surface read.
-                A proof against a relaxed hard set is a proof of a different question.
-              </p>
-            </div>
-          )}
-          {underBand?.count > 0 && (
-            <div style={{ maxWidth: 1000, border: '1px solid var(--border-hairline)',
-              borderLeft: '3px solid var(--sepia)', padding: '10px 14px', margin: '0 0 14px' }}>
-              <Eyebrow tone="secondary">
-                {underBand.count} room{underBand.count === 1 ? '' : 's'} placed below
-                {' '}its own band
-              </Eyebrow>
-              <ul style={{ font: 'var(--fw-reg) 12.5px/1.6 var(--body)', color: 'var(--text-secondary)',
-                margin: '6px 0 0', paddingLeft: 18 }}>
-                {underBand.rooms.map((r) => (
-                  <li key={r.room}>
-                    <strong>{r.name}</strong> drawn at {r.placed_sf} sf against the{' '}
-                    {r.band_floor_sf} sf floor of the {r.type} band — {r.short_by_pct}% short.
-                  </li>
-                ))}
-              </ul>
-              <p style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)', margin: '8px 0 0' }}>
-                The record still declares the full size; only the placement is short, and nothing
-                downstream reads these coordinates — so without this panel the trade is invisible.
-                A room below its band is a defect that survives the life of the building.
-                {' '}<em>Prove placement</em> refuses the trade outright.
-              </p>
-            </div>
-          )}
-          {/* WP-9.3: the analyst's summary. DISPLAY ONLY -- a clickable class filter would be
-              per-surface filter state, which lives in the URL or not at all. data-classified
-              and data-findings are two routes' counts of one placement, for the walk. */}
-          {assessment && (
-            <div data-panel="critique" data-classified={classified} data-findings={nonInfo}
-              style={{ maxWidth: 1000, border: '1px solid var(--border-hairline)',
-                borderLeft: `3px solid ${assessmentStale ? 'var(--border-hairline)' : 'var(--gilt-deep)'}`,
-                padding: '10px 14px', margin: '0 0 14px', opacity: assessmentStale ? 0.7 : 1 }}>
-              <Eyebrow tone="secondary">
-                critique · by class{assessment.engine ? ` · ${engineLabel(assessment.engine)}` : ''}
-                {assessment.key ? ` · key [${assessment.key.join(', ')}]` : ''}
-              </Eyebrow>
-              <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap', marginTop: 6,
-                font: 'var(--type-data-s)', color: 'var(--text-secondary)' }}>
-                {CLASSES.map((c) => (
-                  <span key={c} style={{ color: 'var(--text-secondary)' }}>
-                    {CLASS_SHORT[c]} {assessment.counts[c] || 0}
-                  </span>
-                ))}
-                <span style={{ color: 'var(--text-secondary)' }}>could not evaluate {assessment.couldNot}</span>
-              </div>
-              <p style={{ font: 'var(--type-data-s)', color: assessmentStale ? 'var(--sev-serious)' : 'var(--text-secondary)', margin: '8px 0 0' }}>
-                {assessmentStale
-                  ? 'this critique is of an earlier evaluation — the record has changed; run it again'
-                  : 'each finding row carries its class; a move answers it, or it is the engine\'s, the critic\'s own, or the architect\'s. Nothing here calls the plan good.'}
-              </p>
-            </div>
-          )}
-          <RevisionPanel report={plan.revision_report} live={live} statements={statements}
-            onCiteFinding={(id) => { setOpenId(id); const f = findings.find((x) => x.id === id); if (f?.at) setRoom(f.at); }} />
-          {placement?.geometry_report?.solver?.refinements?.length > 0 && (
-            <p style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)', margin: '0 0 10px' }}>
-              solver refinements ({placement.geometry_report.solver.refinements.length}):{' '}
-              {placement.geometry_report.solver.refinements.slice(0, 2).join(' · ')}
-              {placement.geometry_report.solver.refinements.length > 2 ? ' · …' : ''}
-            </p>
-          )}
           {/* WHERE THE PLATE IS: either the conflict set or the sheet, and on the wall drag's
               working sketch both — the conflict set explaining what the sketch's placement
               could not hold, and the sketch itself under `Sheet`'s own WORKING banner. */}
@@ -944,6 +862,94 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
             </div>
           )}
 
+          {/* THE SHEET LEADS (WP-18.2, 27 Nov 2026). What the placement gave up, the critique, the
+              revision and the solver's refinements stood ABOVE the drawing, and on a first visit at
+              1440 x 900 the sheet began 880 px down the pane: a reader met four panels of
+              disclosure before the house. They stand under the sheet now, in the order they had
+              and as open as they were, and the caption after them still says "above" of them
+              truthfully. The sheet's own margin schedule carries the same lines on the plate. */}
+          {/* WP-2.3's named conflict set is `components/ConflictSet.jsx` now, and it is rendered
+              WHERE THE PLATE IS rather than above a sheet that goes on drawing (WP-13.4).
+              It used to sit here, over a drawing it called "the least-bad relaxation,
+              labelled — not a solution": true of the 25 Aug ruling and false of the 15 Sep one,
+              which is that no user-facing surface draws a refused placement at all. */}
+          {gaveUp.length > 0 && (
+            <div style={{ maxWidth: 1000, border: '1px solid var(--border-hairline)',
+              borderLeft: '3px solid var(--sev-fatal)', padding: '10px 14px', margin: '0 0 14px' }}>
+              <Eyebrow tone="secondary">what this placement gave up</Eyebrow>
+              <ul style={{ font: 'var(--fw-reg) 14.5px/1.6 var(--body)', color: 'var(--text-secondary)',
+                margin: '6px 0 0', paddingLeft: 18 }}>
+                {gaveUp.map((d) => (
+                  <li key={d.id} style={{ color: TONE[d.tone] || 'var(--text-secondary)' }}>{d.text}</li>
+                ))}
+              </ul>
+              <p style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)', margin: '8px 0 0' }}>
+                Each line is a count the placement record already carried and no surface read.
+                A proof against a relaxed hard set is a proof of a different question.
+              </p>
+            </div>
+          )}
+          {underBand?.count > 0 && (
+            <div style={{ maxWidth: 1000, border: '1px solid var(--border-hairline)',
+              borderLeft: '3px solid var(--sepia)', padding: '10px 14px', margin: '0 0 14px' }}>
+              <Eyebrow tone="secondary">
+                {underBand.count} room{underBand.count === 1 ? '' : 's'} placed below
+                {' '}its own band
+              </Eyebrow>
+              <ul style={{ font: 'var(--fw-reg) 14.5px/1.6 var(--body)', color: 'var(--text-secondary)',
+                margin: '6px 0 0', paddingLeft: 18 }}>
+                {underBand.rooms.map((r) => (
+                  <li key={r.room}>
+                    <strong>{r.name}</strong> drawn at {r.placed_sf} sf against the{' '}
+                    {r.band_floor_sf} sf floor of the {r.type} band — {r.short_by_pct}% short.
+                  </li>
+                ))}
+              </ul>
+              <p style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)', margin: '8px 0 0' }}>
+                The record still declares the full size; only the placement is short, and nothing
+                downstream reads these coordinates — so without this panel the trade is invisible.
+                A room below its band is a defect that survives the life of the building.
+                {' '}<em>Prove placement</em> refuses the trade outright.
+              </p>
+            </div>
+          )}
+          {/* WP-9.3: the analyst's summary. DISPLAY ONLY -- a clickable class filter would be
+              per-surface filter state, which lives in the URL or not at all. data-classified
+              and data-findings are two routes' counts of one placement, for the walk. */}
+          {assessment && (
+            <div data-panel="critique" data-classified={classified} data-findings={nonInfo}
+              style={{ maxWidth: 1000, border: '1px solid var(--border-hairline)',
+                borderLeft: `3px solid ${assessmentStale ? 'var(--border-hairline)' : 'var(--gilt-deep)'}`,
+                padding: '10px 14px', margin: '0 0 14px', opacity: assessmentStale ? 0.7 : 1 }}>
+              <Eyebrow tone="secondary">
+                critique · by class{assessment.engine ? ` · ${engineLabel(assessment.engine)}` : ''}
+                {assessment.key ? ` · key [${assessment.key.join(', ')}]` : ''}
+              </Eyebrow>
+              <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap', marginTop: 6,
+                font: 'var(--type-data-s)', color: 'var(--text-secondary)' }}>
+                {CLASSES.map((c) => (
+                  <span key={c} style={{ color: 'var(--text-secondary)' }}>
+                    {CLASS_SHORT[c]} {assessment.counts[c] || 0}
+                  </span>
+                ))}
+                <span style={{ color: 'var(--text-secondary)' }}>could not evaluate {assessment.couldNot}</span>
+              </div>
+              <p style={{ font: 'var(--type-data-s)', color: assessmentStale ? 'var(--sev-serious)' : 'var(--text-secondary)', margin: '8px 0 0' }}>
+                {assessmentStale
+                  ? 'this critique is of an earlier evaluation — the record has changed; run it again'
+                  : 'each finding row carries its class; a move answers it, or it is the engine\'s, the critic\'s own, or the architect\'s. Nothing here calls the plan good.'}
+              </p>
+            </div>
+          )}
+          <RevisionPanel report={plan.revision_report} live={live} statements={statements}
+            onCiteFinding={(id) => { setOpenId(id); const f = findings.find((x) => x.id === id); if (f?.at) setRoom(f.at); }} />
+          {placement?.geometry_report?.solver?.refinements?.length > 0 && (
+            <p style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)', margin: '0 0 10px' }}>
+              solver refinements ({placement.geometry_report.solver.refinements.length}):{' '}
+              {placement.geometry_report.solver.refinements.slice(0, 2).join(' · ')}
+              {placement.geometry_report.solver.refinements.length > 2 ? ' · …' : ''}
+            </p>
+          )}
           {/* `data-engine-claim` is the verdict the leaf returned, published beside the prose so
               the walk can hold BOTH -- the words a reader reads and the claim they encode -- to
               the API's own solver block. The two CP-SAT branches share the objective and the
@@ -951,7 +957,7 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
           <p data-engine-claim={claim.verdict} data-engine-name={claim.engine || ''}
             data-placement-refused={refusal ? refusal.kind : ''}
             data-working-sketch={sketch ? 'true' : ''}
-            style={{ font: 'var(--fw-reg) 12.5px/1.6 var(--body)', color: 'var(--text-secondary)',
+            style={{ font: 'var(--fw-reg) 14.5px/1.6 var(--body)', color: 'var(--text-secondary)',
               margin: '16px 0 0', maxWidth: '76ch' }}>
             {/* A REFUSAL IS SAID BEFORE THE ENGINE IS NAMED. The sentences below are about a
                 placement on a sheet, and on a refusal there is no sheet: without this the

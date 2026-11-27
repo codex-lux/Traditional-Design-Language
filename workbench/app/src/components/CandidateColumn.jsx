@@ -70,17 +70,17 @@ function ScoreBlock({ candidate: c }) {
       style: { marginTop: 8, borderLeft: '2px solid var(--sev-fatal)', paddingLeft: 9 }
     },
       h("div", { style: { ...EYE, color: 'var(--sev-fatal)' } }, "disqualified"),
-      h("p", { style: { font: 'var(--fw-reg) 12.5px/1.5 var(--body)', color: 'var(--text-secondary)',
+      h("p", { style: { font: 'var(--fw-reg) 14.5px/1.5 var(--body)', color: 'var(--text-secondary)',
                         margin: '3px 0 0' } },
         c.disqualified_because || "a fatal finding"),
       /* WHICH FATAL (30 Oct 2026): the band said "1 fatal finding" and never which. Each is the
          checker's own sentence, off the card the composer serves (`fatal_findings`). */
       (c.fatal_findings || []).length > 0 && h("ul", { "data-fatal-findings": c.fatal_findings.length,
-        style: { font: 'var(--fw-reg) 12.5px/1.5 var(--body)', color: 'var(--text-body)',
+        style: { font: 'var(--fw-reg) 14.5px/1.5 var(--body)', color: 'var(--text-body)',
                  margin: '4px 0 0', paddingLeft: 16 } },
         c.fatal_findings.map((f, i) => h("li", { key: f.id || i, "data-fatal-id": f.id || '' }, f.statement)))),
     c.score_unscored_because && h("p", {
-      style: { font: 'var(--fw-reg) 12.5px/1.5 var(--body)', color: 'var(--text-secondary)',
+      style: { font: 'var(--fw-reg) 14.5px/1.5 var(--body)', color: 'var(--text-secondary)',
                margin: '6px 0 0' }
     }, c.score_unscored_because),
     axes.length > 0 && h("div", { style: { marginTop: 10 } },
@@ -121,12 +121,12 @@ function ScoreBlock({ candidate: c }) {
     /* Unjudged is not passed, and it is never left to a tooltip: the axes carrying checks
        the corpus could not evaluate are named here in full, under the mark they carry. */
     axes.some(function (a) { return a.unjudged; }) && h("p", {
-      style: { font: 'var(--fw-reg) 12px/1.5 var(--body)', color: 'var(--text-secondary)', margin: '7px 0 0' }
+      style: { font: 'var(--fw-reg) 14px/1.5 var(--body)', color: 'var(--text-secondary)', margin: '7px 0 0' }
     }, "° ", axes.filter(function (a) { return a.unjudged; })
              .map(function (a) { return `${a.unjudged} ${a.axis}`; }).join(", "),
        " could not be evaluated on this plan. They are outside the fraction, not counted as passed."),
     c.score_weight_unevaluated > 0 && h("p", {
-      style: { font: 'var(--fw-reg) 12px/1.5 var(--body)', color: 'var(--text-secondary)', margin: '6px 0 0' }
+      style: { font: 'var(--fw-reg) 14px/1.5 var(--body)', color: 'var(--text-secondary)', margin: '6px 0 0' }
     /* The whole is the two halves the payload states, never a typed 100 (WP-14.31): a figure
        written into the page is true on the day it is typed and silently false after. */
     }, `Scored over ${c.score_weight_evaluated} of `
@@ -163,7 +163,7 @@ function StandingBand({ c }) {
         c.repaired
           ? h("span", { "data-repair": "placed" }, " · repaired, not as composed") : null)
       : h(React.Fragment, null, h(Term, { id: "judgment-unjudged" }), " · ",
-        h("i", { style: { font: 'italic var(--fw-reg) 13px/1.3 var(--body)' } }, h(Term, { id: "candidate-may-be-refused" }))));
+        h("i", { style: { font: 'italic var(--fw-reg) 15px/1.3 var(--body)' } }, h(Term, { id: "candidate-may-be-refused" }))));
 }
 
 function CandidateColumn({
@@ -303,7 +303,7 @@ function CandidateColumn({
   }, "why"), /*#__PURE__*/React.createElement("p", {
     "data-nativity": line.nativity || "",
     style: {
-      font: 'var(--fw-reg) 13px/1.55 var(--body)',
+      font: 'var(--fw-reg) 15px/1.55 var(--body)',
       margin: '5px 0 0',
       color: native ? 'var(--sev-cleared)' : 'var(--text-secondary)'
     }
@@ -324,7 +324,7 @@ function CandidateColumn({
     }
   }, "trades away"), /*#__PURE__*/React.createElement("p", {
     style: {
-      font: 'var(--fw-reg) 13px/1.6 var(--body)',
+      font: 'var(--fw-reg) 15px/1.6 var(--body)',
       color: 'var(--text-body)',
       margin: '5px 0 0',
       textWrap: 'pretty'
@@ -365,7 +365,7 @@ function CandidateColumn({
       style: {
         display: 'flex',
         gap: 8,
-        font: 'var(--fw-reg) 12.5px/1.55 var(--body)',
+        font: 'var(--fw-reg) 14.5px/1.55 var(--body)',
         color: 'var(--text-secondary)',
         margin: i ? '7px 0 0' : 0
       }

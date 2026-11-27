@@ -111,42 +111,11 @@ function contrastRows(css) {
    Three are `oq/two-inks-set-as-small-text-read-below-aa`'s (the refusal, the gilt, the green); the
    severity words and the tertiary grey are amended into it, dated, by Phase 17's audit. Held by
    identity, so none may grow a sibling and a fix must remove its row. */
-const KNOWN = [
-  '--text-secondary on vellum reads 4.32 : 1 on --paper-deep',
-  '--refusal-text on vellum reads 3.11 : 1 on --paper-deep',
-  '--refusal-text on vellum reads 3.29 : 1 on --paper-mat',
-  '--refusal-text on vellum reads 3.50 : 1 on --paper',
-  '--refusal-text on vellum reads 3.72 : 1 on --paper-lit',
-  '--sev-advisory on vellum reads 4.32 : 1 on --paper-deep',
-  '--sev-cleared on vellum reads 3.37 : 1 on --paper-deep',
-  '--sev-cleared on vellum reads 3.55 : 1 on --paper-mat',
-  '--sev-cleared on vellum reads 3.78 : 1 on --paper',
-  '--sev-cleared on vellum reads 4.03 : 1 on --paper-lit',
-  '--sev-fatal on vellum reads 3.11 : 1 on --paper-deep',
-  '--sev-fatal on vellum reads 3.29 : 1 on --paper-mat',
-  '--sev-fatal on vellum reads 3.50 : 1 on --paper',
-  '--sev-fatal on vellum reads 3.72 : 1 on --paper-lit',
-  '--sev-info on vellum reads 2.80 : 1 on --paper-deep',
-  '--sev-info on vellum reads 2.96 : 1 on --paper-mat',
-  '--sev-info on vellum reads 3.15 : 1 on --paper',
-  '--sev-info on vellum reads 3.35 : 1 on --paper-lit',
-  '--sev-minor on vellum reads 3.64 : 1 on --paper-deep',
-  '--sev-minor on vellum reads 3.84 : 1 on --paper-mat',
-  '--sev-minor on vellum reads 4.09 : 1 on --paper',
-  '--sev-minor on vellum reads 4.35 : 1 on --paper-lit',
-  '--sev-serious on vellum reads 2.41 : 1 on --paper-deep',
-  '--sev-serious on vellum reads 2.54 : 1 on --paper-mat',
-  '--sev-serious on vellum reads 2.71 : 1 on --paper',
-  '--sev-serious on vellum reads 2.88 : 1 on --paper-lit',
-  '--text-accent on vellum reads 3.64 : 1 on --paper-deep',
-  '--text-accent on vellum reads 3.84 : 1 on --paper-mat',
-  '--text-accent on vellum reads 4.09 : 1 on --paper',
-  '--text-accent on vellum reads 4.35 : 1 on --paper-lit',
-  '--text-tertiary on vellum reads 2.80 : 1 on --paper-deep',
-  '--text-tertiary on vellum reads 2.96 : 1 on --paper-mat',
-  '--text-tertiary on vellum reads 3.15 : 1 on --paper',
-  '--text-tertiary on vellum reads 3.35 : 1 on --paper-lit',
-];
+/* EMPTIED ON 27 NOV 2026 (Phase 18, the paper inks). The thirty-four rows were one pigment each
+   set as a word on paper: a refusal, a severity, the accent, the tertiary grey, and --ink-2 on
+   --paper-deep. Each duty is bound on paper to its pigment mixed toward --coal by the least step
+   that reads, as Phase 17 bound the instrument's to a lit pigment. A new row here is a new defect. */
+const KNOWN = [];
 
 test('every text duty reads 4.5 : 1 on every surface of its own ground', () => {
   assert.deepEqual([...contrastRows(CSS)].sort(), [...KNOWN].sort());

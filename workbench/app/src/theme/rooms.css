@@ -453,3 +453,12 @@ a.tdl-library-card:hover svg{transform:translateY(-2px) scale(1.06)}
 .tdl-taxon{transition:var(--t-hover)}
 .tdl-taxon:hover{background:var(--surface-raised)}
 .tdl-taxon:hover>span:first-child{color:var(--text-body)!important}
+
+/* ── THE DRAFTING ROOM (WP-18.2): panels on the dark ground, and a way in where a page is empty ── */
+.tdl-panel{padding:24px 26px 28px;background:var(--surface-panel);border:1px solid var(--border-hairline)}
+.tdl-panel-quiet{background:transparent}
+/* An empty station of the journey says what it waits for and offers the way to it. */
+.tdl-waiting{max-width:44rem;margin:0 auto;padding:clamp(48px,12vh,120px) var(--page-gutter) 60px}
+.tdl-waiting-title{font:var(--fw-reg) clamp(32px,3.8vw,50px)/1.08 var(--display);letter-spacing:-.004em;color:var(--text-body);margin:12px 0 0;text-wrap:balance}
+.tdl-waiting-text{font:var(--fw-reg) 19px/1.55 var(--serif);color:var(--text-secondary);margin:16px 0 0;max-width:36em;text-wrap:pretty}
+.tdl-waiting .tdl-hero-acts{margin-top:28px}

@@ -97,6 +97,18 @@
   --salmon-lit:#CA957D;          /* derived: a serious finding's word on the instrument */
   --gilt-lit:#BA9C60;            /* derived: a minor finding's word on the instrument */
   --green-lit:#97A186;           /* derived: a cleared finding's word on the instrument */
+  /* The paper inks (Phase 18, WP-18.4; put to Lucas 26 Nov 2026 and taken on his reply of 27 Nov).
+     The mirror of the lit pigments: a pigment set as a WORD on paper reads by being darker. Each is
+     its pigment mixed toward --coal by the least step that reads 4.5 : 1 on --paper, --paper-deep,
+     --paper-mat and --paper-lit: gilt-deep 0.18, brick 0.27, salmon-deep 0.40, green-deep 0.23,
+     ink-3 0.33, ink-2 0.04 (computed, not chosen). The pigments above are unmoved: a drawing's
+     fill and stroke, a mark and a swatch keep their colour. */
+  --gilt-ink:#775F2F;            /* derived: an accent's and a minor finding's word on paper */
+  --brick-ink:#895641;           /* derived: a fatal finding's and a refusal's word on paper */
+  --salmon-ink:#815948;          /* derived: a serious finding's word on paper */
+  --green-ink:#5A674D;           /* derived: a cleared finding's word on paper */
+  --ink-3-ink:#696254;           /* derived: the tertiary grey as a word on paper */
+  --ink-2-ink:#696255;           /* derived: the working grey as a word on --paper-deep */
 
   /* Washes. Translucent graphite and pigment, laid in glazes. */
   --wash:rgba(63,58,49,.16);     /* the standard's shadow wash */
@@ -359,10 +371,10 @@
 
   /* Text */
   --text-body:var(--ink);
-  --text-secondary:var(--ink-2);
-  --text-tertiary:var(--ink-3);
+  --text-secondary:var(--ink-2-ink);
+  --text-tertiary:var(--ink-3-ink);
   --text-disabled:var(--ink-4);
-  --text-accent:var(--gilt-deep);
+  --text-accent:var(--gilt-ink);
   --text-on-paper:var(--ink);
   --text-on-paper-2:var(--ink-2);
   --text-on-paper-3:var(--ink-3);
@@ -387,12 +399,12 @@
 
   /* ── Finding severity: fatal · serious · minor · advisory · info ──────────
      brick → salmon-deep → gilt-deep, then two graphites for the non-verdicts. */
-  --sev-fatal:var(--brick);
-  --sev-serious:var(--salmon-deep);
-  --sev-minor:var(--gilt-deep);
-  --sev-advisory:var(--ink-2);
-  --sev-info:var(--ink-3);
-  --sev-cleared:var(--green-deep);
+  --sev-fatal:var(--brick-ink);
+  --sev-serious:var(--salmon-ink);
+  --sev-minor:var(--gilt-ink);
+  --sev-advisory:var(--ink-2-ink);
+  --sev-info:var(--ink-3-ink);
+  --sev-cleared:var(--green-ink);
   --sev-fatal-field:rgba(175,107,80,.12);
   --sev-serious-field:rgba(192,128,102,.12);
   --sev-minor-field:rgba(175,141,73,.11);
@@ -499,7 +511,7 @@
   --refusal:var(--brick);
   /* A refusal's SENTENCE. Brick on paper; on the instrument the brick reads 3.4 : 1 as type, so
      the band stays brick and the sentence takes the salmon (Phase 17). */
-  --refusal-text:var(--brick);
+  --refusal-text:var(--brick-ink);
   --receipt:var(--ink-2);
 
   /* Retired names (the dark-instrument system), kept as compat aliases so older markup
@@ -595,10 +607,10 @@
   --surface-chrome:var(--paper);
   --surface-lit:var(--paper-lit);
   --text-body:var(--ink);
-  --text-secondary:var(--ink-2);
-  --text-tertiary:var(--ink-3);
+  --text-secondary:var(--ink-2-ink);
+  --text-tertiary:var(--ink-3-ink);
   --text-disabled:var(--ink-4);
-  --text-accent:var(--gilt-deep);
+  --text-accent:var(--gilt-ink);
   --border-hairline:var(--rule);
   --border-soft:var(--rule-soft);
   --border-paper:var(--rule);
@@ -606,12 +618,12 @@
   --link:var(--ink);
   --link-hover:var(--ink);
   --link-underline-hover:var(--gilt-deep);
-  --sev-fatal:var(--brick);
-  --sev-serious:var(--salmon-deep);
-  --sev-minor:var(--gilt-deep);
-  --sev-advisory:var(--ink-2);
-  --sev-info:var(--ink-3);
-  --sev-cleared:var(--green-deep);
+  --sev-fatal:var(--brick-ink);
+  --sev-serious:var(--salmon-ink);
+  --sev-minor:var(--gilt-ink);
+  --sev-advisory:var(--ink-2-ink);
+  --sev-info:var(--ink-3-ink);
+  --sev-cleared:var(--green-ink);
   --sev-fatal-field:rgba(175,107,80,.12);
   --sev-serious-field:rgba(192,128,102,.12);
   --sev-minor-field:rgba(175,141,73,.11);
@@ -636,7 +648,7 @@
   --edge-carries:var(--ink);
   --judge-pass:var(--green-deep);
   --judge-fail:var(--brick);
-  --refusal-text:var(--brick);
+  --refusal-text:var(--brick-ink);
   --receipt:var(--ink-2);
   --judge-unjudged:var(--ink-3);
   --mark-yours-to-judge:var(--gilt-deep);
