@@ -86,7 +86,137 @@ named dimension. Eight were found this way in WP-4.6; that is OQ 48. Useful whil
 `python3 build/geometry.py <plan> --engine cp` places a plan by constraint rather than by search
 (`build/geometry_cp.py`; `engine="auto"` is already the default everywhere).
 
-## Where the work stands (27 Nov 2026)
+## Where the work stands (28 Nov 2026)
+
+**THE WALK'S NEWCOMER-WORD CHECK FAILED BECAUSE THE PALETTE TOOK THE KEYBOARD FROM A TIMER, AND THE
+RANKING WAS NEVER WRONG (28 Nov 2026).** Lucas asked why *a newcomer word finds the fault corpus*
+fails on `main`. Read `workbench/app/src/palette.test.mjs` before touching the palette's focus or
+the walk's palette block.
+- **The cause.** `CommandPalette.jsx` focused its input from a `setTimeout(..., 0)` inside a passive
+  effect, so the dialog was in the document a few milliseconds before it could be typed into. The
+  walk types the moment the dialog is visible. On a failing run all eight keys of the word landed
+  on `<body>`, the query stayed empty, and the first row was the front door.
+- **The search code is not at fault.** It is unchanged since Phase 17 and ranks the fault corpus
+  first for the word. `e2e/search-unit.mjs` holds that.
+- **The history, by CI run.** The check passed on `main` on five runs through `ea25d12`. It failed
+  on six of six since `5f5a2a7`, the merge of PR #48 (Phase 18).
+- **Which change in PR #48 tipped it is NOT established.** A build of `ea25d12` and this tree show
+  the same race in isolation: the input held focus at the instant the dialog appeared 0 times of
+  12 on each, and took it 3 to 6 ms later. The `ea25d12` build lost the first key 4 times of 45.
+  The race is older than Phase 18. WP-14.23 met it and changed one walk block to `fill`.
+- **Before the fix a reader could lose keys too.** Keys typed in the gap went to the page behind,
+  where `keys.js` reads `/`, `?`, `[` and `]` as shortcuts.
+- **The fix.** The input is focused in a layout effect, in the commit that shows the dialog. The
+  query's reset moved into the same effect, so it cannot wipe what was just typed. Measured: the
+  input held focus at entry 24 times of 24, and the first key was lost 0 times of 30.
+- **The guards.** The walk reads `document.activeElement` from a mutation observer when the dialog
+  enters the document, which is not a race. `palette.test.mjs` holds the shape where the walk does
+  not run, and was red on the unfixed file. The newcomer-word check itself is unchanged.
+- **The walk, alone on the machine on the final build: 726 passed and 3 failed.** All three are on
+  the plan sheet and on this file's record: the porch's divergence mark, twice, and *the sheet
+  states the doors it could not draw*. The walk exits on a failure before it tallies what it could
+  not evaluate, so that count was not read.
+- **The app suite is 930 of 930** (926 before). The server suite and `tests/` are untouched and
+  were not run.
+
+
+**THE REVIEW'S OPEN LIST WAS TAKEN UP THE SAME DAY, AND SEVEN OF ITS TEN ITEMS ARE CODE NOW (27 Nov
+2026).** Lucas asked that the list be led, not handed back: *"i want you to actually take the lead
+on executing that workplan"*. Read the review's §IX and `docs/deployment.md`'s section on it before
+touching `workbench/server/accesslog.py`, `bind.py`, `rail.cached_prefix`,
+`jobs.bridge_sync_stream`, `app/src/theme/faces.css` or the workflow's `walk`, `image` and
+`deploy-gate` jobs. The verdict is unchanged: GO-WITH-CONDITIONS.
+- **"That workplan" is read as the review's open list.** No document in the tree is called one.
+  This is the session's reading, recorded as one.
+- **What was built, one commit a finding, tests first:**
+  - **The shell's two faces are bundled** (DR-10). `index.html` asks no outside host for anything
+    and `SecurityHeaders.CSP` names none. A new outside host is added to that policy on purpose.
+  - **CI starts the image, twice** (DR-11): `workbench/scripts/image_boot.sh`. With no password it
+    must refuse to start. `workbench/scripts/boot_check.py <url>` is the same reader for any host.
+  - **`POST /api/dev/reload` is a 404 on a public bind** (DR-13). `workbench/server/bind.py` is the
+    one loopback list; the start-up refusal reads it too.
+  - **The assistant's prefix carries a cache marker** (DR-09), and `tdl.rail` logs one usage line
+    a turn. The prefix must stay the same bytes on every request: no date, id or unordered set.
+  - **A reader who leaves stops the turn** (DR-16). A request already on the wire still completes.
+  - **One line a request and `X-Request-ID` on every response** (DR-07). `accesslog.configure()`
+    is what makes any `tdl.*` INFO line reach a log; `__main__` calls it.
+  - **A `deploy gate` check, and the walk is its own job** (DR-03).
+- **The deploy gate was this session's decision and was not put to Lucas as a question.** The walk
+  still runs on every push, is still red, and nothing tolerates a failure. The 16 Oct
+  ruling (no allowlist) stands. It is one commit to reverse.
+- **What the work found:**
+  - **Railway's "Wait for CI" reads a workflow run's conclusion, not a job's**, and skips the deploy
+    if any workflow fails (its own documentation, read 27 Nov 2026). So while the research jobs are
+    red by ruling, it deploys nothing, and `docs/deployment.md`'s old step 6 was wrong.
+  - **The image had never been started anywhere.** Its first start was this branch's CI run. It
+    refused with no password, came up gated at the commit, and runs as `workbench`.
+  - **The usage line DR-09 added would have been written and never seen.** uvicorn's `log_level`
+    sets uvicorn's loggers only, and the root logger drops INFO.
+  - Two of DR-16's red tests left a thread blocked for good. That was the defect.
+  - **The walk's red is not only the six unjudged checks, and this entry's first draft said it
+    was.** On `main`'s `cc887ea` it failed four checks and exited 1. The job's first run here
+    failed more: the bench's re-solve came back refused, which the walk's own note records from
+    another runner on 19 Nov, and every sheet check after it read nothing. The next run, of the
+    same code, failed the four engine-caption checks instead. Run here it failed six, all on
+    this file's record for the plan sheet or on `main`'s four. One check is red in all four
+    runs: *a newcomer word finds the fault corpus*.
+    **Attribute the walk by its FAILED list against a run of the base, never by its exit code.**
+- **Verified by running it:**
+  - the faces and the tightened policy, in a browser, six routes: no outside request, no violation;
+  - the abandoned turn through the real app under uvicorn with a stand-in model: 9 requests read
+    to the end, 2 after a closed socket;
+  - the cache request through the real SDK (1.17.0) and a mock transport. No request left the
+    machine.
+- **NOT verified:** that the API serves a cache read. That takes a billed turn. After the first
+  one, `cache_read` above zero in the usage line is the cache working.
+- **Still the owner's:** a spend limit on the key, how Railway decides to deploy, an error tracker,
+  the login throttle on the deployed host (DR-08), and a privacy note, terms and a licence.
+- **The server suite, Python 3.11 with the locked versions: 608 passed, 6 skipped** (560 and 6
+  before). **The app suite is 926 of 926.** The whole corpus suite was not run here.
+- **In CI on `ba8fae1`: `deploy gate`, the workbench job and `docker build` are green.** That is
+  the workbench job's first green since the walk became red inside it. Corpus shards 3, 4 and 6
+  are red, the same three as on `main`'s `cc887ea`.
+  - *(Corrected the same evening.)* This line ended "this branch changes no file they test". That
+    was attribution by shard, and it was false: tests in those shards read `CLAUDE.md`, `ci.yml`
+    and paths under `workbench/`, all of which this branch changes.
+  - **Read by test id, on `a76fdaf` against `main`'s `cc887ea`: 19 ids fail here and 18 there, and
+    the 18 are the same ids.** The failing checkers are the same too: `check_partis.py`, and the
+    DXF selftest could-not-evaluate. Four `careful-cp` gate rows fail on both with different figures.
+  - The 19th is `test_axis.py`'s proved-spine test (`test_the_shipped_passage_is_on_centre_after_wp_11_2`).
+    It asks the prover for the Tidewater placement and failed reading `on-centre`. Run alone here
+    on this tree, twice back to back, it failed once and passed once. This branch changes nothing
+    under `build/`, `tests/` or `plans/`. It is a prover-band row.
+  - Its own message says `on-centre` is the house getting better, and to close
+    `oq/the-prover-draws-a-centre-passage-that-does-not-go-through`. That is not taken here.
+
+**A DEPLOYMENT-READINESS REVIEW WAS RUN ON `5f5a2a7` AND ITS VERDICT IS GO-WITH-CONDITIONS (27 Nov
+2026).** Read `docs/deployment-readiness/2026-11-27-review.md` before deploying, or before
+touching `workbench/server/__main__.py`, `app.SecurityHeaders`, the lock files or the Dockerfile's
+install line. The verdict is for the private, password-gated, one-replica deployment
+`docs/deployment.md` describes. It is NO-GO as an open public launch.
+- **What was fixed, one commit a finding, each with a test that was red first:**
+  - **A public bind with no password does not start** (`__main__.open_bind_refusal`).
+    `WORKBENCH_ALLOW_OPEN=1` serves it open on purpose. A deployment running with no password
+    today fails its next deploy with a message naming the variables.
+  - **The image installs `workbench/requirements.lock`**, pinned with hashes for Python 3.11, and
+    CI's workbench job installs `requirements-dev.lock`. `make lock` regenerates both.
+    `requirements.txt` still states the floors.
+  - **Every response carries security headers and pages carry a content security policy.** A new
+    outside host the app loads from must be added to `SecurityHeaders.CSP`.
+  - `/api/health` signed out no longer serves `allowed_origins`.
+  - `tdl.jobs` and `tdl.rail` log a failed job and a failed assistant turn with a traceback.
+  - A non-finite number is a 422. `.dockerignore` excludes `.env`.
+- **What is the owner's, and why** (the review's §III):
+  - **CI failed on `main` on each of the last five completed runs** (30 Oct to 26 Nov), by
+    standing rulings, so a deploy gate on "CI green" cannot tell a regression from the known reds.
+  - A spend limit on the Anthropic key. The server's caps slow spend and do not bound it.
+  - The shell loads its faces from Google. The image is built in CI and never started.
+    *(Both true when written and neither is now: see the entry above.)*
+- **What was not checked:** the production host, the image build (no Docker daemon here), a live
+  assistant turn, and the whole corpus suite.
+- **The content policy was verified in a browser, not by reading**: 25 routes at two widths, the
+  front door's plate, a plan sheet and the three.js model, with no violation. The two Google font
+  hosts it allows could not be reached here and are unverified.
 
 **PHASE 18'S OTHER TWELVE SURFACES ARE BUILT, AND THE PLAN PAGE'S DRAWING HAD STOOD UNDER FOUR
 PANELS (27 Nov 2026).** Read `docs/reports/wp-18.1-the-rest-of-the-rooms.md` before touching an
@@ -1770,7 +1900,7 @@ deferred. §XII covers the guards.
   - **The branch is not yet mergeable.** Main carries a parallel Phase 14, and joining the two is
     the next piece of work. (Joined the same day: see the paragraph on the two Phase 14s above.)
 
-**The test figure in the counts paragraph below is 4,310, the app suite 923 and the server suite 526** (a THIRD VALUE at the merge of main's `5f5a2a7` into the garage's branch, 27 Nov 2026, belonging to neither parent. The two lines touched disjoint suites, read off the diff by path: main's seven commits change no file under `tests/` or `build/`, and this branch's eight change no file under `workbench/`. So `tests/` is this branch's 4,310 and the app and server suites are main's 923 and 526. This branch's half: the garage is its own mass, 26 to 27 Nov 2026, reconciled BY NAME against a worktree of the parent commit `cc98832`: 20 tests added -- the 18 of `tests/test_garage_mass.py` and 2 in `tests/test_element_awareness.py` -- and 1 re-cut away, the garage test that pinned the kitchen's block; the app and server suites are unmoved. The container this was measured in collects 4,317 against the parent's 4,298, with `ezdxf` and `ifcopenshell` installed; the 7 between that 4,298 and the published 4,291 are on the parent too and were not attributed. Main's half: the rest of the rooms, 27 Nov 2026, reconciled BY NAME against a worktree of `57e6b79`: 9 app tests added, 8 of them in `rooms.test.mjs`, and 1 re-cut away, the eyebrow's default ink, which is held to the paper ink under a new name; `tests/` and the server suite are unmoved. They were 4,291, 915 and 526 until then: the two rooms, 26 Nov 2026, reconciled BY NAME against a worktree of `ea25d12`: 15 app tests added and 1 re-cut away, and one server test added, `test_the_dossier_serves_the_records_own_period`; `tests/` is unmoved. Before both they were 4,291, 901 and 525: the prover decides, 26 Nov 2026, reconciled BY NAME against a worktree of the parent commit `323ad8a`: 37 tests added and none removed -- 19 in `tests/test_line_grid.py`, 12 in `tests/test_joint_proof.py`, 4 in `tests/test_compose_passes.py` and 2 in `tests/test_cp_portfolio.py`; the server suite gained the three of `test_health_prover.py` and the app suite the joint record's test. Without `ezdxf`, as in this container, 4,277 collect against the parent's 4,240; the 14 between each pair are the DXF tests. It was 4,254, 900 and 522 until then, a THIRD VALUE at the merge of main's `f59137b` into this branch, 19 Nov 2026, reconciled BY NAME: this branch's 4,223, plus the 29 of `tests/test_refusal_repair.py` (the repair, ruled 19 Nov 2026), plus main's two in `tests/test_reinstate_outside_the_cores.py`, and none removed -- main's own 4,191 is the base's 4,189 plus those two; the app suite gained the repair adapter's test and the server suite is unmoved; 4,223, 899 and 522 until then, and 4,216, 898 and 521 until the placed tier was split, 19 Nov 2026, reconciled BY NAME against a worktree of `c67cefa`: 7 tests added -- 3 in `TestThePlacedStandingIsSplitByTheInstrument`, 3 new rows of the shared ranking table, and the solver-before-verdict spy in `tests/test_refusal_class.py` -- and none removed; the app suite gained `tierOf`'s test and the server suite the rail's class test, while `test_refusal_routes`' shape pin was re-cut, not added; 4,189 and 892 until the refusal that blamed the brief, 30 Oct 2026, reconciled BY NAME against a worktree of `d9231d7`: 29 tests added -- 14 in `tests/test_refusal_class.py`, 11 in `tests/test_refusal_retry.py`, 4 in `tests/test_refusal_ranks_last.py` -- and 2 re-cut away, the fatals-first key test and its table row; six app tests added, none removed. Before that it was a THIRD VALUE at the merge of the two Phase 17s, 30 Oct 2026, reconciled BY NAME against both parents and their base `6fcc665`: `tests/` is this line's 4,188 plus the Workbench line's one new test (`test_chronology_parity`), and the three base ids only main still carries are ones this line re-cut away; the app suite is the base's 816 plus 11 of this line's and 65 of the Workbench line's, and the eight base app tests absent from the merge are ones main removed with the journey bar; the server suite is the base's 467 plus 35 of this line's and 19 of main's. Before the merge: 4,188 and 827 here, 4,076, 820 and a server suite of 478 at `739ff29`, the audit of Phase 17's three blocking fixes; the audit's remaining findings and its second audit, 30 Oct 2026, reconciled BY NAME against a worktree of `739ff29`: 115 tests added and 3 re-cut away -- the portfolio-report test and two wet-stack census tests R9's revert re-cut -- and the server suite 478 -> 502; 4,058 and 820 at Phase 17's first tranche, and before it 4,006 and 816 until Phase 17's first tranche, 29-30 Oct 2026, reconciled BY NAME against a worktree of `6fcc665`: 65 tests added and 3 re-cut away -- the allowance test ruling 4 retired, and the Tidewater W cases moved to the spec Colonial's W face -- and 10 added to the server suite, 467 -> 477; with `ezdxf` installed 14 more collect, as in CI; 3,995 until the parti check's instrument of 16 Oct 2026, which added 11 tests, all in `tests/test_parti_check_judges_the_product_house.py`, and removed none, reconciled by name; the app suite was 814 until the CI fixes of 16 Oct 2026, which added the two row-pitch guards; 3,957 and 804 until the follow-up of 16 Oct 2026, reconciled by name against `e048a89`: 38 Python tests added in `tests/test_refusal_ranks_last.py`, 2 in the rail's server suite, 11 app tests added and 1 re-cut under a new name, none removed. The app suite was 767 until the candidate-click fix of 15-16 Oct 2026, which added nineteen app tests: seven in the first pass and twelve in the pass its audit forced; 786 was the figure written then, and the follow-up's own first commit made it 804 without this line moving). §X.12 (4 Oct 2026) added two guards to `tests/test_determinism.py`, reconciled by name against `630a924`; it was 3,955 before. The audit of
+**The test figure in the counts paragraph below is 4,310, the app suite 930 and the server suite 614** (the palette's focus, 28 Nov 2026: 4 app tests added, all in `palette.test.mjs`, and none removed; `tests/` and the server suite are unmoved. They were 4,310, 926 and 614 until then: the review's open list, 27 Nov 2026, reconciled by collection against the merge `73f9d16`: 48 server tests added and none removed -- 18 in `test_access_log.py`, 6 each in `test_boot_check.py`, `test_dev_reload_gated.py`, `test_rail_prompt_cache.py` and `test_deploy_gate.py`, 5 in `test_abandoned_stream.py` and 1 in `test_security_headers.py` -- and 3 app tests added, all in `faces.test.mjs`; `tests/` is unmoved. They were 4,310, 923 and 566 until then: a THIRD VALUE at the merge of main's `cc887ea` into the deployment-readiness branch, 27 Nov 2026, belonging to neither parent. The two lines touched disjoint suites, read off the diff by path: main's commits since `5f5a2a7` change no file under `workbench/`, and this branch's change no file under `tests/` or `build/`. So `tests/` is main's 4,310 and the server suite is this branch's 566; the app suite is 923 on both. This branch's half: the deployment-readiness review, 27 Nov 2026, reconciled by collection against `5f5a2a7`: 40 server tests added in six new files and none removed. They were 4,310, 923 and 526 until then: a THIRD VALUE at the merge of main's `5f5a2a7` into the garage's branch, 27 Nov 2026, belonging to neither parent. The two lines touched disjoint suites, read off the diff by path: main's seven commits change no file under `tests/` or `build/`, and this branch's eight change no file under `workbench/`. So `tests/` is this branch's 4,310 and the app and server suites are main's 923 and 526. This branch's half: the garage is its own mass, 26 to 27 Nov 2026, reconciled BY NAME against a worktree of the parent commit `cc98832`: 20 tests added -- the 18 of `tests/test_garage_mass.py` and 2 in `tests/test_element_awareness.py` -- and 1 re-cut away, the garage test that pinned the kitchen's block; the app and server suites are unmoved. The container this was measured in collects 4,317 against the parent's 4,298, with `ezdxf` and `ifcopenshell` installed; the 7 between that 4,298 and the published 4,291 are on the parent too and were not attributed. Main's half: the rest of the rooms, 27 Nov 2026, reconciled BY NAME against a worktree of `57e6b79`: 9 app tests added, 8 of them in `rooms.test.mjs`, and 1 re-cut away, the eyebrow's default ink, which is held to the paper ink under a new name; `tests/` and the server suite are unmoved. They were 4,291, 915 and 526 until then: the two rooms, 26 Nov 2026, reconciled BY NAME against a worktree of `ea25d12`: 15 app tests added and 1 re-cut away, and one server test added, `test_the_dossier_serves_the_records_own_period`; `tests/` is unmoved. Before both they were 4,291, 901 and 525: the prover decides, 26 Nov 2026, reconciled BY NAME against a worktree of the parent commit `323ad8a`: 37 tests added and none removed -- 19 in `tests/test_line_grid.py`, 12 in `tests/test_joint_proof.py`, 4 in `tests/test_compose_passes.py` and 2 in `tests/test_cp_portfolio.py`; the server suite gained the three of `test_health_prover.py` and the app suite the joint record's test. Without `ezdxf`, as in this container, 4,277 collect against the parent's 4,240; the 14 between each pair are the DXF tests. It was 4,254, 900 and 522 until then, a THIRD VALUE at the merge of main's `f59137b` into this branch, 19 Nov 2026, reconciled BY NAME: this branch's 4,223, plus the 29 of `tests/test_refusal_repair.py` (the repair, ruled 19 Nov 2026), plus main's two in `tests/test_reinstate_outside_the_cores.py`, and none removed -- main's own 4,191 is the base's 4,189 plus those two; the app suite gained the repair adapter's test and the server suite is unmoved; 4,223, 899 and 522 until then, and 4,216, 898 and 521 until the placed tier was split, 19 Nov 2026, reconciled BY NAME against a worktree of `c67cefa`: 7 tests added -- 3 in `TestThePlacedStandingIsSplitByTheInstrument`, 3 new rows of the shared ranking table, and the solver-before-verdict spy in `tests/test_refusal_class.py` -- and none removed; the app suite gained `tierOf`'s test and the server suite the rail's class test, while `test_refusal_routes`' shape pin was re-cut, not added; 4,189 and 892 until the refusal that blamed the brief, 30 Oct 2026, reconciled BY NAME against a worktree of `d9231d7`: 29 tests added -- 14 in `tests/test_refusal_class.py`, 11 in `tests/test_refusal_retry.py`, 4 in `tests/test_refusal_ranks_last.py` -- and 2 re-cut away, the fatals-first key test and its table row; six app tests added, none removed. Before that it was a THIRD VALUE at the merge of the two Phase 17s, 30 Oct 2026, reconciled BY NAME against both parents and their base `6fcc665`: `tests/` is this line's 4,188 plus the Workbench line's one new test (`test_chronology_parity`), and the three base ids only main still carries are ones this line re-cut away; the app suite is the base's 816 plus 11 of this line's and 65 of the Workbench line's, and the eight base app tests absent from the merge are ones main removed with the journey bar; the server suite is the base's 467 plus 35 of this line's and 19 of main's. Before the merge: 4,188 and 827 here, 4,076, 820 and a server suite of 478 at `739ff29`, the audit of Phase 17's three blocking fixes; the audit's remaining findings and its second audit, 30 Oct 2026, reconciled BY NAME against a worktree of `739ff29`: 115 tests added and 3 re-cut away -- the portfolio-report test and two wet-stack census tests R9's revert re-cut -- and the server suite 478 -> 502; 4,058 and 820 at Phase 17's first tranche, and before it 4,006 and 816 until Phase 17's first tranche, 29-30 Oct 2026, reconciled BY NAME against a worktree of `6fcc665`: 65 tests added and 3 re-cut away -- the allowance test ruling 4 retired, and the Tidewater W cases moved to the spec Colonial's W face -- and 10 added to the server suite, 467 -> 477; with `ezdxf` installed 14 more collect, as in CI; 3,995 until the parti check's instrument of 16 Oct 2026, which added 11 tests, all in `tests/test_parti_check_judges_the_product_house.py`, and removed none, reconciled by name; the app suite was 814 until the CI fixes of 16 Oct 2026, which added the two row-pitch guards; 3,957 and 804 until the follow-up of 16 Oct 2026, reconciled by name against `e048a89`: 38 Python tests added in `tests/test_refusal_ranks_last.py`, 2 in the rail's server suite, 11 app tests added and 1 re-cut under a new name, none removed. The app suite was 767 until the candidate-click fix of 15-16 Oct 2026, which added nineteen app tests: seven in the first pass and twelve in the pass its audit forced; 786 was the figure written then, and the follow-up's own first commit made it 804 without this line moving). §X.12 (4 Oct 2026) added two guards to `tests/test_determinism.py`, reconciled by name against `630a924`; it was 3,955 before. The audit of
 WP-16.8's own diff (3 Oct 2026) added 71 tests and re-cut 2 away: 53 in the new
 `tests/test_audit_of_wp_16_8.py`, 8 in `tests/test_window_pier.py`, 3 each in `tests/test_roof.py`
 and `tests/test_roof_form.py`, and 1 each in `tests/test_ifc_openings_are_the_sheets.py`,
@@ -2581,7 +2711,7 @@ migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
 2044 image records, **73 sourced** (the first ever — drawn by the corpus from its own
 proportion packs; 1971 still wanted, and 955 of those can never be harvested) · 14 reference plans · 27 MCP tools · **54 checks, 4,310 tests**
-(plus the workbench app suite, **923** under `node --test` (915 until the rest of the rooms, 27 Nov 2026; 901 until the two rooms, 26 Nov 2026; 900 until the prover decides, 26 Nov 2026; 899 until the repair, 19 Nov 2026; 898 until the placed tier was split, 19 Nov 2026; 892 until the refusal that blamed the brief, 30 Oct 2026; 827 until the merge of the two Phase 17s, 30 Oct 2026; 820 until the audit of Phase 17, 30 Oct 2026; 816 until Phase 17's first tranche; 767 until 15 Oct 2026, 804 until 16 Oct 2026's follow-up, 814 until its CI fixes); both a THIRD VALUE at the merge of the two Phase 14s, 27 Sep 2026, reconciled BY NAME against both parents: the ink line's 3,090 and 316 and main's 2,824 and 659, of which 149 tests and 95 app tests are the ink line's own and 416 and 439 main's. The only tests a parent has and the merge lacks are one base test each line re-cut: main's copy of the transom test, which the ink line re-cut, and the ink line's copy of a compose-events app test, which main re-cut. Main's pair was measured 26 Sep 2026 on WP-14.33's audited tree, the first as the sum of four `--shard i/4` runs in `git worktree`s, 22 failed + 2,777 passed + 25 skipped -- all 22 failures the WP-14.32 baseline's; it read 2,795 and 636 at WP-14.32, where 32 failed + 2,739 passed + 24 skipped, 7 of those failures the shards' `git archive` extracts carrying no `.git`, and 2,746 and 515 at WP-14.15. The app suite had read 210 here since before Phase 12, while the suite grew past five hundred: nothing polices this line). Those figures were 970/36 before the
+(plus the workbench app suite, **930** under `node --test` (926 until the palette's focus, 28 Nov 2026; 923 until the review's open list, 27 Nov 2026; 915 until the rest of the rooms, 27 Nov 2026; 901 until the two rooms, 26 Nov 2026; 900 until the prover decides, 26 Nov 2026; 899 until the repair, 19 Nov 2026; 898 until the placed tier was split, 19 Nov 2026; 892 until the refusal that blamed the brief, 30 Oct 2026; 827 until the merge of the two Phase 17s, 30 Oct 2026; 820 until the audit of Phase 17, 30 Oct 2026; 816 until Phase 17's first tranche; 767 until 15 Oct 2026, 804 until 16 Oct 2026's follow-up, 814 until its CI fixes); both a THIRD VALUE at the merge of the two Phase 14s, 27 Sep 2026, reconciled BY NAME against both parents: the ink line's 3,090 and 316 and main's 2,824 and 659, of which 149 tests and 95 app tests are the ink line's own and 416 and 439 main's. The only tests a parent has and the merge lacks are one base test each line re-cut: main's copy of the transom test, which the ink line re-cut, and the ink line's copy of a compose-events app test, which main re-cut. Main's pair was measured 26 Sep 2026 on WP-14.33's audited tree, the first as the sum of four `--shard i/4` runs in `git worktree`s, 22 failed + 2,777 passed + 25 skipped -- all 22 failures the WP-14.32 baseline's; it read 2,795 and 636 at WP-14.32, where 32 failed + 2,739 passed + 24 skipped, 7 of those failures the shards' `git archive` extracts carrying no `.git`, and 2,746 and 515 at WP-14.15. The app suite had read 210 here since before Phase 12, while the suite grew past five hundred: nothing polices this line). Those figures were 970/36 before the
 infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
 suite of 33 until WP-5.11 read the total. **It said 32 again for an hour on 27 Aug, in this
 sentence, for the same reason** — the 27 Aug merge resolved the conflict here by measuring

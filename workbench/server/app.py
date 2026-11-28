@@ -39,7 +39,7 @@ from fastapi.responses import FileResponse, JSONResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from starlette.middleware.body_limit import RequestBodyLimitMiddleware
 
-from . import auth, corpus, evaluate, jobs, limits, mcp_mount
+from . import accesslog, auth, bind, corpus, evaluate, jobs, limits, mcp_mount
 
 core = corpus.core
 
@@ -189,6 +189,83 @@ class GZipExceptSSE:
 app.add_middleware(GZipExceptSSE)
 
 
+class SecurityHeaders:
+    """The browser-side protections, on every response (deployment-readiness review, 27 Nov
+    2026, DR-04). The server sent none of them.
+
+    Plain ASGI and not a BaseHTTPMiddleware, for the reason the gate's own note gives: that
+    class wraps the response in a task group, and three routes here stream. This one only adds
+    to the headers of `http.response.start` and touches no body. Registered last, so it is
+    outermost and a 401 from the gate carries the headers too.
+
+    A header a route already set is KEPT: `CorpusStatic` sandboxes the generated plates with a
+    stricter policy than the page's, and overwriting it would loosen it.
+
+      * `X-Frame-Options` and `frame-ancestors`: a signed-in session cannot be framed by another
+        site and clicked through.
+      * `nosniff`: a JSON or SVG body is never run as script on a guess.
+      * HSTS only where the request arrived over https (uvicorn reads the platform proxy's
+        `X-Forwarded-Proto`), so local http is not pinned to a scheme it does not have.
+      * The content policy goes on PAGES only. `script-src 'self'` with no inline and no eval
+        is the line that matters: the app injects server-drawn SVG in three places, a stored
+        XSS was found through one of them in September, and with this a script that got past
+        the escaping still does not run. Styles need 'unsafe-inline' because the app is set in
+        inline styles and the plates carry their own `<style>`; fonts need `data:` because the
+        sheets embed their face. NO OUTSIDE HOST IS NAMED: the shell's two webfaces were
+        Google's until DR-10 bundled them (workbench/app/src/theme/faces.css), and the two
+        hosts left the policy with them. A new outside host the app loads from is added here
+        on purpose, and `test_the_policy_names_no_outside_host` is what asks.
+    """
+
+    CSP = "; ".join((
+        "default-src 'self'",
+        "script-src 'self'",
+        "style-src 'self' 'unsafe-inline'",
+        "font-src 'self' data:",
+        "img-src 'self' data: blob:",
+        "connect-src 'self'",
+        "worker-src 'self' blob:",
+        "object-src 'none'",
+        "base-uri 'self'",
+        "form-action 'self'",
+        "frame-ancestors 'none'",
+    ))
+    ALWAYS = ((b"x-content-type-options", b"nosniff"),
+              (b"x-frame-options", b"DENY"),
+              (b"referrer-policy", b"strict-origin-when-cross-origin"),
+              (b"cross-origin-opener-policy", b"same-origin"))
+    HSTS = (b"strict-transport-security", b"max-age=31536000")
+
+    def __init__(self, app):
+        self.app = app
+
+    async def __call__(self, scope, receive, send):
+        if scope["type"] != "http":
+            return await self.app(scope, receive, send)
+        secure = scope.get("scheme") == "https"
+
+        async def send_with_headers(message):
+            if message["type"] == "http.response.start":
+                headers = list(message.get("headers") or [])
+                have = {k.lower() for k, _ in headers}
+                wanted = list(self.ALWAYS) + ([self.HSTS] if secure else [])
+                ctype = next((v for k, v in headers if k.lower() == b"content-type"), b"")
+                if ctype.lower().startswith(b"text/html"):
+                    wanted.append((b"content-security-policy", self.CSP.encode()))
+                headers += [(k, v) for k, v in wanted if k not in have]
+                message = {**message, "headers": headers}
+            await send(message)
+
+        await self.app(scope, receive, send_with_headers)
+
+
+app.add_middleware(SecurityHeaders)
+
+# Outermost, so it is added last: it must see the status every layer inside it set, the gate's
+# 401 and the limiter's 413 included, and its id goes on those answers too (DR-07).
+app.add_middleware(accesslog.AccessLog)
+
+
 @app.post("/api/login")
 async def login(request: Request, body: dict = Body(...)):
     if not auth.required():
@@ -264,6 +341,23 @@ def _build_sha(root=None):
 BUILD_SHA, BUILD_SHA_SOURCE = _build_sha()
 
 
+# The keys of MCP_STATE that name hosts; a signed-out caller of /api/health is shown neither.
+_HOST_LISTS = ("allowed_hosts", "allowed_origins")
+
+
+def _finite(**numbers):
+    """422 for a number that is not finite, naming the argument (review of 27 Nov 2026, DR-14).
+
+    FastAPI parses `inf` and `nan` as floats and nothing below expects them:
+    `/api/proportions/gibbs-ionic?column_diameter=inf&members=true` was a 500 with
+    `ValueError: cannot convert float NaN to integer` in the log."""
+    import math
+    bad = [k for k, v in numbers.items() if isinstance(v, float) and not math.isfinite(v)]
+    if bad:
+        raise HTTPException(status_code=422, detail={
+            "error": f"not a finite number: {', '.join(sorted(bad))}"})
+
+
 def _prover_state():
     """The CP workers one solve may take on this box and whether the line grid is on, read
     through the prover's own functions -- never a second reading of the cgroup or the
@@ -318,8 +412,10 @@ def health(request: Request, response: Response):
             # credentials), so it must not enumerate hostnames. allowed_hosts can carry
             # internal service names, so the list is shown only to an authorised caller;
             # everyone else gets the yes/no an operator actually needs.
+            # BOTH LISTS (review of 27 Nov 2026, DR-06): this withheld `allowed_hosts` and went
+            # on serving `allowed_origins`, which is the same names with a scheme in front.
             "mcp": (MCP_STATE if auth.authorised(request)
-                    else {k: v for k, v in MCP_STATE.items() if k != "allowed_hosts"}
+                    else {k: v for k, v in MCP_STATE.items() if k not in _HOST_LISTS}
                          | {"platform_host_detected": bool(mcp_mount._platform_hosts())}),
             "note": None if schema_ok else
             "jsonschema is not installed — plan checks and compose will fail. "
@@ -431,6 +527,7 @@ def kit_slot(style_id: str, slot_id: str):
 @app.get("/api/kit/{style_id}")
 def kit(style_id: str, group: str = None, slot: str = None,
         ceiling_height: float = 108.0, only_specified: bool = True):
+    _finite(ceiling_height=ceiling_height)
     return _ok(core.resolve_kit(style_id, group=group, slot=slot,
                                 ceiling_height=ceiling_height,
                                 only_specified=only_specified))
@@ -456,6 +553,7 @@ def proportions(pack_id: str, column_diameter: float = None, module: float = Non
     # bindable, for the packs whose module is a storey or a room's breadth.
     kw = dict(column_diameter=column_diameter, module=module, ceiling_height=ceiling_height,
               opening_width=opening_width, storey_height=storey_height, room_width=room_width)
+    _finite(**kw)
     if members:
         got = corpus.proportions_with_members(pack_id, **kw)
     else:
@@ -469,6 +567,7 @@ def proportions(pack_id: str, column_diameter: float = None, module: float = Non
 
 @app.get("/api/authorities/{order}")
 def authorities(order: str, column_diameter: float = 12.0):
+    _finite(column_diameter=column_diameter)
     return _ok(core.compare_authorities(order, column_diameter=column_diameter))
 
 
@@ -1049,14 +1148,46 @@ async def rail_messages(request: Request):
 
 
 # ----------------------------------------------------------------- dev
+DEV_RELOAD_VAR = "WORKBENCH_DEV_RELOAD"
+_ON, _OFF = ("1", "true", "yes", "on"), ("0", "false", "no", "off")
+
+
+def _loopback_bind(host):
+    return bind.is_loopback(host)
+
+
+def dev_reload_enabled():
+    """Is the reload route there at all (deployment-readiness review, 27 Nov 2026, DR-13).
+
+    The route exists so an edit to the corpus ON DISK is seen without a restart (OQ 28: explicit,
+    never a file-watcher). In the image the corpus is baked in and cannot change, so there it
+    did one thing: let a signed-in caller force a 600 ms re-parse of everything. It answers on a
+    loopback bind, which is a developer's machine, and not on a public one, which is how the
+    Dockerfile starts the server; WORKBENCH_DEV_RELOAD=1 or =0 says otherwise in either
+    direction. A value that is neither is the default for the bind: an unreadable setting never
+    switches the route on.
+
+    Read per request and not at import, so the answer follows the environment the process is
+    in, and a test can change it."""
+    said = (os.environ.get(DEV_RELOAD_VAR) or "").strip().lower()
+    if said in _ON:
+        return True
+    if said in _OFF:
+        return False
+    return _loopback_bind(bind.host())
+
+
 @app.post("/api/dev/reload")
 def dev_reload(request: Request):
+    # Refused BEFORE it is metered: where the route is off it is not there, and a 404 costs the
+    # caller's heavy budget nothing.
+    if not dev_reload_enabled():
+        raise HTTPException(404, "Not Found")
     # Metered, because it is the most expensive thing an authorised caller can ask for and it
     # was the one heavy route outside the heavy bucket. invalidate() drops the module cache,
     # core._data and the search index, so the NEXT request re-globs and re-parses the whole
     # corpus — measured at ~600 ms — and a loop here is high-amplification for a caller who
-    # pays almost nothing. Whether the route should exist in a production build at all is a
-    # separate question, recorded rather than decided here.
+    # pays almost nothing.
     _heavy(request)
     return corpus.invalidate()
 

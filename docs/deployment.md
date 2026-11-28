@@ -389,15 +389,32 @@ Everything below is done once, by hand, in the named service's own UI.
      `Cf-Access-Authenticated-User-Email`, which is only an identity when a proxy that
      overwrites the header is guaranteed to sit in front of every request. On a bare
      platform deployment, setting this is an open door: anyone can send that header.
+   - `WORKBENCH_ALLOW_OPEN` — **leave unset.** Since 27 Nov 2026 the server refuses to start on
+     a public bind with neither `WORKBENCH_PASSWORD` nor `WORKBENCH_API_TOKEN` set, and says
+     which to set. This variable is the way to serve it open on purpose.
+   - `WORKBENCH_DEV_RELOAD` — **leave unset.** `POST /api/dev/reload` re-reads the corpus from
+     disk for a developer. Since 27 Nov 2026 it answers on a loopback bind and is a 404 on a
+     public one, because the image's corpus cannot change. `1` or `0` says otherwise.
+   - `WORKBENCH_LOG_LEVEL` — optional, default `INFO`. The level of the server's own log lines:
+     one line a request (`tdl.access`), a traceback for a failed job or assistant turn, and what
+     each assistant turn was billed for. `WARNING` drops the access and usage lines.
 4. **Railway → Settings → Deploy** — healthcheck path `/api/health`; **replicas 1**, for
    the reason under "what was found".
 5. **Railway → Settings → Networking** — Generate Domain. It asks which port to route
    to: give it the same number as `PORT` above. No public domain exists until this step,
    which is why the hostname cannot be known in advance — and why the allowlist is
    discovered from the environment rather than configured ahead of it.
-6. **Railway → Settings** — enable "Wait for CI" so a deploy only fires on green.
-7. **GitHub → Settings → Branches** — require the `corpus`, `workbench` and `image` checks
-   on `main`.
+6. **Railway → Settings** — "Wait for CI". **Read this before enabling it** (corrected
+   27 Nov 2026). Railway reads the conclusion of each workflow RUN, not of a job, and skips the
+   deploy if any workflow fails (its own "Controlling GitHub Autodeploys" page, read that day).
+   The `CI` workflow is red on `main` by standing rulings: the Phase 13 gate's rows and the
+   browser walk. So with "Wait for CI" on, **no push to `main` deploys**, and with it off,
+   every push does. Neither is a gate. Until that is decided (below), leave it off, and deploy
+   a commit only when its `deploy gate` check is green.
+7. **GitHub → Settings → Branches** — require the `deploy gate` check on `main`. It is green
+   when the server suite, the app's build and suite, the HTTP smoke and the image (built and
+   started) are green. Requiring `corpus — check_all.py` as well blocks every merge while the
+   Phase 13 gate is red by design.
 8. Send the URL and the password. A visitor needs nothing installed.
 9. For agents, hand out the token instead:
    ```
@@ -407,6 +424,73 @@ Everything below is done once, by hand, in the named service's own UI.
 
 Locally nothing has changed: `make workbench` still serves `http://127.0.0.1:8177` with no
 password, and prints a note saying the server is open when none is set.
+
+## The deployment-readiness review of 27 November 2026
+
+`docs/deployment-readiness/2026-11-27-review.md` is the review; this is what it changed here.
+
+- **A public bind with no gate does not start.** "Open by configuration" is still the local
+  default on `127.0.0.1`. In a container it was one forgotten variable away from serving the
+  assistant to strangers, so `__main__` exits 1 and names the variables. See
+  `WORKBENCH_ALLOW_OPEN` above.
+- **The image installs `workbench/requirements.lock`**, the whole closure pinned with hashes for
+  Python 3.11, and CI's workbench job installs `requirements-dev.lock`, the same pins plus the
+  test packages. `requirements.txt` still states the floors and is the input: `make lock`
+  regenerates both locks (it needs `uv`). Change a floor, run it, commit all three files.
+- **Every response carries security headers**, and pages carry a content security policy
+  (`app.SecurityHeaders`). A new outside host the app must load from (a font, an image, an API)
+  has to be added to that policy or the browser will refuse it.
+- **Failures are logged.** `tdl.jobs` and `tdl.rail` write a traceback for a failed compose, a
+  failed revise and a failed assistant turn. They carry job ids and never the reader's content.
+  uvicorn still runs at `warning`; the server's own access log is the next section's.
+
+### The review's open list, taken up the same day
+
+The review left ten findings as "owner or follow-up". Lucas asked that the list be led rather
+than handed back, and seven were taken in code. Each is one commit with its tests. The review's
+section IX gives the state of all ten.
+
+- **The shell's two faces are served by the app** (DR-10). `index.html` asks no outside host
+  for anything; `src/theme/faces.css` imports EB Garamond and Courier Prime from two pinned
+  packages, and the content policy names no outside host at all. A visitor's address no longer
+  goes to Google, and a machine with no route to Google draws the same face as one with.
+- **CI starts the image** (DR-11). `workbench/scripts/image_boot.sh` runs it twice: with no
+  password it must refuse to start, and with one it must come up at the commit it was built
+  from, gated, serving the built app. The first run of it in CI passed.
+  `workbench/scripts/boot_check.py <url> --password … --sha …` is the same check against any
+  base URL, which makes it the first thing to run after a deploy.
+- **The reload route is not there in a deployment** (DR-13). See `WORKBENCH_DEV_RELOAD`.
+- **The assistant's fixed prefix is cached** (DR-09). The system prompt and the 27 tool
+  definitions, 42,338 characters, were re-sent at full price on up to ten requests a turn. They
+  carry a cache marker now, and the growing conversation inside a turn is cached too. One log
+  line a turn gives `requests`, `input`, `cache_write`, `cache_read` and `output`. **That the
+  API serves a read is not verified**: it takes a billed turn. After the first real turn, look
+  for `cache_read` above zero. This lowers the rate of spend. The LIMIT is still a setting on
+  the key in the Anthropic Console, and is still not set by anything here.
+- **A reader who leaves stops the turn** (DR-16). A closed tab used to leave the turn running
+  to its end for nobody. It stops at the next line now; a request already on the wire still
+  completes. Measured through the real app with a stand-in model: 9 requests read to the end,
+  2 when the socket closed after the first tool call.
+- **One line a request, and an id on every response** (DR-07). `X-Request-ID` is on every
+  answer, the gate's 401 included. The line holds method, path, status, milliseconds, the
+  caller's address and the id, and never a query string or a header. A healthy healthcheck and
+  the app's own bundle are quiet.
+- **A named deploy gate** (DR-03). See steps 6 and 7 above. This one was a decision, taken by
+  the session under that instruction and not put as a question; it is one commit to reverse.
+
+**What is still the owner's, because it cannot be done from a repository:**
+
+1. **A spend limit on the Anthropic key**, in the Console. Nothing in code bounds spend.
+2. **How Railway decides to deploy.** Three ways, and they differ in what `main`'s colour means:
+   leave "Wait for CI" off and deploy by hand on a green `deploy gate` (what steps 6 and 7 now
+   describe, and it changes nothing else); or move the corpus shards and the walk off pushes to
+   `main`, onto pull requests and a schedule, so the only workflow on a `main` commit is the
+   deploy gate and "Wait for CI" means it; or finish Phase 13 so the research gate is green.
+3. **An error tracker and alerts.** The log lines exist; nothing watches them.
+4. **The login throttle on the deployed host** (DR-08). Send 25 wrong passwords with a varying
+   `X-Forwarded-For` from outside; the 21st must answer 429. It could not be checked here.
+5. **A privacy note, terms and a licence** (DR-17), before anyone outside the circle uses it.
+6. **More CPU before more readers** (DR-12). One replica; an evaluate is 338 ms of one core.
 
 ## Deliberately not done
 

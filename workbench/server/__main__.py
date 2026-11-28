@@ -9,9 +9,43 @@ import os
 import socket
 import sys
 
-HOST = os.environ.get("WORKBENCH_HOST", "127.0.0.1")
+from .bind import LOOPBACK, host as _host   # no dependencies: safe before the import check
+
+HOST = _host()
 # PORT is what Railway/Heroku-style platforms inject; WORKBENCH_PORT stays the local knob.
 PORT = int(os.environ.get("PORT") or os.environ.get("WORKBENCH_PORT") or 8177)
+
+
+ALLOW_OPEN_VAR = "WORKBENCH_ALLOW_OPEN"
+
+
+def open_bind_refusal(host):
+    """Why this bind may not start, or None.
+
+    A PUBLIC BIND WITH NO GATE IS REFUSED (deployment-readiness review, 27 Nov 2026, DR-01).
+    `auth.required()` is false when neither WORKBENCH_PASSWORD nor WORKBENCH_API_TOKEN is set,
+    and the server is then open: the local default, on purpose. The Dockerfile sets
+    WORKBENCH_HOST=0.0.0.0, so in a container one forgotten variable served every /api route,
+    /mcp and the assistant -- which spends the operator's Anthropic key -- to anyone who could
+    reach it, behind the one-line note below. An absent check is not a passed one, and a note in
+    a log nobody is reading is not a refusal.
+
+    Loopback is unchanged. Open on purpose is still expressible, by saying so:
+    WORKBENCH_ALLOW_OPEN=1. `auth.required` is asked rather than the two variables read again,
+    so this cannot disagree with the gate about what a gate is. WORKBENCH_TRUST_PROXY_AUTH is
+    deliberately not one: alone it leaves `required()` false and the server open.
+    """
+    if host in LOOPBACK:
+        return None
+    from . import auth
+    if auth.required():
+        return None
+    if (os.environ.get(ALLOW_OPEN_VAR) or "").strip().lower() in ("1", "true", "yes", "on"):
+        return None
+    return (f"Refusing to serve on {host} with no password: every /api route, /mcp and the AI "
+            f"assistant would answer anyone who can reach this address.\n"
+            f"    Set WORKBENCH_PASSWORD (and WORKBENCH_API_TOKEN for agents), or\n"
+            f"    set {ALLOW_OPEN_VAR}=1 to serve it open on purpose.")
 
 
 def main():
@@ -21,6 +55,12 @@ def main():
     except ImportError:
         print("The workbench server needs its dependencies:")
         print("    pip install -r workbench/requirements.txt")
+        sys.exit(1)
+
+    # Before the bind probe: a server that will not serve should not touch the port.
+    refusal = open_bind_refusal(HOST)
+    if refusal:
+        print(refusal)
         sys.exit(1)
 
     # uvicorn.run RETURNS (exit code 0) on a failed bind, which reads as success.
@@ -51,6 +91,11 @@ def main():
     if not os.environ.get("WORKBENCH_PASSWORD"):
         print("note: WORKBENCH_PASSWORD is not set — the server is OPEN to anyone who "
               "can reach it.")
+
+    # The server's own loggers (`tdl.access`, `tdl.jobs`, `tdl.rail`) get a handler and a level
+    # here. uvicorn's `log_level` below is uvicorn's chatter only, and stays at warning.
+    from . import accesslog
+    accesslog.configure()
 
     shown = "127.0.0.1" if HOST in ("0.0.0.0", "::") else HOST
     print(f"The Workbench · http://{shown}:{PORT}")

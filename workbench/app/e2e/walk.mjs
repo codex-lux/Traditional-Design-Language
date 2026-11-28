@@ -3628,9 +3628,38 @@ check('one act clears every filter', !/q=porch/.test(page.url()));
 const paletteName = await termOf('search-the-corpus').then((r) => (r && r.term) || null);
 if (!paletteName) unjudged.push('the palette -- GET /api/glossary/search-the-corpus did not answer, so its name is unknown');
 const palette = page.getByRole('dialog', { name: paletteName || 'Search the corpus', exact: true });
+/* WHERE THE KEYBOARD IS AT THE INSTANT THE DIALOG ENTERS THE DOCUMENT (28 Nov 2026). The check
+   below this one types the moment the dialog is visible, and since Phase 18 merged it failed on
+   six CI runs of six: the palette focused its input from a timer, all eight keys of the word
+   landed on <body>, the query stayed empty and the first row was the front door. That check is
+   a race against the app and says so only when it loses. This one is not a race: a mutation
+   observer's callback runs after the commit that added the dialog and before any timer, so it
+   reads the same answer on a fast machine and a slow one. Its premise (the observer saw the
+   palette's own list arrive) is asserted first, because an observer that saw nothing reads null. */
+await page.evaluate(() => {
+  window.__paletteFocusAtEntry = null;
+  const seen = new MutationObserver(() => {
+    const list = document.getElementById('palette-list');
+    if (!list) return;
+    const a = document.activeElement;
+    window.__paletteFocusAtEntry = {
+      tag: a ? a.tagName : null,
+      role: a ? a.getAttribute('role') : null,
+      inDialog: !!(a && a.closest('[role="dialog"]')),
+    };
+    seen.disconnect();
+  });
+  seen.observe(document.body, { childList: true, subtree: true });
+});
 await page.keyboard.press('Control+k');
 await palette.waitFor({ state: 'visible', timeout: 5000 });
 check('⌘K opens the palette', await palette.count() > 0);
+const focusAtEntry = await page.evaluate(() => window.__paletteFocusAtEntry);
+check('the walk saw the palette enter the document', !!focusAtEntry);
+const heldAtEntry = !!focusAtEntry && focusAtEntry.tag === 'INPUT'
+  && focusAtEntry.role === 'combobox' && focusAtEntry.inDialog;
+if (focusAtEntry && !heldAtEntry) console.log(`     the keyboard was on <${String(focusAtEntry.tag).toLowerCase()}> when the dialog entered`);
+check('the palette\'s input holds the keyboard the moment the dialog is in the document', heldAtEntry);
 await page.keyboard.type('mistakes');
 await page.waitForTimeout(500);
 // By the option's own id (WP-14.13): the place's words are its glossary record's and may be
@@ -3742,11 +3771,12 @@ check('and it counts as narrowing', /1 narrowing/i.test(await page.locator('main
     await visit('#/faults');
     await page.keyboard.press('Control+k');
     await palette.waitFor({ state: 'visible', timeout: 5000 }).catch(() => {});
-    /* The palette focuses its input a tick AFTER it paints (`setTimeout(..., 0)`), so keys typed
-       the moment the dialog is visible can land before the focus does and lose their first
-       characters -- measured on this block's first run: two of five ids went unfound, while the
-       palette's own `search()` ranks every one of the five first. `fill` writes the input itself,
-       which is what a reader's typing ends as, and the option is waited for rather than slept on. */
+    /* `fill` writes the input itself, which is what a reader's typing ends as, and the option is
+       waited for rather than slept on. It was taken up at WP-14.23, when the palette focused its
+       input a tick AFTER it painted (`setTimeout(..., 0)`) and two of five typed ids went unfound
+       on this block's first run. The palette takes focus in the commit that shows it now
+       (28 Nov 2026), and the check above the newcomer word holds that. `fill` is kept: this block
+       is about which page a row opens, not about typing. */
     await palette.locator('input').first().fill(e.id);
     const opt = palette.locator(`[role="option"][data-cite="${e.cite}"]`);
     await opt.first().waitFor({ state: 'visible', timeout: 5000 }).catch(() => {});
