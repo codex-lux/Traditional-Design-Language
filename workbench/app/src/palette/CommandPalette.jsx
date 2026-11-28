@@ -54,14 +54,17 @@ export function CommandPalette({ open, onClose, onAction }) {
     return () => { live = false; };
   }, [open, entries, failed]);
 
-  React.useEffect(() => {
-    if (open) {
-      setQ(''); setCursor(0);
-      // after paint, or the input is not in the document yet
-      const t = setTimeout(() => inputRef.current && inputRef.current.focus(), 0);
-      return () => clearTimeout(t);
-    }
-    return undefined;
+  /* The input takes the keyboard in the commit that puts the dialog in the document. A layout
+     effect runs after React has attached the input and before the browser can deliver another
+     key, so there is no moment at which the dialog is showing and typing goes to the page
+     behind it. It was a timer inside a passive effect until 28 Nov 2026, and the first keys
+     typed after ⌘K were lost or read as shortcuts by `keys.js` (`palette.test.mjs`).
+     The query is cleared here too, and not in a passive effect: cleared later, it would wipe
+     what had just been typed. */
+  React.useLayoutEffect(() => {
+    if (!open) return;
+    setQ(''); setCursor(0);
+    if (inputRef.current) inputRef.current.focus();
   }, [open]);
 
   const pool = React.useMemo(
